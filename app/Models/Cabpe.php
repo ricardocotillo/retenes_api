@@ -1,0 +1,109 @@
+<?php
+
+/**
+ * Created by Reliese Model.
+ * Date: Sun, 09 Jun 2019 23:02:06 +0000.
+ */
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Cabpe extends Model
+{
+	protected $table = 'cabpe';
+	public $timestamps = false;
+
+	protected $casts = [
+		'MTOPVENTA' => 'float',
+		'MVALVEN' => 'float',
+		'MDCTO' => 'float',
+		'MIGV' => 'float',
+		'MNETO' => 'float',
+		'MSALDO' => 'float',
+		'MPORIGV' => 'float',
+		'MPESOKG' => 'float',
+		'MVV_NAFE' => 'float'
+	];
+
+	protected $dates = [
+		'MFECEMI',
+		'MFECENT',
+		'MFECVEN',
+		'MFECCAN',
+		'MFECATT',
+		'MFECANU',
+		'MFECLIB',
+		'MFECUACT'
+	];
+
+	protected $fillable = [
+		'MTIPODOC',
+		'MNSERIE',
+		'MNROPED',
+		'MCODTPED',
+		'MFECEMI',
+		'MPERIODO',
+		'MCODCLI',
+		'MCODCPA',
+		'MCODVEN',
+		'MCODZON',
+		'MCODTIEN',
+		'MCODMON',
+		'MDOLINT',
+		'MFECENT',
+		'MLUGENT',
+		'MLOCALID',
+		'MDETALLE',
+		'MCODEMI',
+		'MEMITIDO',
+		'MTOPVENTA',
+		'MVALVEN',
+		'MDCTO',
+		'MIGV',
+		'MNETO',
+		'MSALDO',
+		'MPORIGV',
+		'MFECVEN',
+		'MFECCAN',
+		'MCODCRES',
+		'MSTATUS',
+		'MINDORIG',
+		'MIND_N_I',
+		'MINDAPROB',
+		'MINDIMP',
+		'MTIPITEM',
+		'MINC_IGV',
+		'MANO_E',
+		'MMES_E',
+		'MDIA_E',
+		'MFECATT',
+		'MFECANU',
+		'MATEND',
+		'MNORDCLI',
+		'MAMD',
+		'MINDFACT',
+		'MCODLPRE',
+		'MNOMCLI',
+		'MLUGFAC',
+		'MFECLIB',
+		'MCODSITD',
+		'MFECUACT',
+		'MCODUSER',
+		'MHORUACT',
+		'MOBSERV',
+		'MINDCOM',
+		'MOBRA',
+		'MPESOKG',
+		'MCODDFA',
+		'MDPSUNAT',
+		'MDOCCLTE',
+		'MCODRUV',
+		'MVV_NAFE',
+		'MCODCADI',
+		'MCODSCADI',
+		'MCTOUTIL',
+		'MLIMAPROV',
+		'estado',
+	];
+}
