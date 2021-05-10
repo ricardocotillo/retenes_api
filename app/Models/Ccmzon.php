@@ -9,7 +9,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Ccmzon extends Eloquent
+class Ccmzon extends Model
 {
 	protected $table = 'ccmzon';
 	public $timestamps = false;

@@ -9,15 +9,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * Class ArticuloFamdfa
- * 
- * @property int $id
- * @property string $mcodart
- * @property string $mcoddfa
- *
- * @package App\Models
- */
 class ArticuloFamdfa extends Model
 {
 	protected $table = 'articulo_famdfa';
