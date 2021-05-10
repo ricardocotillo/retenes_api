@@ -27,7 +27,7 @@ class MainViewController extends Controller
         
         foreach ($clientes as $cliente) {
             $ccmzon = Ccmzon::where('MCODZON', $cliente['MCODZON'])->first();
-            $cliente['MCODRVE'] = $ccmzon['MCODRVE'];
+            $cliente['MCODRVE'] = isset($ccmzon['MCODRVE']) ? $ccmzon['MCODRVE'] : null;
         }
 
         $codigos = [];
