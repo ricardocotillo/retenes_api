@@ -14,7 +14,7 @@ class CreateCcmmonTable extends Migration
     public function up()
     {
         Schema::create('ccmmon', function (Blueprint $table) {
-            $table->integer('id')->primary('ccmmon_pkey');
+            $table->id();
             $table->string('MCODMON', 4)->nullable();
             $table->string('MDESCRIP', 41)->nullable();
             $table->string('MABREVI', 21)->nullable();

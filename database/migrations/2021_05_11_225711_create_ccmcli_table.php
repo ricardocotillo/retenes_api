@@ -14,7 +14,7 @@ class CreateCcmcliTable extends Migration
     public function up()
     {
         Schema::create('ccmcli', function (Blueprint $table) {
-            $table->integer('id')->primary('ccmcli_pkey');
+            $table->id();
             $table->string('MCODCLI', 16)->nullable();
             $table->string('MNOMBRE', 250)->nullable();
             $table->string('MABREVI', 21)->nullable();

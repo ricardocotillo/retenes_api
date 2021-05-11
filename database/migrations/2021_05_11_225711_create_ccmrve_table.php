@@ -14,7 +14,7 @@ class CreateCcmrveTable extends Migration
     public function up()
     {
         Schema::create('ccmrve', function (Blueprint $table) {
-            $table->bigInteger('id', true);
+            $table->id();
             $table->string('MCODRVE', 2);
             $table->string('MDESCRIP', 20);
         });

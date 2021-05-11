@@ -14,7 +14,7 @@ class CreateDetpeTable extends Migration
     public function up()
     {
         Schema::create('detpe', function (Blueprint $table) {
-            $table->bigInteger('id', true);
+            $table->id();
             $table->string('MTIPODOC', 3)->nullable();
             $table->string('MNSERIE', 4)->nullable();
             $table->string('MNROPED', 7)->nullable();

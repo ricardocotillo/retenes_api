@@ -14,7 +14,7 @@ class CreateFamdfaTable extends Migration
     public function up()
     {
         Schema::create('famdfa', function (Blueprint $table) {
-            $table->integer('id')->primary('famdfa_pkey');
+            $table->id();
             $table->string('MCODDFA', 6)->nullable();
             $table->string('MDESCRIP', 41)->nullable();
             $table->string('MABREVI', 16)->nullable();

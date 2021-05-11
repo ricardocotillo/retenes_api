@@ -14,7 +14,7 @@ class CreateCcmcpaTable extends Migration
     public function up()
     {
         Schema::create('ccmcpa', function (Blueprint $table) {
-            $table->integer('id')->primary('ccmcpa_pkey');
+            $table->id();
             $table->string('MCONDPAGO', 6)->nullable();
             $table->string('MDESCRIP', 41)->nullable();
             $table->string('MABREVI', 21)->nullable();

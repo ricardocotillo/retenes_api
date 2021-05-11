@@ -14,7 +14,7 @@ class CreateCcmvenTable extends Migration
     public function up()
     {
         Schema::create('ccmven', function (Blueprint $table) {
-            $table->integer('id')->primary('ccmven_pkey');
+            $table->id();
             $table->string('MCODVEN', 6)->nullable();
             $table->string('MNOMBRE', 41)->nullable();
             $table->string('MDIRECC', 41)->nullable();

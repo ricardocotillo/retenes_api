@@ -14,6 +14,7 @@ class CreateCabpeTable extends Migration
     public function up()
     {
         Schema::create('cabpe', function (Blueprint $table) {
+            $table->id();
             $table->string('MTIPODOC', 3)->nullable();
             $table->string('MNSERIE', 4)->nullable();
             $table->string('MNROPED', 7)->nullable();
@@ -81,7 +82,6 @@ class CreateCabpeTable extends Migration
             $table->string('MCTOUTIL', 9)->nullable();
             $table->string('MLIMAPROV', 2)->nullable();
             $table->text('estado')->nullable();
-            $table->bigInteger('id', true)->nullable();
         });
     }
 

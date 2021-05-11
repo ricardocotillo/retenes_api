@@ -14,7 +14,7 @@ class CreateCcmdocTable extends Migration
     public function up()
     {
         Schema::create('ccmdoc', function (Blueprint $table) {
-            $table->integer('id')->primary('ccmdoc_pkey');
+            $table->id();
             $table->string('MTIPODOC', 3)->nullable();
             $table->string('MDESCRIP', 41)->nullable();
             $table->string('MABREVI', 21)->nullable();

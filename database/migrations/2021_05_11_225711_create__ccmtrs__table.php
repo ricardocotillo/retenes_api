@@ -14,7 +14,8 @@ class CreateCcmtrsTable extends Migration
     public function up()
     {
         Schema::create('ccmtrs', function (Blueprint $table) {
-            $table->char('MCODTRSP', 11)->primary('CCMTRS_pkey');
+            $table->id();
+            $table->char('MCODTRSP', 11)->nullable();
             $table->string('MNOMBRE', 100)->nullable();
             $table->string('MDIRECC', 100)->nullable();
             $table->string('MTELEF1', 15)->nullable();

@@ -14,7 +14,7 @@ class CreateArticuloFamdfaTable extends Migration
     public function up()
     {
         Schema::create('articulo_famdfa', function (Blueprint $table) {
-            $table->bigInteger('id', true);
+            $table->id();
             $table->string('mcodart', 16)->nullable();
             $table->string('mcoddfa', 6)->nullable();
             $table->string('MCODRVE', 2)->nullable();

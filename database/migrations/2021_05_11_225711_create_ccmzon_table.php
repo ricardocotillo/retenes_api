@@ -14,7 +14,7 @@ class CreateCcmzonTable extends Migration
     public function up()
     {
         Schema::create('ccmzon', function (Blueprint $table) {
-            $table->bigInteger('id', true);
+            $table->id();
             $table->string('MCODZON', 6);
             $table->string('MCODRVE', 2);
         });

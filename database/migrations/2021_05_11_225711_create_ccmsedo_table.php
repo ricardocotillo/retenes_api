@@ -14,7 +14,7 @@ class CreateCcmsedoTable extends Migration
     public function up()
     {
         Schema::create('ccmsedo', function (Blueprint $table) {
-            $table->integer('id')->primary('ccmsedo_pkey');
+            $table->id();
             $table->string('MTIPODOC', 3)->nullable();
             $table->string('MNSERIE', 5)->nullable();
             $table->string('MINDAUT', 2)->nullable();

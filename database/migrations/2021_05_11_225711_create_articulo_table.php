@@ -14,7 +14,7 @@ class CreateArticuloTable extends Migration
     public function up()
     {
         Schema::create('articulo', function (Blueprint $table) {
-            $table->integer('id')->primary('articulo_pkey');
+            $table->id();
             $table->string('MCODART', 20)->nullable();
             $table->string('MDESCRIP', 61)->nullable();
             $table->string('MABREVI', 21)->nullable();
