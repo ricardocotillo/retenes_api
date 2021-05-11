@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCCMTRSTable extends Migration
+class CreateCcmtrsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateCCMTRSTable extends Migration
      */
     public function up()
     {
-        Schema::create('"CCMTRS"', function (Blueprint $table) {
+        Schema::create('ccmtrs', function (Blueprint $table) {
             $table->char('MCODTRSP', 11)->primary('CCMTRS_pkey');
             $table->string('MNOMBRE', 100)->nullable();
             $table->string('MDIRECC', 100)->nullable();
@@ -44,6 +44,6 @@ class CreateCCMTRSTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('"CCMTRS"');
+        Schema::dropIfExists('ccmtrs');
     }
 }
