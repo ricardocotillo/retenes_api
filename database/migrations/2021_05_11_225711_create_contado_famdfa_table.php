@@ -17,7 +17,7 @@ class CreateContadoFamdfaTable extends Migration
             $table->id();
             $table->string('mcoddfa', 11);
             $table->string('mcodcadi', 2)->nullable();
-            $table->char('MCODVEN', 5)->nullable()->comment('CODIGO  VENDEDOR');
+            $table->string('MCODVEN', 5)->nullable()->comment('CODIGO  VENDEDOR');
         });
     }
 

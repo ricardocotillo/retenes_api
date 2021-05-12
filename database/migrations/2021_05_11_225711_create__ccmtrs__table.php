@@ -15,13 +15,13 @@ class CreateCcmtrsTable extends Migration
     {
         Schema::create('ccmtrs', function (Blueprint $table) {
             $table->id();
-            $table->char('MCODTRSP', 11)->nullable();
+            $table->string('MCODTRSP', 11)->nullable();
             $table->string('MNOMBRE', 100)->nullable();
             $table->string('MDIRECC', 100)->nullable();
             $table->string('MTELEF1', 15)->nullable();
             $table->string('MTELEF2', 15)->nullable();
             $table->string('MFAX', 15)->nullable();
-            $table->char('MCODPAI', 4)->nullable();
+            $table->stirng('MCODPAI', 4)->nullable();
             $table->string('MPERSONA', 40)->nullable();
             $table->string('MRUCTRSP', 15)->nullable();
             $table->date('MFCHREGIS')->nullable();

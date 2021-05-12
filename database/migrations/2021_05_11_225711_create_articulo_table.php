@@ -185,8 +185,8 @@ class CreateArticuloTable extends Migration
             $table->string('MDES_ADI', 11)->nullable();
             $table->string('MCODDCTOP', 6)->nullable();
             $table->string('MCODDCTOE', 6)->nullable();
-            $table->char('mdisc_dia', 10)->nullable();
-            $table->char('ind_vend', 5)->nullable();
+            $table->string('mdisc_dia', 10)->nullable();
+            $table->string('ind_vend', 5)->nullable();
             $table->decimal('mcantmin', 14, 3)->nullable();
         });
     }

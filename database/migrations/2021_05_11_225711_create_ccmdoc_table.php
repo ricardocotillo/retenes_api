@@ -29,7 +29,7 @@ class CreateCcmdocTable extends Migration
             $table->date('MFECUACT')->nullable();
             $table->string('MHORUACT', 11)->nullable();
             $table->decimal('MNCOPIAS', 2, 0)->nullable();
-            $table->char('mregvta', 1)->nullable();
+            $table->string('mregvta', 1)->nullable();
         });
     }
 

@@ -23,7 +23,7 @@ class CreateArticuloFamdfaTable extends Migration
             $table->integer('MCANMIN')->nullable();
             $table->integer('MCANMAX')->nullable();
             $table->string('DESCRIP_DESCUENTO', 20)->nullable();
-            $table->char('MCODVEN', 5)->nullable()->comment('CODIGO  VENDEDOR');
+            $table->string('MCODVEN', 5)->nullable()->comment('CODIGO  VENDEDOR');
             $table->string('MCODCLI', 16)->nullable();
             $table->decimal('MPRECIO', 14, 4)->nullable();
             $table->string('MCODZON', 5)->nullable();
