@@ -1,10 +1,5 @@
 <?php
 
-/**
- * Created by Reliese Model.
- * Date: Wed, 24 Jul 2019 17:15:23 +0000.
- */
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
