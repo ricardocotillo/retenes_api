@@ -16,8 +16,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Ccmtrs; //JEANS CUBA 11-12-2020
 
-class CabpeController extends Controller
-{
+class CabpeController extends Controller {
     /**
      * Display a listing of the resource.
      *
