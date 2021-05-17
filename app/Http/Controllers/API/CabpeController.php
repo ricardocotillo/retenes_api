@@ -45,12 +45,11 @@ class CabpeController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
+    public function store(Request $request) {
         $cabeceras = $request->input('cabeceras');
+        $estado = $request->input('estado');
         $articulos = array();
         $montoTotalFinal = 0;
-        
         function nroped($numero)
         {
             $n = (int) $numero + 1;
@@ -62,6 +61,7 @@ class CabpeController extends Controller
         }
 
         foreach ($cabeceras as $key => $cabe) {
+            if (count($cabe['pedidos']) <= 0) continue;
             $articulos[$key] = array();
             $ccmsedo = Ccmsedo::orderBy('id', 'desc')->first();
             $cabpe = Cabpe::orderBy('id', 'desc')->first();
@@ -82,8 +82,8 @@ class CabpeController extends Controller
             $migv = $mneto - ($mneto / 1.18);
             $mvalven = $mtopventa - $migv;
             $montoTotalFinal = $montoTotalFinal + $mneto;
-            $codven = $cabe['MCODVEN']; //PRUEBA JEANS
-            $mnroped = nroped($cabpe['MNROPED']);
+            $codven = $cabe['MCODVEN'];
+            $mnroped = isset($cabpe['MNROPED']) ? nroped($cabpe['MNROPED']) : '000001';
             $cabecera = array(
                 'MTIPODOC' => $ccmsedo['MTIPODOC'],
                 'MNSERIE' => $ccmsedo['MNSERIE'],
@@ -130,7 +130,8 @@ class CabpeController extends Controller
                 'MPESOKG' => 0.0,
                 'MATEND' => 0,
                 'estado' => $cabe['descuentoExtra'] ? 'pendiente' : 'procesado',
-                'MOBSERV' => ''
+                'MOBSERV' => '',
+                'estado' => $estado,
             );
             $cab = Cabpe::create($cabecera);
             $cab->save();
@@ -148,7 +149,7 @@ class CabpeController extends Controller
                 $mdetped = array(
                     'MTIPODOC' => 'C',
                     'MNSERIE' => $ccmsedo['MNSERIE'],
-                    'MNROPED' => '0' . (string) ((int) $cabpe['MNROPED'] + 1),
+                    'MNROPED' => $mnroped,
                     'MITEM' => (string) $mitem,
                     'MCODART' => $value['mcodart'],
                     'MCANTIDAD' => (float) $value['cantidad'],
@@ -180,17 +181,16 @@ class CabpeController extends Controller
                 $mitem = $mitem + 1;
                 $det['MDESCRIP'] = $mdescrip;
                 array_push($articulos[$key], $det);
-                //$articulos[$key] = collect($articulos[$key])->sortBy('MDESCRIP')->reverse()->toArray(); //JEANS CUBA 11/12/2020
                 $articulos[$key] = collect($articulos[$key])->sortByDesc('MDESCRIP')->sortBy('MCODART')->reverse()->toArray(); //JEANS CUBA 04/05/2021 Desc
             }
         }
         
-        $data = array('nombre' => $ccmcli['MNOMBRE']);
-
+        if ($estado == 'terminado') {
+            $data = array('nombre' => $ccmcli['MNOMBRE']);
 
             $ccmcpa = Ccmcpa::where('MCONDPAGO', '=', $request->input('MCONDPAGO'))->first();
             $ccmtrs = Ccmtrs::where('MCODTRSP', '=', $request->input('transporte'))->first();// 
-
+    
             $info = [
                 'fecha' => date('d/m/Y'),
                 'periodo' => date('Y/m'),   
@@ -199,49 +199,39 @@ class CabpeController extends Controller
                 'cliente' => $ccmcli['MNOMBRE'],
                 'canal' => $ccmcli['MCODCADI'],
                 'direccion' => $ccmcli['MDIRECC'],
-                'localidad' => $ccmcli['MLOCALID'], //JEANS CUBA 11-12-2020
+                'localidad' => $ccmcli['MLOCALID'],
                 'email' => $ccmcli['MCORREO'],
                 'condicion' => $ccmcpa['MABREVI'],
                 'articulos' => $articulos,
                 'total' => round($montoTotalFinal, 2),
                 'observaciones' => $request->input('observaciones'),
                 'transporte' => $request->input('transporte'),
-                'nametrans' => $ccmtrs['MNOMBRE'] // JEANS CUBA 11/12/2020
+                'nametrans' => $ccmtrs['MNOMBRE']
             ];
-            
-            
-            
             PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true, 'debugPng' => true, 'defaultFont' => 'sans-serif']);
             $document = PDF::loadView('attach.pedido', $info);
             $output = $document->output();
             
-            // JEANS CUBA 11/12/2020  - 03/05/2021
-            //PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true, 'debugPng' => true, 'defaultFont' => 'sans-serif']);
-            //$document1 = PDF::loadView('attach.ped_almacen', $info);
-            //$output1 = $document1->output();
-            // JEANS CUBA 11/12/2020
-        
-        if ($request->input('enviarCorreo') && $ccmcli['MCORREO'] != NULL) {
-            Mail::send('emails.mail', $data, function ($message) use ($ccmcli, $output) {
-                $message->to('dacharte@willybusch.com.pe', $ccmcli['MNOMBRE'])->subject('Pedido en proceso');
+            if ($request->input('enviarCorreo') && $ccmcli['MCORREO'] != NULL) {
+                Mail::send('emails.mail', $data, function ($message) use ($ccmcli, $output) {
+                    $message->to('dacharte@willybusch.com.pe', $ccmcli['MNOMBRE'])->subject('Pedido en proceso');
+                    $message->from('pedidos01_wb@filtroswillybusch.com.pe', 'Pedidos Willy Busch');
+                    $message->attachData($output, 'pedido.pdf');
+                });
+            }
+            
+            Mail::send('emails.mail', $data, function ($message) use ($ccmcli, $output,$codven) {
+                $message->to('pedidos01_wb@filtroswillybusch.com.pe', $ccmcli['MNOMBRE'])->subject('Pedido en proceso - '.$codven);
+                $message->from('pedidos01_wb@filtroswillybusch.com.pe', 'Pedidos Willy Busch');
+                $message->attachData($output, 'pedido.pdf');
+            });
+            
+            Mail::send('emails.mail', $data, function ($message) use ($ccmcli, $output, $codven , $request) {
+                $message->to($request->input('vendedorEmail'), $ccmcli['MNOMBRE'])->subject('Pedido en proceso - '.$codven);
                 $message->from('pedidos01_wb@filtroswillybusch.com.pe', 'Pedidos Willy Busch');
                 $message->attachData($output, 'pedido.pdf');
             });
         }
-        
-        Mail::send('emails.mail', $data, function ($message) use ($ccmcli, $output,$codven) {
-                $message->to('pedidos01_wb@filtroswillybusch.com.pe', $ccmcli['MNOMBRE'])->subject('Pedido en proceso - '.$codven);
-                $message->from('pedidos01_wb@filtroswillybusch.com.pe', 'Pedidos Willy Busch');
-                $message->attachData($output, 'pedido.pdf');
-                //$message->attachData($output1, 'ped_almacen.pdf'); // JEANS CUBA 11/12/2020
-            });
-        
-        Mail::send('emails.mail', $data, function ($message) use ($ccmcli, $output, $codven , $request) {
-                $message->to($request->input('vendedorEmail'), $ccmcli['MNOMBRE'])->subject('Pedido en proceso - '.$codven);
-                $message->from('pedidos01_wb@filtroswillybusch.com.pe', 'Pedidos Willy Busch');
-                $message->attachData($output, 'pedido.pdf');
-                //$message->attachData($output1, 'ped_almacen.pdf');// JEANS CUBA 11/12/2020
-           });
 
         return response()->json(201);
     }
