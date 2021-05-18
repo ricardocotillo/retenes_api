@@ -59,11 +59,13 @@ class CabpeController extends Controller {
             return $n;
         }
 
+        $cabpe = Cabpe::orderBy('id', 'desc')->first();
+        $mnroped = isset($cabpe['MNROPED']) ? nroped($cabpe['MNROPED']) : '000001';
+
         foreach ($cabeceras as $key => $cabe) {
             if (count($cabe['pedidos']) <= 0) continue;
             $articulos[$key] = array();
             $ccmsedo = Ccmsedo::orderBy('id', 'desc')->first();
-            $cabpe = Cabpe::orderBy('id', 'desc')->first();
             $ccmcli = Ccmcli::where('MCODCLI', '=', $cabe['MCODCLI'])->first();
             $mtopventa = 0.0;
             $mdcto = 0.0;
@@ -82,7 +84,6 @@ class CabpeController extends Controller {
             $mvalven = $mtopventa - $migv;
             $montoTotalFinal = $montoTotalFinal + $mneto;
             $codven = $cabe['MCODVEN'];
-            $mnroped = isset($cabpe['MNROPED']) ? nroped($cabpe['MNROPED']) : '000001';
             $cabecera = array(
                 'MTIPODOC' => $ccmsedo['MTIPODOC'],
                 'MNSERIE' => $ccmsedo['MNSERIE'],
@@ -174,6 +175,7 @@ class CabpeController extends Controller {
                     'MHORUACT' => date('h:i:s'),
                     'MPENFAC' => (float) $value['cantidad'],
                     'MCODDFA' => $value['mcoddfa'],
+                    'cabpe_id' => $cab->id,
                 );
                 $det = Detpe::create($mdetped);
                 $det->save();
@@ -245,7 +247,7 @@ class CabpeController extends Controller {
     {
         $cabpeds = [];
         foreach ($req->all() as $cod) {
-            $cabs = Cabpe::where('MCODVEN', $cod)->select(['MNSERIE', 'MNROPED', 'MFECEMI', 'MCODVEN', 'MCODCLI', 'MTOPVENTA', 'MNOMCLI'])->orderBy('MNSERIE', 'desc')->orderBy('MNROPED', 'desc')->take(5)->get();
+            $cabs = Cabpe::where('MCODVEN', $cod)->select(['id', 'MNSERIE', 'MNROPED', 'MFECEMI', 'MCODVEN', 'MCODCLI', 'MTOPVENTA', 'MNOMCLI'])->orderBy('MNSERIE', 'desc')->orderBy('MNROPED', 'desc')->take(5)->get();
             foreach ($cabs as $cab) {
                 array_push($cabpeds, $cab);
             }
