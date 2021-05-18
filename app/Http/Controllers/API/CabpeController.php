@@ -30,15 +30,6 @@ class CabpeController extends Controller {
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -253,17 +244,6 @@ class CabpeController extends Controller {
             }
         }
         return response()->json($cabpeds, 200);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Cabpe  $cabpe
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Cabpe $cabpe)
-    {
-        //
     }
 
     /**
