@@ -237,7 +237,7 @@ class CabpeController extends Controller {
     {
         // obtener los códigos de vendedores
         $cods = $req->all();
-        $cabs = Cabpe::whereIn('MCODVEN', $cods)
+        $cabpes = Cabpe::whereIn('MCODVEN', $cods)
                 ->select(
                     [
                         'id',
@@ -253,8 +253,10 @@ class CabpeController extends Controller {
                 )
                 ->orderBy('MNSERIE', 'desc')
                 ->orderBy('MNROPED', 'desc')
+                ->groupBy('id', 'MNROPED')
                 ->paginate(15);
-        return response()->json($cabs, 200);
+        info($cabpes);
+        return response()->json($cabpes, 200);
     }
 
     /**
