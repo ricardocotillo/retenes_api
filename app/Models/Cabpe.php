@@ -101,4 +101,8 @@ class Cabpe extends Model
 		'MLIMAPROV',
 		'estado',
 	];
+
+	public function detpe() {
+		return $this->hasMany(Detpe::class);
+	}
 }

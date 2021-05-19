@@ -166,10 +166,9 @@ class CabpeController extends Controller {
                     'MHORUACT' => date('h:i:s'),
                     'MPENFAC' => (float) $value['cantidad'],
                     'MCODDFA' => $value['mcoddfa'],
-                    'cabpe_id' => $cab->id,
                 );
-                $det = Detpe::create($mdetped);
-                $det->save();
+                $det = new Detpe($mdetped);
+                $cab->detpe()->save($det);
                 $mitem = $mitem + 1;
                 $det['MDESCRIP'] = $mdescrip;
                 array_push($articulos[$key], $det);
@@ -236,14 +235,26 @@ class CabpeController extends Controller {
      */
     public function show(Request $req)
     {
-        $cabpeds = [];
-        foreach ($req->all() as $cod) {
-            $cabs = Cabpe::where('MCODVEN', $cod)->select(['id', 'MNSERIE', 'MNROPED', 'MFECEMI', 'MCODVEN', 'MCODCLI', 'MTOPVENTA', 'MNOMCLI'])->orderBy('MNSERIE', 'desc')->orderBy('MNROPED', 'desc')->take(5)->get();
-            foreach ($cabs as $cab) {
-                array_push($cabpeds, $cab);
-            }
-        }
-        return response()->json($cabpeds, 200);
+        // obtener los códigos de vendedores
+        $cods = $req->all();
+        $cabs = Cabpe::whereIn('MCODVEN', $cods)
+                ->select(
+                    [
+                        'id',
+                        'MNSERIE',
+                        'MNROPED',
+                        'MFECEMI',
+                        'MCODVEN',
+                        'MCODCLI',
+                        'MTOPVENTA',
+                        'MNOMCLI',
+                        'estado',
+                    ]
+                )
+                ->orderBy('MNSERIE', 'desc')
+                ->orderBy('MNROPED', 'desc')
+                ->paginate(15);
+        return response()->json($cabs, 200);
     }
 
     /**

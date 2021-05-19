@@ -82,4 +82,8 @@ class Detpe extends Model
 		'MPORDCT4',
 		'MPORDCT5'
 	];
+
+	public function cabpe() {
+		return $this->belongsTo(Cabpe::class);
+	}
 }
