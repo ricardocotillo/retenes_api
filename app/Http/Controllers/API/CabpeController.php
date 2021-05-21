@@ -251,6 +251,7 @@ class CabpeController extends Controller {
                         'estado',
                     ]
                 )
+                ->with('detpe')
                 ->orderBy('MNSERIE', 'desc')
                 ->orderBy('MNROPED', 'desc')
                 ->groupBy('id', 'MNROPED')
