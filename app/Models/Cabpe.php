@@ -105,4 +105,12 @@ class Cabpe extends Model
 	public function detpe() {
 		return $this->hasMany(Detpe::class);
 	}
+
+	public function ccmcpa() {
+		return $this->belongsTo(Ccmcpa::class, 'MCODCPA', 'MCONDPAGO');
+	}
+
+	public function ccmcli() {
+		return $this->belongsTo(Ccmcli::class, 'MCODCLI', 'MCODCLI');
+	}
 }

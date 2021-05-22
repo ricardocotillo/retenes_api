@@ -244,6 +244,7 @@ class CabpeController extends Controller {
                         'MNSERIE',
                         'MNROPED',
                         'MFECEMI',
+                        'MCODCPA',
                         'MCODVEN',
                         'MCODCLI',
                         'MTOPVENTA',
@@ -251,12 +252,11 @@ class CabpeController extends Controller {
                         'estado',
                     ]
                 )
-                ->with('detpe')
+                ->with(['detpe', 'ccmcpa', 'ccmcli'])
                 ->orderBy('MNSERIE', 'desc')
                 ->orderBy('MNROPED', 'desc')
                 ->groupBy('id', 'MNROPED')
                 ->paginate(15);
-        info($cabpes);
         return response()->json($cabpes, 200);
     }
 
