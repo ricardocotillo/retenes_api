@@ -73,7 +73,7 @@ class CabpeController extends Controller {
             $mneto = $mtopventa - $mdcto;
             $migv = $mneto - ($mneto / 1.18);
             $mvalven = $mtopventa - $migv;
-            $montoTotalFinal = $montoTotalFinal + $mneto;
+            $montoTotalFinal = $mneto;
             $codven = $cabe['MCODVEN'];
             $cabecera = array(
                 'MTIPODOC' => $ccmsedo['MTIPODOC'],
@@ -137,6 +137,7 @@ class CabpeController extends Controller {
                 $mvalven = round($mprecio * $value['cantidad'], 2);
                 $mdcto = round($mvalven * ($mpordct1 / 100), 2);
                 $migv = round(($mvalven - $mdcto) - (($mvalven - $mdcto) / 1.18), 2);
+
                 $mdetped = array(
                     'MTIPODOC' => 'C',
                     'MNSERIE' => $ccmsedo['MNSERIE'],

@@ -46,4 +46,5 @@ Route::group(['middleware' => ['auth:api', 'cors']], function () {
     Route::get('mainView/{nombre}', [MainViewController::class,'index']);
     Route::post('register', [UserController::class, 'register']);
     Route::get('descuento_general', [ArticuloFamdfaController::class, 'descuento_general']);
+    Route::patch('detpe/{detpe_id}/', [DetpeController::class, 'update']);
 });

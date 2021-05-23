@@ -87,7 +87,7 @@ class Detpe extends Model
 		return $this->belongsTo(Cabpe::class);
 	}
 
-	// public function articulo() {
-	// 	return $this->hasOne(Articulo:class, 'MCODART', 'MCODART');
-	// }
+	public function famdfa() {
+		return $this->belongsTo(Famdfa::class, 'MCODDFA', 'MCODDFA');
+	}
 }
