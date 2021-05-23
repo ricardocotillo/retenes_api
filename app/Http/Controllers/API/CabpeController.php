@@ -268,9 +268,39 @@ class CabpeController extends Controller {
      * @param  \App\Models\Cabpe  $cabpe
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Cabpe $cabpe)
+    public function update(Request $request, int $cabpe_id)
     {
         //
+    }
+
+    /**
+     * Actualizar MCONDPAGO.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Cabpe  $cabpe
+     * @return \Illuminate\Http\Response
+     */
+    public function update_mcodcpa(Request $request, string $mnserie, string $mnroped)
+    {
+        $igv = 1.18;
+        $mcodcpa = $request->input('mcodcpa');
+        $cabpes = Cabpe::where('MNSERIE', $mnserie)->where('MNROPED', $mnroped)->with(['ccmcpa', 'detpe'])->get();
+
+        foreach($cabpes as $cabpe) {
+            $cabpe->MCODCPA = $mcodcpa;
+            $cabpe->save();
+
+            foreach ($cabpe->detpe as $detpe) { 
+                $detpe->MINDOBSQ = 'N';
+                $detpe->MCODDFA = 'Sin descuento';
+                $detpe->MDCTO = 0.0;
+                $detpe->MPORDCT1 = 0.0;
+                $detpe->MIGV = round($detpe->MVALVEN - ($detpe->MVALVEN / $igv), 2);
+                $detpe->save();
+            }
+        }
+
+        return response()->json($cabpes, 200);
     }
 
     /**

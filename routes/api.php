@@ -47,4 +47,5 @@ Route::group(['middleware' => ['auth:api', 'cors']], function () {
     Route::post('register', [UserController::class, 'register']);
     Route::get('descuento_general', [ArticuloFamdfaController::class, 'descuento_general']);
     Route::patch('detpe/{detpe_id}/', [DetpeController::class, 'update']);
+    Route::patch('cabpe_update_mcodcpa/{mnserie}/{mnroped}/', [CabpeController::class, 'update_mcodcpa']);
 });

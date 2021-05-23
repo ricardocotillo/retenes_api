@@ -55,7 +55,6 @@ class DetpeController extends Controller
         $igv = 1.18;
 
         $new_detpe = $request->all();
-        $articulo = Articulo::firstWhere('MCODART', $new_detpe['MCODART']);
         $famdfa = Famdfa::firstWhere('MCODDFA', $new_detpe['MCODDFA']);
 
         $mprecio = $new_detpe['MPRECIO'];
@@ -86,7 +85,7 @@ class DetpeController extends Controller
             } else {
                 $mtopventa = $mtopventa + ($det->MCANTIDAD * $det->MPRECIO);
             }
-            if ($det['MCODDFA'] != 'Sin descuento' && $det['MCODDFA'] != 'Bono') {
+            if ($det->MCODDFA != 'Sin descuento' && $det->MCODDFA != 'Bono') {
                 $mdcto = $mdcto + ($det->MCANTIDAD * $det->MPRECIO * ($det->famdfa->MPOR_DFA / 100));
             }
         }
