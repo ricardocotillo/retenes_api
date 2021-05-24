@@ -330,23 +330,23 @@ class CabpeController extends Controller {
             }
         }
 
-        $info = [
-            'fecha' => date('d/m/Y'),
-            'periodo' => date('Y/m'),   
-            'mnroped' => $cabpes[0]->MNSERIE . '-' . $cabpes[0]->MNROPED,
-            'ruc' => $cabpes[0]->MCODCLI,
-            'cliente' => $cabpes[0]->ccmcli->MNOMBRE,
-            'canal' => $cabpes[0]->ccmcli->MCODCADI,
-            'direccion' => $cabpes[0]->ccmcli->MDIRECC,
-            'localidad' => $cabpes[0]->ccmcli->MLOCALID,
-            'email' => $cabpes[0]->ccmcli->MCORREO,
-            'condicion' => $cabpes[0]->ccmcpa->MABREVI,
-            'articulos' => $articulos,
-            'total' => round($montoTotalFinal, 2),
-            'observaciones' => $request->input('observaciones'),
-            'transporte' => '',
-            'nametrans' => $cabpes[0]->MNOMBRE,
-        ];
+        // $info = [
+        //     'fecha' => date('d/m/Y'),
+        //     'periodo' => date('Y/m'),   
+        //     'mnroped' => $cabpes[0]->MNSERIE . '-' . $cabpes[0]->MNROPED,
+        //     'ruc' => $cabpes[0]->MCODCLI,
+        //     'cliente' => $cabpes[0]->ccmcli->MNOMBRE,
+        //     'canal' => $cabpes[0]->ccmcli->MCODCADI,
+        //     'direccion' => $cabpes[0]->ccmcli->MDIRECC,
+        //     'localidad' => $cabpes[0]->ccmcli->MLOCALID,
+        //     'email' => $cabpes[0]->ccmcli->MCORREO,
+        //     'condicion' => $cabpes[0]->ccmcpa->MABREVI,
+        //     'articulos' => $articulos,
+        //     'total' => round($montoTotalFinal, 2),
+        //     'observaciones' => $request->input('observaciones'),
+        //     'transporte' => '',
+        //     'nametrans' => $cabpes[0]->MNOMBRE,
+        // ];
     }
 
     /**
