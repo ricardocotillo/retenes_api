@@ -38,6 +38,7 @@ class CabpeController extends Controller {
     public function store(Request $request) {
         $cabeceras = $request->input('cabeceras');
         $estado = $request->input('estado');
+        $mcodtrsp = $request->input('transporte');
         $articulos = array();
         $montoTotalFinal = 0;
         function nroped($numero)
@@ -123,6 +124,7 @@ class CabpeController extends Controller {
                 'estado' => $cabe['descuentoExtra'] ? 'pendiente' : 'procesado',
                 'MOBSERV' => '',
                 'estado' => $estado,
+                'MCODTRSP' => $mcodtrsp,
             );
             $cab = Cabpe::create($cabecera);
             $cab->save();
@@ -173,7 +175,7 @@ class CabpeController extends Controller {
                 $mitem = $mitem + 1;
                 $det['MDESCRIP'] = $mdescrip;
                 array_push($articulos[$key], $det);
-                $articulos[$key] = collect($articulos[$key])->sortByDesc('MDESCRIP')->sortBy('MCODART')->reverse()->toArray(); //JEANS CUBA 04/05/2021 Desc
+                $articulos[$key] = collect($articulos[$key])->sortByDesc('MDESCRIP')->sortBy('MCODART')->reverse()->toArray();
             }
         }
         
@@ -301,6 +303,50 @@ class CabpeController extends Controller {
         }
 
         return response()->json($cabpes, 200);
+    }
+
+    /**
+     * Enviar correo.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Cabpe  $cabpe
+     * @return \Illuminate\Http\Response
+     */
+    public function send_email(Request $request, string $mnserie, string $mnroped) {
+        $cabpes = Cabpe::where('MNSERIE', $mnserie)->where('MNROPED', $mnroped)->get();
+        
+        $data = array('nombre' => $cabpes[0]->ccmcli->MNOMBRE);
+
+        $ccmcpa = $cabpes[0]->ccmcpa;
+        $ccmtrs = $cabpes[0]->ccmtrs;
+
+        $articulos = array();
+
+        foreach ($cabpes as $cabpe) {
+            $articulos[$cabpe->MCODVEN] = array();
+            foreach ($cabpe->detpe as $detpe) {
+                array_push($articulos[$cabpe->MCODVEN], $detpe);
+                $articulos[$key] = collect($articulos[$cabpe->MCODVEN])->sortByDesc('MDESCRIP')->sortBy('MCODART')->reverse()->toArray();
+            }
+        }
+
+        $info = [
+            'fecha' => date('d/m/Y'),
+            'periodo' => date('Y/m'),   
+            'mnroped' => $cabpes[0]->MNSERIE . '-' . $cabpes[0]->MNROPED,
+            'ruc' => $cabpes[0]->MCODCLI,
+            'cliente' => $cabpes[0]->ccmcli->MNOMBRE,
+            'canal' => $cabpes[0]->ccmcli->MCODCADI,
+            'direccion' => $cabpes[0]->ccmcli->MDIRECC,
+            'localidad' => $cabpes[0]->ccmcli->MLOCALID,
+            'email' => $cabpes[0]->ccmcli->MCORREO,
+            'condicion' => $cabpes[0]->ccmcpa->MABREVI,
+            'articulos' => $articulos,
+            'total' => round($montoTotalFinal, 2),
+            'observaciones' => $request->input('observaciones'),
+            'transporte' => '',
+            'nametrans' => $cabpes[0]->MNOMBRE,
+        ];
     }
 
     /**

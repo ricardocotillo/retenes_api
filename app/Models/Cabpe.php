@@ -100,6 +100,7 @@ class Cabpe extends Model
 		'MCTOUTIL',
 		'MLIMAPROV',
 		'estado',
+		'MCODTRSP',
 	];
 
 	public function detpe() {
@@ -114,4 +115,7 @@ class Cabpe extends Model
 		return $this->belongsTo(Ccmcli::class, 'MCODCLI', 'MCODCLI');
 	}
 
+	public function ccmtrs() {
+		return $this->belongsTo(Ccmtrs::class, 'MCODTRSP', 'MCODTRSP');
+	}
 }
