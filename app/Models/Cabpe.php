@@ -113,4 +113,5 @@ class Cabpe extends Model
 	public function ccmcli() {
 		return $this->belongsTo(Ccmcli::class, 'MCODCLI', 'MCODCLI');
 	}
+
 }
