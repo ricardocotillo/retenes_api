@@ -21,7 +21,7 @@ class CreateCcmtrsTable extends Migration
             $table->string('MTELEF1', 15)->nullable();
             $table->string('MTELEF2', 15)->nullable();
             $table->string('MFAX', 15)->nullable();
-            $table->stirng('MCODPAI', 4)->nullable();
+            $table->string('MCODPAI', 4)->nullable();
             $table->string('MPERSONA', 40)->nullable();
             $table->string('MRUCTRSP', 15)->nullable();
             $table->date('MFCHREGIS')->nullable();
