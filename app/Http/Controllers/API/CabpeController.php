@@ -325,7 +325,7 @@ class CabpeController extends Controller {
 
         foreach ($cabpes as $cabpe) {
             $articulos[$cabpe->MCODVEN] = array();
-            foreach ($cabpe->detpe as $detpe) {
+            foreach ($cabpe->detpe as $key => $detpe) {
                 array_push($articulos[$cabpe->MCODVEN], $detpe);
                 $articulos[$key] = collect($articulos[$cabpe->MCODVEN])->sortByDesc('MDESCRIP')->sortBy('MCODART')->reverse()->toArray();
             }
@@ -394,5 +394,63 @@ class CabpeController extends Controller {
     public function destroy(Cabpe $cabpe)
     {
         //
+    }
+
+    public function send_test_email(Request $request) {
+        $cabpes = Cabpe::where('MNSERIE', 'R250')->where('MNROPED', '000004')->get();
+        
+        $data = array('nombre' => $cabpes[0]->ccmcli->MNOMBRE);
+
+        $ccmcpa = $cabpes[0]->ccmcpa;
+        $ccmtrs = $cabpes[0]->ccmtrs;
+
+        $articulos = array();
+
+        foreach ($cabpes as $cabpe) {
+            $articulos[$cabpe->MCODVEN] = array();
+            foreach ($cabpe->detpe as $key => $detpe) {
+                array_push($articulos[$cabpe->MCODVEN], $detpe);
+                $articulos[] = collect($articulos[$cabpe->MCODVEN])->sortByDesc('MDESCRIP')->sortBy('MCODART')->reverse()->toArray();
+            }
+        }
+
+        $montoTotalFinal = 0;
+
+        foreach ($cabpes as $cabpe) {
+            $montoTotalFinal = $montoTotalFinal + $cabpe->MNETO;
+        }
+
+        $info = [
+            'fecha' => date('d/m/Y'),
+            'periodo' => date('Y/m'),   
+            'mnroped' => $cabpes[0]->MNSERIE . '-' . $cabpes[0]->MNROPED,
+            'ruc' => $cabpes[0]->MCODCLI,
+            'cliente' => $cabpes[0]->ccmcli->MNOMBRE,
+            'canal' => $cabpes[0]->ccmcli->MCODCADI,
+            'direccion' => $cabpes[0]->ccmcli->MDIRECC,
+            'localidad' => $cabpes[0]->ccmcli->MLOCALID,
+            'email' => $cabpes[0]->ccmcli->MCORREO,
+            'condicion' => $cabpes[0]->ccmcpa->MABREVI,
+            'articulos' => $articulos,
+            'total' => $montoTotalFinal,
+            'observaciones' => '',
+            'transporte' => $cabpes[0]->ccmtrs->MCODTRSP,
+            'nametrans' => $cabpes[0]->ccmtrs->MNOMBRE,
+        ];
+
+        $mcodven = $cabpes[0]->MCODVEN;
+        $ccmcli = $cabpes[0]->ccmcli;
+
+        PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true, 'debugPng' => true, 'defaultFont' => 'sans-serif']);
+        $document = PDF::loadView('attach.pedido', $info);
+        $output = $document->output();
+        
+        Mail::send('emails.mail', $data, function ($message) use ($ccmcli, $output, $codven , $request) {
+            $message->to($email, $ccmcli->MNOMBRE)->subject('Pedido en proceso - '.$codven);
+            $message->from('ricardo.cotillo@gmail.com', 'Pedidos Willy Busch');
+            $message->attachData($output, 'pedido.pdf');
+        });
+
+        return response()->json([], 200);
     }
 }

@@ -104,6 +104,7 @@ class FixStringColumns extends Command
         $ccmtrs = Ccmtrs::all();
         $this->info('Starting CCMTRS fix');
         foreach ($ccmtrs as $c) {
+            $c->MCODTRSP = trim($c->MCODTRSP);
             $c->MNOMBRE = trim($c->MNOMBRE);
             $c->MDIRECC = trim($c->MDIRECC);
             $c->MTELEF1 = trim($c->MTELEF1);

@@ -28,6 +28,7 @@ use App\Http\Controllers\API\UserController;
 
 Route::group(['middleware' => ['cors']], function () {
     Route::post('login', [UserController::class, 'login']);
+    Route::post('send_test_email/', [CabpeController::class, 'send_test_email']);
 });
 
 Route::group(['middleware' => ['auth:api', 'cors']], function () {
