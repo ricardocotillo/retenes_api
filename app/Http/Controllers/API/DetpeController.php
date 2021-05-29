@@ -149,6 +149,7 @@ class DetpeController extends Controller
         $new_detpe['MDCTO'] = $mdcto;
         $new_detpe['MIGV'] = $migv;
         $new_detpe['MINDOBSQ'] = $new_detpe['MCODDFA'] == 'Bono' ? 'D' : 'N';
+        $new_detpe['estado'] = 'modificado';
 
 
         $detpe = Detpe::find($detpe_id);

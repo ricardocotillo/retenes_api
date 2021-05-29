@@ -80,7 +80,8 @@ class Detpe extends Model
 		'MPESOKG',
 		'MPORDCT3',
 		'MPORDCT4',
-		'MPORDCT5'
+		'MPORDCT5',
+		'estado',
 	];
 
 	public function cabpe() {
