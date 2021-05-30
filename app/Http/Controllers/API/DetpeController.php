@@ -138,6 +138,8 @@ class DetpeController extends Controller
         $new_detpe = $request->all();
         $famdfa = Famdfa::firstWhere('MCODDFA', $new_detpe['MCODDFA']);
 
+        $detpe = Detpe::find($detpe_id);
+
         $mprecio = $new_detpe['MPRECIO'];
         $mpordct1 = $famdfa ? $famdfa['MPOR_DFA'] : 0.000;
         $mvalven = round($mprecio * $new_detpe['MCANTIDAD'], 2);
@@ -149,10 +151,8 @@ class DetpeController extends Controller
         $new_detpe['MDCTO'] = $mdcto;
         $new_detpe['MIGV'] = $migv;
         $new_detpe['MINDOBSQ'] = $new_detpe['MCODDFA'] == 'Bono' ? 'D' : 'N';
-        $new_detpe['estado'] = 1;
+        $new_detpe['estado'] = $detpe->estado == 'terminado' ? 1 : 0;
 
-
-        $detpe = Detpe::find($detpe_id);
         $detpe->fill($new_detpe);
         $detpe->save();
 
