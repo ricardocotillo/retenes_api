@@ -445,9 +445,9 @@ class CabpeController extends Controller {
         $document = PDF::loadView('attach.pedido', $info);
         $output = $document->output();
         
-        Mail::send('emails.mail', $data, function ($message) use ($ccmcli, $output, $codven , $request) {
-            $message->to($email, $ccmcli->MNOMBRE)->subject('Pedido en proceso - '.$codven);
-            $message->from('ricardo.cotillo@gmail.com', 'Pedidos Willy Busch');
+        Mail::send('emails.mail', $data, function ($message) use ($ccmcli, $output , $request) {
+            $message->to('ricardo.cotillo@gmail.com', $ccmcli->MNOMBRE)->subject('Pedido en proceso - Prueba');
+            $message->from('pedidos01_wb@filtroswillybusch.com.pe', 'Pedidos Willy Busch');
             $message->attachData($output, 'pedido.pdf');
         });
 
