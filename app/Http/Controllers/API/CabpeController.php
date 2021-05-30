@@ -313,7 +313,7 @@ class CabpeController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function send_email(Request $request, string $mnserie, string $mnroped) {
-        $email = $reuqest->input('email');
+        $email = $request->input('email');
         $cabpes = Cabpe::where('MNSERIE', $mnserie)->where('MNROPED', $mnroped)->get();
         
         $data = array('nombre' => $cabpes[0]->ccmcli->MNOMBRE);
@@ -327,7 +327,7 @@ class CabpeController extends Controller {
             $articulos[$cabpe->MCODVEN] = array();
             foreach ($cabpe->detpe as $key => $detpe) {
                 array_push($articulos[$cabpe->MCODVEN], $detpe);
-                $articulos[$key] = collect($articulos[$cabpe->MCODVEN])->sortByDesc('MDESCRIP')->sortBy('MCODART')->reverse()->toArray();
+                $articulos[$cabpe->MCODVEN] = collect($articulos[$cabpe->MCODVEN])->sortByDesc('MDESCRIP')->sortBy('MCODART')->reverse()->toArray();
             }
         }
 
@@ -370,14 +370,14 @@ class CabpeController extends Controller {
             });
         }
         
-        Mail::send('emails.mail', $data, function ($message) use ($ccmcli, $output, $codven) {
-            $message->to('pedidos01_wb@filtroswillybusch.com.pe', $ccmcli->MNOMBRE)->subject('Pedido en proceso - '.$codven);
+        Mail::send('emails.mail', $data, function ($message) use ($ccmcli, $output, $mcodven) {
+            $message->to('pedidos01_wb@filtroswillybusch.com.pe', $ccmcli->MNOMBRE)->subject('Pedido en proceso - ' . $mcodven);
             $message->from('pedidos01_wb@filtroswillybusch.com.pe', 'Pedidos Willy Busch');
             $message->attachData($output, 'pedido.pdf');
         });
         
-        Mail::send('emails.mail', $data, function ($message) use ($ccmcli, $output, $codven , $request) {
-            $message->to($email, $ccmcli->MNOMBRE)->subject('Pedido en proceso - '.$codven);
+        Mail::send('emails.mail', $data, function ($message) use ($ccmcli, $output, $mcodven, $email) {
+            $message->to($email, $ccmcli->MNOMBRE)->subject('Pedido en proceso - ' . $mcodven);
             $message->from('pedidos01_wb@filtroswillybusch.com.pe', 'Pedidos Willy Busch');
             $message->attachData($output, 'pedido.pdf');
         });

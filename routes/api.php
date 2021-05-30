@@ -49,7 +49,7 @@ Route::group(['middleware' => ['auth:api', 'cors']], function () {
     Route::get('descuento_general', [ArticuloFamdfaController::class, 'descuento_general']);
     Route::patch('detpe/{detpe_id}/', [DetpeController::class, 'update']);
     Route::patch('cabpe_update_mcodcpa/{mnserie}/{mnroped}/', [CabpeController::class, 'update_mcodcpa']);
-    Route::patch('cabpe/send_email/{mnserie}/{mnroped}/', [CabpeController::class, 'update_mcodcpa']);
+    Route::post('cabpe/send_email/{mnserie}/{mnroped}/', [CabpeController::class, 'send_email']);
     Route::post('detpe/{mnserie}/{mnroped}/', [DetpeController::class, 'store']);
     Route::delete('detpe/{detpe_id}/', [DetpeController::class, 'destroy']);
 });
