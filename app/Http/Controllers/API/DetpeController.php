@@ -151,7 +151,7 @@ class DetpeController extends Controller
         $new_detpe['MDCTO'] = $mdcto;
         $new_detpe['MIGV'] = $migv;
         $new_detpe['MINDOBSQ'] = $new_detpe['MCODDFA'] == 'Bono' ? 'D' : 'N';
-        $new_detpe['estado'] = $detpe->estado == 'terminado' ? 1 : 0;
+        $new_detpe['estado'] = $detpe->cabpe->estado == 'terminado' ? 1 : 0;
 
         $detpe->fill($new_detpe);
         $detpe->save();
