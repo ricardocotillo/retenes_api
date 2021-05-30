@@ -382,6 +382,11 @@ class CabpeController extends Controller {
             $message->attachData($output, 'pedido.pdf');
         });
 
+        foreach ($cabpes as $cabpe) {
+            $cabpe->estado = 'terminado';
+            $cabpe->save();
+        }
+
         return response()->json([], 200);
     }
 
