@@ -18,7 +18,6 @@ class ArticuloFamdfaController extends Controller
      */
     public function index(Request $req)
     {   
-        //$artdfas = ArticuloFamdfa::where('impneto_min', NULL)->where('impneto_max', NULL)->where('mcodart', $req['mcodart'])->orWhere('mcodart', '')->orWhere('mcodart', NULL)->get();
         $artdfas = ArticuloFamdfa::where([
             ['impneto_min', '=', NULL],
             ['impneto_max', '=', NULL],
@@ -41,7 +40,10 @@ class ArticuloFamdfaController extends Controller
         return response()->json($artdfas, 200);
     }
     
-    public function descuento_general(Request $req) {
+    public function descuento_general(Request $req, string $mcodven) {
+        info($mcodven);
+        $type = $mcodven[count($mcodven) - 1];
+        info($type);
         $impneto = $req->input('impneto');
         $mcodcadi = $req->input('mcodcadi');
         $mcondpago = $req->input('mcondpago');

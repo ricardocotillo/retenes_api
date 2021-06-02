@@ -467,14 +467,6 @@ class CabpeController extends Controller {
         $output = $document->output();
         
         if (config('app.debug') == false) {
-            // if ($ccmcli->MCORREO != NULL) {
-            //     Mail::send('emails.mail', $data, function ($message) use ($ccmcli, $output) {
-            //         $message->to('dacharte@willybusch.com.pe', $ccmcli->MNOMBRE)->subject('Pedido en proceso');
-            //         $message->from('pedidos01_wb@filtroswillybusch.com.pe', 'Pedidos Willy Busch');
-            //         $message->attachData($output, 'pedido.pdf');
-            //     });
-            // }
-            
             Mail::send('emails.mail', $data, function ($message) use ($ccmcli, $output, $mcodven) {
                 $message->to('pedidos01_wb@filtroswillybusch.com.pe', $ccmcli->MNOMBRE)->subject('Pedido en proceso - ' . $mcodven);
                 $message->from('pedidos01_wb@filtroswillybusch.com.pe', 'Pedidos Willy Busch');
