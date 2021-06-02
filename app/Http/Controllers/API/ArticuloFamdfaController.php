@@ -41,16 +41,19 @@ class ArticuloFamdfaController extends Controller
     }
     
     public function descuento_general(Request $req, string $mcodven) {
-        info($mcodven);
-        $type = $mcodven[count($mcodven) - 1];
-        info($type);
+        $type = $mcodven[strlen($mcodven) - 1];
+        $type = is_numeric($type) ? null : $type;
         $impneto = $req->input('impneto');
         $mcodcadi = $req->input('mcodcadi');
         $mcondpago = $req->input('mcondpago');
         $mcodcli = $req->input('mcodcli');
-        $artdfas = ArticuloFamdfa::where('MCODCADI', $mcodcadi)->where('MCONDPAGO', $mcondpago)->where('impneto_min', '<=', $impneto)->where(function($q) use ($mcodcli) {
-            $q->where('MCODCLI', $mcodcli)->orWhere('MCODCLI', NULL);
-        })->get();
+        $artdfas = ArticuloFamdfa::where('MCODCADI', $mcodcadi)
+                    ->where('MCONDPAGO', $mcondpago)
+                    ->where('impneto_min', '<=', $impneto)
+                    ->where('tipo', $type)
+                    ->where(function($q) use ($mcodcli) {
+                        $q->where('MCODCLI', $mcodcli)->orWhere('MCODCLI', NULL);
+                    })->get();
         foreach ($artdfas as $ndfa) {
             $dfa = Famdfa::where('MCODDFA', $ndfa['mcoddfa'])->first();
             $ndfa['descuento'] = $dfa;
