@@ -47,13 +47,19 @@ class ArticuloFamdfaController extends Controller
         $mcodcadi = $req->input('mcodcadi');
         $mcondpago = $req->input('mcondpago');
         $mcodcli = $req->input('mcodcli');
-        $artdfas = ArticuloFamdfa::where('MCODCADI', $mcodcadi)
-        ->where('MCONDPAGO', $mcondpago)
-        ->where('impneto_min', '<=', $impneto)
-        ->where('tipo', $type)
-        ->where(function($q) use ($mcodcli) {
-            $q->where('MCODCLI', $mcodcli)->orWhere('MCODCLI', NULL);
-        })->get();
+        info($mcodcli);
+        info($mcodcadi);
+        info($mcondpago);
+        $artdfas = ArticuloFamdfa::where(function($q) use ($mcodcadi) {
+                $q->where('MCODCADI', $mcodcadi)->orWhere('MCODCADI', NULL);
+            })
+            ->where('MCONDPAGO', $mcondpago)
+            ->where('impneto_min', '<=', $impneto)
+            ->where('tipo', $type)
+            ->where(function($q) use ($mcodcli) {
+                $q->where('MCODCLI', $mcodcli)->orWhere('MCODCLI', NULL);
+            })->get();
+        info($artdfas);
         foreach ($artdfas as $ndfa) {
             $dfa = Famdfa::where('MCODDFA', $ndfa['mcoddfa'])->first();
             $ndfa['descuento'] = $dfa;
