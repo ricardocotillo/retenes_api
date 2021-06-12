@@ -47,9 +47,6 @@ class ArticuloFamdfaController extends Controller
         $mcodcadi = $req->input('mcodcadi');
         $mcondpago = $req->input('mcondpago');
         $mcodcli = $req->input('mcodcli');
-        info($mcodcli);
-        info($mcodcadi);
-        info($mcondpago);
         $artdfas = ArticuloFamdfa::where(function($q) use ($mcodcadi) {
                 $q->where('MCODCADI', $mcodcadi)->orWhere('MCODCADI', NULL);
             })

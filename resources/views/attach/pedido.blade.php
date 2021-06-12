@@ -191,7 +191,7 @@
 			</tr>
 			@foreach ($value as $v)
 				@if ($v['MCODDFA'] != 'Bono')
-				<tr @if ($v['estado'] == 1) style="background: #FFFF00" @endif>
+				<tr @if (isset($v['estado']) && $v['estado'] == 1) style="background: #FFFF00" @endif>
 					<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan="2" align="left" valign=bottom>{{$v['MCODART']}}</td>
 					<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan="2" align="center" valign=bottom sdval="10" sdnum="1033;"><b>{{$v['MCANTIDAD']}}</b></td>
 					<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan="4" align="left" valign=bottom><b>{{$v['MDESCRI01']}}</b></td>
@@ -206,7 +206,7 @@
 					</td>
 				</tr>
 				@else
-				<tr @if ($v['estado'] == 1) style="background: #FFFF00" @endif>
+				<tr @if (isset($v['estado']) && $v['estado'] == 1) style="background: #FFFF00" @endif>
 					<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan="2" align="left" valign=bottom>{{$v['MCODART']}}</td>
 					<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan="2" align="center" valign=bottom sdval="10" sdnum="1033;"><b>{{$v['MCANTIDAD']}}</b></td>
 					<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan="4" align="left" valign=bottom><b>{{$v['MDESCRI01']}}</b></td>
