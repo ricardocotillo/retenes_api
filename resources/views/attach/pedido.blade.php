@@ -186,7 +186,7 @@
 				<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan="2" align="center" valign=middle bgcolor="#9DC3E6"><b>CANTIDAD</b></td>
 				<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan="4" align="center" valign=middle bgcolor="#9DC3E6"><b>DESCRIPCION</b></td>
 				<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan="1" align="center" valign=middle bgcolor="#9DC3E6"><b>P. UNIT. </b></td>
-				<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan="3" align="center" valign=middle bgcolor="#9DC3E6"><b>DESCUENTO  %</b></td>
+				<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan="3" align="center" valign=middle bgcolor="#9DC3E6"><b>DESCUENTO %</b></td>
 				<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan="2" align="center" valign=middle bgcolor="#9DC3E6"><b>TOTAL</b></td>
 			</tr>
 			@foreach ($value as $v)
@@ -196,9 +196,9 @@
 					<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan="2" align="center" valign=bottom sdval="10" sdnum="1033;"><b>{{$v['MCANTIDAD']}}</b></td>
 					<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan="4" align="left" valign=bottom><b>{{$v['MDESCRI01']}}</b></td>
 					<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan="1" align="right" valign=bottom sdval="144.923184" sdnum="1033;0;0.00_ ;[RED]-0.00 ">
-					{{number_format($v['MPRECIO'], 2, '.', '')}}
+						{{number_format($v['MPRECIO'], 2, '.', '')}}
 					</td>
-					<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan="3" align="left" valign=bottom>{{$v['MDESCRI01']}}</td>
+					<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan="3" align="left" valign=bottom>{{$v['famdfa'] ? $v['famdfa']['MDESCRIP'] : null}}</td>
 					<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan="2" align="right" valign=bottom sdval="1449.23184" sdnum="1033;0;0.00_ ;[RED]-0.00 ">
 						<b>
 						{{number_format($v['MVALVEN'] - $v['MDCTO'], 2, '.', '')}}

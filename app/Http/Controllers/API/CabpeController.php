@@ -41,6 +41,7 @@ class CabpeController extends Controller {
         $mcodtrsp = $request->input('transporte');
         $articulos = array();
         $montoTotalFinal = 0;
+        $ccmsedo = Ccmsedo::orderBy('id', 'desc')->first();
         function nroped($numero)
         {
             $n = (int) $numero + 1;
@@ -57,7 +58,6 @@ class CabpeController extends Controller {
         foreach ($cabeceras as $key => $cabe) {
             if (count($cabe['pedidos']) <= 0) continue;
             $articulos[$key] = array();
-            $ccmsedo = Ccmsedo::orderBy('id', 'desc')->first();
             $ccmcli = Ccmcli::where('MCODCLI', '=', $cabe['MCODCLI'])->first();
             $mtopventa = 0.0;
             $mdcto = 0.0;
@@ -173,62 +173,12 @@ class CabpeController extends Controller {
                 $det = new Detpe($mdetped);
                 $cab->detpe()->save($det);
                 $mitem = $mitem + 1;
-                $det['MDESCRIP'] = $mdescrip;
                 array_push($articulos[$key], $det);
-                $articulos[$key] = collect($articulos[$key])->sortByDesc('MDESCRIP')->sortBy('MCODART')->reverse()->toArray();
-            }
-        }
-        
-        if ($estado == 'terminado') {
-            $data = array('nombre' => $ccmcli['MNOMBRE']);
-
-            $ccmcpa = Ccmcpa::where('MCONDPAGO', '=', $request->input('MCONDPAGO'))->first();
-            $ccmtrs = Ccmtrs::where('MCODTRSP', '=', $request->input('transporte'))->first();// 
-    
-            $info = [
-                'fecha' => date('d/m/Y'),
-                'periodo' => date('Y/m'),   
-                'mnroped' => $ccmsedo['MNSERIE'] . '-' . $mnroped,
-                'ruc' => $ccmcli['MCODCLI'],
-                'cliente' => $ccmcli['MNOMBRE'],
-                'canal' => $ccmcli['MCODCADI'],
-                'direccion' => $ccmcli['MDIRECC'],
-                'localidad' => $ccmcli['MLOCALID'],
-                'email' => $ccmcli['MCORREO'],
-                'condicion' => $ccmcpa['MABREVI'],
-                'articulos' => $articulos,
-                'total' => round($montoTotalFinal, 2),
-                'observaciones' => $request->input('observaciones'),
-                'transporte' => $request->input('transporte'),
-                'nametrans' => $ccmtrs['MNOMBRE']
-            ];
-
-            PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true, 'debugPng' => true, 'defaultFont' => 'sans-serif']);
-            $document = PDF::loadView('attach.pedido', $info);
-            $output = $document->output();
-            
-            if (config('app.debug') == false) {
-                Mail::send('emails.mail', $data, function ($message) use ($ccmcli, $output,$codven) {
-                    $message->to('pedidos01_wb@filtroswillybusch.com.pe', $ccmcli['MNOMBRE'])->subject('Pedido en proceso - '.$codven);
-                    $message->from('pedidos01_wb@filtroswillybusch.com.pe', 'Pedidos Willy Busch');
-                    $message->attachData($output, 'pedido.pdf');
-                });
-                
-                Mail::send('emails.mail', $data, function ($message) use ($ccmcli, $output, $codven , $request) {
-                    $message->to($request->input('vendedorEmail'), $ccmcli['MNOMBRE'])->subject('Pedido en proceso - '.$codven);
-                    $message->from('pedidos01_wb@filtroswillybusch.com.pe', 'Pedidos Willy Busch');
-                    $message->attachData($output, 'pedido.pdf');
-                });
-            } else {
-                Mail::send('emails.mail', $data, function ($message) use ($ccmcli, $output) {
-                    $message->to('dacharte@willybusch.com.pe', $ccmcli['MNOMBRE'])->subject('Pedido en proceso');
-                    $message->from('pedidos01_wb@filtroswillybusch.com.pe', 'Pedidos Willy Busch');
-                    $message->attachData($output, 'pedido.pdf');
-                });
+                $articulos[$key] = collect($articulos[$key])->sortBy('MCODART')->reverse()->toArray();
             }
         }
 
-        return response()->json(201);
+        return $this->send_email($request, $ccmsedo->MNSERIE, $mnroped);
     }
 
     /**
@@ -315,8 +265,7 @@ class CabpeController extends Controller {
      */
     public function send_email(Request $request, string $mnserie, string $mnroped) {
         $email = $request->input('email');
-        $cabpes = Cabpe::where('MNSERIE', $mnserie)->where('MNROPED', $mnroped)->get();
-        
+        $cabpes = Cabpe::with(['detpe', 'detpe.famdfa'])->where('MNSERIE', $mnserie)->where('MNROPED', $mnroped)->get();
         $data = array('nombre' => $cabpes[0]->ccmcli->MNOMBRE);
 
         $ccmcpa = $cabpes[0]->ccmcpa;
@@ -328,7 +277,7 @@ class CabpeController extends Controller {
             $articulos[$cabpe->MCODVEN] = array();
             foreach ($cabpe->detpe as $key => $detpe) {
                 array_push($articulos[$cabpe->MCODVEN], $detpe);
-                $articulos[$cabpe->MCODVEN] = collect($articulos[$cabpe->MCODVEN])->sortByDesc('MDESCRIP')->sortBy('MCODART')->reverse()->toArray();
+                $articulos[$cabpe->MCODVEN] = collect($articulos[$cabpe->MCODVEN])->sortBy('MCODART')->reverse()->toArray();
             }
         }
 
@@ -363,14 +312,6 @@ class CabpeController extends Controller {
         $document = PDF::loadView('attach.pedido', $info);
         $output = $document->output();
         if (config('app.debug') == false) {
-            // if ($ccmcli->MCORREO != NULL) {
-            //     Mail::send('emails.mail', $data, function ($message) use ($ccmcli, $output) {
-            //         $message->to('dacharte@willybusch.com.pe', $ccmcli->MNOMBRE)->subject('Pedido en proceso');
-            //         $message->from('pedidos01_wb@filtroswillybusch.com.pe', 'Pedidos Willy Busch');
-            //         $message->attachData($output, 'pedido.pdf');
-            //     });
-            // }
-            
             Mail::send('emails.mail', $data, function ($message) use ($ccmcli, $output, $mcodven) {
                 $message->to('pedidos01_wb@filtroswillybusch.com.pe', $ccmcli->MNOMBRE)->subject('Pedido en proceso - ' . $mcodven);
                 $message->from('pedidos01_wb@filtroswillybusch.com.pe', 'Pedidos Willy Busch');
@@ -407,78 +348,6 @@ class CabpeController extends Controller {
     public function destroy(Cabpe $cabpe)
     {
         //
-    }
-
-    public function send_test_email(Request $request) {
-        $cabpes = Cabpe::where('MNSERIE', 'R250')->where('MNROPED', '000004')->get();
-        
-        $data = array('nombre' => $cabpes[0]->ccmcli->MNOMBRE);
-
-        $ccmcpa = $cabpes[0]->ccmcpa;
-        $ccmtrs = $cabpes[0]->ccmtrs;
-
-        $articulos = array();
-
-        foreach ($cabpes as $cabpe) {
-            $articulos[$cabpe->MCODVEN] = array();
-            foreach ($cabpe->detpe as $key => $detpe) {
-                array_push($articulos[$cabpe->MCODVEN], $detpe);
-                $articulos[] = collect($articulos[$cabpe->MCODVEN])->sortByDesc('MDESCRIP')->sortBy('MCODART')->reverse()->toArray();
-            }
-        }
-
-        $montoTotalFinal = 0;
-
-        foreach ($cabpes as $cabpe) {
-            $montoTotalFinal = $montoTotalFinal + $cabpe->MNETO;
-        }
-
-        $info = [
-            'fecha' => date('d/m/Y'),
-            'periodo' => date('Y/m'),   
-            'mnroped' => $cabpes[0]->MNSERIE . '-' . $cabpes[0]->MNROPED,
-            'ruc' => $cabpes[0]->MCODCLI,
-            'cliente' => $cabpes[0]->ccmcli->MNOMBRE,
-            'canal' => $cabpes[0]->ccmcli->MCODCADI,
-            'direccion' => $cabpes[0]->ccmcli->MDIRECC,
-            'localidad' => $cabpes[0]->ccmcli->MLOCALID,
-            'email' => $cabpes[0]->ccmcli->MCORREO,
-            'condicion' => $cabpes[0]->ccmcpa->MABREVI,
-            'articulos' => $articulos,
-            'total' => $montoTotalFinal,
-            'observaciones' => '',
-            'transporte' => $cabpes[0]->ccmtrs->MCODTRSP,
-            'nametrans' => $cabpes[0]->ccmtrs->MNOMBRE,
-        ];
-
-        $mcodven = $cabpes[0]->MCODVEN;
-        $ccmcli = $cabpes[0]->ccmcli;
-
-        PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true, 'debugPng' => true, 'defaultFont' => 'sans-serif']);
-        $document = PDF::loadView('attach.pedido', $info);
-        $output = $document->output();
-        
-        if (config('app.debug') == false) {
-            Mail::send('emails.mail', $data, function ($message) use ($ccmcli, $output, $mcodven) {
-                $message->to('pedidos01_wb@filtroswillybusch.com.pe', $ccmcli->MNOMBRE)->subject('Pedido en proceso - ' . $mcodven);
-                $message->from('pedidos01_wb@filtroswillybusch.com.pe', 'Pedidos Willy Busch');
-                $message->attachData($output, 'pedido.pdf');
-            });
-            
-            Mail::send('emails.mail', $data, function ($message) use ($ccmcli, $output, $mcodven, $email) {
-                $message->to($ccmcli->MCORREO, $ccmcli->MNOMBRE)->subject('Pedido en proceso - ' . $mcodven);
-                $message->from('pedidos01_wb@filtroswillybusch.com.pe', 'Pedidos Willy Busch');
-                $message->attachData($output, 'pedido.pdf');
-            });
-        } else {
-            Mail::send('emails.mail', $data, function ($message) use ($ccmcli, $output) {
-                $message->to('dacharte@willybusch.com.pe', $ccmcli->MNOMBRE)->subject('Pedido en proceso');
-                $message->from('pedidos01_wb@filtroswillybusch.com.pe', 'Pedidos Willy Busch');
-                $message->attachData($output, 'pedido.pdf');
-            });
-        }
-
-        return response()->json([], 200);
     }
 }
 // ricardo.cotillo@gmail.com
