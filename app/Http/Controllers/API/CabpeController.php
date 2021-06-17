@@ -238,7 +238,7 @@ class CabpeController extends Controller {
     {
         $igv = 1.18;
         $mcodcpa = $request->input('mcodcpa');
-        $cabpes = Cabpe::where('MNSERIE', $mnserie)->where('MNROPED', $mnroped)->with(['ccmcpa', 'detpe'])->get();
+        $cabpes = Cabpe::where('MNSERIE', $mnserie)->where('MNROPED', $mnroped)->with(['ccmcpa', 'detpe', 'ccmcli'])->get();
 
         foreach($cabpes as $cabpe) {
             $cabpe->MCODCPA = $mcodcpa;
@@ -262,23 +262,33 @@ class CabpeController extends Controller {
     {
         $igv = 1.18;
         $mcoddfa = $request->input('mcoddfa');
+        $cabpe = Cabpe::with(['detpe', 'ccmcli', 'ccmcpa'])->find($id);
 
-        $cabpe = Cabpe::find($id);
+        if ($mcoddfa == 'Sin descuento') {
+            foreach ($cabpe->detpe as $detpe)
+            {
+                $detpe->MCODDFA = 'Sin descuento';
+                $detpe->MDCTO = 0.0;
+                $detpe->MPORDCT1 = 0.0;
+                $detpe->MIGV = round($detpe->MVALVEN - ($detpe->MVALVEN / $igv), 2);
+                $detpe->save();
+            }
+        } else {
+            $famdfa = Famdfa::where('MCODDFA', $mcoddfa)->first();
 
-        $famdfa = Famdfa::where('MCODDFA', $mcoddfa)->first();
+            foreach ($cabpe->detpe as $detpe)
+            {
+                $mpordct1 = $famdfa->MPOR_DFA;
+                $mvalven = round($detpe->MPRECIO * $detpe->MCANTIDAD, 2);
+                $mdcto = round($mvalven * ($mpordct1 / 100), 2);
+                $migv = round(($mvalven - $mdcto) - (($mvalven - $mdcto) / 1.18), 2);
 
-        foreach ($cabpe->detpe as $detpe)
-        {
-            $mpordct1 = $famdfa->MPOR_DFA;
-            $mvalven = round($detpe->MPRECIO * $detpe->MCANTIDAD, 2);
-            $mdcto = round($mvalven * ($mpordct1 / 100), 2);
-            $migv = round(($mvalven - $mdcto) - (($mvalven - $mdcto) / 1.18), 2);
-
-            $detpe->MCODDFA = $famdfa->MCODDFA;
-            $detpe->MDCTO = $mdcto;
-            $detpe->MPORDCT1 = $mdcto;
-            $detpe->MIGV = $migv;
-            $detpe->save();
+                $detpe->MCODDFA = $famdfa->MCODDFA;
+                $detpe->MDCTO = $mdcto;
+                $detpe->MPORDCT1 = $mdcto;
+                $detpe->MIGV = $migv;
+                $detpe->save();
+            }
         }
 
         $this->recalculate($cabpe);
