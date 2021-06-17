@@ -252,9 +252,69 @@ class CabpeController extends Controller {
                 $detpe->MIGV = round($detpe->MVALVEN - ($detpe->MVALVEN / $igv), 2);
                 $detpe->save();
             }
+            $this->recalculate($cabpe);
         }
 
         return response()->json($cabpes, 200);
+    }
+
+    public function update_descuento_general(Request $request, int $id)
+    {
+        $igv = 1.18;
+        $mcoddfa = $request->input('mcoddfa');
+
+        $cabpe = Cabpe::find($id);
+
+        $famdfa = Famdfa::where('MCODDFA', $mcoddfa)->first();
+
+        foreach ($cabpe->detpe as $detpe)
+        {
+            $mpordct1 = $famdfa->MPOR_DFA;
+            $mvalven = round($detpe->MPRECIO * $detpe->MCANTIDAD, 2);
+            $mdcto = round($mvalven * ($mpordct1 / 100), 2);
+            $migv = round(($mvalven - $mdcto) - (($mvalven - $mdcto) / 1.18), 2);
+
+            $detpe->MCODDFA = $famdfa->MCODDFA;
+            $detpe->MDCTO = $mdcto;
+            $detpe->MPORDCT1 = $mdcto;
+            $detpe->MIGV = $migv;
+            $detpe->save();
+        }
+
+        $this->recalculate($cabpe);
+
+        return response()->json($cabpe, 200);
+
+    }
+
+    private function recalculate(Cabpe $cabpe) {
+        $mtopventa = 0;
+        $mdcto = 0;
+        foreach ($cabpe->detpe as $det) {
+            if ($det->MCODDFA == 'Bono') {
+                continue;
+            } else {
+                $mtopventa = $mtopventa + ($det->MCANTIDAD * $det->MPRECIO);
+            }
+            if ($det->MCODDFA != 'Sin descuento' && $det->MCODDFA != 'Bono') {
+                $mdcto = $mdcto + ($det->MCANTIDAD * $det->MPRECIO * ($det->famdfa->MPOR_DFA / 100));
+            }
+        }
+        $mneto = $mtopventa - $mdcto;
+        $migv =  $mneto - ($mneto / 1.18);
+        $mvalven = $mtopventa - $migv;
+
+        $new_cabpe = [
+            'MTOPVENTA' => round($mtopventa, 2),
+            'MDCTO' => round($mdcto, 2),
+            'MIGV' => round($migv, 2),
+            'MNETO' => round($mneto, 2),
+            'MSALDO' => round($mneto, 2),
+            'MVALVEN' => round($mvalven, 2),
+        ];
+
+        $cabpe->fill($new_cabpe);
+        $cabpe->save();
     }
 
     /**
