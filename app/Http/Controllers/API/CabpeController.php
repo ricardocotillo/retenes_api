@@ -203,6 +203,7 @@ class CabpeController extends Controller {
                         'MCODCLI',
                         'MTOPVENTA',
                         'MNOMCLI',
+                        'MCODCADI',
                         'estado',
                     ]
                 )
