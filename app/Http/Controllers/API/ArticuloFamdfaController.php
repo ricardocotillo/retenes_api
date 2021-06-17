@@ -56,7 +56,6 @@ class ArticuloFamdfaController extends Controller
             ->where(function($q) use ($mcodcli) {
                 $q->where('MCODCLI', $mcodcli)->orWhere('MCODCLI', NULL);
             })->get();
-        info($artdfas);
         foreach ($artdfas as $ndfa) {
             $dfa = Famdfa::where('MCODDFA', $ndfa['mcoddfa'])->first();
             $ndfa['descuento'] = $dfa;
