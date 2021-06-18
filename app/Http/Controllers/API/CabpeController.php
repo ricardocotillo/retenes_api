@@ -177,8 +177,11 @@ class CabpeController extends Controller {
                 $articulos[$key] = collect($articulos[$key])->sortBy('MCODART')->reverse()->toArray();
             }
         }
-
-        return $this->send_email($request, $ccmsedo->MNSERIE, $mnroped);
+        if ($estado == 'terminado')
+        {
+            return $this->send_email($request, $ccmsedo->MNSERIE, $mnroped);
+        }
+        return response()->json([], 200);
     }
 
     /**
@@ -403,7 +406,7 @@ class CabpeController extends Controller {
             });
         }
 
-        if ($request->has('estado'))
+        if (!$request->has('estado'))
         {
             foreach ($cabpes as $cabpe) {
                 $cabpe->estado = 'terminado';
