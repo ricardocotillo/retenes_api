@@ -335,6 +335,7 @@ class CabpeController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function send_email(Request $request, string $mnserie, string $mnroped) {
+        $estado = $request->input('estado');
         $email = $request->input('email');
         $cabpes = Cabpe::with(['detpe', 'detpe.famdfa'])->where('MNSERIE', $mnserie)->where('MNROPED', $mnroped)->get();
         $data = array('nombre' => $cabpes[0]->ccmcli->MNOMBRE);
@@ -402,9 +403,12 @@ class CabpeController extends Controller {
             });
         }
 
-        foreach ($cabpes as $cabpe) {
-            $cabpe->estado = 'terminado';
-            $cabpe->save();
+        if ($request->has('estado'))
+        {
+            foreach ($cabpes as $cabpe) {
+                $cabpe->estado = 'terminado';
+                $cabpe->save();
+            }
         }
 
         return response()->json([], 200);
