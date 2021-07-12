@@ -194,8 +194,7 @@ class CabpeController extends Controller {
     {
         // obtener los códigos de vendedores
         $cods = $req->all();
-        $cabpes = Cabpe::whereIn('MCODVEN', $cods)
-                ->select(
+        $cabpes = Cabpe::select(
                     [
                         'id',
                         'MNSERIE',
@@ -207,6 +206,7 @@ class CabpeController extends Controller {
                         'MTOPVENTA',
                         'MNOMCLI',
                         'MCODCADI',
+                        'MCODTRSP',
                         'estado',
                     ]
                 )
