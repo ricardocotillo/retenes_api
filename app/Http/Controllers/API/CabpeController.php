@@ -39,6 +39,7 @@ class CabpeController extends Controller {
         $cabeceras = $request->input('cabeceras');
         $estado = $request->input('estado');
         $mcodtrsp = $request->input('transporte');
+        $observaciones = $request->input('observaciones');
         $articulos = array();
         $montoTotalFinal = 0;
         $ccmsedo = Ccmsedo::orderBy('id', 'desc')->first();
@@ -376,7 +377,7 @@ class CabpeController extends Controller {
             'condicion' => $cabpes[0]->ccmcpa->MABREVI,
             'articulos' => $articulos,
             'total' => $montoTotalFinal,
-            'observaciones' => '',
+            'observaciones' => $cabpes[0]->MOBSERV,
             'transporte' => $cabpes[0]->ccmtrs->MCODTRSP,
             'nametrans' => $cabpes[0]->ccmtrs->MNOMBRE,
         ];
