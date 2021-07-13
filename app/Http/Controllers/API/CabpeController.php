@@ -441,6 +441,27 @@ class CabpeController extends Controller {
     }
 
     /**
+     * Update MOBSERV.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  string  $mnserie
+     * @param  string  $mnroped
+     * @return \Illuminate\Http\Response
+     */
+    public function update_mobserv(Request $request, string $mnserie, string $mnroped) {
+        $mobserv = $request->input('observ');
+
+        $cabpes = Cabpe::with('ccmtrs')->where('MNSERIE', $mnserie)->where('MNROPED', $mnroped)->get();
+
+        foreach ($cabpes as $c) {
+            $c->MOBSERV = $mobserv;
+            $c->save();
+        }
+
+        return response()->json(['mobserv' => $c->MOBSERV], 200);
+    }
+
+    /**
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Cabpe  $cabpe
