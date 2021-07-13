@@ -449,16 +449,18 @@ class CabpeController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function update_mobserv(Request $request, string $mnserie, string $mnroped) {
-        $mobserv = $request->input('observ');
+        $mobserv = $request->input('mobserv');
 
-        $cabpes = Cabpe::with('ccmtrs')->where('MNSERIE', $mnserie)->where('MNROPED', $mnroped)->get();
+        $cabpes = Cabpe::where('MNSERIE', $mnserie)->where('MNROPED', $mnroped)->get();
 
         foreach ($cabpes as $c) {
             $c->MOBSERV = $mobserv;
             $c->save();
         }
 
-        return response()->json(['mobserv' => $c->MOBSERV], 200);
+        info($cabpes[0]);
+
+        return response()->json(['mobserv' => $cabpes[0]->MOBSERV], 200);
     }
 
     /**
