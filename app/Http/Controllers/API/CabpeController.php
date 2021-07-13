@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Mail;
 use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Ccmtrs; //JEANS CUBA 11-12-2020
+use App\Models\Ccmtrs;
 
 class CabpeController extends Controller {
     /**
@@ -416,6 +416,28 @@ class CabpeController extends Controller {
         }
 
         return response()->json([], 200);
+    }
+
+    /**
+     * Enviar correo.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  string  $mnserie
+     * @param  string  $mnroped
+     * @return \Illuminate\Http\Response
+     */
+    public function update_ccmtrs(Request $request, string $mnserie, string $mnroped) {
+        $mcodtrsp = $request->input('mcodtrsp');
+
+        $ccmtrs = Ccmtrs::where('MCODTRSP', $mcodtrsp)->first();
+        $cabpes = Cabpe::with('ccmtrs')->where('MNSERIE', $mnserie)->where('MNROPED', $mnroped)->get();
+        foreach ( $cabpes as $c ) {
+            $c->ccmtrs();
+            $c->ccmtrs()->associate($ccmtrs);
+            $c->save();
+        }
+
+        return response()->json($ccmtrs, 200);
     }
 
     /**
