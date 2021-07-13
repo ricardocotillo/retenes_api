@@ -458,8 +458,6 @@ class CabpeController extends Controller {
             $c->save();
         }
 
-        info($cabpes[0]);
-
         return response()->json(['mobserv' => $cabpes[0]->MOBSERV], 200);
     }
 
