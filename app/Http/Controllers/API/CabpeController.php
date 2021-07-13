@@ -212,7 +212,7 @@ class CabpeController extends Controller {
                         'estado',
                     ]
                 )
-                ->with(['detpe', 'ccmcpa', 'ccmcli', 'ccmtrs'])
+                ->with(['detpe.famdfa', 'ccmcpa', 'ccmcli', 'ccmtrs'])
                 ->orderBy('MNSERIE', 'desc')
                 ->orderBy('MNROPED', 'desc')
                 ->groupBy('id', 'MNROPED')
