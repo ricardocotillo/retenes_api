@@ -267,7 +267,7 @@ class CabpeController extends Controller {
     {
         $igv = 1.18;
         $mcoddfa = $request->input('mcoddfa');
-        $cabpe = Cabpe::with(['detpe', 'ccmcli', 'ccmcpa'])->find($id);
+        $cabpe = Cabpe::with(['detpe', 'ccmcli', 'ccmcpa', 'ccmtrs'])->find($id);
 
         if ($mcoddfa == 'Sin descuento') {
             foreach ($cabpe->detpe as $detpe)
