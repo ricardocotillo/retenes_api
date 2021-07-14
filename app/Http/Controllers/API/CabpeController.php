@@ -209,6 +209,7 @@ class CabpeController extends Controller {
                         'MNOMCLI',
                         'MCODCADI',
                         'MCODTRSP',
+                        'MOBSERV',
                         'estado',
                     ]
                 )
