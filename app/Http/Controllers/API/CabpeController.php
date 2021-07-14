@@ -123,7 +123,7 @@ class CabpeController extends Controller {
                 'MPESOKG' => 0.0,
                 'MATEND' => 0,
                 'estado' => $cabe['descuentoExtra'] ? 'pendiente' : 'procesado',
-                'MOBSERV' => '',
+                'MOBSERV' => $observaciones,
                 'estado' => $estado,
                 'MCODTRSP' => $mcodtrsp,
             );

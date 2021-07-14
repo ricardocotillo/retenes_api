@@ -68,11 +68,6 @@
 		<td style="border-top: 2px solid #000000; border-bottom: 2px solid #000000; border-left: 2px solid #000000; border-right: 2px solid #000000" colspan="2" align="right" valign="bottom"><b>{{$fecha}}</b></td>
 	</tr>
 	<tr>
-		<td height="10" colspan="7" align="left" valign="bottom"><font color="#3B3838">Telef. 415 1960  Ventas: 415-1972 /  415-1974</font></td>
-		<td style="border-top: 2px solid #000000; border-bottom: 2px solid #000000; border-left: 2px solid #000000; border-right: 2px solid" colspan="3" align="center" valign="bottom"><b>Vendedor            :</b></td>
-		<td style="border-top: 2px solid #000000; border-bottom: 2px solid #000000; border-left: 2px solid #000000; border-right: 2px solid #000000" colspan="2" align="right" valign="bottom"><b></b></td>
-	</tr>
-	<tr>
 		<td height="10" colspan=7 align="left" valign=bottom>E-mail: retenes@willybusch.com.pe</td>
 		<td align="left" valign=bottom><br></td>
 		<td align="left" valign=bottom><br></td>
