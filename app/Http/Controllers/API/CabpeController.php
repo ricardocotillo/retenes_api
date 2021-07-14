@@ -269,8 +269,10 @@ class CabpeController extends Controller {
         $mcoddfa = $request->input('mcoddfa');
         $cabpe = Cabpe::with(['detpe', 'ccmcli', 'ccmcpa', 'ccmtrs'])->find($id);
 
+        info($cabpe->detpe()->notBono()->get());
+
         if ($mcoddfa == 'Sin descuento') {
-            foreach ($cabpe->detpe as $detpe)
+            foreach ($cabpe->detpe()->notBono()->get() as $detpe)
             {
                 $detpe->MCODDFA = 'Sin descuento';
                 $detpe->MDCTO = 0.0;
@@ -281,7 +283,7 @@ class CabpeController extends Controller {
         } else {
             $famdfa = Famdfa::where('MCODDFA', $mcoddfa)->first();
 
-            foreach ($cabpe->detpe as $detpe)
+            foreach ($cabpe->detpe()->notBono()->get() as $detpe)
             {
                 $mpordct1 = $famdfa->MPOR_DFA;
                 $mvalven = round($detpe->MPRECIO * $detpe->MCANTIDAD, 2);
