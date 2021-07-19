@@ -270,8 +270,6 @@ class CabpeController extends Controller {
         $mcoddfa = $request->input('mcoddfa');
         $cabpe = Cabpe::with(['detpe', 'ccmcli', 'ccmcpa', 'ccmtrs'])->find($id);
 
-        info($cabpe->detpe()->notBono()->get());
-
         if ($mcoddfa == 'Sin descuento') {
             foreach ($cabpe->detpe()->notBono()->get() as $detpe)
             {
@@ -298,6 +296,8 @@ class CabpeController extends Controller {
                 $detpe->save();
             }
         }
+
+        $cabpe->refresh();
 
         $this->recalculate($cabpe);
 
