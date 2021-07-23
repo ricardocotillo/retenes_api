@@ -345,7 +345,7 @@ class CabpeController extends Controller {
     public function send_email(Request $request, string $mnserie, string $mnroped) {
         $estado = $request->input('estado');
         $email = $request->input('email');
-        $cabpes = Cabpe::with(['detpe', 'detpe.famdfa'])->where('MNSERIE', $mnserie)->where('MNROPED', $mnroped)->get();
+        $cabpes = Cabpe::with(['detpe', 'detpe.famdfa', 'ccmtrs', 'ccmcli', 'ccmcpa',])->where('MNSERIE', $mnserie)->where('MNROPED', $mnroped)->get();
         $data = array('nombre' => $cabpes[0]->ccmcli->MNOMBRE);
 
         $ccmcpa = $cabpes[0]->ccmcpa;
