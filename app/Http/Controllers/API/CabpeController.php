@@ -393,19 +393,20 @@ class CabpeController extends Controller {
         $output = $document->output();
         if (config('app.debug') == false) {
             Mail::send('emails.mail', $data, function ($message) use ($ccmcli, $output, $mcodven) {
-                $message->to('pedidos01_wb@filtroswillybusch.com.pe', $ccmcli->MNOMBRE)->subject('Pedido en proceso - ' . $mcodven);
+                $message->to('pedidos01_wb@filtroswillybusch.com.pe', trim($ccmcli->MNOMBRE))->subject('Pedido en proceso - ' . trim($mcodven));
                 $message->from('pedidos01_wb@filtroswillybusch.com.pe', 'Pedidos Willy Busch');
                 $message->attachData($output, 'pedido.pdf');
             });
             
             Mail::send('emails.mail', $data, function ($message) use ($ccmcli, $output, $mcodven, $email) {
-                $message->to($ccmcli->MCORREO, $ccmcli->MNOMBRE)->subject('Pedido en proceso - ' . $mcodven);
+                $message->to(trim($ccmcli->MCORREO), trim($ccmcli->MNOMBRE))->subject('Pedido en proceso - ' . trim($mcodven));
                 $message->from('pedidos01_wb@filtroswillybusch.com.pe', 'Pedidos Willy Busch');
                 $message->attachData($output, 'pedido.pdf');
             });
         } else {
             Mail::send('emails.mail', $data, function ($message) use ($ccmcli, $output) {
-                $message->to('dacharte@willybusch.com.pe', $ccmcli->MNOMBRE)->subject('Pedido en proceso');
+                $message->to('dacharte@willybusch.com.pe', trim($ccmcli->MNOMBRE))->subject('Pedido en proceso');
+                // $message->to('ricardo.cotillo@gmail.com', $ccmcli->MNOMBRE)->subject('Pedido en proceso');
                 $message->from('pedidos01_wb@filtroswillybusch.com.pe', 'Pedidos Willy Busch');
                 $message->attachData($output, 'pedido.pdf');
             });
