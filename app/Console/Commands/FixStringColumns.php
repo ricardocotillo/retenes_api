@@ -9,6 +9,7 @@ use App\Models\Ccmcpa;
 use App\Models\Ccmtrs;
 use App\Models\Articulo;
 use App\Models\Famdfa;
+use App\Models\Cabpe;
 
 class FixStringColumns extends Command
 {
