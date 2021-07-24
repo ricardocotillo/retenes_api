@@ -121,6 +121,12 @@ class FixStringColumns extends Command
             $f->save();
         }
 
+        $cabpe = Cabpe::all();
+        foreach ($cabpe as $c) {
+            $c->MCODTRSP = trim($c->MCODTRSP);
+            $c->save();
+        }
+
 
         $this->info('The command was successful!');
     }

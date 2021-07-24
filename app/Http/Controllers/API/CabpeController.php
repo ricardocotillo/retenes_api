@@ -367,8 +367,6 @@ class CabpeController extends Controller {
             $montoTotalFinal = $montoTotalFinal + $cabpe->MNETO;
         }
 
-        info($cabpes);
-
         $info = [
             'fecha' => date('d/m/Y'),
             'periodo' => date('Y/m'),   
