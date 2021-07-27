@@ -342,6 +342,7 @@ class CabpeController extends Controller {
     public function send_email(Request $request, string $mnserie, string $mnroped) {
         $estado = $request->input('estado');
         $email = $request->input('email');
+        $enviar_correo = $request->input('enviarCorreo');
         $cabpes = Cabpe::with(['detpe', 'detpe.famdfa', 'ccmtrs', 'ccmcli', 'ccmcpa',])->where('MNSERIE', $mnserie)->where('MNROPED', $mnroped)->get();
         $data = array('nombre' => $cabpes[0]->ccmcli->MNOMBRE);
 
@@ -421,7 +422,7 @@ class CabpeController extends Controller {
                 // });
             }
 
-            Mail::send('emails.mail', $data, function ($message) use ($ccmcli, $output) {
+            Mail::send('emails.mail', $data, function ($message) use ($ccmcli, $output, $request) {
                 // $message->to('dacharte@willybusch.com.pe', trim($ccmcli->MNOMBRE))->subject('Pedido en proceso');
                 $message->to($request->user()->email, trim($ccmcli->MNOMBRE))->subject('Pedido en proceso');
                 $message->from('pedidos01_wb@filtroswillybusch.com.pe', 'Pedidos Willy Busch');
