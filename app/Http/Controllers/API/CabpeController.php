@@ -439,7 +439,7 @@ class CabpeController extends Controller {
         }
 
         foreach ($cabpes as $cabpe) {
-            $cabpe->estado = 'terminado';
+            $cabpe->estado = $estado;
             $cabpe->save();
         }
 
