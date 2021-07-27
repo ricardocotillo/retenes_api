@@ -438,12 +438,9 @@ class CabpeController extends Controller {
             }
         }
 
-        if (!$request->has('estado'))
-        {
-            foreach ($cabpes as $cabpe) {
-                $cabpe->estado = 'terminado';
-                $cabpe->save();
-            }
+        foreach ($cabpes as $cabpe) {
+            $cabpe->estado = 'terminado';
+            $cabpe->save();
         }
 
         return response()->json([], 200);
