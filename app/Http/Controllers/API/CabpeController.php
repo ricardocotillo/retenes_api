@@ -398,7 +398,7 @@ class CabpeController extends Controller {
             }
 
             Mail::send('emails.mail', $data, function ($message) use ($ccmcli, $output, $mcodven , $request) {
-                $message->to($request->input('vendedorEmail'), $ccmcli->MNOMBRE)->subject('Pedido en proceso - ' . $mcodven);
+                $message->to($request->user()->email, $ccmcli->MNOMBRE)->subject('Pedido en proceso - ' . $mcodven);
                 $message->from('pedidos01_wb@filtroswillybusch.com.pe', 'Pedidos Willy Busch');
                 $message->attachData($output, 'pedido.pdf');
            });
@@ -410,9 +410,20 @@ class CabpeController extends Controller {
                     $message->attachData($output, 'pedido.pdf');
                 });
             }
+
         } else {
-            Mail::send('emails.mail', $data, function ($message) use ($ccmcli, $output, $mcodven) {
-                $message->to('pedidos01_wb@filtroswillybusch.com.pe', trim($ccmcli->MNOMBRE))->subject('Pedido en proceso - ' . trim($mcodven));
+            if ($estado == 'terminado') {
+                info('enviado a pedidos');
+                // Mail::send('emails.mail', $data, function ($message) use ($ccmcli, $output, $mcodven) {
+                //     $message->to('pedidos01_wb@filtroswillybusch.com.pe', trim($ccmcli->MNOMBRE))->subject('Pedido en proceso - ' . trim($mcodven));
+                //     $message->from('pedidos01_wb@filtroswillybusch.com.pe', 'Pedidos Willy Busch');
+                //     $message->attachData($output, 'pedido.pdf');
+                // });
+            }
+
+            Mail::send('emails.mail', $data, function ($message) use ($ccmcli, $output) {
+                // $message->to('dacharte@willybusch.com.pe', trim($ccmcli->MNOMBRE))->subject('Pedido en proceso');
+                $message->to($request->user()->email, trim($ccmcli->MNOMBRE))->subject('Pedido en proceso');
                 $message->from('pedidos01_wb@filtroswillybusch.com.pe', 'Pedidos Willy Busch');
                 $message->attachData($output, 'pedido.pdf');
             });
@@ -424,12 +435,6 @@ class CabpeController extends Controller {
                     $message->attachData($output, 'pedido.pdf');
                 });
             }
-            Mail::send('emails.mail', $data, function ($message) use ($ccmcli, $output) {
-                // $message->to('dacharte@willybusch.com.pe', trim($ccmcli->MNOMBRE))->subject('Pedido en proceso');
-                $message->to('ricardo.cotillo@gmail.com', trim($ccmcli->MNOMBRE))->subject('Pedido en proceso');
-                $message->from('pedidos01_wb@filtroswillybusch.com.pe', 'Pedidos Willy Busch');
-                $message->attachData($output, 'pedido.pdf');
-            });
         }
 
         if (!$request->has('estado'))
