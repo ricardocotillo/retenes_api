@@ -141,7 +141,7 @@ class DetpeController extends Controller
         $detpe = Detpe::find($detpe_id);
 
         $mprecio = $new_detpe['MPRECIO'];
-        $mpordct1 = $famdfa ? $famdfa['MPOR_DFA'] : 0.000;
+        $mpordct1 = !is_null($famdfa) ? $famdfa['MPOR_DFA'] : 0.000;
         $mvalven = round($mprecio * $new_detpe['MCANTIDAD'], 2);
         $mdcto = round($mvalven * ($mpordct1 / 100), 2);
         $migv = round(($mvalven - $mdcto) - (($mvalven - $mdcto) / $igv), 2);
