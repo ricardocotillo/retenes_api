@@ -36,7 +36,7 @@ class DetpeController extends Controller
         $articulo = Articulo::firstWhere('MCODART', $pedido['mcodart']);
         $famdfa = Famdfa::firstWhere('MCODDFA', $pedido['mcoddfa']);
 
-        $mprecio = $pedido['precio'];
+        $mprecio = $pedido['precio'] * $igv;
         $mpordct1 = $famdfa ? $famdfa['MPOR_DFA'] : 0.000;
         $mvalven = round($mprecio * $pedido['cantidad'], 2);
         $mdcto = round($mvalven * ($mpordct1 / 100), 2);
