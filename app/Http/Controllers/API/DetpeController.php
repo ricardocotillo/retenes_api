@@ -73,6 +73,7 @@ class DetpeController extends Controller
             'MHORUACT' => date('h:i:s'),
             'MPENFAC' => $pedido['cantidad'],
             'MCODDFA' => $pedido['mcoddfa'],
+            'estado' => 1,
         );
 
         $detpe = new Detpe($detped_data);
