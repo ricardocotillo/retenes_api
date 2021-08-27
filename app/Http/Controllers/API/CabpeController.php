@@ -381,6 +381,7 @@ class CabpeController extends Controller {
             'observaciones' => $cabpes[0]->MOBSERV,
             'transporte' => $cabpes[0]->ccmtrs->MCODTRSP,
             'nametrans' => $cabpes[0]->ccmtrs->MNOMBRE,
+            'flavor' => config('app.flavor'),
         ];
 
         $mcodven = $cabpes[0]->MCODVEN;
@@ -414,12 +415,12 @@ class CabpeController extends Controller {
 
         } else {
             if ($estado == 'terminado') {
-                info('enviado a pedidos');
-                // Mail::send('emails.mail', $data, function ($message) use ($ccmcli, $output, $mcodven) {
-                //     $message->to('pedidos01_wb@filtroswillybusch.com.pe', trim($ccmcli->MNOMBRE))->subject('Pedido en proceso - ' . trim($mcodven));
-                //     $message->from('pedidos01_wb@filtroswillybusch.com.pe', 'Pedidos Willy Busch');
-                //     $message->attachData($output, 'pedido.pdf');
-                // });
+                // info('enviado a pedidos');
+                Mail::send('emails.mail', $data, function ($message) use ($ccmcli, $output, $mcodven) {
+                    $message->to('pedidos01_wb@filtroswillybusch.com.pe', trim($ccmcli->MNOMBRE))->subject('Pedido en proceso - ' . trim($mcodven));
+                    $message->from('pedidos01_wb@filtroswillybusch.com.pe', 'Pedidos Willy Busch');
+                    $message->attachData($output, 'pedido.pdf');
+                });
             }
 
             Mail::send('emails.mail', $data, function ($message) use ($ccmcli, $output, $request) {

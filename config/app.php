@@ -230,4 +230,5 @@ return [
 
     ],
 
+    'flavor' => env('FLAVOR', 'retenes'),
 ];
