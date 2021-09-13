@@ -226,9 +226,16 @@
     			</td>
     			<td style="border-top: 2px solid #000000; border-bottom: 2px solid #000000; border-left: 2px solid #000000; border-right: 2px solid #000000" colspan="3" align="right" valign=bottom>
     				<b>
-    					<font size=3>$   {{number_format(array_reduce($value, function($carry, $p) {
-    					    return $carry + ($p['MCODDFA'] != 'Bono' ? $p['MVALVEN'] - $p['MDCTO'] : 0);
-    					  }), 2, '.', '')}}</font>
+    					<font size=3>
+							@if ($flavor == 'filtros')
+								S/  
+							@else
+								$  
+							@endif
+							{{number_format(array_reduce($value, function($carry, $p) {
+								return $carry + ($p['MCODDFA'] != 'Bono' ? $p['MVALVEN'] - $p['MDCTO'] : 0);
+							}), 2, '.', '')}}
+						</font>
     				</b>
     			</td>
     		</tr>
