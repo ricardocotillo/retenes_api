@@ -394,21 +394,21 @@ class CabpeController extends Controller {
         $output = $document->output();
         if (config('app.debug') == false) {
             if ($estado == 'terminado') {
-                Mail::send('emails.mail', $data, function ($message) use ($ccmcli, $output, $mcodven) {
+                Mail::send('emails.mail', $data, function ($message) use ($ccmcli, $output, $mcodven, $recep) {
                     $message->to($recep, trim($ccmcli->MNOMBRE))->subject('Pedido en proceso - ' . trim($mcodven));
                     $message->from($recep, 'Pedidos Willy Busch');
                     $message->attachData($output, 'pedido.pdf');
                 });
             }
 
-            Mail::send('emails.mail', $data, function ($message) use ($ccmcli, $output, $mcodven , $request) {
+            Mail::send('emails.mail', $data, function ($message) use ($ccmcli, $output, $mcodven , $request, $recep) {
                 $message->to($request->user()->email, $ccmcli->MNOMBRE)->subject('Pedido en proceso - ' . $mcodven);
                 $message->from($recep, 'Pedidos Willy Busch');
                 $message->attachData($output, 'pedido.pdf');
            });
 
             if ($request->input('enviarCorreo') && $ccmcli->MCORREO != NULL) {
-                Mail::send('emails.mail', $data, function ($message) use ($ccmcli, $output, $mcodven, $email) {
+                Mail::send('emails.mail', $data, function ($message) use ($ccmcli, $output, $mcodven, $email, $recep) {
                     $message->to(trim($ccmcli->MCORREO), trim($ccmcli->MNOMBRE))->subject('Pedido en proceso - ' . trim($mcodven));
                     $message->from($recep, 'Pedidos Willy Busch');
                     $message->attachData($output, 'pedido.pdf');
@@ -418,14 +418,14 @@ class CabpeController extends Controller {
         } else {
             if ($estado == 'terminado') {
                 // info('enviado a pedidos');
-                Mail::send('emails.mail', $data, function ($message) use ($ccmcli, $output, $mcodven) {
+                Mail::send('emails.mail', $data, function ($message) use ($ccmcli, $output, $mcodven, $recep) {
                     $message->to($recep, trim($ccmcli->MNOMBRE))->subject('Pedido en proceso - ' . trim($mcodven));
                     $message->from($recep, 'Pedidos Willy Busch');
                     $message->attachData($output, 'pedido.pdf');
                 });
             }
 
-            Mail::send('emails.mail', $data, function ($message) use ($ccmcli, $output, $request) {
+            Mail::send('emails.mail', $data, function ($message) use ($ccmcli, $output, $request, $recep) {
                 // $message->to('dacharte@willybusch.com.pe', trim($ccmcli->MNOMBRE))->subject('Pedido en proceso');
                 $message->to($request->user()->email, trim($ccmcli->MNOMBRE))->subject('Pedido en proceso');
                 $message->from($recep, 'Pedidos Willy Busch');
@@ -433,7 +433,7 @@ class CabpeController extends Controller {
             });
 
             if ($request->input('enviarCorreo') && $ccmcli->MCORREO != NULL) {
-                Mail::send('emails.mail', $data, function ($message) use ($ccmcli, $output, $mcodven, $email) {
+                Mail::send('emails.mail', $data, function ($message) use ($ccmcli, $output, $mcodven, $email, $recep) {
                     $message->to('rcotillo@cotillo.tech', trim($ccmcli->MNOMBRE))->subject('Pedido en proceso - ' . trim($mcodven));
                     $message->from($recep, 'Pedidos Willy Busch');
                     $message->attachData($output, 'pedido.pdf');
