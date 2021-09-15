@@ -24,16 +24,16 @@
 			size: 21cm 29.7cm;
 			margin: 0;
 		}
-    body {
-      padding: .5in;
-    }
-    table {
-      width: 19cm;
-      border-spacing: 85px 3px;
-    }
-    #logo {
-      position: absolute;
-    }
+		body {
+		padding: .5in;
+		}
+		table {
+		width: 19cm;
+		border-spacing: 85px 3px;
+		}
+		#logo {
+		position: absolute;
+		}
 	</style>
 	
 </head>
@@ -63,7 +63,7 @@
 		<td style="border-top: 2px solid #000000; border-bottom: 2px solid #000000; border-left: 2px solid #000000; border-right: 2px solid #000000" colspan="2" align="right" valign="bottom"><b>{{$mnroped}}</b></td>
 	</tr>
 	<tr>
-		<td height="10" colspan="7" align="left" valign="bottom"><font color="#3B3838">CALLE SANTA LUCIA 170 Ate-Lima - Per¨²</font></td>
+		<td height="10" colspan="7" align="left" valign="bottom"><font color="#3B3838">CALLE SANTA LUCIA 170 Ate-Lima - Perï¿½ï¿½</font></td>
 		<td style="border-top: 2px solid #000000; border-bottom: 2px solid #000000; border-left: 2px solid #000000; border-right: 2px solid #000000" colspan="3" align="center" valign="bottom"><b>Fecha Pedido     :</b></td>
 		<td style="border-top: 2px solid #000000; border-bottom: 2px solid #000000; border-left: 2px solid #000000; border-right: 2px solid #000000" colspan="2" align="right" valign="bottom"><b>{{$fecha}}</b></td>
 	</tr>
@@ -73,7 +73,7 @@
 		<td style="border-top: 2px solid #000000; border-bottom: 2px solid #000000; border-left: 2px solid #000000; border-right: 2px solid #000000" colspan="2" align="right" valign="bottom"><b></b></td>
 	</tr>
 	<tr>
-		<td height="10" colspan=7 align="left" valign=bottom>E-mail: retenes@willybusch.com.pe</td>
+		<td height="10" colspan=7 align="left" valign=bottom>E-mail: recep_pedidos@filtroswillybusch.com.pe</td>
 		<td align="left" valign=bottom><br></td>
 		<td align="left" valign=bottom><br></td>
 		<td align="left" valign=bottom><br></td>
