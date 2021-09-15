@@ -175,7 +175,11 @@ class CabpeController extends Controller {
                 $cab->detpe()->save($det);
                 $mitem = $mitem + 1;
                 array_push($articulos[$key], $det);
-                $articulos[$key] = collect($articulos[$key])->sortBy('MCODART')->reverse()->toArray();
+                if (config('app.FLAVOR') == 'filtros') {
+                    $articulos[$key] = collect($articulos[$key])->sortBy('MDESCRIP')->reverse()->toArray();
+                } else {
+                    $articulos[$key] = collect($articulos[$key])->sortBy('MCODART')->reverse()->toArray();
+                }
             }
         }
         return $this->send_email($request, $ccmsedo->MNSERIE, $mnroped);
@@ -392,12 +396,22 @@ class CabpeController extends Controller {
         PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true, 'debugPng' => true, 'defaultFont' => 'sans-serif']);
         $document = PDF::loadView('attach.pedido', $info);
         $output = $document->output();
+
+        $ped_almacen;
+        if (config('app.FLAVOR') == 'filtros') {
+            PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true, 'debugPng' => true, 'defaultFont' => 'sans-serif']);
+            $document1 = PDF::loadView('attach.ped_almacen', $info);
+            $ped_almacen = $document1->output();
+        }
         if (config('app.debug') == false) {
             if ($estado == 'terminado') {
-                Mail::send('emails.mail', $data, function ($message) use ($ccmcli, $output, $mcodven, $recep) {
+                Mail::send('emails.mail', $data, function ($message) use ($ccmcli, $output, $mcodven, $recep, $ped_almacen) {
                     $message->to($recep, trim($ccmcli->MNOMBRE))->subject('Pedido en proceso - ' . trim($mcodven));
                     $message->from($recep, 'Pedidos Willy Busch');
                     $message->attachData($output, 'pedido.pdf');
+                    if (config('app.FLAVOR') == 'filtros') {
+                        $message->attachData($ped_almacen, 'ped_almacen.pdf');
+                    }
                 });
             }
 
