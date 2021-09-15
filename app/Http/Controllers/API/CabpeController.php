@@ -397,7 +397,7 @@ class CabpeController extends Controller {
         $document = PDF::loadView('attach.pedido', $info);
         $output = $document->output();
 
-        $ped_almacen;
+        $ped_almacen = NULL;
         if (config('app.FLAVOR') == 'filtros') {
             PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true, 'debugPng' => true, 'defaultFont' => 'sans-serif']);
             $document1 = PDF::loadView('attach.ped_almacen', $info);
@@ -409,7 +409,7 @@ class CabpeController extends Controller {
                     $message->to($recep, trim($ccmcli->MNOMBRE))->subject('Pedido en proceso - ' . trim($mcodven));
                     $message->from($recep, 'Pedidos Willy Busch');
                     $message->attachData($output, 'pedido.pdf');
-                    if (config('app.FLAVOR') == 'filtros') {
+                    if (config('app.FLAVOR') == 'filtros' && !is_null($ped_almacen)) {
                         $message->attachData($ped_almacen, 'ped_almacen.pdf');
                     }
                 });
