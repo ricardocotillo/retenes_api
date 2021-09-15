@@ -132,9 +132,6 @@ class CabpeController extends Controller {
             $mitem = 1;
             foreach ($cabe['pedidos'] as $value) {
                 $art = Articulo::where('MCODART', '=', $value['mcodart'])->first();
-
-                $mdescrip = isset($value['mcoddfa']) ? Famdfa::where('MCODDFA', '=', $value['mcoddfa'])->select('MDESCRIP')->first()['MDESCRIP'] : null;
-
                 $mprecio = round($value['precio'] * 1.18, 2);
                 $mpordct1 = isset($value['mpordfa']) ? $value['mpordfa'] : 0.000;
                 $mvalven = round($mprecio * $value['cantidad'], 2);
