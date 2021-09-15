@@ -172,7 +172,7 @@ class CabpeController extends Controller {
                 $cab->detpe()->save($det);
                 $mitem = $mitem + 1;
                 array_push($articulos[$key], $det);
-                if (config('app.FLAVOR') == 'filtros') {
+                if (config('app.flavor') == 'filtros') {
                     $articulos[$key] = collect($articulos[$key])->sortBy('MDESCRIP')->reverse()->toArray();
                 } else {
                     $articulos[$key] = collect($articulos[$key])->sortBy('MCODART')->reverse()->toArray();
@@ -388,33 +388,31 @@ class CabpeController extends Controller {
         $mcodven = $cabpes[0]->MCODVEN;
         $ccmcli = $cabpes[0]->ccmcli;
 
-        $recep = config('app.FLAVOR') == 'filtros' ? 'recep_pedidos@filtroswillybusch.com.pe' : 'pedidos01_wb@filtroswillybusch.com.pe' ;
+        $recep = config('app.flavor') == 'filtros' ? 'recep_pedidos@filtroswillybusch.com.pe' : 'pedidos01_wb@filtroswillybusch.com.pe' ;
 
         PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true, 'debugPng' => true, 'defaultFont' => 'sans-serif']);
         $document = PDF::loadView('attach.pedido', $info);
         $output = $document->output();
 
         $ped_almacen = NULL;
-        if (config('app.FLAVOR') == 'filtros') {
+        if (config('app.flavor') == 'filtros') {
             PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true, 'debugPng' => true, 'defaultFont' => 'sans-serif']);
             $document1 = PDF::loadView('attach.ped_almacen', $info);
             $ped_almacen = $document1->output();
         }
         if (config('app.debug') == false) {
-            info('_________________________________________________________________');
-            info($recep);
             if ($estado == 'terminado') {
                 Mail::send('emails.mail', $data, function ($message) use ($ccmcli, $output, $mcodven, $recep, $ped_almacen) {
                     $message->to($recep, trim($ccmcli->MNOMBRE))->subject('Pedido en proceso - ' . trim($mcodven));
                     $message->from($recep, 'Pedidos Willy Busch');
                     $message->attachData($output, 'pedido.pdf');
-                    // if (config('app.FLAVOR') == 'filtros' && !is_null($ped_almacen)) {
-                    //     $message->attachData($ped_almacen, 'ped_almacen.pdf');
-                    // }
+                    if (config('app.flavor') == 'filtros' && !is_null($ped_almacen)) {
+                        $message->attachData($ped_almacen, 'ped_almacen.pdf');
+                    }
                 });
             }
 
-            Mail::send('emails.mail', $data, function ($message) use ($ccmcli, $output, $mcodven , $request, $recep, $ped_almacen) {
+            Mail::send('emails.mail', $data, function ($message) use ($ccmcli, $output, $mcodven , $request, $recep) {
                 $message->to($request->user()->email, $ccmcli->MNOMBRE)->subject('Pedido en proceso - ' . $mcodven);
                 $message->from($recep, 'Pedidos Willy Busch');
                 $message->attachData($output, 'pedido.pdf');
