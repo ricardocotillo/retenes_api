@@ -401,18 +401,20 @@ class CabpeController extends Controller {
             $ped_almacen = $document1->output();
         }
         if (config('app.debug') == false) {
+            info('_________________________________________________________________');
+            info($recep);
             if ($estado == 'terminado') {
                 Mail::send('emails.mail', $data, function ($message) use ($ccmcli, $output, $mcodven, $recep, $ped_almacen) {
                     $message->to($recep, trim($ccmcli->MNOMBRE))->subject('Pedido en proceso - ' . trim($mcodven));
                     $message->from($recep, 'Pedidos Willy Busch');
                     $message->attachData($output, 'pedido.pdf');
-                    if (config('app.FLAVOR') == 'filtros' && !is_null($ped_almacen)) {
-                        $message->attachData($ped_almacen, 'ped_almacen.pdf');
-                    }
+                    // if (config('app.FLAVOR') == 'filtros' && !is_null($ped_almacen)) {
+                    //     $message->attachData($ped_almacen, 'ped_almacen.pdf');
+                    // }
                 });
             }
 
-            Mail::send('emails.mail', $data, function ($message) use ($ccmcli, $output, $mcodven , $request, $recep) {
+            Mail::send('emails.mail', $data, function ($message) use ($ccmcli, $output, $mcodven , $request, $recep, $ped_almacen) {
                 $message->to($request->user()->email, $ccmcli->MNOMBRE)->subject('Pedido en proceso - ' . $mcodven);
                 $message->from($recep, 'Pedidos Willy Busch');
                 $message->attachData($output, 'pedido.pdf');
