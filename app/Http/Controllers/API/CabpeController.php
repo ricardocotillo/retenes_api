@@ -172,11 +172,6 @@ class CabpeController extends Controller {
                 $cab->detpe()->save($det);
                 $mitem = $mitem + 1;
                 array_push($articulos[$key], $det);
-                if (config('app.flavor') == 'filtros') {
-                    $articulos[$key] = collect($articulos[$key])->sortBy('MDESCRIP')->reverse()->toArray();
-                } else {
-                    $articulos[$key] = collect($articulos[$key])->sortBy('MCODART')->reverse()->toArray();
-                }
             }
         }
         return $this->send_email($request, $ccmsedo->MNSERIE, $mnroped);
@@ -352,11 +347,11 @@ class CabpeController extends Controller {
 
         $articulos = array();
 
-        foreach ($cabpes as $cabpe) {
-            $articulos[$cabpe->MCODVEN] = array();
-            foreach ($cabpe->detpe as $key => $detpe) {
-                array_push($articulos[$cabpe->MCODVEN], $detpe);
-                $articulos[$cabpe->MCODVEN] = collect($articulos[$cabpe->MCODVEN])->sortBy('MCODART')->reverse()->toArray();
+        foreach ($cabpes as $key => $cabpe) {
+            if (config('app.flavor') == 'filtros') {
+                $articulos[$cabpe->MCODVEN] = $cabpe->detpe->sortByDesc('famdfa.MDESCRIP')->toArray();
+            } else {
+                $articulos[$cabpe->MCODVEN] = $cabpe->detpe->sortByDesc('MCODART')->toArray();
             }
         }
 
@@ -427,29 +422,35 @@ class CabpeController extends Controller {
             }
 
         } else {
-            if ($estado == 'terminado') {
-                // info('enviado a pedidos');
-                Mail::send('emails.mail', $data, function ($message) use ($ccmcli, $output, $mcodven, $recep) {
-                    $message->to($recep, trim($ccmcli->MNOMBRE))->subject('Pedido en proceso - ' . trim($mcodven));
-                    $message->from($recep, 'Pedidos Willy Busch');
-                    $message->attachData($output, 'pedido.pdf');
-                });
-            }
+            // if ($estado == 'terminado') {
+            //     // info('enviado a pedidos');
+            //     Mail::send('emails.mail', $data, function ($message) use ($ccmcli, $output, $mcodven, $recep) {
+            //         $message->to($recep, trim($ccmcli->MNOMBRE))->subject('Pedido en proceso - ' . trim($mcodven));
+            //         $message->from($recep, 'Pedidos Willy Busch');
+            //         $message->attachData($output, 'pedido.pdf');
+            //     });
+            // }
 
-            Mail::send('emails.mail', $data, function ($message) use ($ccmcli, $output, $request, $recep) {
-                // $message->to('dacharte@willybusch.com.pe', trim($ccmcli->MNOMBRE))->subject('Pedido en proceso');
-                $message->to($request->user()->email, trim($ccmcli->MNOMBRE))->subject('Pedido en proceso');
+            // Mail::send('emails.mail', $data, function ($message) use ($ccmcli, $output, $request, $recep) {
+            //     // $message->to('dacharte@willybusch.com.pe', trim($ccmcli->MNOMBRE))->subject('Pedido en proceso');
+            //     $message->to($request->user()->email, trim($ccmcli->MNOMBRE))->subject('Pedido en proceso');
+            //     $message->from($recep, 'Pedidos Willy Busch');
+            //     $message->attachData($output, 'pedido.pdf');
+            // });
+
+            // if ($request->input('enviarCorreo') && $ccmcli->MCORREO != NULL) {
+            //     Mail::send('emails.mail', $data, function ($message) use ($ccmcli, $output, $mcodven, $email, $recep) {
+            //         $message->to('rcotillo@cotillo.tech', trim($ccmcli->MNOMBRE))->subject('Pedido en proceso - ' . trim($mcodven));
+            //         $message->from($recep, 'Pedidos Willy Busch');
+            //         $message->attachData($output, 'pedido.pdf');
+            //     });
+            // }
+
+            Mail::send('emails.mail', $data, function ($message) use ($ccmcli, $output, $mcodven, $email, $recep) {
+                $message->to('rcotillo@cotillo.tech', trim($ccmcli->MNOMBRE))->subject('Pedido en proceso - ' . trim($mcodven));
                 $message->from($recep, 'Pedidos Willy Busch');
                 $message->attachData($output, 'pedido.pdf');
             });
-
-            if ($request->input('enviarCorreo') && $ccmcli->MCORREO != NULL) {
-                Mail::send('emails.mail', $data, function ($message) use ($ccmcli, $output, $mcodven, $email, $recep) {
-                    $message->to('rcotillo@cotillo.tech', trim($ccmcli->MNOMBRE))->subject('Pedido en proceso - ' . trim($mcodven));
-                    $message->from($recep, 'Pedidos Willy Busch');
-                    $message->attachData($output, 'pedido.pdf');
-                });
-            }
         }
 
         foreach ($cabpes as $cabpe) {
