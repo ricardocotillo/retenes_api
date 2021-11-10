@@ -278,4 +278,26 @@ class Articulo extends Model
 		'MCODDCTOP',
 		'MCODDCTOE',
 	];
+
+	public function getCorrectPrice($mcodcadi) {
+		$price = false;
+		switch ($mcodcadi) {
+			case '01':
+				$price = $this->MPVTAS05;
+				break;
+			  case '02':
+				$price = $this->MPVTAS06;
+				break;
+			  case '03':
+				$price = $this->MPVTAS07;
+				break;
+			  default:
+				$price = $this->MPVTAS08;
+		}
+		if ($price == 0.0) {
+			$price = $this->MPVTAS09 != null ? $this->MPVTAS09 : $this->MPVTAS10;
+		}
+
+    	return number_format(floatval($price), 4);
+	}
 }

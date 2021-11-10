@@ -237,7 +237,7 @@ class CabpeController extends Controller {
     {
         $igv = 1.18;
         $mcodcpa = $request->input('mcodcpa');
-        $cabpes = Cabpe::where('MNSERIE', $mnserie)->where('MNROPED', $mnroped)->with(['ccmcpa', 'detpe', 'ccmcli'])->get();
+        $cabpes = Cabpe::where('MNSERIE', $mnserie)->where('MNROPED', $mnroped)->with(['ccmcpa', 'detpe', 'detpe.articulo', 'ccmcli'])->get();
 
         foreach($cabpes as $cabpe) {
             $cabpe->MCODCPA = $mcodcpa;
@@ -249,6 +249,7 @@ class CabpeController extends Controller {
                 $detpe->MDCTO = 0.0;
                 $detpe->MPORDCT1 = 0.0;
                 $detpe->MIGV = round($detpe->MVALVEN - ($detpe->MVALVEN / $igv), 2);
+                $detpe->MPRECIO = $detpe->articulo->getCorrectPrice($cabpe->ccmcli->MCODCADI);
                 $detpe->save();
             }
             $this->recalculate($cabpe);
