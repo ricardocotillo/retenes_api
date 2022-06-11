@@ -350,7 +350,7 @@ class CabpeController extends Controller {
 
         foreach ($cabpes as $key => $cabpe) {
             if (config('app.flavor') == 'filtros') {
-                $articulos[$cabpe->MCODVEN] = $cabpe->detpe->sortByDesc('famdfa.MDESCRIP')->toArray();
+                $articulos[$cabpe->MCODVEN] = $cabpe->detpe->sortByDesc('MCODART')->sortByDesc('famdfa.MDESCRIP')->toArray();
             } else {
                 $articulos[$cabpe->MCODVEN] = $cabpe->detpe->sortByDesc('MCODART')->toArray();
             }
