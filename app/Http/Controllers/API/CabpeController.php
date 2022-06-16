@@ -350,7 +350,21 @@ class CabpeController extends Controller {
 
         foreach ($cabpes as $key => $cabpe) {
             if (config('app.flavor') == 'filtros') {
-                $articulos[$cabpe->MCODVEN] = $cabpe->detpe->sortByDesc('MCODART')->sortByDesc('famdfa.MDESCRIP')->toArray();
+                $ar = $cabpe->detpe->sortBy('MCODART')->sortByDesc('famdfa.MDESCRIP')->toArray();
+                $emp = array_values(array_filter($ar, function($d) { return is_null($d['famdfa']); }));
+                $des = array_values(array_filter($ar, function($d) { return !is_null($d['famdfa']); }));
+                foreach ($emp as $k => $e) {
+                    for ($i=0; $i < count($des); $i++) { 
+                        if ($des[$i]['MCODART'] == $e['MCODART']) {
+                            array_splice($des, $i+1, 0, array($e));
+                            $emp[$k] = null;
+                            break;
+                        }
+                    }
+                }
+                $emp = array_values(array_filter($emp, function($d) { return !is_null($d); }));
+                $ar = array_merge($des, $emp);
+                $articulos[$cabpe->MCODVEN] = $ar;
             } else {
                 $articulos[$cabpe->MCODVEN] = $cabpe->detpe->sortByDesc('MCODART')->toArray();
             }
