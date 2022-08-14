@@ -33,6 +33,7 @@ Route::group(['middleware' => ['cors']], function () {
 
 Route::group(['middleware' => ['auth:api', 'cors']], function () {
     Route::get('articulos', [ArticuloController::class, 'index']);
+    Route::get('articulos/{mcodart}/', [ArticuloController::class, 'articulo']);
     Route::get('articulos/{search}', [ArticuloController::class, 'show']);
     Route::get('clientes', [CcmcliController::class, 'index']);
     Route::get('formas-pago', [CcmcpaController::class, 'index']);
