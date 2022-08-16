@@ -27,7 +27,9 @@ class CcmvenController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->all();
+        $ccmven = Ccmven::create($data);
+        return response()->json($ccmven, $this->succesStatus);
     }
 
     /**

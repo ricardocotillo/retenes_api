@@ -39,6 +39,7 @@ Route::group(['middleware' => ['auth:api', 'cors']], function () {
     Route::get('formas-pago', [CcmcpaController::class, 'index']);
     Route::post('dfa', [ArticuloFamdfaController::class, 'index']);
     Route::get('mcodven/{nombre}', [CcmvenController::class, 'show']);
+    Route::post('ccmven/', [CcmvenController::class, 'store']);
     Route::post('cabped', [CabpeController::class, 'store']);
     Route::post('historial', [CabpeController::class, 'show']);
     Route::get('detped/{mnserie}/{mnroped}', [DetpeController::class, 'show']);
