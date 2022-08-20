@@ -22,7 +22,7 @@ class CcmcliController extends Controller
             $ccmzon = Ccmzon::where('MCODZON', $cliente['MCODZON'])->first();
             $cliente['MCODRVE'] = $ccmzon['MCODRVE'];
         }
-        return response()->json($clientes, $this-> successStatus);
+        return response()->json($clientes, $this->successStatus);
     }
 
     /**
@@ -33,7 +33,9 @@ class CcmcliController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->all();
+        $ccmcli = Ccmcli::create($data);
+        return response()->json($ccmcli, $this->successStatus);
     }
 
     /**
