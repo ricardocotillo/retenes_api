@@ -423,7 +423,7 @@ class CabpeController extends Controller {
             }
 
             Mail::send('emails.mail', $data, function ($message) use ($ccmcli, $output, $mcodven , $request, $recep) {
-                $message->to($request->user()->email, $ccmcli->MNOMBRE)->subject('Pedido en proceso - ' . $mcodven);
+                $message->to($request->user()->email, trim($ccmcli->MNOMBRE))->subject('Pedido en proceso - ' . $mcodven);
                 $message->from($recep, 'Pedidos Willy Busch');
                 $message->attachData($output, 'pedido.pdf');
            });
