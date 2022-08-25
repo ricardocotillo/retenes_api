@@ -283,7 +283,9 @@
 		<td style="border-top: 2px solid #000000" colspan=2 height="17" align="center" valign=bottom><b>Ventas I.W:B.</b></td>
 		<td align="left" valign=bottom><br></td>
 		<td align="left" valign=bottom><br></td>
-		<td colspan=3 align="center" valign=bottom style="border-top: 2px solid #000000"><b>Cliente<br>Firma o Sello</b></td>
+		<td align="left" valign=bottom><br></td>
+		<td align="left" valign=bottom><br></td>
+		<td align="left" valign=bottom><br></td>
 		<td align="left" valign=bottom><br></td>
 		<td align="left" valign=bottom><br></td>
 		<td align="left" valign=bottom><br></td>
