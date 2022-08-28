@@ -410,7 +410,7 @@ class CabpeController extends Controller {
             $document1 = PDF::loadView('attach.ped_almacen', $info);
             $ped_almacen = $document1->output();
         }
-        if (config('app.debug')) {
+        if (!config('app.debug')) {
             if ($estado == 'terminado') {
                 Mail::send('emails.mail', $data, function ($message) use ($ccmcli, $output, $mcodven, $recep, $ped_almacen) {
                     $message->to($recep, trim($ccmcli->MNOMBRE))->subject('Pedido en proceso - ' . trim($mcodven));
