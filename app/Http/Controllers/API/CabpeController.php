@@ -410,7 +410,7 @@ class CabpeController extends Controller {
             $document1 = PDF::loadView('attach.ped_almacen', $info);
             $ped_almacen = $document1->output();
         }
-        if (config('app.debug') == false) {
+        if (config('app.debug')) {
             if ($estado == 'terminado') {
                 Mail::send('emails.mail', $data, function ($message) use ($ccmcli, $output, $mcodven, $recep, $ped_almacen) {
                     $message->to($recep, trim($ccmcli->MNOMBRE))->subject('Pedido en proceso - ' . trim($mcodven));
@@ -421,7 +421,7 @@ class CabpeController extends Controller {
                     }
                 });
             }
-
+            info($request->user());
             Mail::send('emails.mail', $data, function ($message) use ($ccmcli, $output, $mcodven , $request, $recep) {
                 $message->to($request->user()->email, trim($ccmcli->MNOMBRE))->subject('Pedido en proceso - ' . $mcodven);
                 $message->from($recep, 'Pedidos Willy Busch');

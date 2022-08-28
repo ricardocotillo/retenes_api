@@ -28,7 +28,7 @@ use App\Http\Controllers\API\UserController;
 
 Route::group(['middleware' => ['cors']], function () {
     Route::post('login', [UserController::class, 'login']);
-    Route::post('cabpe/send_email/{mnserie}/{mnroped}/', [CabpeController::class, 'send_email']);
+    // Route::post('cabpe/send_email/{mnserie}/{mnroped}/', [CabpeController::class, 'send_email']);
 });
 
 Route::group(['middleware' => ['auth:api', 'cors']], function () {
@@ -52,7 +52,7 @@ Route::group(['middleware' => ['auth:api', 'cors']], function () {
     Route::get('descuento_general/{mcodven}/', [ArticuloFamdfaController::class, 'descuento_general']);
     Route::patch('detpe/{detpe_id}/', [DetpeController::class, 'update']);
     Route::patch('cabpe_update_mcodcpa/{mnserie}/{mnroped}/', [CabpeController::class, 'update_mcodcpa']);
-    // Route::post('cabpe/send_email/{mnserie}/{mnroped}/', [CabpeController::class, 'send_email']);
+    Route::post('cabpe/send_email/{mnserie}/{mnroped}/', [CabpeController::class, 'send_email']);
     Route::post('detpe/{mnserie}/{mnroped}/', [DetpeController::class, 'store']);
     Route::delete('detpe/{detpe_id}/', [DetpeController::class, 'destroy']);
     Route::patch('cabpe/update_descuento_general/{id}/', [CabpeController::class, 'update_descuento_general']);
