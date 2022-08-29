@@ -210,7 +210,7 @@ class CabpeController extends Controller {
                 ->orderBy('MNSERIE', 'desc')
                 ->orderBy('MNROPED', 'desc')
                 ->groupBy('id', 'MNROPED')
-                ->paginate(30);
+                ->paginate(50);
         return response()->json($cabpes, 200);
     }
 
