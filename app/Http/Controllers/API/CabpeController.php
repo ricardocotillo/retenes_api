@@ -68,7 +68,7 @@ class CabpeController extends Controller {
                 } else {
                     $mtopventa = $mtopventa + ($pedido['cantidad'] * round($pedido['precio'] * 1.18, 2));
                 }
-                if ($pedido['mcoddfa'] != 'Sin descuento' && $pedido['mcoddfa'] != 'Bono' && $pedido['mcoddfa'] != 'Precio especial') {
+                if ($pedido['mcoddfa'] != 'Sin descuento' && $pedido['mcoddfa'] != 'Bono') {
                     $mdcto = $mdcto + ($pedido['cantidad'] * round($pedido['precio'] * 1.18, 2) * ($pedido['mpordfa'] / 100));
                 }
             }
@@ -308,7 +308,7 @@ class CabpeController extends Controller {
             } else {
                 $mtopventa = $mtopventa + ($det->MCANTIDAD * $det->MPRECIO);
             }
-            if ($det->MCODDFA != 'Sin descuento' && $det->MCODDFA != 'Bono' && $det->MCODDFA != 'Precio especial') {
+            if ($det->MCODDFA != 'Sin descuento' && $det->MCODDFA != 'Bono') {
                 $mdcto = $mdcto + ($det->MCANTIDAD * $det->MPRECIO * ($det->famdfa->MPOR_DFA / 100));
             }
         }
