@@ -90,7 +90,7 @@ class DetpeController extends Controller
             } else {
                 $mtopventa = $mtopventa + ($det->MCANTIDAD * $det->MPRECIO);
             }
-            if ($det->MCODDFA != 'Sin descuento' && $det->MCODDFA != 'Bono') {
+            if ($det->MCODDFA != 'Sin descuento' && $det->MCODDFA != 'Bono' && $det->MCODDFA != 'Precio especial') {
                 $mdcto = $mdcto + ($det->MCANTIDAD * $det->MPRECIO * ($det->famdfa->MPOR_DFA / 100));
             }
         }
