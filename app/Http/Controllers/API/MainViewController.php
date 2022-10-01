@@ -35,7 +35,8 @@ class MainViewController extends Controller
             'mcantmin',
             'MDIM_INT1',
             'MDIM_EXT1',
-            'MDIM_ALT1')->get();
+            'MDIM_ALT1',
+        )->get();
         $clientes = Ccmcli::select(
             'MCODCLI',
             'MCODCADI',
@@ -48,7 +49,9 @@ class MainViewController extends Controller
             'MTELEF1',
             'MUBIGEO',
             'MCORREO',
-            'MCODZON')->get();
+            'MCODZON',
+            'MLIM_CR',
+        )->get();
         $formasDePago = Ccmcpa::select('MCONDPAGO', 'MDESCRIP', 'MABREVI', 'MINDCRED', 'MDIAS', 'MTIPCRE')->get();
         $vendedores = Ccmven::where('MNOMBRE', '=', urldecode($nombre))->get();
         
