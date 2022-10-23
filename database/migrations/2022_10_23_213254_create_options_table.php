@@ -3,8 +3,9 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use App\Models\Input;
 
-class CreateInputsTable extends Migration
+class CreateOptionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +14,12 @@ class CreateInputsTable extends Migration
      */
     public function up()
     {
-        Schema::create('inputs', function (Blueprint $table) {
+        Schema::create('options', function (Blueprint $table) {
             $table->id();
-            $table->string('type', 10); #options: text, checkbox, radio, select
-            $table->string('name', 50);
-            $table->string('value', 150);
-            $table->boolean('required')->default(false);
+            $table->foreignIdFor(Input::class);
+            $table->string('label', 50);
+            $table->string('value', 50);
+            $table->boolean('selected')->default(false);
             $table->timestamps();
         });
     }
@@ -30,6 +31,6 @@ class CreateInputsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('inputs');
+        Schema::dropIfExists('options');
     }
 }
