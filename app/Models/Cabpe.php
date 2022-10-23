@@ -118,4 +118,8 @@ class Cabpe extends Model
 	public function ccmtrs() {
 		return $this->belongsTo(Ccmtrs::class, 'MCODTRSP', 'MCODTRSP');
 	}
+
+	public function values() {
+		return $this->hasMany(Value::class);
+	}
 }
