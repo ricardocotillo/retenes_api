@@ -340,7 +340,7 @@ class CabpeController extends Controller {
         $estado = $request->input('estado');
         $email = $request->input('email');
         $enviar_correo = $request->input('enviarCorreo');
-        $cabpes = Cabpe::with(['detpe', 'detpe.famdfa', 'ccmtrs', 'ccmcli', 'ccmcpa',])->where('MNSERIE', $mnserie)->where('MNROPED', $mnroped)->get();
+        $cabpes = Cabpe::with(['detpe', 'detpe.famdfa', 'ccmtrs', 'ccmcli', 'ccmcpa'])->where('MNSERIE', $mnserie)->where('MNROPED', $mnroped)->get();
         $data = array('nombre' => $cabpes[0]->ccmcli->MNOMBRE);
 
         $ccmcpa = $cabpes[0]->ccmcpa;
@@ -351,10 +351,11 @@ class CabpeController extends Controller {
         foreach ($cabpes as $key => $cabpe) {
             if (config('app.flavor') == 'filtros') {
                 $ar = $cabpe->detpe->sortBy('MCODART')->sortByDesc('famdfa.MDESCRIP')->toArray();
-                $emp = array_values(array_filter($ar, function($d) { return is_null($d['famdfa']); }));
-                $des = array_values(array_filter($ar, function($d) { return !is_null($d['famdfa']); }));
+                info($ar);
+                $emp = array_values(array_filter($ar, function($d) { return in_array($d['MCODDFA'], ['Sin descuento', 'Bono']); }));
+                $des = array_values(array_filter($ar, function($d) { return !in_array($d['MCODDFA'], ['Sin descuento', 'Bono']); }));
                 foreach ($emp as $k => $e) {
-                    for ($i=0; $i < count($des); $i++) { 
+                    for ($i=0; $i < count($des); $i++) {
                         if ($des[$i]['MCODART'] == $e['MCODART']) {
                             array_splice($des, $i+1, 0, array($e));
                             $emp[$k] = null;
@@ -421,7 +422,6 @@ class CabpeController extends Controller {
                     }
                 });
             }
-            info($request->user());
             Mail::send('emails.mail', $data, function ($message) use ($ccmcli, $output, $mcodven , $request, $recep) {
                 $message->to($request->user()->email, trim($ccmcli->MNOMBRE))->subject('Pedido en proceso - ' . $mcodven);
                 $message->from($recep, 'Pedidos Willy Busch');
