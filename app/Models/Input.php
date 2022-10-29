@@ -9,6 +9,13 @@ class Input extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'type',
+        'name',
+        'value',
+        'required',
+    ];
+
     public function options() {
         return $this->hasMany(Option::class);
     }

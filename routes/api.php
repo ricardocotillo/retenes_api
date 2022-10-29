@@ -14,6 +14,8 @@ use App\Http\Controllers\API\DetpeController;
 use App\Http\Controllers\API\CcmtrsController;
 use App\Http\Controllers\API\MainViewController;
 use App\Http\Controllers\API\UserController;
+use App\Http\Controllers\API\InputController;
+use App\Http\Controllers\API\OptionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -58,4 +60,6 @@ Route::group(['middleware' => ['auth:api', 'cors']], function () {
     Route::patch('cabpe/update_descuento_general/{id}/', [CabpeController::class, 'update_descuento_general']);
     Route::patch('cabpe/update_ccmtrs/{mnserie}/{mnroped}/', [CabpeController::class, 'update_ccmtrs']);
     Route::patch('cabpe/update_mobserv/{mnserie}/{mnroped}/', [CabpeController::class, 'update_mobserv']);
+    Route::resource('inputs', InputController::class);
+    Route::resource('options', OptionController::class);
 });

@@ -18,7 +18,7 @@ class CreateValuesTable extends Migration
             $table->id();
             $table->foreignIdFor(Cabpe::class);
             $table->string('label', 50);
-            $table->string('value', 300);
+            $table->string('value', 500);
             $table->timestamps();
         });
     }

@@ -9,4 +9,9 @@ class Value extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'cabpe_id',
+        'label',
+        'value',
+    ];
 }
