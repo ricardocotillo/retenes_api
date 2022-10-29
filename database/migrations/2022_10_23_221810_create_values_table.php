@@ -16,7 +16,8 @@ class CreateValuesTable extends Migration
     {
         Schema::create('values', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Cabpe::class);
+            $table->string('mnserie', 4);
+            $table->string('mnroped', 7);
             $table->string('label', 50);
             $table->string('value', 500);
             $table->timestamps();

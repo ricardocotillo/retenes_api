@@ -120,6 +120,6 @@ class Cabpe extends Model
 	}
 
 	public function values() {
-		return $this->hasMany(Value::class);
+		return $this->hasMany(Value::class, 'mnroped', 'MNROPED');
 	}
 }

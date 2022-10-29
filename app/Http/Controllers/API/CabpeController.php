@@ -24,7 +24,6 @@ class CabpeController extends Controller {
      */
     public function index()
     {
-
         $data = Cabpe::all();
         return response()->json($data, 200);
     }
