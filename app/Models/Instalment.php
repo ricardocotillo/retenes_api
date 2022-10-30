@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Instalment extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'mnserie',
+        'mnroped',
+        'date',
+    ];
 }

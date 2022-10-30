@@ -122,4 +122,8 @@ class Cabpe extends Model
 	public function values() {
 		return $this->hasMany(Value::class, 'mnroped', 'MNROPED');
 	}
+
+	public function instalments() {
+		return $this->hasMany(Instalment::class, 'mnroped', 'MNROPED');
+	}
 }

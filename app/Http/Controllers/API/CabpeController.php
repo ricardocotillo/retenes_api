@@ -11,6 +11,7 @@ use App\Models\Famdfa;
 use App\Models\Ccmcpa;
 use App\Models\Ccmtrs;
 use App\Models\Value;
+use App\Models\Instalment;
 use App\Mail\PedidoProcesado;
 use Illuminate\Support\Facades\Mail;
 use Barryvdh\DomPDF\Facade as PDF;
@@ -41,6 +42,7 @@ class CabpeController extends Controller {
         $mcodtrsp = $request->input('transporte');
         $observaciones = $request->input('observaciones');
         $values = $request->input('values');
+        $instalments = $request->input('instalments');
         $articulos = array();
         $montoTotalFinal = 0;
         $ccmsedo = Ccmsedo::orderBy('id', 'desc')->first();
@@ -61,6 +63,12 @@ class CabpeController extends Controller {
             $value['mnserie'] = $ccmsedo->MNSERIE;
             $value['mnroped'] = $mnroped;
             Value::create($value);
+        }
+
+        foreach ($instalments as $instalment) {
+            $instalment['mnserie'] = $ccmsedo->MNSERIE;
+            $instalment['mnroped'] = $mnroped;
+            Instalment::create($instalment);
         }
 
         foreach ($cabeceras as $key => $cabe) {
