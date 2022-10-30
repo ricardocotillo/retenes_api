@@ -10,7 +10,8 @@ class Value extends Model
     use HasFactory;
 
     protected $fillable = [
-        'cabpe_id',
+        'mnserie',
+        'mnroped',
         'label',
         'value',
     ];

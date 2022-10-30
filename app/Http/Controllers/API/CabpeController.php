@@ -9,12 +9,13 @@ use App\Models\Ccmcli;
 use App\Models\Articulo;
 use App\Models\Famdfa;
 use App\Models\Ccmcpa;
+use App\Models\Ccmtrs;
+use App\Models\Value;
 use App\Mail\PedidoProcesado;
 use Illuminate\Support\Facades\Mail;
 use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Ccmtrs;
 
 class CabpeController extends Controller {
     /**
@@ -39,6 +40,7 @@ class CabpeController extends Controller {
         $estado = $request->input('estado');
         $mcodtrsp = $request->input('transporte');
         $observaciones = $request->input('observaciones');
+        $values = $request->input('values');
         $articulos = array();
         $montoTotalFinal = 0;
         $ccmsedo = Ccmsedo::orderBy('id', 'desc')->first();
@@ -54,6 +56,12 @@ class CabpeController extends Controller {
 
         $cabpe = Cabpe::orderBy('id', 'desc')->first();
         $mnroped = isset($cabpe['MNROPED']) ? nroped($cabpe['MNROPED']) : '000001';
+
+        foreach ($values as $value) {
+            $value['mnserie'] = $ccmsedo->MNSERIE;
+            $value['mnroped'] = $mnroped;
+            Value::create($value);
+        }
 
         foreach ($cabeceras as $key => $cabe) {
             if (count($cabe['pedidos']) <= 0) continue;
