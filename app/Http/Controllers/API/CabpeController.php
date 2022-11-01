@@ -369,7 +369,6 @@ class CabpeController extends Controller {
         foreach ($cabpes as $key => $cabpe) {
             if (config('app.flavor') == 'filtros') {
                 $ar = $cabpe->detpe->sortBy('MCODART')->sortByDesc('famdfa.MDESCRIP')->toArray();
-                info($ar);
                 $emp = array_values(array_filter($ar, function($d) { return in_array($d['MCODDFA'], ['Sin descuento', 'Bono']); }));
                 $des = array_values(array_filter($ar, function($d) { return !in_array($d['MCODDFA'], ['Sin descuento', 'Bono']); }));
                 foreach ($emp as $k => $e) {
