@@ -17,6 +17,7 @@ class CreateInstalmentsTable extends Migration
             $table->id();
             $table->string('mnserie', 4);
             $table->string('mnroped', 7);
+            $table->decimal('amount', $precision = 8, $scale = 2);
             $table->date('date');
             $table->timestamps();
         });
