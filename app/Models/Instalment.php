@@ -12,6 +12,7 @@ class Instalment extends Model
     protected $fillable = [
         'mnserie',
         'mnroped',
+        'amount',
         'date',
     ];
 }
