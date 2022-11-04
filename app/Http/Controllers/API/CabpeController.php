@@ -42,7 +42,7 @@ class CabpeController extends Controller {
         $mcodtrsp = $request->input('transporte');
         $observaciones = $request->input('observaciones');
         $values = $request->input('values');
-        $instalments_dates = $request->input('instalments');
+        $instalments = $request->input('instalments');
         $articulos = array();
         $montoTotalFinal = 0;
         $ccmsedo = Ccmsedo::orderBy('id', 'desc')->first();
@@ -65,13 +65,10 @@ class CabpeController extends Controller {
             Value::create($value);
         }
 
-        foreach ($instalments_dates as $date) {
-            $data = [
-                'mnserie'   => $ccmsedo->MNSERIE,
-                'mnroped'   => $mnroped,
-                'date'      => $date,
-            ];
-            Instalment::create($data);
+        foreach ($instalments as $instalment) {
+            $instalment['mnserie'] = $ccmsedo->MNSERIE;
+            $instalment['mnroped'] = $mnroped;
+            Instalment::create($instalment);
         }
 
         foreach ($cabeceras as $key => $cabe) {

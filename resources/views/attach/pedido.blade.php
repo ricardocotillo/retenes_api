@@ -161,11 +161,13 @@
 		<td colspan="1" height="10" align="left" valign=middle><b>:</b></td>
 		<td colspan="10" align="left" valign=middle><b><font color="#2E75B6">{{$condicion}}</font></b></td>
 	</tr>
-  @if ($instalments->count() > 0)
+  @if ($instalments->count() > 0) 
     <tr>
-      <td colspan="2" height="10" align="left" valign=middle><b><font color="#000000">Pagos</font></b></td>
-      <td colspan="1" height="10" align="left" valign=middle><b>:</b></td>
-      <td colspan="10" align="left" valign=middle><b><font color="#2E75B6">{{ $instalments->count() }} - {{ $instalments->map(function($i, $k) { return $i->date; })->join(', ') }}</font></b></td>
+      <td colspan="2" align="left" valign=middle><b>Pagos</b></td>
+      <td colspan="1" align="left" valign=middle><b>:</b></td>
+      @foreach ($instalments as $inst)
+        <td>{{ $inst->date }}<br>@if ($flavor == 'filtros') S/ @else $ @endif {{ $inst->amount }}</td>
+      @endforeach
     </tr>
   @endif
 	@foreach ($values as $value)
