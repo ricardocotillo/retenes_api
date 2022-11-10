@@ -30,6 +30,31 @@ class InstalmentController extends Controller
     }
 
     /**
+     * Store newly created resources in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function bulk_store(Request $request) {
+      $data = $request->all();
+      $instalments = Instalment::insert($data);
+      return response()->json($instalments, 200);
+    }
+  
+    /**
+     * Remove specified resources from storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int $mnserie
+     * @param  int $mnroped
+     * @return \Illuminate\Http\Response
+     */
+    public function bulk_delete(Request $request, int $mnserie, int $mnroped) {
+      Instalment::where('mnserie', $mnserie)->where('mnroped', $mnroped)->delete();
+      return Response::make(null, 200);
+    }
+
+    /**
      * Display the specified resource.
      *
      * @param  \App\Models\Instalment  $instalment
