@@ -41,8 +41,8 @@ class CabpeController extends Controller {
         $estado = $request->input('estado');
         $mcodtrsp = $request->input('transporte');
         $observaciones = $request->input('observaciones');
-        $values = $request->input('values');
-        $instalments = $request->input('instalments');
+        $values = $request->input('values', []);
+        $instalments = $request->input('instalments', []);
         $articulos = array();
         $montoTotalFinal = 0;
         $ccmsedo = Ccmsedo::orderBy('id', 'desc')->first();
