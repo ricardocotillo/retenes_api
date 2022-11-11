@@ -16,6 +16,8 @@ use App\Http\Controllers\API\MainViewController;
 use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\API\InputController;
 use App\Http\Controllers\API\OptionController;
+use App\Http\Controllers\API\ValueController;
+use App\Http\Controllers\API\InstalmentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -62,4 +64,8 @@ Route::group(['middleware' => ['auth:api', 'cors']], function () {
     Route::patch('cabpe/update_mobserv/{mnserie}/{mnroped}/', [CabpeController::class, 'update_mobserv']);
     Route::resource('inputs', InputController::class);
     Route::resource('options', OptionController::class);
+    Route::post('values/bulk_store/', [ValueController::class, 'bulk_store']);
+    Route::post('values/bulk_delete/{mnserie}/{mnroped}/', [ValueController::class, 'bulk_delete']);
+    Route::post('values/bulk_store/', [InstalmentController::class, 'bulk_store']);
+    Route::post('values/bulk_delete/{mnserie}/{mnroped}/', [InstalmentController::class, 'bulk_delete']);
 });
