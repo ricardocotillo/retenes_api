@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\Instalment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
 
 class InstalmentController extends Controller
 {
@@ -49,7 +50,7 @@ class InstalmentController extends Controller
      * @param  int $mnroped
      * @return \Illuminate\Http\Response
      */
-    public function bulk_delete(Request $request, int $mnserie, int $mnroped) {
+    public function bulk_delete(Request $request, string $mnserie, string $mnroped) {
       Instalment::where('mnserie', $mnserie)->where('mnroped', $mnroped)->delete();
       return Response::make(null, 200);
     }
