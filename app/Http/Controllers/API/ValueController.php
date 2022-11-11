@@ -37,8 +37,8 @@ class ValueController extends Controller
    */
   public function bulk_store(Request $request) {
     $data = $request->all();
-    $values = Value::insert($data);
-    return response()->json($values, 200);
+    Value::insert($data);
+    return response()->json($data, 200);
   }
 
   /**

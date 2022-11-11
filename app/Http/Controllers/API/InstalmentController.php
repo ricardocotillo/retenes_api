@@ -37,8 +37,8 @@ class InstalmentController extends Controller
      */
     public function bulk_store(Request $request) {
       $data = $request->all();
-      $instalments = Instalment::insert($data);
-      return response()->json($instalments, 200);
+      Instalment::insert($data);
+      return response()->json($data, 200);
     }
   
     /**
