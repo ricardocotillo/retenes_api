@@ -66,6 +66,6 @@ Route::group(['middleware' => ['auth:api', 'cors']], function () {
     Route::resource('options', OptionController::class);
     Route::post('values/bulk_store/', [ValueController::class, 'bulk_store']);
     Route::post('values/bulk_delete/{mnserie}/{mnroped}/', [ValueController::class, 'bulk_delete']);
-    Route::post('values/bulk_store/', [InstalmentController::class, 'bulk_store']);
-    Route::post('values/bulk_delete/{mnserie}/{mnroped}/', [InstalmentController::class, 'bulk_delete']);
+    Route::post('instalments/bulk_store/', [InstalmentController::class, 'bulk_store']);
+    Route::post('instalments/bulk_delete/{mnserie}/{mnroped}/', [InstalmentController::class, 'bulk_delete']);
 });
