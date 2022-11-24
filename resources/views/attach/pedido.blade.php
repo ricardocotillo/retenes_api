@@ -161,15 +161,6 @@
 		<td colspan="1" height="10" align="left" valign=middle><b>:</b></td>
 		<td colspan="10" align="left" valign=middle><b><font color="#2E75B6">{{$condicion}}</font></b></td>
 	</tr>
-  @if ($instalments->count() > 0) 
-    <tr>
-      <td colspan="2" align="left" valign=middle><b>Pagos</b></td>
-      <td colspan="1" align="left" valign=middle><b>:</b></td>
-      @foreach ($instalments as $inst)
-        <td>{{ $inst->date }}<br>@if ($flavor == 'filtros') S/ @else $ @endif {{ $inst->amount }}</td>
-      @endforeach
-    </tr>
-  @endif
 	@foreach ($values as $value)
 		<tr>
 			<td colspan="2" height="10" align="left" valign=middle><b><font color="#000000">{{ $value->label }}</font></b></td>
@@ -307,6 +298,22 @@
 		<td align="left" valign=bottom><br></td>
 		<td align="left" valign=bottom bgcolor="#FFFFFF"><font color="#FFFFFF"><br></font></td>
 	</tr>
+  <tr><td></td></tr>
+  <tr><td></td></tr>
+  <tr><td></td></tr>
+  <tr><td></td></tr>
+  @if ($instalments->count() > 0) 
+    <tr>
+      <td colspan="2" align="left" valign=middle><b>Pagos:</b></td>
+    </tr>
+    @foreach ($instalments as $inst)
+      <tr>
+        <td colspan="2">{{ $inst->date }}</td>
+        <td colspan="1">:</td>
+        <td><b>@if ($flavor == 'filtros') S/ @else $ @endif {{ $inst->amount }}</b></td>
+      </tr>
+    @endforeach
+  @endif
 </table>
 <!-- ************************************************************************** -->
 </body>
