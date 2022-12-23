@@ -200,9 +200,16 @@ class DetpeController extends Controller
     public function destroy(int $detpe_id)
     {
         $detpe = Detpe::find($detpe_id);
-        $cabpe = $detpe->cabpe;
 
         $detpe->delete();
+        $cabpe = $detpe->cabpe;
+        $cabpe = $cabpe->fresh();
+        $detpe_count = $cabpe->detpe()->count();
+
+        if (!$detpe_count) {
+            $cabpe->delete();
+            return response()->json(null, 200);
+        }
 
         $mtopventa = 0;
         $mdcto = 0;
