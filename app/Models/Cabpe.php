@@ -130,6 +130,11 @@ class Cabpe extends Model
 	}
 
 	public function getModificationsLeftAttribute() {
-        return Setting::first()->cabpe_modifications - $this->modifications->modifications;
+		$max_mod = Setting::first()->cabpe_modifications;
+		$mod = CabpeModification::firstOrCreate(
+			['mnroped' => $this->MNROPED],
+			['mnserie' => $this->MNSERIE],
+		);
+        return $max_mod - $mod->modifications;
     }
 }

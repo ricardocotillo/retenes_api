@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class CabpeModification extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'mnserie',
+        'mnroped',
+        'modifications',
+    ];
 }
