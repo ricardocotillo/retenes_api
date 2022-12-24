@@ -103,8 +103,14 @@ class Cabpe extends Model
 		'MCODTRSP',
 	];
 
+	protected $appends = ['modifications_left'];
+
 	public function detpe() {
 		return $this->hasMany(Detpe::class);
+	}
+
+	public function modifications() {
+		return $this->hasOne(CabpeModification::class, 'mnroped', 'MNROPED');
 	}
 
 	public function ccmcpa() {
@@ -122,4 +128,8 @@ class Cabpe extends Model
 	public function values() {
 		return $this->hasMany(Value::class);
 	}
+
+	public function getModificationsLeftAttribute() {
+        return Setting::first()->cabpe_modifications - $this->modifications->modifications;
+    }
 }

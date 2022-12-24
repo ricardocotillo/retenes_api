@@ -15,8 +15,8 @@ class CreateCabpeModificationsTable extends Migration
     {
         Schema::create('cabpe_modifications', function (Blueprint $table) {
             $table->id();
-            $table->string('MNSERIE', 4);
-            $table->string('MNROPED', 7);
+            $table->string('mnserie', 4);
+            $table->string('mnroped', 7);
             $table->integer('modifications')->default(0);
             $table->timestamps();
         });
