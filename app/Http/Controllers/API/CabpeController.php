@@ -307,10 +307,10 @@ class CabpeController extends Controller {
             if ($det->MCODDFA == 'Bono') {
                 continue;
             } else {
-                $mtopventa = $mtopventa + ($det->MCANTIDAD * $det->MPRECIO);
+                $mtopventa = $mtopventa + $det->precio;
             }
             if ($det->MCODDFA != 'Sin descuento' && $det->MCODDFA != 'Bono') {
-                $mdcto = $mdcto + ($det->MCANTIDAD * $det->MPRECIO * ($det->famdfa->MPOR_DFA / 100));
+                $mdcto = $mdcto + $det->descuento;
             }
         }
         $mneto = $mtopventa - $mdcto;

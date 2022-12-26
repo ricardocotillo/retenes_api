@@ -99,4 +99,12 @@ class Detpe extends Model
 	public function scopeNotBono($query) {
 		return $query->where('MCODDFA', '!=', 'Bono');
 	}
+
+	public function getPrecioAttribute() {
+		return $this->MCANTIDAD * $this->MPRECIO;
+	}
+
+	public function getDescuentoAttribute() {
+		return $this->MCANTIDAD * $this->MPRECIO * ($this->famdfa->MPOR_DFA / 100);
+	}
 }
