@@ -301,29 +301,13 @@ class CabpeController extends Controller {
     }
 
     private function recalculate(Cabpe $cabpe) {
-        $mtopventa = 0;
-        $mdcto = 0;
-        foreach ($cabpe->detpe as $det) {
-            if ($det->MCODDFA == 'Bono') {
-                continue;
-            } else {
-                $mtopventa = $mtopventa + $det->precio;
-            }
-            if ($det->MCODDFA != 'Sin descuento' && $det->MCODDFA != 'Bono') {
-                $mdcto = $mdcto + $det->descuento;
-            }
-        }
-        $mneto = $mtopventa - $mdcto;
-        $migv =  $mneto - ($mneto / 1.18);
-        $mvalven = $mtopventa - $migv;
-
         $new_cabpe = [
-            'MTOPVENTA' => round($mtopventa, 2),
-            'MDCTO' => round($mdcto, 2),
-            'MIGV' => round($migv, 2),
-            'MNETO' => round($mneto, 2),
-            'MSALDO' => round($mneto, 2),
-            'MVALVEN' => round($mvalven, 2),
+            'MTOPVENTA' => round($cabpe->top_venta, 2),
+            'MDCTO' => round($cabpe->dcto, 2),
+            'MIGV' => round($cabpe->igv, 2),
+            'MNETO' => round($cabpe->neto, 2),
+            'MSALDO' => round($cabpe->neto, 2),
+            'MVALVEN' => round($cabpe->valven, 2),
         ];
 
         $cabpe->fill($new_cabpe);
