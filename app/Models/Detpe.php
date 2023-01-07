@@ -26,7 +26,7 @@ class Detpe extends Model
 		'MPESOKG' => 'float',
 		'MPORDCT3' => 'float',
 		'MPORDCT4' => 'float',
-		'MPORDCT5' => 'float'
+		'MPORDCT5' => 'float',
 	];
 
 	protected $dates = [
@@ -82,6 +82,11 @@ class Detpe extends Model
 		'MPORDCT4',
 		'MPORDCT5',
 		'estado',
+	];
+
+	protected $appends = [
+		'precio',
+		'descuento',
 	];
 
 	public function cabpe() {

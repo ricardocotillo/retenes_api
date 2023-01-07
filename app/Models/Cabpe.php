@@ -103,7 +103,14 @@ class Cabpe extends Model
 		'MCODTRSP',
 	];
 
-	protected $appends = ['modifications_left'];
+	protected $appends = [
+		'modifications_left',
+		'top_venta',
+		'dcto',
+		'neto',
+		'igv',
+		'valven',
+	];
 
 	public function detpe() {
 		return $this->hasMany(Detpe::class);
