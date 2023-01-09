@@ -39,8 +39,6 @@ class CabpeController extends Controller {
      */
     public function store(Request $request) {
         $cabeceras = $request->input('cabeceras');
-        info($cabeceras);
-        return;
         $estado = $request->input('estado');
         $mcodtrsp = $request->input('transporte');
         $observaciones = $request->input('observaciones');
@@ -172,16 +170,17 @@ class CabpeController extends Controller {
                     'MPENFAC' => (float) $value['cantidad'],
                     'MCODDFA' => $value['mcoddfa'],
                 );
-                
+
                 $det = Detpe::create($mdetped);
+                $det->save();
 
                 if ($value['famdfa']) {
-                    $famdfa1 = Famdfa::where('MCODDFA', '=', $value['famdfa']['MCODDFA']);
+                    $famdfa1 = Famdfa::where('MCODDFA', '=', $value['famdfa']['MCODDFA'])->get();
                     $det->famdfas()->attach($famdfa1->id);
                 }
                 
                 if ($value['famdfa2']) {
-                    $famdfa2 = Famdfa::where('MCODDFA', '=', $value['famdfa2']['MCODDFA']);
+                    $famdfa2 = Famdfa::where('MCODDFA', '=', $value['famdfa2']['MCODDFA'])->get();
                     $det->famdfas()->attach($famdfa2->id);
                 }
 

@@ -122,7 +122,7 @@ class Detpe extends Model
 	public function getPrecioNetoAttribute() {
 		$famdfas = $this->famdfas;
 		$price = $this->precio;
-		foreach ($famsfas as $f) {
+		foreach ($famdfas as $f) {
 			$price -= $price * ($f->MPOR_DFA / 100);
 		}
 		return $price;
