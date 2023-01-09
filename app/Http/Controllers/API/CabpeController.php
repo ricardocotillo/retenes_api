@@ -175,12 +175,12 @@ class CabpeController extends Controller {
                 $det->save();
 
                 if ($value['famdfa']) {
-                    $famdfa1 = Famdfa::where('MCODDFA', '=', $value['famdfa']['MCODDFA'])->get();
+                    $famdfa1 = Famdfa::where('MCODDFA', '=', $value['famdfa']['MCODDFA'])->first();
                     $det->famdfas()->attach($famdfa1->id);
                 }
                 
                 if ($value['famdfa2']) {
-                    $famdfa2 = Famdfa::where('MCODDFA', '=', $value['famdfa2']['MCODDFA'])->get();
+                    $famdfa2 = Famdfa::where('MCODDFA', '=', $value['famdfa2']['MCODDFA'])->first();
                     $det->famdfas()->attach($famdfa2->id);
                 }
 
