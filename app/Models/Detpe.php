@@ -87,6 +87,8 @@ class Detpe extends Model
 	protected $appends = [
 		'precio',
 		'descuento',
+		'precio_neto',
+		'descrip',
 	];
 
 	public function cabpe() {
@@ -101,15 +103,35 @@ class Detpe extends Model
 		return $this->belongsTo(Articulo::class, 'MCODART', 'MCODART');
 	}
 
+	public function famdfas() {
+		return $this->belongsToMany(Famdfa::class, 'detpe_famdfa');
+	}
+
 	public function scopeNotBono($query) {
 		return $query->where('MCODDFA', '!=', 'Bono');
 	}
 
 	public function getPrecioAttribute() {
-		return $this->MCANTIDAD * $this->MPRECIO;
+		return $this->not_bono ? $this->MCANTIDAD * $this->MPRECIO : 0;
 	}
 
 	public function getDescuentoAttribute() {
 		return $this->MCANTIDAD * $this->MPRECIO * ($this->famdfa->MPOR_DFA / 100);
+	}
+
+	public function getPrecioNetoAttribute() {
+		$famdfas = $this->famdfas;
+		$price = $this->precio;
+		foreach ($famsfas as $f) {
+			$price -= $price * ($f->MPOR_DFA / 100);
+		}
+		return $price;
+	}
+
+	public function getDescripAttribute() {
+		$display = '';
+		$mdescrip = $this->famdfas()->pluck('MDESCRIP');
+		$mdescrip = $mdescrip->implode('+');
+		return $mdescrip;
 	}
 }

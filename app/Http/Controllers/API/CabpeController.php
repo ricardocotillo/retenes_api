@@ -10,12 +10,13 @@ use App\Models\Articulo;
 use App\Models\Famdfa;
 use App\Models\Ccmcpa;
 use App\Models\CabpeModification;
+use App\Models\Ccmtrs;
+use App\Models\DetpeFamdfa;
 use App\Mail\PedidoProcesado;
 use Illuminate\Support\Facades\Mail;
 use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Ccmtrs;
 
 class CabpeController extends Controller {
     /**
@@ -38,6 +39,8 @@ class CabpeController extends Controller {
      */
     public function store(Request $request) {
         $cabeceras = $request->input('cabeceras');
+        info($cabeceras);
+        return;
         $estado = $request->input('estado');
         $mcodtrsp = $request->input('transporte');
         $observaciones = $request->input('observaciones');
@@ -169,7 +172,19 @@ class CabpeController extends Controller {
                     'MPENFAC' => (float) $value['cantidad'],
                     'MCODDFA' => $value['mcoddfa'],
                 );
-                $det = new Detpe($mdetped);
+                
+                $det = Detpe::create($mdetped);
+
+                if ($value['famdfa']) {
+                    $famdfa1 = Famdfa::where('MCODDFA', '=', $value['famdfa']['MCODDFA']);
+                    $det->famdfas()->attach($famdfa1->id);
+                }
+                
+                if ($value['famdfa2']) {
+                    $famdfa2 = Famdfa::where('MCODDFA', '=', $value['famdfa2']['MCODDFA']);
+                    $det->famdfas()->attach($famdfa2->id);
+                }
+
                 $cab->detpe()->save($det);
                 $mitem = $mitem + 1;
                 array_push($articulos[$key], $det);
@@ -325,7 +340,7 @@ class CabpeController extends Controller {
         $estado = $request->input('estado');
         $email = $request->input('email');
         $enviar_correo = $request->input('enviarCorreo');
-        $cabpes = Cabpe::with(['detpe', 'detpe.famdfa', 'ccmtrs', 'ccmcli', 'ccmcpa'])->where('MNSERIE', $mnserie)->where('MNROPED', $mnroped)->get();
+        $cabpes = Cabpe::with(['detpe', 'detpe.famdfas', 'ccmtrs', 'ccmcli', 'ccmcpa'])->where('MNSERIE', $mnserie)->where('MNROPED', $mnroped)->get();
         $data = array('nombre' => $cabpes[0]->ccmcli->MNOMBRE);
 
         $ccmcpa = $cabpes[0]->ccmcpa;
@@ -359,7 +374,7 @@ class CabpeController extends Controller {
         $montoTotalFinal = 0;
 
         foreach ($cabpes as $cabpe) {
-            $montoTotalFinal = $montoTotalFinal + $cabpe->MNETO;
+            $montoTotalFinal = $montoTotalFinal + $cabpe->precio_neto;
         }
 
         $info = [
