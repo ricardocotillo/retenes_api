@@ -110,6 +110,7 @@ class Cabpe extends Model
 		'neto',
 		'igv',
 		'valven',
+		'precio_neto',
 	];
 
 	public function detpe() {
@@ -138,7 +139,7 @@ class Cabpe extends Model
 
 	public function getTopVentaAttribute() {
 		$mtopventa = 0;
-        foreach ($cabpe->detpe as $det) {
+        foreach ($this->detpe as $det) {
             if ($det->MCODDFA == 'Bono') {
                 continue;
             } else {
@@ -150,7 +151,7 @@ class Cabpe extends Model
 
 	public function getDctoAttribute() {
         $mdcto = 0;
-        foreach ($cabpe->detpe as $det) {
+        foreach ($this->detpe as $det) {
             if ($det->MCODDFA != 'Sin descuento' && $det->MCODDFA != 'Bono') {
                 $mdcto = $mdcto + $det->descuento;
             }

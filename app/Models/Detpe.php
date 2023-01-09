@@ -86,7 +86,6 @@ class Detpe extends Model
 
 	protected $appends = [
 		'precio',
-		'descuento',
 		'precio_neto',
 		'descrip',
 	];
@@ -112,12 +111,12 @@ class Detpe extends Model
 	}
 
 	public function getPrecioAttribute() {
-		return $this->not_bono ? $this->MCANTIDAD * $this->MPRECIO : 0;
+		return $this->MCODDFA != 'Bono' ? $this->MCANTIDAD * $this->MPRECIO : 0;
 	}
 
-	public function getDescuentoAttribute() {
-		return $this->MCANTIDAD * $this->MPRECIO * ($this->famdfa->MPOR_DFA / 100);
-	}
+	// public function getDescuentoAttribute() {
+	// 	return $this->MCANTIDAD * $this->MPRECIO * ($this->famdfa->MPOR_DFA / 100);
+	// }
 
 	public function getPrecioNetoAttribute() {
 		$famdfas = $this->famdfas;
@@ -130,7 +129,8 @@ class Detpe extends Model
 
 	public function getDescripAttribute() {
 		$display = '';
-		$mdescrip = $this->famdfas()->pluck('MDESCRIP');
+		$famdfas = $this->famdfas();
+		$mdescrip = $famdfas->pluck('MDESCRIP')->reverse();
 		$mdescrip = $mdescrip->implode('+');
 		return $mdescrip;
 	}
