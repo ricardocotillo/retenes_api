@@ -157,7 +157,9 @@ class DetpeController extends Controller
 
         $detpe->fill($new_detpe);
         $detpe->save();
-
+        $famdfas = array_map(function($v) {return $v['id'];} , $new_detpe['famdfas']);
+        $detpe->famdfas()->sync($famdfas);
+        $detpe->refresh();
         $cabpe = $detpe->cabpe;
 
         $mtopventa = 0;
@@ -248,16 +250,14 @@ class DetpeController extends Controller
         $detpe = Detpe::with(['famdfas'])->find($detpe_id);
         $detpe->famdfas()->attach($famdfa['id']);
         $detpe->refresh();
-        info($detpe);
         return response()->json($detpe, 200);
     }
     
-    public function remove_second_famdfa(int $detpe_id) {
+    public function remove_second_famdfa(Request $request, int $detpe_id) {
+        $famdfa = $request->all();
         $detpe = Detpe::with(['famdfas'])->find($detpe_id);
-        $famdfa = $detpe->famdfas()->last();
-        $detpe->famdfas()->detach($famdfa->id);
+        $detpe->famdfas()->detach($famdfa['id']);
         $detpe->refresh();
-        info($detpe);
         return response()->json($detpe, 200);
     }
 }
