@@ -244,20 +244,4 @@ class DetpeController extends Controller
         return response()->json(null, 200);
 
     }
-
-    public function add_second_famdfa(Request $request, int $detpe_id) {
-        $famdfa = $request->all();
-        $detpe = Detpe::with(['famdfas'])->find($detpe_id);
-        $detpe->famdfas()->attach($famdfa['id']);
-        $detpe->refresh();
-        return response()->json($detpe, 200);
-    }
-    
-    public function remove_second_famdfa(Request $request, int $detpe_id) {
-        $famdfa = $request->all();
-        $detpe = Detpe::with(['famdfas'])->find($detpe_id);
-        $detpe->famdfas()->detach($famdfa['id']);
-        $detpe->refresh();
-        return response()->json($detpe, 200);
-    }
 }

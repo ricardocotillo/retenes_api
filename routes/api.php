@@ -54,10 +54,10 @@ Route::group(['middleware' => ['auth:api', 'cors']], function () {
     Route::patch('cabpe/update_descuento_general/{id}/', [CabpeController::class, 'update_descuento_general']);
     Route::patch('cabpe/update_ccmtrs/{mnserie}/{mnroped}/', [CabpeController::class, 'update_ccmtrs']);
     Route::patch('cabpe/update_mobserv/{mnserie}/{mnroped}/', [CabpeController::class, 'update_mobserv']);
+    Route::post('cabpe/{mnserie}/{mnroped}/add_second_famdfa/', [CabpeController::class, 'add_second_famdfa']);
+    Route::post('cabpe/{mnserie}/{mnroped}/remove_second_famdfa/', [CabpeController::class, 'remove_second_famdfa']);
     Route::patch('cabpe/{mnserie}/{mnroped}/modifications/', [CabpeController::class, 'modifications']);
-    Route::post('detpe/add_second_famdfa/{detpe_id}/', [DetpeController::class, 'add_second_famdfa']);
-    Route::post('detpe/remove_second_famdfa/{detpe_id}/', [DetpeController::class, 'remove_second_famdfa']);
-    Route::get('detped/{mnserie}/{mnroped}', [DetpeController::class, 'show']);
+    Route::get('detped/{mnserie}/{mnroped}/', [DetpeController::class, 'show']);
     Route::patch('detpe/{detpe_id}/', [DetpeController::class, 'update']);
     Route::post('detpe/{mnserie}/{mnroped}/', [DetpeController::class, 'store']);
     Route::delete('detpe/{detpe_id}/', [DetpeController::class, 'destroy']);

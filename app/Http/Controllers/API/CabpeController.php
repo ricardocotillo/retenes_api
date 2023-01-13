@@ -511,5 +511,31 @@ class CabpeController extends Controller {
         $cabpe = Cabpe::where('MNSERIE', $mnserie)->where('MNROPED', $mnroped)->get();
         return response()->json($cabpe, 200);
     }
+
+    public function add_second_famdfa(Request $request, string $mnserie, string $mnroped) {
+        $famdfa = $request->all();
+        $cabpes = Cabpe::where('MNSERIE', $mnserie)->where('MNROPED', $mnroped)->get();
+        foreach ($cabpes as $c) {
+            $detpes = $c->detpe;
+            foreach ($detpes as $d) {
+                if ($d->famdfas()->count() > 0)
+                $d->famdfas()->attach($famdfa['id']);
+            }
+        }
+        return response()->json([], 200);
+    }
+    
+    public function remove_second_famdfa(Request $request, string $mnserie, string $mnroped) {
+        $cabpes = Cabpe::where('MNSERIE', $mnserie)->where('MNROPED', $mnroped)->get();
+        foreach ($cabpes as $c) {
+            $detpes = $c->detpe;
+            foreach ($detpes as $d) {
+                $famdfas = $d->famdfas()->get()->toArray();
+                if (count($famdfas) > 1) {
+                    $d->famdfas()->detach($famdfas[1]['id']);
+                }
+            }
+        }
+        return response()->json([], 200);
+    }
 }
-// ricardo.cotillo@gmail.com
