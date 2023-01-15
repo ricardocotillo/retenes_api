@@ -5,14 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Value extends Model
+class Instalment extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'mnserie',
         'mnroped',
-        'label',
-        'value',
+        'amount',
+        'date',
     ];
 }

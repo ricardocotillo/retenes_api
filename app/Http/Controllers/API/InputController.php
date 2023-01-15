@@ -15,7 +15,7 @@ class InputController extends Controller
      */
     public function index()
     {
-        $inputs = Input::with('options')->all();
+        $inputs = Input::with('options')->get();
         return response()->json($inputs, 200);
     }
 

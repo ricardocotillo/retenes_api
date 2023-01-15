@@ -17,7 +17,7 @@ class CreateInputsTable extends Migration
             $table->id();
             $table->string('type', 10); #options: text, checkbox, radio, select
             $table->string('name', 50);
-            $table->string('value', 150);
+            $table->string('value', 150)->nullable();
             $table->boolean('required')->default(false);
             $table->timestamps();
         });

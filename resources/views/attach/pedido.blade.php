@@ -96,8 +96,8 @@
 		<td align="left" valign=bottom bgcolor="#FFFFFF"><font color="#FFFFFF"><br></font></td>
 	</tr>
 	<tr>
-    <td colspan="2" height="10" align="left" valign=middle><b>R.U.C.</b></td>
-    <td colspan="1" height="10" align="left" valign=middle><b>:</b></td>
+		<td colspan="2" height="10" align="left" valign=middle><b>R.U.C.</b></td>
+		<td colspan="1" height="10" align="left" valign=middle><b>:</b></td>
 		<td colspan="2" width="5" valign=middle align="left" valign=bottom><b><font color="#0070C0">{{$ruc}}</font></b></td>
 		<td colspan="2" align="center" valign=middle><b>Telef.:</b></td>
 		<td align="left" valign=bottom><b></b></td>
@@ -109,65 +109,69 @@
 		<td align="left" valign=bottom bgcolor="#FFFFFF"><font color="#FFFFFF"><br></font></td>
 	</tr>
 	<tr>
-    <td colspan="2" height="10" align="left" valign=middle><b><font color="#000000">Cliente</font></b></td>
-    <td colspan="1" height="10" align="left" valign=middle><b>:</b></td>
+		<td colspan="2" height="10" align="left" valign=middle><b><font color="#000000">Cliente</font></b></td>
+		<td colspan="1" height="10" align="left" valign=middle><b>:</b></td>
 		<td colspan="8" align="left" valign=middle><b><font color="#2E75B6">{{$cliente}}</font></b></td>
 		<td align="left" valign=bottom><br></td>
 		<td align="left" valign=bottom><br></td>
 		<td align="left" valign=bottom bgcolor="#FFFFFF"><font color="#FFFFFF"><br></font></td>
 	</tr>
 	<tr>
-    <td colspan="2" height="10" align="left" valign=middle><b><font color="#000000">Dirección</font></b></td>
-    <td colspan="1" height="10" align="left" valign=middle><b>:</b></td>
+		<td colspan="2" height="10" align="left" valign=middle><b><font color="#000000">Dirección</font></b></td>
+		<td colspan="1" height="10" align="left" valign=middle><b>:</b></td>
 		<td colspan="8" align="left" valign=middle><b><font color="#2E75B6">{{$direccion}} - {{$localidad}}</font></b></td> {{-- JEANS 11-12-2020 --}}
 		<td align="left" valign=bottom><br></td>
 		<td align="left" valign=bottom><br></td>
 		<td align="left" valign=bottom bgcolor="#FFFFFF"><font color="#FFFFFF"><br></font></td>
 	</tr>
 	<tr>
-    <td colspan="2" height="10" align="left" valign=middle><b><font color="#000000">Entregar en</font></b></td>
-    <td colspan="1" height="10" align="left" valign=middle><b>:</b></td>
+		<td colspan="2" height="10" align="left" valign=middle><b><font color="#000000">Entregar en</font></b></td>
+		<td colspan="1" height="10" align="left" valign=middle><b>:</b></td>
 		<td colspan="8" align="center" valign=middle><b><font color="#2E75B6"><br></font></b></td>
 		<td align="left" valign=bottom><br></td>
 		<td align="left" valign=bottom><br></td>
 		<td align="left" valign=bottom bgcolor="#FFFFFF"><font color="#FFFFFF"><br></font></td>
 	</tr>
 	<tr>
-    <td colspan="2" height="10" align="left" valign=middle><b><font color="#000000">E-mail</font></b></td>
-    <td colspan="1" height="10" align="left" valign=middle><b>:</b></td>
+		<td colspan="2" height="10" align="left" valign=middle><b><font color="#000000">E-mail</font></b></td>
+		<td colspan="1" height="10" align="left" valign=middle><b>:</b></td>
 		<td colspan="8" align="left" valign=middle><b><font color="#2E75B6">{{$email}}</font></b></td>
 		<td align="left" valign=bottom><br></td>
 		<td align="left" valign=bottom><br></td>
 		<td align="left" valign=bottom bgcolor="#FFFFFF"><font color="#FFFFFF"><br></font></td>
 	</tr>
 	<tr>
-    <td colspan="2" height="10" align="left" valign=middle><b><font color="#FF0000">Correo  Nuevo</font></b></td>
-    <td colspan="1" height="10" align="left" valign=middle><b>:</b></td>
+		<td colspan="2" height="10" align="left" valign=middle><b><font color="#FF0000">Correo  Nuevo</font></b></td>
+		<td colspan="1" height="10" align="left" valign=middle><b>:</b></td>
 		<td colspan="8" align="left" valign=middle><br></td>
 		<td align="left" valign=bottom><br></td>
 		<td align="left" valign=bottom><br></td>
 		<td align="left" valign=bottom bgcolor="#FFFFFF"><font color="#FFFFFF"><br></font></td>
 	</tr>
 	<tr>
-    <td colspan="2" height="10" align="left" valign=middle><b><font color="#000000">Agencia de transp.</font></b></td>
-    <td colspan="1" height="10" align="left" valign=middle><b>:</b></td>
-	<td colspan="8" align="left" valign=middle><b><font color="#2E75B6">{{$transporte}} - {{$nametrans}}</font></b></td> {{-- JEANS CUBA 11-12-2020 --}}
+		<td colspan="2" height="10" align="left" valign=middle><b><font color="#000000">Agencia de transp.</font></b></td>
+		<td colspan="1" height="10" align="left" valign=middle><b>:</b></td>
+		<td colspan="8" align="left" valign=middle><b><font color="#2E75B6">{{$transporte}} - {{$nametrans}}</font></b></td> {{-- JEANS CUBA 11-12-2020 --}}
 		<td align="left" valign=bottom><br></td>
 		<td align="left" valign=bottom><br></td>
 		<td align="left" valign=bottom bgcolor="#FFFFFF"><font color="#FFFFFF"><br></font></td>
 	</tr>
 	<tr>
-    <td colspan="2" height="10" align="left" valign=middle><b><font color="#000000">Condición de Pago</font></b></td>
-    <td colspan="1" height="10" align="left" valign=middle><b>:</b></td>
-		<td colspan="8" align="left" valign=middle><b><font color="#2E75B6">{{$condicion}}</font></b></td>
-		<td align="left" valign=bottom><br></td>
-		<td align="left" valign=bottom><br></td>
-		<td align="left" valign=bottom bgcolor="#FFFFFF"><font color="#FFFFFF"><br></font></td>
+		<td colspan="2" height="10" align="left" valign=middle><b><font color="#000000">Condición de Pago</font></b></td>
+		<td colspan="1" height="10" align="left" valign=middle><b>:</b></td>
+		<td colspan="10" align="left" valign=middle><b><font color="#2E75B6">{{$condicion}}</font></b></td>
 	</tr>
+	@foreach ($values as $value)
+		<tr>
+			<td colspan="2" height="10" align="left" valign=middle><b><font color="#000000">{{ $value->label }}</font></b></td>
+			<td colspan="1" height="10" align="left" valign=middle><b>:</b></td>
+			<td colspan="10" align="left" valign=middle><b><font color="#2E75B6">{{ $value->value }}</font></b></td>
+		</tr>
+	@endforeach
 	<tr>
-    <td colspan="2" height="10" align="left" valign=middle><b><font color="#000000">Observaciones</font></b></td>
-    <td colspan="1" height="10" align="left" valign=middle><b>:</b></td>
-	<td colspan="10" align="left" valign=middle><b><font color="#2E75B6">{{$observaciones}}</font></b></td>
+		<td colspan="2" height="10" align="left" valign=middle><b><font color="#000000">Observaciones</font></b></td>
+		<td colspan="1" height="10" align="left" valign=middle><b>:</b></td>
+		<td colspan="10" align="left" valign=middle><b><font color="#2E75B6">{{$observaciones}}</font></b></td>
 		<td align="left" valign=bottom><br></td>
 		<td align="left" valign=bottom><br></td>
 		<td align="left" valign=bottom bgcolor="#FFFFFF"><font color="#FFFFFF"><br></font></td>
@@ -294,6 +298,22 @@
 		<td align="left" valign=bottom><br></td>
 		<td align="left" valign=bottom bgcolor="#FFFFFF"><font color="#FFFFFF"><br></font></td>
 	</tr>
+  <tr><td></td></tr>
+  <tr><td></td></tr>
+  <tr><td></td></tr>
+  <tr><td></td></tr>
+  @if ($instalments->count() > 0) 
+    <tr>
+      <td colspan="2" align="left" valign=middle><b>Pagos:</b></td>
+    </tr>
+    @foreach ($instalments as $inst)
+      <tr>
+        <td colspan="2">{{ $inst->date }}</td>
+        <td colspan="1">:</td>
+        <td><b>@if ($flavor == 'filtros') S/ @else $ @endif {{ $inst->amount }}</b></td>
+      </tr>
+    @endforeach
+  @endif
 </table>
 <!-- ************************************************************************** -->
 </body>

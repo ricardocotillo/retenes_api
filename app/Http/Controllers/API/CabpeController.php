@@ -9,13 +9,15 @@ use App\Models\Ccmcli;
 use App\Models\Articulo;
 use App\Models\Famdfa;
 use App\Models\Ccmcpa;
+use App\Models\Ccmtrs;
+use App\Models\Value;
+use App\Models\Instalment;
 use App\Models\CabpeModification;
 use App\Mail\PedidoProcesado;
 use Illuminate\Support\Facades\Mail;
 use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Ccmtrs;
 
 class CabpeController extends Controller {
     /**
@@ -25,7 +27,6 @@ class CabpeController extends Controller {
      */
     public function index()
     {
-
         $data = Cabpe::all();
         return response()->json($data, 200);
     }
@@ -41,6 +42,8 @@ class CabpeController extends Controller {
         $estado = $request->input('estado');
         $mcodtrsp = $request->input('transporte');
         $observaciones = $request->input('observaciones');
+        $values = $request->input('values', []);
+        $instalments = $request->input('instalments', []);
         $articulos = array();
         $montoTotalFinal = 0;
         $ccmsedo = Ccmsedo::orderBy('id', 'desc')->first();
@@ -56,6 +59,18 @@ class CabpeController extends Controller {
 
         $cabpe = Cabpe::orderBy('id', 'desc')->first();
         $mnroped = isset($cabpe['MNROPED']) ? nroped($cabpe['MNROPED']) : '000001';
+
+        foreach ($values as $value) {
+            $value['mnserie'] = $ccmsedo->MNSERIE;
+            $value['mnroped'] = $mnroped;
+            Value::create($value);
+        }
+
+        foreach ($instalments as $instalment) {
+            $instalment['mnserie'] = $ccmsedo->MNSERIE;
+            $instalment['mnroped'] = $mnroped;
+            Instalment::create($instalment);
+        }
 
         foreach ($cabeceras as $key => $cabe) {
             if (count($cabe['pedidos']) <= 0) continue;
@@ -190,24 +205,29 @@ class CabpeController extends Controller {
         // obtener los códigos de vendedores
         $cods = $req->all();
         $cabpes = Cabpe::whereIn('MCODVEN', $cods)
-                ->select(
-                    [
-                        'id',
-                        'MNSERIE',
-                        'MNROPED',
-                        'MFECEMI',
-                        'MCODCPA',
-                        'MCODVEN',
-                        'MCODCLI',
-                        'MTOPVENTA',
-                        'MNOMCLI',
-                        'MCODCADI',
-                        'MCODTRSP',
-                        'MOBSERV',
-                        'estado',
-                    ]
-                )
-                ->with(['detpe.famdfa', 'ccmcpa', 'ccmcli', 'ccmtrs'])
+                ->select([
+                    'id',
+                    'MNSERIE',
+                    'MNROPED',
+                    'MFECEMI',
+                    'MCODCPA',
+                    'MCODVEN',
+                    'MCODCLI',
+                    'MTOPVENTA',
+                    'MNOMCLI',
+                    'MCODCADI',
+                    'MCODTRSP',
+                    'MOBSERV',
+                    'estado',
+                ])
+                ->with([
+                    'detpe.famdfa',
+                    'ccmcpa',
+                    'ccmcli',
+                    'ccmtrs',
+                    'instalments',
+                    'values'
+                ])
                 ->orderBy('MNSERIE', 'desc')
                 ->orderBy('MNROPED', 'desc')
                 ->groupBy('id', 'MNROPED')
@@ -341,7 +361,7 @@ class CabpeController extends Controller {
         $estado = $request->input('estado');
         $email = $request->input('email');
         $enviar_correo = $request->input('enviarCorreo');
-        $cabpes = Cabpe::with(['detpe', 'detpe.famdfa', 'ccmtrs', 'ccmcli', 'ccmcpa'])->where('MNSERIE', $mnserie)->where('MNROPED', $mnroped)->get();
+        $cabpes = Cabpe::with(['detpe', 'detpe.famdfa', 'ccmtrs', 'ccmcli', 'ccmcpa', 'values', 'instalments'])->where('MNSERIE', $mnserie)->where('MNROPED', $mnroped)->get();
         $data = array('nombre' => $cabpes[0]->ccmcli->MNOMBRE);
 
         $ccmcpa = $cabpes[0]->ccmcpa;
@@ -352,7 +372,6 @@ class CabpeController extends Controller {
         foreach ($cabpes as $key => $cabpe) {
             if (config('app.flavor') == 'filtros') {
                 $ar = $cabpe->detpe->sortBy('MCODART')->sortByDesc('famdfa.MDESCRIP')->toArray();
-                info($ar);
                 $emp = array_values(array_filter($ar, function($d) { return in_array($d['MCODDFA'], ['Sin descuento', 'Bono']); }));
                 $des = array_values(array_filter($ar, function($d) { return !in_array($d['MCODDFA'], ['Sin descuento', 'Bono']); }));
                 foreach ($emp as $k => $e) {
@@ -379,22 +398,24 @@ class CabpeController extends Controller {
         }
 
         $info = [
-            'fecha' => date('d/m/Y'),
-            'periodo' => date('Y/m'),   
-            'mnroped' => $cabpes[0]->MNSERIE . '-' . $cabpes[0]->MNROPED,
-            'ruc' => $cabpes[0]->MCODCLI,
-            'cliente' => $cabpes[0]->ccmcli->MNOMBRE,
-            'canal' => $cabpes[0]->ccmcli->MCODCADI,
-            'direccion' => $cabpes[0]->ccmcli->MDIRECC,
-            'localidad' => $cabpes[0]->ccmcli->MLOCALID,
-            'email' => $cabpes[0]->ccmcli->MCORREO,
-            'condicion' => $cabpes[0]->ccmcpa->MABREVI,
-            'articulos' => $articulos,
-            'total' => $montoTotalFinal,
+            'fecha'         => date('d/m/Y'),
+            'periodo'       => date('Y/m'),   
+            'mnroped'       => $cabpes[0]->MNSERIE.'-'.$cabpes[0]->MNROPED,
+            'ruc'           => $cabpes[0]->MCODCLI,
+            'cliente'       => $cabpes[0]->ccmcli->MNOMBRE,
+            'canal'         => $cabpes[0]->ccmcli->MCODCADI,
+            'direccion'     => $cabpes[0]->ccmcli->MDIRECC,
+            'localidad'     => $cabpes[0]->ccmcli->MLOCALID,
+            'email'         => $cabpes[0]->ccmcli->MCORREO,
+            'condicion'     => $cabpes[0]->ccmcpa->MABREVI,
+            'articulos'     => $articulos,
+            'total'         => $montoTotalFinal,
             'observaciones' => $cabpes[0]->MOBSERV,
-            'transporte' => $cabpes[0]->ccmtrs->MCODTRSP,
-            'nametrans' => $cabpes[0]->ccmtrs->MNOMBRE,
-            'flavor' => config('app.flavor'),
+            'transporte'    => $cabpes[0]->ccmtrs->MCODTRSP,
+            'nametrans'     => $cabpes[0]->ccmtrs->MNOMBRE,
+            'values'        => $cabpes[0] ->values,
+            'instalments'   => $cabpes[0]->instalments,
+            'flavor'        => config('app.flavor'),
         ];
 
         $mcodven = $cabpes[0]->MCODVEN;
