@@ -103,8 +103,14 @@ class Cabpe extends Model
 		'MCODTRSP',
 	];
 
+	protected $appends = ['modifications_left'];
+
 	public function detpe() {
 		return $this->hasMany(Detpe::class);
+	}
+
+	public function modifications() {
+		return $this->hasOne(CabpeModification::class, 'mnroped', 'MNROPED');
 	}
 
 	public function ccmcpa() {
@@ -126,4 +132,13 @@ class Cabpe extends Model
 	public function instalments() {
 		return $this->hasMany(Instalment::class, 'mnroped', 'MNROPED');
 	}
+
+	public function getModificationsLeftAttribute() {
+		$max_mod = Setting::first()->cabpe_modifications;
+		$mod = CabpeModification::firstOrCreate(
+			['mnroped' => $this->MNROPED],
+			['mnserie' => $this->MNSERIE],
+		);
+        return $max_mod - $mod->modifications;
+    }
 }

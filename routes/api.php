@@ -68,4 +68,5 @@ Route::group(['middleware' => ['auth:api', 'cors']], function () {
     Route::delete('values/bulk_delete/{mnserie}/{mnroped}/', [ValueController::class, 'bulk_delete']);
     Route::post('instalments/bulk_store/', [InstalmentController::class, 'bulk_store']);
     Route::delete('instalments/bulk_delete/{mnserie}/{mnroped}/', [InstalmentController::class, 'bulk_delete']);
+    Route::patch('cabpe/{mnserie}/{mnroped}/modifications/', [CabpeController::class, 'modifications']);
 });

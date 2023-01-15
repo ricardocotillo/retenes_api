@@ -16,8 +16,8 @@ class CreateCabpeTable extends Migration
         Schema::create('cabpe', function (Blueprint $table) {
             $table->id();
             $table->string('MTIPODOC', 3)->nullable();
-            $table->string('MNSERIE', 4)->nullable();
-            $table->string('MNROPED', 7)->nullable();
+            $table->string('MNSERIE', 4);
+            $table->string('MNROPED', 7);
             $table->string('MCODTPED', 3)->nullable();
             $table->date('MFECEMI')->nullable();
             $table->string('MPERIODO', 7)->nullable();

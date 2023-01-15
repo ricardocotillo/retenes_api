@@ -12,6 +12,7 @@ use App\Models\Ccmcpa;
 use App\Models\Ccmtrs;
 use App\Models\Value;
 use App\Models\Instalment;
+use App\Models\CabpeModification;
 use App\Mail\PedidoProcesado;
 use Illuminate\Support\Facades\Mail;
 use Barryvdh\DomPDF\Facade as PDF;
@@ -525,6 +526,13 @@ class CabpeController extends Controller {
     public function destroy(Cabpe $cabpe)
     {
         //
+    }
+
+    public function modifications(int $mnserie, int $mnroped) {
+        $cabpe_mod = CabpeModification::where('MNSERIE', $mnserie)->where('MNROPED', $mnroped)->get();
+        $cabpe_mod->increment('modifications');
+        $cabpe = Cabpe::where('MNSERIE', $mnserie)->where('MNROPED', $mnroped)->get();
+        return response()->json($cabpe, 200);
     }
 }
 // ricardo.cotillo@gmail.com
