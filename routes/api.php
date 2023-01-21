@@ -43,7 +43,6 @@ Route::group(['middleware' => ['auth:api', 'cors']], function () {
     Route::post('ccmven/', [CcmvenController::class, 'store']);
     Route::post('cabped', [CabpeController::class, 'store']);
     Route::post('historial', [CabpeController::class, 'show']);
-    Route::get('detped/{mnserie}/{mnroped}', [DetpeController::class, 'show']);
     Route::get('ccmtrs', [CcmtrsController::class, 'index']);
     Route::get('ccmcpa/{tipo}', [CcmcpaController::class, 'show']);
     Route::post('cambiar', [CcmcpaController::class, 'update']);
@@ -51,10 +50,13 @@ Route::group(['middleware' => ['auth:api', 'cors']], function () {
     Route::post('register', [UserController::class, 'register']);
     Route::get('descuento_general/{mcodven}/', [ArticuloFamdfaController::class, 'descuento_general']);
     Route::patch('detpe/{detpe_id}/', [DetpeController::class, 'update']);
+    Route::post('detpe/{mnserie}/{mnroped}/add_famdfa/', [DetpeController::class, 'add_famdfa']);
+    Route::delete('detpe/{mnserie}/{mnroped}/remove_famdfa/', [DetpeController::class, 'remove_famdfa']);
+    Route::post('detpe/{mnserie}/{mnroped}/', [DetpeController::class, 'store']);
+    Route::get('detped/{mnserie}/{mnroped}', [DetpeController::class, 'show']);
+    Route::delete('detpe/{detpe_id}/', [DetpeController::class, 'destroy']);
     Route::patch('cabpe_update_mcodcpa/{mnserie}/{mnroped}/', [CabpeController::class, 'update_mcodcpa']);
     Route::post('cabpe/send_email/{mnserie}/{mnroped}/', [CabpeController::class, 'send_email']);
-    Route::post('detpe/{mnserie}/{mnroped}/', [DetpeController::class, 'store']);
-    Route::delete('detpe/{detpe_id}/', [DetpeController::class, 'destroy']);
     Route::patch('cabpe/update_descuento_general/{id}/', [CabpeController::class, 'update_descuento_general']);
     Route::patch('cabpe/update_ccmtrs/{mnserie}/{mnroped}/', [CabpeController::class, 'update_ccmtrs']);
     Route::patch('cabpe/update_mobserv/{mnserie}/{mnroped}/', [CabpeController::class, 'update_mobserv']);
