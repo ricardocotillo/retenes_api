@@ -99,4 +99,8 @@ class Detpe extends Model
 	public function scopeNotBono($query) {
 		return $query->where('MCODDFA', '!=', 'Bono');
 	}
+
+	public function famdfas() {
+		return $this->belongsToMany(Famdfa::class, 'detpe_famdfa');
+	}
 }
