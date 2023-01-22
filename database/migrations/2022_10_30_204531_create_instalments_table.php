@@ -3,9 +3,8 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use App\Models\Cabpe;
 
-class CreateValuesTable extends Migration
+class CreateInstalmentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,12 +13,12 @@ class CreateValuesTable extends Migration
      */
     public function up()
     {
-        Schema::create('values', function (Blueprint $table) {
+        Schema::create('instalments', function (Blueprint $table) {
             $table->id();
             $table->string('mnserie', 4);
             $table->string('mnroped', 7);
-            $table->string('label', 50);
-            $table->string('value', 500);
+            $table->decimal('amount', $precision = 10, $scale = 4);
+            $table->date('date');
             $table->timestamps();
         });
     }
@@ -31,6 +30,6 @@ class CreateValuesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('values');
+        Schema::dropIfExists('instalments');
     }
 }

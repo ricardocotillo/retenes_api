@@ -15,7 +15,8 @@ class OptionController extends Controller
      */
     public function index()
     {
-        //
+        $options = Option::all();
+        return response()->json($options, 200);
     }
 
     /**
@@ -26,7 +27,9 @@ class OptionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->all();
+        $option = Option::create($data);
+        return response()->json($option, 200);
     }
 
     /**
