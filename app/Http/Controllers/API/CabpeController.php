@@ -176,12 +176,12 @@ class CabpeController extends Controller {
 
                 if ($value['famdfa']) {
                     $famdfa1 = Famdfa::where('MCODDFA', '=', $value['famdfa']['MCODDFA'])->first();
-                    $det->famdfas()->attach($famdfa1->id);
+                    $det->famdfas()->attach($famdfa1->id, ['type' => 'item']);
                 }
                 
                 if ($value['famdfa2']) {
                     $famdfa2 = Famdfa::where('MCODDFA', '=', $value['famdfa2']['MCODDFA'])->first();
-                    $det->famdfas()->attach($famdfa2->id);
+                    $det->famdfas()->attach($famdfa2->id, ['type' => 'general']);
                 }
 
                 $cab->detpe()->save($det);
@@ -523,13 +523,31 @@ class CabpeController extends Controller {
         return response()->json($detpes, 200);
     }
 
-    public function remove_famdfa(Request $request, string $mnserie, string $nroped) {
+    public function remove_famdfa(Request $request, string $mnserie, string $mnroped) {
         $j = $request->all();
         $type = $j['type'];
-        $detpes = Detpe::where('MNSERIE', $mnserie)->where('MNROPED', $mnroped)->get();
-        foreach ($detpes as $d) {
-            $d->famdfas()->newPivotStatement()->where('type', $type)->delete();
+        $cabpes = Cabpe::where('MNSERIE', $mnserie)->where('MNROPED', $mnroped)->with('detpe')->get();
+        foreach ($cabpes as $c) {
+            foreach ($c->detpe as $d) {
+                $d->famdfas()->newPivotStatement()->where('type', $type)->delete();
+            }
         }
-        return response()->json($detpes, 200);
+        $cabpes = Cabpe::where('MNSERIE', $mnserie)->where('MNROPED', $mnroped)->with('detpe')->get();
+        return response()->json($cabpes, 200);
+    }
+
+    public function update_famdfa(Request $request, string $mnserie, string $mnroped) {
+        $j = $request->all();
+        $famdfa = $j['famdfa'];
+        $type = $j['type'];
+        $cabpes = Cabpe::where('MNSERIE', $mnserie)->where('MNROPED', $mnroped)->with('detpe')->get();
+        foreach($cabpes as $c) {
+            foreach ($c->detpe as $d) {
+                $d->famdfas()->newPivotStatement()->where('type', $type)->delete();
+                $d->famdfas()->attach($famdfa['id'], ['type' => $type]);
+            }
+        }
+        $cabpes = Cabpe::where('MNSERIE', $mnserie)->where('MNROPED', $mnroped)->with('detpe')->get();
+        return response()->json($cabpes, 200);
     }
 }

@@ -55,6 +55,7 @@ Route::group(['middleware' => ['auth:api', 'cors']], function () {
     Route::delete('detpe/{detpe_id}/', [DetpeController::class, 'destroy']);
     Route::post('cabpe/{mnserie}/{mnroped}/add_famdfa/', [CabpeController::class, 'add_famdfa']);
     Route::delete('cabpe/{mnserie}/{mnroped}/remove_famdfa/', [CabpeController::class, 'remove_famdfa']);
+    Route::patch('cabpe/{mnserie}/{mnroped}/update_famdfa/', [CabpeController::class, 'update_famdfa']);
     Route::patch('cabpe_update_mcodcpa/{mnserie}/{mnroped}/', [CabpeController::class, 'update_mcodcpa']);
     Route::post('cabpe/send_email/{mnserie}/{mnroped}/', [CabpeController::class, 'send_email']);
     Route::patch('cabpe/update_descuento_general/{id}/', [CabpeController::class, 'update_descuento_general']);
