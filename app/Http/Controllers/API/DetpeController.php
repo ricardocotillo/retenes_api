@@ -242,25 +242,4 @@ class DetpeController extends Controller
         return response()->json(null, 200);
 
     }
-
-    public function add_famdfa(Request $request, string $mnserie, string $mnroped) {
-        $j = $request->all();
-        $famdfa = $j['famdfa'];
-        $type = $j['type'];
-        $detpes = Detpe::where('MNSERIE', $mnserie)->where('MNROPED', $mnroped)->get();
-        foreach ($detpes as $d) {
-            $d->famdfas()->attach($famdfa['id'], ['type' => $type]);
-        }
-        return response()->json($detpes, 200);
-    }
-
-    public function remove_famdfa(Request $request, string $mnserie, string $nroped) {
-        $j = $request->all();
-        $type = $j['type'];
-        $detpes = Detpe::where('MNSERIE', $mnserie)->where('MNROPED', $mnroped)->get();
-        foreach ($detpes as $d) {
-            $d->famdfas()->newPivotStatement()->where('type', $type)->delete();
-        }
-        return response()->json($detpes, 200);
-    }
 }

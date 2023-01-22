@@ -191,23 +191,23 @@
 			@foreach ($value as $v)
 				@if ($v['MCODDFA'] != 'Bono')
 				<tr @if (isset($v['estado']) && $v['estado'] == 1) style="background: #FFFF00" @endif>
-					<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan="2" align="left" valign=bottom>{{$v['MCODART']}}</td>
-					<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan="2" align="center" valign=bottom sdval="10" sdnum="1033;"><b>{{$v['MCANTIDAD']}}</b></td>
-					<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan="4" align="left" valign=bottom><b>{{$v['MDESCRI01']}}</b></td>
+					<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan="2" align="left" valign=bottom>{{ $v['MCODART'] }}</td>
+					<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan="2" align="center" valign=bottom sdval="10" sdnum="1033;"><b>{{ $v['MCANTIDAD'] }}</b></td>
+					<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan="4" align="left" valign=bottom><b>{{ $v['MDESCRI01'] }}</b></td>
 					<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan="1" align="right" valign=bottom sdval="144.923184" sdnum="1033;0;0.00_ ;[RED]-0.00 ">
 						{{number_format($v['MPRECIO'], 2, '.', '')}}
 					</td>
-					<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan="3" align="left" valign=bottom>{{$v['famdfa'] ? $v['famdfa']['MDESCRIP'] : null}}</td>
+					<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan="3" align="left" valign=bottom>{{ $v['descrip'] }}</td>
 					<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan="2" align="right" valign=bottom sdval="1449.23184" sdnum="1033;0;0.00_ ;[RED]-0.00 ">
 						<b>
-						{{number_format($v['MVALVEN'] - $v['MDCTO'], 2, '.', '')}}
+							{{number_format($v['precio_neto'], 2, '.', '')}}
 						</b>
 					</td>
 				</tr>
 				@else
 				<tr @if (isset($v['estado']) && $v['estado'] == 1) style="background: #FFFF00" @endif>
 					<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan="2" align="left" valign=bottom>{{$v['MCODART']}}</td>
-					<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan="2" align="center" valign=bottom sdval="10" sdnum="1033;"><b>{{$v['MCANTIDAD']}}</b></td>
+					<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan="2" align="center" valign=bottom sdval="10" sdnum="1033;"><b>{{ $v['MCANTIDAD'] }}</b></td>
 					<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan="4" align="left" valign=bottom><b>{{$v['MDESCRI01']}}</b></td>
 					<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px susolid #000000; border-right: 1px solid #000000" colspan="1" align="right" valign=bottom sdval="144.923184" sdnum="1033;0;0.00_ ;[RED]-0.00 ">0.00</td>
 					<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan="3" align="left" valign=bottom></td>
@@ -232,9 +232,7 @@
 							@else
 								$  
 							@endif
-							{{number_format(array_reduce($value, function($carry, $p) {
-								return $carry + ($p['MCODDFA'] != 'Bono' ? $p['MVALVEN'] - $p['MDCTO'] : 0);
-							}), 2, '.', '')}}
+							{{ number_format( array_reduce( $value, function($carry, $p) { return $carry + $p['precio_neto']; }), 2, '.', '' ) }}
 						</font>
     				</b>
     			</td>
@@ -274,7 +272,7 @@
 			@else
 				$  
 			@endif
-			{{number_format($total, 2, '.', '')}}
+			{{ number_format($total, 2, '.', '') }}
 		</font>
       </b>
     </td>

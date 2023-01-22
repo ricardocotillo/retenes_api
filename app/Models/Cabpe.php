@@ -103,7 +103,15 @@ class Cabpe extends Model
 		'MCODTRSP',
 	];
 
-	protected $appends = ['modifications_left'];
+	protected $appends = [
+		'modifications_left',
+		'top_venta',
+		'dcto',
+		'neto',
+		'igv',
+		'valven',
+		'precio_neto',
+	];
 
 	public function detpe() {
 		return $this->hasMany(Detpe::class);
@@ -129,6 +137,40 @@ class Cabpe extends Model
 		return $this->hasMany(Value::class);
 	}
 
+	public function getTopVentaAttribute() {
+		$mtopventa = 0;
+        foreach ($this->detpe as $det) {
+            if ($det->MCODDFA == 'Bono') {
+                continue;
+            } else {
+                $mtopventa = $mtopventa + $det->precio;
+            }
+        }
+        return $mtopventa;
+	}
+
+	public function getDctoAttribute() {
+        $mdcto = 0;
+        foreach ($this->detpe as $det) {
+            if ($det->MCODDFA != 'Sin descuento' && $det->MCODDFA != 'Bono') {
+                $mdcto = $mdcto + $det->descuento;
+            }
+        }
+        return $mdcto;
+	}
+
+	public function getNetoAttribute() {
+		return $this->top_venta - $this->dcto;
+	}
+
+	public function getIgvAttribute() {
+		return $this->neto - ($this->neto / 1.18);
+	}
+
+	public function getValvenAttribute() {
+		return $this->top_venta - $this->igv;
+	}
+
 	public function getModificationsLeftAttribute() {
 		$max_mod = Setting::first()->cabpe_modifications;
 		$mod = CabpeModification::firstOrCreate(
@@ -137,4 +179,10 @@ class Cabpe extends Model
 		);
         return $max_mod - $mod->modifications;
     }
+
+	public function getPrecioNetoAttribute() {
+		$price = $this->detpe()->get()->pluck('precio_neto');
+		$price = $price->sum();
+		return $price;
+	}
 }
