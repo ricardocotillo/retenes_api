@@ -201,7 +201,7 @@
 					<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan="1" align="right" valign=bottom sdval="144.923184" sdnum="1033;0;0.00_ ;[RED]-0.00 ">
 						{{number_format($v['MPRECIO'], 2, '.', '')}}
 					</td>
-					<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan="3" align="left" valign=bottom>{{ $v['descrip'] }}</td>
+					<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan="3" align="left" valign=bottom>{{ trim(str_replace('%', '', $v['descrip'])) }}%</td>
 					<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan="2" align="right" valign=bottom sdval="1449.23184" sdnum="1033;0;0.00_ ;[RED]-0.00 ">
 						<b>
 							{{number_format($v['precio_neto'], 2, '.', '')}}
