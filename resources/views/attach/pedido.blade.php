@@ -300,17 +300,19 @@
   <tr><td></td></tr>
   <tr><td></td></tr>
   <tr><td></td></tr>
-  @if ($instalments->count() > 0) 
+  @if (count($instalments) > 0)
     <tr>
-      <td colspan="2" align="left" valign=middle><b>Pagos:</b></td>
+      <td colspan="2" align="left" valign=middle><b>Vencimientos:</b></td>
     </tr>
-    @foreach ($instalments as $inst)
-      <tr>
-        <td colspan="2">{{ $inst->date }}</td>
-        <td colspan="1">:</td>
-        <td><b>@if ($flavor == 'filtros') S/ @else $ @endif {{ $inst->amount }}</b></td>
-      </tr>
-    @endforeach
+	<tr>
+		@foreach ($instalments as $inst)
+			<td colspan="4" valign="top">
+				@foreach ($inst as $i)
+					<p><strong>{{ $i->date }}: </strong> @if ($flavor == 'filtros') S/ @else $ @endif {{ $i->amount }}</p>
+				@endforeach
+			</td>
+		@endforeach
+    </tr>
   @endif
 </table>
 <!-- ************************************************************************** -->

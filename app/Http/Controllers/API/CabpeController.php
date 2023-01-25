@@ -412,7 +412,7 @@ class CabpeController extends Controller {
             'transporte'    => $cabpes[0]->ccmtrs->MCODTRSP,
             'nametrans'     => $cabpes[0]->ccmtrs->MNOMBRE,
             'values'        => $cabpes[0] ->values,
-            'instalments'   => $cabpes[0]->instalments,
+            'instalments'   => $cabpes[0]->instalments()->get()->split(4)->all(),
             'flavor'        => config('app.flavor'),
         ];
 
