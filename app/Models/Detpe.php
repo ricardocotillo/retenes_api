@@ -103,7 +103,7 @@ class Detpe extends Model
 	}
 
 	public function famdfas() {
-		return $this->belongsToMany(Famdfa::class, 'detpe_famdfa');
+		return $this->belongsToMany(Famdfa::class, 'detpe_famdfa')->withPivot('type');
 	}
 
 	public function scopeNotBono($query) {
@@ -129,9 +129,14 @@ class Detpe extends Model
 
 	public function getDescripAttribute() {
 		$display = '';
-		$famdfas = $this->famdfas();
-		$mdescrip = $famdfas->pluck('MDESCRIP')->reverse();
-		$mdescrip = $mdescrip->implode('+');
+		$famdfas = $this->famdfas()->get()->sortByDesc(function($f, $k) {
+			return $f['pivot']['type'];
+		});
+		$mdescrip = $famdfas->pluck('MDESCRIP');
+		$mdescrip = $mdescrip->map(function($m, $k) {
+			return str_replace('%', '', $m);
+		});
+		$mdescrip = $mdescrip->implode('+') . '%';
 		return $mdescrip;
 	}
 }
