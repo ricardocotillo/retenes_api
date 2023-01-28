@@ -559,16 +559,19 @@ class CabpeController extends Controller {
 
     public function update_famdfa(Request $request, string $mnserie, string $mnroped) {
         $j = $request->all();
-        $famdfa = $j['famdfa'];
+        $data = $j['famdfa'];
+        $famdfa = Famdfa::where('MCODDFA', $data['MCODDFA'])->first();
         $type = $j['type'];
         $cabpes = Cabpe::where('MNSERIE', $mnserie)->where('MNROPED', $mnroped)->with('detpe')->get();
         foreach($cabpes as $c) {
             foreach ($c->detpe as $d) {
                 $d->famdfas()->newPivotStatement()->where('type', $type)->delete();
-                $d->famdfas()->attach($famdfa['id'], ['type' => $type]);
+                $d->famdfas()->attach($famdfa->id, ['type' => $type]);
             }
         }
-        $cabpes = Cabpe::where('MNSERIE', $mnserie)->where('MNROPED', $mnroped)->with('detpe')->get();
+        $cabpes = Cabpe::where('MNSERIE', $mnserie)->where('MNROPED', $mnroped)->with(['detpe', 'detpe.famdfas' => function($q) {
+            $q->orderByDesc('type');
+        }])->get();
         return response()->json($cabpes, 200);
     }
 }
