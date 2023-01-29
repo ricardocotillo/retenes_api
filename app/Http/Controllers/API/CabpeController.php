@@ -568,10 +568,13 @@ class CabpeController extends Controller {
                 $itemFamdfa = $d->famdfas()->get()->sortByDesc(function($f, $k) {
                     return $f['pivot']['type'];
                 })->first();
-                $d->famdfas()->sync([
-                    $itemFamdfa->id => ['type' => 'item'],
+                $syncData = [
                     $famdfa->id => ['type' => $type],
-                ]);
+                ];
+                if ($itemFamdfa) {
+                    $syncData[$itemFamdfa->id] = ['type' => 'item'];
+                }
+                $d->famdfas()->sync($syncData);
             }
         }
         $cabpes = Cabpe::where('MNSERIE', $mnserie)->where('MNROPED', $mnroped)->with(['detpe', 'detpe.famdfas' => function($q) {
