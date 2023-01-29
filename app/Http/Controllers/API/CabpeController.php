@@ -566,6 +566,9 @@ class CabpeController extends Controller {
         foreach($cabpes as $c) {
             foreach ($c->detpe as $d) {
                 $d->famdfas()->newPivotStatement()->where('type', $type)->delete();
+            }
+
+            foreach ($c->detpe as $d) {
                 $d->famdfas()->attach($famdfa->id, ['type' => $type]);
             }
         }
