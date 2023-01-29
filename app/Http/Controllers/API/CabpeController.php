@@ -562,14 +562,16 @@ class CabpeController extends Controller {
         $data = $j['famdfa'];
         $famdfa = Famdfa::where('MCODDFA', $data['MCODDFA'])->first();
         $type = $j['type'];
-        $cabpes = Cabpe::where('MNSERIE', $mnserie)->where('MNROPED', $mnroped)->with('detpe')->get();
+        $cabpes = Cabpe::where('MNSERIE', $mnserie)->where('MNROPED', $mnroped)->with(['detpe', 'detpe.famdfas'])->get();
         foreach($cabpes as $c) {
             foreach ($c->detpe as $d) {
-                $d->famdfas()->newPivotStatement()->where('type', $type)->delete();
-            }
-
-            foreach ($c->detpe as $d) {
-                $d->famdfas()->attach($famdfa->id, ['type' => $type]);
+                $itemFamdfa = $d->famdfas()->get()->sortByDesc(function($f, $k) {
+                    return $f['pivot']['type'];
+                })->first();
+                $d->famdfas()->sync([
+                    $itemFamdfa->id => ['type' => 'item'],
+                    $famdfa->id => ['type' => $type],
+                ]);
             }
         }
         $cabpes = Cabpe::where('MNSERIE', $mnserie)->where('MNROPED', $mnroped)->with(['detpe', 'detpe.famdfas' => function($q) {
