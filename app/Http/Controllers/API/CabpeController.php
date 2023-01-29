@@ -565,14 +565,8 @@ class CabpeController extends Controller {
         $cabpes = Cabpe::where('MNSERIE', $mnserie)->where('MNROPED', $mnroped)->with(['detpe', 'detpe.famdfas'])->get();
         foreach($cabpes as $c) {
             foreach ($c->detpe as $d) {
-                $itemFamdfa = $d->famdfas()->get()->firstWhere('type', 'item');
-                $syncData = [
-                    $famdfa->id => ['type' => 'general'],
-                ];
-                if ($itemFamdfa) {
-                    $syncData[$itemFamdfa->id] = ['type' => 'item'];
-                }
-                $d->famdfas()->sync($syncData);
+                $d->famdfas()->wherePivot('type', 'general')->detach();
+                $d->famdfas()->attach($famdfa->id, ['type' => 'general']);
             }
         }
         $cabpes = Cabpe::where('MNSERIE', $mnserie)->where('MNROPED', $mnroped)->with(['detpe', 'detpe.famdfas' => function($q) {
