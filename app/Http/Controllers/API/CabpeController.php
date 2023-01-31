@@ -261,6 +261,7 @@ class CabpeController extends Controller {
         $cabpes = Cabpe::where('MCODCLI', $mcodcli)
             ->where('MFECEMI', '>', now()->subDays($range)->endOfDay())
             ->with([
+                'detpe',
                 'detpe.famdfas',
                 'ccmcpa',
                 'ccmcli',
