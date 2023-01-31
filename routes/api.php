@@ -65,11 +65,12 @@ Route::group(['middleware' => ['auth:api', 'cors']], function () {
     Route::patch('cabpe/update_descuento_general/{id}/', [CabpeController::class, 'update_descuento_general']);
     Route::patch('cabpe/update_ccmtrs/{mnserie}/{mnroped}/', [CabpeController::class, 'update_ccmtrs']);
     Route::patch('cabpe/update_mobserv/{mnserie}/{mnroped}/', [CabpeController::class, 'update_mobserv']);
+    Route::get('cabpe/show_by_range/{mcodcli}/{range}/', [CabpeController::class, 'show_by_range']);
+    Route::patch('cabpe/{mnserie}/{mnroped}/modifications/', [CabpeController::class, 'modifications']);
     Route::resource('inputs', InputController::class);
     Route::resource('options', OptionController::class);
     Route::post('values/bulk_store/', [ValueController::class, 'bulk_store']);
     Route::delete('values/bulk_delete/{mnserie}/{mnroped}/', [ValueController::class, 'bulk_delete']);
     Route::post('instalments/bulk_store/', [InstalmentController::class, 'bulk_store']);
     Route::delete('instalments/bulk_delete/{mnserie}/{mnroped}/', [InstalmentController::class, 'bulk_delete']);
-    Route::patch('cabpe/{mnserie}/{mnroped}/modifications/', [CabpeController::class, 'modifications']);
 });

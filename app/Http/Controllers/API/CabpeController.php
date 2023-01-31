@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Mail;
 use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Carbon\Carbon;
 
 class CabpeController extends Controller {
     /**
@@ -214,8 +215,7 @@ class CabpeController extends Controller {
      * @param  \App\Models\Cabpe  $cabpe
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $req)
-    {
+    public function show(Request $req) {
         // obtener los códigos de vendedores
         $cods = $req->all();
         $cabpes = Cabpe::whereIn('MCODVEN', $cods)
@@ -248,6 +248,28 @@ class CabpeController extends Controller {
                 ->paginate(50);
         return response()->json($cabpes, 200);
     }
+    
+    /**
+     * Display the specified resource.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param string $mcodcli
+     * @param int $range
+     * @return \Illuminate\Http\Response
+     */
+    public function show_by_range(Request $request, string $mcodcli, int $range) {
+        $cabpes = Cabpe::where('MCODCLI', $mcodcli)
+            ->where('MFECEMI', '>', now()->subDays($range)->endOfDay())
+            ->with([
+                'detpe.famdfas',
+                'ccmcpa',
+                'ccmcli',
+            ])
+            ->orderBy('MNSERIE', 'desc')
+            ->orderBy('MNROPED', 'desc')
+            ->groupBy('id', 'MNROPED')->get();
+        return response()->json($cabpes, 200);
+    }
 
     /**
      * Update the specified resource in storage.
@@ -268,8 +290,7 @@ class CabpeController extends Controller {
      * @param  \App\Models\Cabpe  $cabpe
      * @return \Illuminate\Http\Response
      */
-    public function update_mcodcpa(Request $request, string $mnserie, string $mnroped)
-    {
+    public function update_mcodcpa(Request $request, string $mnserie, string $mnroped) {
         $igv = 1.18;
         $mcodcpa = $request->input('mcodcpa');
         $cabpes = Cabpe::where('MNSERIE', $mnserie)->where('MNROPED', $mnroped)->with(['ccmcpa', 'detpe', 'detpe.articulo', 'ccmcli'])->get();
