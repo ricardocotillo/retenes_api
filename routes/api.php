@@ -55,11 +55,11 @@ Route::group(['middleware' => ['auth:api', 'cors']], function () {
     Route::get('descuento_general/{mcodven}/', [ArticuloFamdfaController::class, 'descuento_general']);
     Route::patch('detpe/{detpe_id}/', [DetpeController::class, 'update']);
     Route::post('detpe/{mnserie}/{mnroped}/', [DetpeController::class, 'store']);
-    Route::get('detped/{mnserie}/{mnroped}', [DetpeController::class, 'show']);
     Route::delete('detpe/{detpe_id}/', [DetpeController::class, 'destroy']);
+    Route::get('detped/{mnserie}/{mnroped}', [DetpeController::class, 'show']);
+    Route::patch('cabpe/{id}/update_famdfa/', [CabpeController::class, 'update_famdfa']);
+    Route::delete('cabpe/{id}/remove_famdfa/', [CabpeController::class, 'remove_famdfa']);
     Route::post('cabpe/{mnserie}/{mnroped}/add_famdfa/', [CabpeController::class, 'add_famdfa']);
-    Route::delete('cabpe/{mnserie}/{mnroped}/remove_famdfa/', [CabpeController::class, 'remove_famdfa']);
-    Route::patch('cabpe/{mnserie}/{mnroped}/update_famdfa/', [CabpeController::class, 'update_famdfa']);
     Route::patch('cabpe_update_mcodcpa/{mnserie}/{mnroped}/', [CabpeController::class, 'update_mcodcpa']);
     Route::post('cabpe/send_email/{mnserie}/{mnroped}/', [CabpeController::class, 'send_email']);
     Route::patch('cabpe/update_descuento_general/{id}/', [CabpeController::class, 'update_descuento_general']);
