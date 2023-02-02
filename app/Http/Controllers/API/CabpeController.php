@@ -568,14 +568,25 @@ class CabpeController extends Controller {
     public function remove_famdfa(Request $request, int $id) {
         $j = $request->all();
         $type = $j['type'];
-        $cabpes = Cabpe::with('detpe, detpe.famdfas')->find($id);
-        foreach ($cabpes as $c) {
-            foreach ($c->detpe as $d) {
-                $d->famdfas()->newPivotStatement()->where('type', $type)->delete();
-            }
+        $c = Cabpe::with([
+            'detpe',
+            'detpe.famdfas',
+        ])->find($id);
+        
+        foreach ($c->detpe as $d) {
+            $d->famdfas()->newPivotStatement()->where('type', $type)->delete();
         }
-        $cabpes = Cabpe::with('detpe', 'detpe.famdfas')->find($id);
-        return response()->json($cabpes, 200);
+        
+        $c = Cabpe::with([
+            'ccmcpa',
+            'ccmcli',
+            'ccmtrs',
+            'instalments',
+            'values',
+            'detpe',
+            'detpe.famdfas',
+        ])->find($id);
+        return response()->json($c, 200);
     }
 
     public function update_famdfa(Request $request, $id) {
@@ -583,14 +594,25 @@ class CabpeController extends Controller {
         $data = $j['famdfa'];
         $famdfa = Famdfa::where('MCODDFA', $data['MCODDFA'])->first();
         $type = $j['type'];
-        $c = Cabpe::with(['detpe', 'detpe.famdfas'])->find($id);
+        $c = Cabpe::with([
+            'detpe',
+            'detpe.famdfas',
+        ])->find($id);
         foreach ($c->detpe as $d) {
             $d->famdfas()->wherePivot('type', 'general')->detach();
             $d->famdfas()->attach($famdfa->id, ['type' => 'general']);
         }
-        $c = Cabpe::with(['detpe', 'detpe.famdfas' => function($q) {
-            $q->orderByDesc('type');
-        }])->find($id);
+        $c = Cabpe::with([
+            'ccmcpa',
+            'ccmcli',
+            'ccmtrs',
+            'instalments',
+            'values',
+            'detpe',
+            'detpe.famdfas' => function($q) {
+                $q->orderByDesc('type');
+            },
+        ])->find($id);
         return response()->json($c, 200);
     }
 }
