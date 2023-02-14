@@ -82,6 +82,11 @@ class DetpeController extends Controller
 
         $cabpe->detpe()->save($detpe);
 
+        if ($pedido['mcoddfa']) {
+            $famdfa = Famdfa::where('MCODDFA', $pedido['mcoddfa'])->first();
+            $detpe->famdfas()->attach($famdfa->id, ['type' => 'item']);
+        }
+
         $mtopventa = 0;
         $mdcto = 0;
         foreach ($cabpe->detpe as $det) {

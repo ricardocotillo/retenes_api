@@ -26,7 +26,7 @@ class Detpe extends Model
 		'MPESOKG' => 'float',
 		'MPORDCT3' => 'float',
 		'MPORDCT4' => 'float',
-		'MPORDCT5' => 'float'
+		'MPORDCT5' => 'float',
 	];
 
 	protected $dates = [
@@ -84,6 +84,12 @@ class Detpe extends Model
 		'estado',
 	];
 
+	protected $appends = [
+		'precio',
+		'precio_neto',
+		'descrip',
+	];
+
 	public function cabpe() {
 		return $this->belongsTo(Cabpe::class);
 	}
@@ -96,7 +102,41 @@ class Detpe extends Model
 		return $this->belongsTo(Articulo::class, 'MCODART', 'MCODART');
 	}
 
+	public function famdfas() {
+		return $this->belongsToMany(Famdfa::class, 'detpe_famdfa')->withPivot('type');
+	}
+
 	public function scopeNotBono($query) {
 		return $query->where('MCODDFA', '!=', 'Bono');
+	}
+
+	public function getPrecioAttribute() {
+		return $this->MCODDFA != 'Bono' ? $this->MCANTIDAD * $this->MPRECIO : 0;
+	}
+
+	// public function getDescuentoAttribute() {
+	// 	return $this->MCANTIDAD * $this->MPRECIO * ($this->famdfa->MPOR_DFA / 100);
+	// }
+
+	public function getPrecioNetoAttribute() {
+		$famdfas = $this->famdfas;
+		$price = $this->precio;
+		foreach ($famdfas as $f) {
+			$price -= $price * ($f->MPOR_DFA / 100);
+		}
+		return $price;
+	}
+
+	public function getDescripAttribute() {
+		$display = '';
+		$famdfas = $this->famdfas()->get()->sortByDesc(function($f, $k) {
+			return $f['pivot']['type'];
+		});
+		$mdescrip = $famdfas->pluck('MDESCRIP');
+		$mdescrip = $mdescrip->map(function($m, $k) {
+			return str_replace('%', '', $m);
+		});
+		$mdescrip = $mdescrip->implode('+') . '%';
+		return $mdescrip;
 	}
 }

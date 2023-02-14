@@ -13,11 +13,13 @@ use App\Models\Ccmtrs;
 use App\Models\Value;
 use App\Models\Instalment;
 use App\Models\CabpeModification;
+use App\Models\DetpeFamdfa;
 use App\Mail\PedidoProcesado;
 use Illuminate\Support\Facades\Mail;
 use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Carbon\Carbon;
 
 class CabpeController extends Controller {
     /**
@@ -184,7 +186,20 @@ class CabpeController extends Controller {
                     'MPENFAC' => (float) $value['cantidad'],
                     'MCODDFA' => $value['mcoddfa'],
                 );
-                $det = new Detpe($mdetped);
+
+                $det = Detpe::create($mdetped);
+                $det->save();
+
+                if ($value['famdfa']) {
+                    $famdfa1 = Famdfa::where('MCODDFA', '=', $value['famdfa']['MCODDFA'])->first();
+                    $det->famdfas()->attach($famdfa1->id, ['type' => 'item']);
+                }
+                
+                if ($value['famdfa2']) {
+                    $famdfa2 = Famdfa::where('MCODDFA', '=', $value['famdfa2']['MCODDFA'])->first();
+                    $det->famdfas()->attach($famdfa2->id, ['type' => 'general']);
+                }
+
                 $cab->detpe()->save($det);
                 $mitem = $mitem + 1;
                 array_push($articulos[$key], $det);
@@ -200,8 +215,7 @@ class CabpeController extends Controller {
      * @param  \App\Models\Cabpe  $cabpe
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $req)
-    {
+    public function show(Request $req) {
         // obtener los códigos de vendedores
         $cods = $req->all();
         $cabpes = Cabpe::whereIn('MCODVEN', $cods)
@@ -221,17 +235,40 @@ class CabpeController extends Controller {
                     'estado',
                 ])
                 ->with([
-                    'detpe.famdfa',
+                    'detpe.famdfas',
                     'ccmcpa',
                     'ccmcli',
                     'ccmtrs',
                     'instalments',
-                    'values'
+                    'values',
                 ])
                 ->orderBy('MNSERIE', 'desc')
                 ->orderBy('MNROPED', 'desc')
                 ->groupBy('id', 'MNROPED')
                 ->paginate(50);
+        return response()->json($cabpes, 200);
+    }
+    
+    /**
+     * Display the specified resource.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param string $mcodcli
+     * @param int $range
+     * @return \Illuminate\Http\Response
+     */
+    public function show_by_range(Request $request, string $mcodcli, int $range) {
+        $cabpes = Cabpe::where('MCODCLI', $mcodcli)
+            ->where('MFECEMI', '>', now()->subDays($range)->endOfDay())
+            ->with([
+                'detpe',
+                'detpe.famdfas',
+                'ccmcpa',
+                'ccmcli',
+            ])
+            ->orderBy('MNSERIE', 'desc')
+            ->orderBy('MNROPED', 'desc')
+            ->groupBy('id', 'MNROPED')->get();
         return response()->json($cabpes, 200);
     }
 
@@ -254,8 +291,7 @@ class CabpeController extends Controller {
      * @param  \App\Models\Cabpe  $cabpe
      * @return \Illuminate\Http\Response
      */
-    public function update_mcodcpa(Request $request, string $mnserie, string $mnroped)
-    {
+    public function update_mcodcpa(Request $request, string $mnserie, string $mnroped) {
         $igv = 1.18;
         $mcodcpa = $request->input('mcodcpa');
         $cabpes = Cabpe::where('MNSERIE', $mnserie)->where('MNROPED', $mnroped)->with(['ccmcpa', 'detpe', 'detpe.articulo', 'ccmcli'])->get();
@@ -321,29 +357,13 @@ class CabpeController extends Controller {
     }
 
     private function recalculate(Cabpe $cabpe) {
-        $mtopventa = 0;
-        $mdcto = 0;
-        foreach ($cabpe->detpe as $det) {
-            if ($det->MCODDFA == 'Bono') {
-                continue;
-            } else {
-                $mtopventa = $mtopventa + ($det->MCANTIDAD * $det->MPRECIO);
-            }
-            if ($det->MCODDFA != 'Sin descuento' && $det->MCODDFA != 'Bono') {
-                $mdcto = $mdcto + ($det->MCANTIDAD * $det->MPRECIO * ($det->famdfa->MPOR_DFA / 100));
-            }
-        }
-        $mneto = $mtopventa - $mdcto;
-        $migv =  $mneto - ($mneto / 1.18);
-        $mvalven = $mtopventa - $migv;
-
         $new_cabpe = [
-            'MTOPVENTA' => round($mtopventa, 2),
-            'MDCTO' => round($mdcto, 2),
-            'MIGV' => round($migv, 2),
-            'MNETO' => round($mneto, 2),
-            'MSALDO' => round($mneto, 2),
-            'MVALVEN' => round($mvalven, 2),
+            'MTOPVENTA' => round($cabpe->top_venta, 2),
+            'MDCTO' => round($cabpe->dcto, 2),
+            'MIGV' => round($cabpe->igv, 2),
+            'MNETO' => round($cabpe->neto, 2),
+            'MSALDO' => round($cabpe->neto, 2),
+            'MVALVEN' => round($cabpe->valven, 2),
         ];
 
         $cabpe->fill($new_cabpe);
@@ -361,7 +381,7 @@ class CabpeController extends Controller {
         $estado = $request->input('estado');
         $email = $request->input('email');
         $enviar_correo = $request->input('enviarCorreo');
-        $cabpes = Cabpe::with(['detpe', 'detpe.famdfa', 'ccmtrs', 'ccmcli', 'ccmcpa', 'values', 'instalments'])->where('MNSERIE', $mnserie)->where('MNROPED', $mnroped)->get();
+        $cabpes = Cabpe::with(['detpe', 'detpe.famdfas', 'ccmtrs', 'ccmcli', 'ccmcpa', 'values', 'instalments'])->where('MNSERIE', $mnserie)->where('MNROPED', $mnroped)->get();
         $data = array('nombre' => $cabpes[0]->ccmcli->MNOMBRE);
 
         $ccmcpa = $cabpes[0]->ccmcpa;
@@ -394,7 +414,7 @@ class CabpeController extends Controller {
         $montoTotalFinal = 0;
 
         foreach ($cabpes as $cabpe) {
-            $montoTotalFinal = $montoTotalFinal + $cabpe->MNETO;
+            $montoTotalFinal = $montoTotalFinal + $cabpe->precio_neto;
         }
 
         $info = [
@@ -414,7 +434,7 @@ class CabpeController extends Controller {
             'transporte'    => $cabpes[0]->ccmtrs->MCODTRSP,
             'nametrans'     => $cabpes[0]->ccmtrs->MNOMBRE,
             'values'        => $cabpes[0] ->values,
-            'instalments'   => $cabpes[0]->instalments,
+            'instalments'   => $cabpes[0]->instalments()->get()->split(4)->all(),
             'flavor'        => config('app.flavor'),
         ];
 
@@ -523,8 +543,7 @@ class CabpeController extends Controller {
      * @param  \App\Models\Cabpe  $cabpe
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Cabpe $cabpe)
-    {
+    public function destroy(Cabpe $cabpe) {
         //
     }
 
@@ -534,5 +553,66 @@ class CabpeController extends Controller {
         $cabpe = Cabpe::where('MNSERIE', $mnserie)->where('MNROPED', $mnroped)->get();
         return response()->json($cabpe, 200);
     }
+
+    public function add_famdfa(Request $request, string $mnserie, string $mnroped) {
+        $j = $request->all();
+        $famdfa = $j['famdfa'];
+        $type = $j['type'];
+        $detpes = Detpe::where('MNSERIE', $mnserie)->where('MNROPED', $mnroped)->get();
+        foreach ($detpes as $d) {
+            $d->famdfas()->attach($famdfa['id'], ['type' => $type]);
+        }
+        return response()->json($detpes, 200);
+    }
+
+    public function remove_famdfa(Request $request, int $id) {
+        $j = $request->all();
+        $type = $j['type'];
+        $c = Cabpe::with([
+            'detpe',
+            'detpe.famdfas',
+        ])->find($id);
+        
+        foreach ($c->detpe as $d) {
+            $d->famdfas()->newPivotStatement()->where('type', $type)->delete();
+        }
+        
+        $c = Cabpe::with([
+            'ccmcpa',
+            'ccmcli',
+            'ccmtrs',
+            'instalments',
+            'values',
+            'detpe',
+            'detpe.famdfas',
+        ])->find($id);
+        return response()->json($c, 200);
+    }
+
+    public function update_famdfa(Request $request, $id) {
+        $j = $request->all();
+        $data = $j['famdfa'];
+        $famdfa = Famdfa::where('MCODDFA', $data['MCODDFA'])->first();
+        $type = $j['type'];
+        $c = Cabpe::with([
+            'detpe',
+            'detpe.famdfas',
+        ])->find($id);
+        foreach ($c->detpe as $d) {
+            $d->famdfas()->wherePivot('type', 'general')->detach();
+            $d->famdfas()->attach($famdfa->id, ['type' => 'general']);
+        }
+        $c = Cabpe::with([
+            'ccmcpa',
+            'ccmcli',
+            'ccmtrs',
+            'instalments',
+            'values',
+            'detpe',
+            'detpe.famdfas' => function($q) {
+                $q->orderByDesc('type');
+            },
+        ])->find($id);
+        return response()->json($c, 200);
+    }
 }
-// ricardo.cotillo@gmail.com
