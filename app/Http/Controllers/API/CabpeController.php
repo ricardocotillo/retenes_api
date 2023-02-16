@@ -390,25 +390,40 @@ class CabpeController extends Controller {
         $articulos = array();
 
         foreach ($cabpes as $key => $cabpe) {
-            if (config('app.flavor') == 'filtros') {
-                $ar = $cabpe->detpe->sortBy('MCODART')->sortByDesc('famdfa.MDESCRIP')->toArray();
-                $emp = array_values(array_filter($ar, function($d) { return in_array($d['MCODDFA'], ['Sin descuento', 'Bono']); }));
-                $des = array_values(array_filter($ar, function($d) { return !in_array($d['MCODDFA'], ['Sin descuento', 'Bono']); }));
-                foreach ($emp as $k => $e) {
-                    for ($i=0; $i < count($des); $i++) {
-                        if ($des[$i]['MCODART'] == $e['MCODART']) {
-                            array_splice($des, $i+1, 0, array($e));
-                            $emp[$k] = null;
-                            break;
-                        }
+            $ar = $cabpe->detpe->sortBy('MCODART')->sortByDesc('famdfa.MDESCRIP')->toArray();
+            $emp = array_values(array_filter($ar, function($d) { return in_array($d['MCODDFA'], ['Sin descuento', 'Bono']); }));
+            $des = array_values(array_filter($ar, function($d) { return !in_array($d['MCODDFA'], ['Sin descuento', 'Bono']); }));
+            foreach ($emp as $k => $e) {
+                for ($i=0; $i < count($des); $i++) {
+                    if ($des[$i]['MCODART'] == $e['MCODART']) {
+                        array_splice($des, $i+1, 0, array($e));
+                        $emp[$k] = null;
+                        break;
                     }
                 }
-                $emp = array_values(array_filter($emp, function($d) { return !is_null($d); }));
-                $ar = array_merge($des, $emp);
-                $articulos[$cabpe->MCODVEN] = $ar;
-            } else {
-                $articulos[$cabpe->MCODVEN] = $cabpe->detpe->sortByDesc('MCODART')->toArray();
             }
+            $emp = array_values(array_filter($emp, function($d) { return !is_null($d); }));
+            $ar = array_merge($des, $emp);
+            $articulos[$cabpe->MCODVEN] = $ar;
+            // if (config('app.flavor') == 'filtros') {
+            //     $ar = $cabpe->detpe->sortBy('MCODART')->sortByDesc('famdfa.MDESCRIP')->toArray();
+            //     $emp = array_values(array_filter($ar, function($d) { return in_array($d['MCODDFA'], ['Sin descuento', 'Bono']); }));
+            //     $des = array_values(array_filter($ar, function($d) { return !in_array($d['MCODDFA'], ['Sin descuento', 'Bono']); }));
+            //     foreach ($emp as $k => $e) {
+            //         for ($i=0; $i < count($des); $i++) {
+            //             if ($des[$i]['MCODART'] == $e['MCODART']) {
+            //                 array_splice($des, $i+1, 0, array($e));
+            //                 $emp[$k] = null;
+            //                 break;
+            //             }
+            //         }
+            //     }
+            //     $emp = array_values(array_filter($emp, function($d) { return !is_null($d); }));
+            //     $ar = array_merge($des, $emp);
+            //     $articulos[$cabpe->MCODVEN] = $ar;
+            // } else {
+            //     $articulos[$cabpe->MCODVEN] = $cabpe->detpe->sortByDesc('MCODART')->toArray();
+            // }
         }
 
         $montoTotalFinal = 0;
