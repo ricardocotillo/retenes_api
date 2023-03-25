@@ -302,7 +302,7 @@
   <tr><td></td></tr>
   @if (count($instalments) > 0)
     <tr>
-      <td colspan="2" align="left" valign=middle><b>Vencimientos:</b></td>
+      <td colspan="2" align="left" valign=middle><b>Vencimientos: {{ count($instalments) }} cuota(s)</b></td>
     </tr>
 	<tr>
 		@foreach ($instalments as $inst)
