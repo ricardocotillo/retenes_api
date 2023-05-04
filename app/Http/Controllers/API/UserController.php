@@ -25,13 +25,15 @@ class UserController extends Controller
       $success = [];
       if ($ven) {
         $success = [
-          'access_token' => $user->createToken('MyApp')->accessToken,
-          'user' => $ven,
+          'access_token'  => $user->createToken('MyApp')->accessToken,
+          'role'          => $user->role,
+          'user'          => $ven,
         ];
       } else {
         $success = [
-          'access_token' => $user->createToken('MyApp')->accessToken,
-          'user' => Ccmven::where('id', 2)->first(),
+          'access_token'  => $user->createToken('MyApp')->accessToken,
+          'role'          => $user->role,
+          'user'          => Ccmven::where('id', 2)->first(),
         ];
       }
       return response()->json($success, $this->successStatus);
