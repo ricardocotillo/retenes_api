@@ -7,6 +7,7 @@ use App\Models\Detpe;
 use App\Models\Articulo;
 use App\Models\Famdfa;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 
 class DetpeController extends Controller
@@ -196,14 +197,29 @@ class DetpeController extends Controller
         return response()->json($detpe, 200);
     }
 
+    public function update_fecha_despacho(Request $request, int $detpe_id) : JsonResponse {
+        $d = Detpe::find($detpe_id);
+        $data = $request->all();
+        $d->fecha_despacho = $data['fecha'];
+        $d->save();
+        return response()->json($d);
+    }
+
+    public function update_item_state(Request $request, int $detpe_id) : JsonResponse {
+        $d = Detpe::find($detpe_id);
+        $data = $request->all();
+        $d->item_state = $data['state'];
+        $d->save();
+        return response()->json($d);
+    }
+
     /**
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Detpe  $detpe
      * @return \Illuminate\Http\Response
      */
-    public function destroy(int $detpe_id)
-    {
+    public function destroy(int $detpe_id) {
         $detpe = Detpe::find($detpe_id);
 
         $detpe->delete();
