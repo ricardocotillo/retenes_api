@@ -264,25 +264,50 @@
 		<td align="left" valign=bottom bgcolor="#FFFFFF"><font color="#FFFFFF"><br></font></td>
 	</tr>
 	<tr>
+    <td colspan=2 height="20" align="center" valign=bottom><br></td>
+		<td align="left" valign=bottom><br></td>
+		<td align="left" valign=bottom><br></td>
+    <td colspan=3 align="center" valign=bottom></td>
+    <td align="left" valign=bottom><br></td>
     <td style="border-top: 2px solid #000000; border-bottom: 2px solid #000000; border-left: 2px solid #000000; border-right: 2px solid #000000" colspan="3" align="center" valign=bottom sdnum="1033;0;@">
       <b>TOTAL ATENDIDO</b>
     </td>
     <td style="border-top: 2px solid #000000; border-bottom: 2px solid #000000; border-left: 2px solid #000000; border-right: 2px solid #000000" colspan="3" align="right" valign=bottom>
       <b>{{ number_format($total_atendido, 2, '.', '') }}</b>
     </td>
-    
+  </tr>
+  <tr>
+    <td colspan=2 height="20" align="center" valign=bottom><br></td>
+		<td align="left" valign=bottom><br></td>
+		<td align="left" valign=bottom><br></td>
+    <td colspan=3 align="center" valign=bottom></td>
+    <td align="left" valign=bottom><br></td>
     <td style="border-top: 2px solid #000000; border-bottom: 2px solid #000000; border-left: 2px solid #000000; border-right: 2px solid #000000" colspan="3" align="center" valign=bottom sdnum="1033;0;@">
       <b>TOTAL PENDIENTE</b>
     </td>
     <td style="border-top: 2px solid #000000; border-bottom: 2px solid #000000; border-left: 2px solid #000000; border-right: 2px solid #000000" colspan="3" align="right" valign=bottom>
       <b>{{ number_format($total_pendiente, 2, '.', '') }}</b>
     </td>
+  </tr>
+  <tr>
+    <td colspan=2 height="20" align="center" valign=bottom><br></td>
+		<td align="left" valign=bottom><br></td>
+		<td align="left" valign=bottom><br></td>
+    <td colspan=3 align="center" valign=bottom></td>
+    <td align="left" valign=bottom><br></td>
     <td style="border-top: 2px solid #000000; border-bottom: 2px solid #000000; border-left: 2px solid #000000; border-right: 2px solid #000000" colspan="3" align="center" valign=bottom sdnum="1033;0;@">
       <b>TOTAL ANULADO</b>
     </td>
     <td style="border-top: 2px solid #000000; border-bottom: 2px solid #000000; border-left: 2px solid #000000; border-right: 2px solid #000000" colspan="3" align="right" valign=bottom>
       <b>{{ number_format($total_anulado, 2, '.', '') }}</b>
     </td>
+  </tr>
+  <tr>
+    <td colspan=2 height="20" align="center" valign=bottom><br></td>
+		<td align="left" valign=bottom><br></td>
+		<td align="left" valign=bottom><br></td>
+    <td colspan=3 align="center" valign=bottom></td>
+    <td align="left" valign=bottom><br></td>
     <td style="border-top: 2px solid #000000; border-bottom: 2px solid #000000; border-left: 2px solid #000000; border-right: 2px solid #000000" colspan="3" align="center" valign=bottom sdnum="1033;0;@">
       <b>TOTAL A PAGAR</b>
     </td>
