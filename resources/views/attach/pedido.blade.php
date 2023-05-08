@@ -187,8 +187,10 @@
 			<tr>
 				<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan="2" height="15" align="center" valign=middle bgcolor="#9DC3E6"><b>CODIGO WB</b></td>
 				<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan="2" align="center" valign=middle bgcolor="#9DC3E6"><b>CANTIDAD</b></td>
-				<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan="4" align="center" valign=middle bgcolor="#9DC3E6"><b>DESCRIPCION</b></td>
-				<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan="1" align="center" valign=middle bgcolor="#9DC3E6"><b>P. UNIT. </b></td>
+				<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan="2" align="center" valign=middle bgcolor="#9DC3E6"><b>DESCRIPCION</b></td>
+				<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan="1" align="center" valign=middle bgcolor="#9DC3E6"><b>Estado</b></td>
+				<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan="1" align="center" valign=middle bgcolor="#9DC3E6"><b>Fecha Despacho</b></td>
+				<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan="1" align="center" valign=middle bgcolor="#9DC3E6"><b>P. UNIT.</b></td>
 				<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan="3" align="center" valign=middle bgcolor="#9DC3E6"><b>DESCUENTO %</b></td>
 				<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan="2" align="center" valign=middle bgcolor="#9DC3E6"><b>TOTAL</b></td>
 			</tr>
@@ -197,7 +199,9 @@
 				<tr @if (isset($v['estado']) && $v['estado'] == 1) style="background: #FFFF00" @endif>
 					<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan="2" align="left" valign=bottom>{{ $v['MCODART'] }}</td>
 					<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan="2" align="center" valign=bottom sdval="10" sdnum="1033;"><b>{{ $v['MCANTIDAD'] }}</b></td>
-					<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan="4" align="left" valign=bottom><b>{{ $v['MDESCRI01'] }}</b></td>
+					<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan="2" align="left" valign=bottom><b>{{ $v['MDESCRI01'] }}</b></td>
+					<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan="1" align="left" valign=bottom><b>{{ $v['item_state'] }}</b></td>
+					<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan="1" align="left" valign=bottom><b>{{ $v['fecha_despacho'] }}</b></td>
 					<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan="1" align="right" valign=bottom sdval="144.923184" sdnum="1033;0;0.00_ ;[RED]-0.00 ">
 						{{number_format($v['MPRECIO'], 2, '.', '')}}
 					</td>
@@ -260,11 +264,25 @@
 		<td align="left" valign=bottom bgcolor="#FFFFFF"><font color="#FFFFFF"><br></font></td>
 	</tr>
 	<tr>
-		<td colspan=2 height="20" align="center" valign=bottom><br></td>
-		<td align="left" valign=bottom><br></td>
-		<td align="left" valign=bottom><br></td>
-    <td colspan=3 align="center" valign=bottom></td>
-    <td align="left" valign=bottom><br></td>
+    <td style="border-top: 2px solid #000000; border-bottom: 2px solid #000000; border-left: 2px solid #000000; border-right: 2px solid #000000" colspan="3" align="center" valign=bottom sdnum="1033;0;@">
+      <b>TOTAL ATENDIDO</b>
+    </td>
+    <td style="border-top: 2px solid #000000; border-bottom: 2px solid #000000; border-left: 2px solid #000000; border-right: 2px solid #000000" colspan="3" align="right" valign=bottom>
+      <b>{{ number_format($total_atendido, 2, '.', '') }}</b>
+    </td>
+    
+    <td style="border-top: 2px solid #000000; border-bottom: 2px solid #000000; border-left: 2px solid #000000; border-right: 2px solid #000000" colspan="3" align="center" valign=bottom sdnum="1033;0;@">
+      <b>TOTAL PENDIENTE</b>
+    </td>
+    <td style="border-top: 2px solid #000000; border-bottom: 2px solid #000000; border-left: 2px solid #000000; border-right: 2px solid #000000" colspan="3" align="right" valign=bottom>
+      <b>{{ number_format($total_pendiente, 2, '.', '') }}</b>
+    </td>
+    <td style="border-top: 2px solid #000000; border-bottom: 2px solid #000000; border-left: 2px solid #000000; border-right: 2px solid #000000" colspan="3" align="center" valign=bottom sdnum="1033;0;@">
+      <b>TOTAL ANULADO</b>
+    </td>
+    <td style="border-top: 2px solid #000000; border-bottom: 2px solid #000000; border-left: 2px solid #000000; border-right: 2px solid #000000" colspan="3" align="right" valign=bottom>
+      <b>{{ number_format($total_anulado, 2, '.', '') }}</b>
+    </td>
     <td style="border-top: 2px solid #000000; border-bottom: 2px solid #000000; border-left: 2px solid #000000; border-right: 2px solid #000000" colspan="3" align="center" valign=bottom sdnum="1033;0;@">
       <b>TOTAL A PAGAR</b>
     </td>

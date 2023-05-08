@@ -184,6 +184,10 @@ class Cabpe extends Model
         return $max_mod - $mod->modifications;
     }
 
+	public function totalByState(string $state) {
+		return $this->detpe()->where('item_state', $state)->get()->pluck('precio_neto')->sum();
+	}
+
 	public function getPrecioNetoAttribute() {
 		$price = $this->detpe()->get()->pluck('precio_neto');
 		$price = $price->sum();
