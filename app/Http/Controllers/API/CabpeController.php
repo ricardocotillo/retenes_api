@@ -8,18 +8,15 @@ use App\Models\Ccmsedo;
 use App\Models\Ccmcli;
 use App\Models\Articulo;
 use App\Models\Famdfa;
-use App\Models\Ccmcpa;
 use App\Models\Ccmtrs;
 use App\Models\Value;
 use App\Models\Instalment;
 use App\Models\CabpeModification;
-use App\Models\DetpeFamdfa;
-use App\Mail\PedidoProcesado;
 use Illuminate\Support\Facades\Mail;
 use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
-use Carbon\Carbon;
 
 class CabpeController extends Controller {
     /**
@@ -216,36 +213,38 @@ class CabpeController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function show(Request $req) {
-        // obtener los códigos de vendedores
-        $cods = $req->all();
-        $cabpes = Cabpe::whereIn('MCODVEN', $cods)
-                ->select([
-                    'id',
-                    'MNSERIE',
-                    'MNROPED',
-                    'MFECEMI',
-                    'MCODCPA',
-                    'MCODVEN',
-                    'MCODCLI',
-                    'MTOPVENTA',
-                    'MNOMCLI',
-                    'MCODCADI',
-                    'MCODTRSP',
-                    'MOBSERV',
-                    'estado',
-                ])
-                ->with([
-                    'detpe.famdfas',
-                    'ccmcpa',
-                    'ccmcli',
-                    'ccmtrs',
-                    'instalments',
-                    'values',
-                ])
-                ->orderBy('MNSERIE', 'desc')
-                ->orderBy('MNROPED', 'desc')
-                ->groupBy('id', 'MNROPED')
-                ->paginate(50);
+        $user = Auth::user();
+        $cabpes = Cabpe::select([
+            'id',
+            'MNSERIE',
+            'MNROPED',
+            'MFECEMI',
+            'MCODCPA',
+            'MCODVEN',
+            'MCODCLI',
+            'MTOPVENTA',
+            'MNOMCLI',
+            'MCODCADI',
+            'MCODTRSP',
+            'MOBSERV',
+            'estado',
+        ])
+        ->with([
+            'detpe.famdfas',
+            'ccmcpa',
+            'ccmcli',
+            'ccmtrs',
+            'instalments',
+            'values',
+        ]);
+        if ($user->role != 'admin') {
+            $cods = $req->all();
+            $cabpes = $cabpes->whereIn('MCODVEN', $cods);
+        }
+        $cabpes = $cabpes->orderBy('MNSERIE', 'desc')
+            ->orderBy('MNROPED', 'desc')
+            ->groupBy('id', 'MNROPED')
+            ->paginate(50);
         return response()->json($cabpes, 200);
     }
     
