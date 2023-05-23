@@ -11,7 +11,9 @@ use App\Models\Famdfa;
 use App\Models\Ccmtrs;
 use App\Models\Value;
 use App\Models\Instalment;
+use App\Models\TxtDetpe;
 use App\Models\CabpeModification;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Mail;
 use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Http\Request;
@@ -370,6 +372,32 @@ class CabpeController extends Controller {
     }
 
     /**
+     * @param Detpe[] $detpes
+     */
+    private function generate_txt(array $cabpes) {
+        $txt_detpe = TxtDetpe::all();
+        if (!$txt_detpe->count()) {
+            return false;
+        }
+        
+        $cols = $txt_detpe->implode('column', ' | ');
+        $fields = $txt_detpe->pluck('field');
+        $rows = [];
+        foreach ($cabpes as $c) {
+            foreach ($c as $d) {
+                $row = [];
+                foreach ($fields as $f) {
+                    array_push($row, $d[$f]);
+                }
+                $row = implode(' | ', $row);
+                array_push($rows, $row);
+            }
+        }
+        $rows = implode("\n", $rows);
+        return $cols . "\n" . $rows;
+    }
+
+    /**
      * Enviar correo.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -379,12 +407,12 @@ class CabpeController extends Controller {
     public function send_email(Request $request, string $mnserie, string $mnroped) {
         $estado = $request->input('estado');
         $email = $request->input('email');
-        $enviar_correo = $request->input('enviarCorreo');
+        // $enviar_correo = $request->input('enviarCorreo');
         $cabpes = Cabpe::with(['detpe', 'detpe.famdfas', 'ccmtrs', 'ccmcli', 'ccmcpa', 'values', 'instalments'])->where('MNSERIE', $mnserie)->where('MNROPED', $mnroped)->get();
         $data = array('nombre' => $cabpes[0]->ccmcli->MNOMBRE);
 
-        $ccmcpa = $cabpes[0]->ccmcpa;
-        $ccmtrs = $cabpes[0]->ccmtrs;
+        // $ccmcpa = $cabpes[0]->ccmcpa;
+        // $ccmtrs = $cabpes[0]->ccmtrs;
 
         $articulos = array();
 
@@ -445,6 +473,7 @@ class CabpeController extends Controller {
         $document = PDF::loadView('attach.pedido', $info);
         $output = $document->output();
 
+        $txt_output = $this->generate_txt($articulos);
         $ped_almacen = NULL;
         if (config('app.flavor') == 'filtros') {
             PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true, 'debugPng' => true, 'defaultFont' => 'sans-serif']);
@@ -453,23 +482,25 @@ class CabpeController extends Controller {
         }
         if (!config('app.debug')) {
             if ($estado == 'terminado') {
-                Mail::send('emails.mail', $data, function ($message) use ($ccmcli, $output, $mcodven, $recep, $ped_almacen) {
+                Mail::send('emails.mail', $data, function ($message) use ($ccmcli, $output, $mcodven, $recep, $ped_almacen, $txt_output) {
                     $message->to($recep, trim($ccmcli->MNOMBRE))->subject('Pedido en proceso - ' . trim($mcodven));
                     $message->from($recep, 'Pedidos Willy Busch');
                     $message->attachData($output, 'pedido.pdf');
+                    $message->attachData($txt_output, 'pedido.txt');
                     if (config('app.flavor') == 'filtros' && !is_null($ped_almacen)) {
                         $message->attachData($ped_almacen, 'ped_almacen.pdf');
                     }
                 });
             }
-            Mail::send('emails.mail', $data, function ($message) use ($ccmcli, $output, $mcodven , $request, $recep) {
+            Mail::send('emails.mail', $data, function ($message) use ($ccmcli, $output, $mcodven , $request, $recep, $txt_output) {
                 $message->to($request->user()->email, trim($ccmcli->MNOMBRE))->subject('Pedido en proceso - ' . $mcodven);
                 $message->from($recep, 'Pedidos Willy Busch');
                 $message->attachData($output, 'pedido.pdf');
+                $message->attachData($txt_output, 'pedido.txt');
            });
 
             if ($request->input('enviarCorreo') && $ccmcli->MCORREO != NULL) {
-                Mail::send('emails.mail', $data, function ($message) use ($ccmcli, $output, $mcodven, $email, $recep) {
+                Mail::send('emails.mail', $data, function ($message) use ($ccmcli, $output, $mcodven, $recep) {
                     $message->to(trim($ccmcli->MCORREO), trim($ccmcli->MNOMBRE))->subject('Pedido en proceso - ' . trim($mcodven));
                     $message->from($recep, 'Pedidos Willy Busch');
                     $message->attachData($output, 'pedido.pdf');
@@ -477,10 +508,11 @@ class CabpeController extends Controller {
             }
 
         } else {
-            Mail::send('emails.mail', $data, function ($message) use ($ccmcli, $output, $mcodven, $email, $recep) {
+            Mail::send('emails.mail', $data, function ($message) use ($ccmcli, $output, $mcodven, $recep, $txt_output) {
                 $message->to('rcotillo@cotillo.tech', trim($ccmcli->MNOMBRE))->subject('Pedido en proceso - ' . trim($mcodven));
                 $message->from($recep, 'Pedidos Willy Busch');
                 $message->attachData($output, 'pedido.pdf');
+                $message->attachData($txt_output, 'pedido.txt');
             });
         }
 
