@@ -380,16 +380,17 @@ class CabpeController extends Controller {
             return false;
         }
         
-        $cols = $txt_detpe->implode('column', ' | ');
+        $cols = $txt_detpe->implode('column', '|');
         $fields = $txt_detpe->pluck('field');
         $rows = [];
         foreach ($cabpes as $c) {
             foreach ($c as $d) {
                 $row = [];
                 foreach ($fields as $f) {
-                    array_push($row, $d[$f]);
+                    if (isset($d[$f])) array_push($row, $d[$f]);
+                    else array_push($row, '');
                 }
-                $row = implode(' | ', $row);
+                $row = implode('|', $row);
                 array_push($rows, $row);
             }
         }
