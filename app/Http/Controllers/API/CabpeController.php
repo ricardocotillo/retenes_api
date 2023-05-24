@@ -497,7 +497,6 @@ class CabpeController extends Controller {
                 $message->to($request->user()->email, trim($ccmcli->MNOMBRE))->subject('Pedido en proceso - ' . $mcodven);
                 $message->from($recep, 'Pedidos Willy Busch');
                 $message->attachData($output, 'pedido.pdf');
-                $message->attachData($txt_output, 'pedido.txt');
            });
 
             if ($request->input('enviarCorreo') && $ccmcli->MCORREO != NULL) {
