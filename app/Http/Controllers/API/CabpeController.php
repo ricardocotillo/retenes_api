@@ -20,6 +20,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\JsonResponse;
 
 class CabpeController extends Controller {
     /**
@@ -656,11 +657,20 @@ class CabpeController extends Controller {
         return response()->json($c, 200);
     }
 
-    public function update_item_state(Request $request, string $mnserie, string $mnroped) : \Illuminate\Http\JsonResponse {
+    public function update_item_state(Request $request, string $mnserie, string $mnroped) : JsonResponse {
         $state = $request->input('state');
         $cabpes = Cabpe::where('MNSERIE', $mnserie)->where('MNROPED', $mnroped)->get();
         foreach ($cabpes as $c) {
             $c->detpe()->update(['item_state' => $state]);
+        }
+        return response()->json($cabpes);
+    }
+
+    public function update_fecha_despacho(Request $request, string $mnserie, string $mnroped) : JsonResponse {
+        $fecha = $request->input('fecha');
+        $cabpes = Cabpe::where('MNSERIE', $mnserie)->where('MNROPED', $mnroped)->get();
+        foreach ($cabpes as $c) {
+            $c->detpe()->update(['fecha_despacho' => $fecha]);
         }
         return response()->json($cabpes);
     }
