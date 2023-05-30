@@ -67,6 +67,7 @@ Route::group(['middleware' => ['auth:api', 'cors']], function () {
     Route::patch('cabpe/update_descuento_general/{id}/', [CabpeController::class, 'update_descuento_general']);
     Route::patch('cabpe/update_ccmtrs/{mnserie}/{mnroped}/', [CabpeController::class, 'update_ccmtrs']);
     Route::patch('cabpe/update_mobserv/{mnserie}/{mnroped}/', [CabpeController::class, 'update_mobserv']);
+    Route::patch('cabpe/update_item_state/{mnserie}/{mnroped}/', [CabpeController::class, 'update_item_state']);
     Route::get('cabpe/show_by_range/{mcodcli}/{range}/', [CabpeController::class, 'show_by_range']);
     Route::patch('cabpe/{mnserie}/{mnroped}/modifications/', [CabpeController::class, 'modifications']);
     Route::resource('inputs', InputController::class);

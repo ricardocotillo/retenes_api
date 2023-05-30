@@ -655,4 +655,13 @@ class CabpeController extends Controller {
         ])->find($id);
         return response()->json($c, 200);
     }
+
+    public function update_item_state(Request $request, string $mnserie, string $mnroped) : \Illuminate\Http\JsonResponse {
+        $state = $request->input('state');
+        $cabpes = Cabpe::where('MNSERIE', $mnserie)->where('MNROPED', $mnroped)->get();
+        foreach ($cabpes as $c) {
+            $c->detpe()->update(['item_state' => $state]);
+        }
+        return response()->json($cabpes);
+    }
 }
