@@ -19,6 +19,7 @@ use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
+use Illuminate\Database\Eloquent\Builder;
 
 class CabpeController extends Controller {
     /**
@@ -215,6 +216,7 @@ class CabpeController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function show(Request $req) {
+        $q = $req->input('q');
         $user = Auth::user();
         $cabpes = Cabpe::select([
             'id',
@@ -242,6 +244,14 @@ class CabpeController extends Controller {
         if ($user->role != 'admin') {
             $cods = $req->all();
             $cabpes = $cabpes->whereIn('MCODVEN', $cods);
+        }
+        if ($q && is_numeric($q)) {
+            $cabpes = $cabpes->where('MCODCLI', 'LIKE', '%' . $q . '%');
+        }
+        if ($q && !is_numeric($q)) {
+            $cabpes = $cabpes->whereHas('ccmcli', function(Builder $query) use ($q) {
+                $query->where('MNOMBRE', 'LIKE', '%' . $q . '%');
+            });
         }
         $cabpes = $cabpes->orderBy('MNSERIE', 'desc')
             ->orderBy('MNROPED', 'desc')
