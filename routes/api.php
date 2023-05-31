@@ -46,7 +46,7 @@ Route::group(['middleware' => ['auth:api', 'cors']], function () {
     Route::get('mcodven/{nombre}', [CcmvenController::class, 'show']);
     Route::post('ccmven/', [CcmvenController::class, 'store']);
     Route::post('cabped', [CabpeController::class, 'store']);
-    Route::post('historial', [CabpeController::class, 'show']);
+    Route::get('historial/', [CabpeController::class, 'show']);
     Route::get('ccmtrs', [CcmtrsController::class, 'index']);
     Route::get('ccmcpa/{tipo}', [CcmcpaController::class, 'show']);
     Route::post('cambiar', [CcmcpaController::class, 'update']);

@@ -216,8 +216,8 @@ class CabpeController extends Controller {
      * @param  \App\Models\Cabpe  $cabpe
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $req) {
-        $q = $req->input('q');
+    public function show(Request $request) {
+        $q = $request->input('q');
         $user = Auth::user();
         $cabpes = Cabpe::select([
             'id',
@@ -243,8 +243,9 @@ class CabpeController extends Controller {
             'values',
         ]);
         if ($user->role != 'admin') {
-            $cods = $req->all();
-            $cabpes = $cabpes->whereIn('MCODVEN', $cods);
+            $codes = $request->input('codes');
+            $codes = explode(',', $codes);
+            $cabpes = $cabpes->whereIn('MCODVEN', $codes);
         }
         if ($q && is_numeric($q)) {
             $cabpes = $cabpes->where('MCODCLI', 'LIKE', '%' . $q . '%');
@@ -257,7 +258,7 @@ class CabpeController extends Controller {
         $cabpes = $cabpes->orderBy('MNSERIE', 'desc')
             ->orderBy('MNROPED', 'desc')
             ->groupBy('id', 'MNROPED')
-            ->paginate(50);
+            ->paginate(10);
         return response()->json($cabpes, 200);
     }
     
