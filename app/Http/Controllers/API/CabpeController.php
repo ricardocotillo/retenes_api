@@ -257,8 +257,8 @@ class CabpeController extends Controller {
         }
         $cabpes = $cabpes->orderBy('MNSERIE', 'desc')
             ->orderBy('MNROPED', 'desc')
-            ->groupBy('id', 'MNROPED')
-            ->paginate(10);
+            ->groupBy('id', 'MNSERIE', 'MNROPED')
+            ->paginate(50);
         return response()->json($cabpes, 200);
     }
     
