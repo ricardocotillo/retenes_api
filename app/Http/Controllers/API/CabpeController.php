@@ -419,13 +419,8 @@ class CabpeController extends Controller {
      */
     public function send_email(Request $request, string $mnserie, string $mnroped) {
         $estado = $request->input('estado');
-        $email = $request->input('email');
-        // $enviar_correo = $request->input('enviarCorreo');
         $cabpes = Cabpe::with(['detpe', 'detpe.famdfas', 'ccmtrs', 'ccmcli', 'ccmcpa', 'values', 'instalments'])->where('MNSERIE', $mnserie)->where('MNROPED', $mnroped)->get();
         $data = array('nombre' => $cabpes[0]->ccmcli->MNOMBRE);
-
-        // $ccmcpa = $cabpes[0]->ccmcpa;
-        // $ccmtrs = $cabpes[0]->ccmtrs;
 
         $articulos = array();
 
@@ -505,7 +500,7 @@ class CabpeController extends Controller {
                     }
                 });
             }
-            Mail::send('emails.mail', $data, function ($message) use ($ccmcli, $output, $mcodven , $request, $recep, $txt_output) {
+            Mail::send('emails.mail', $data, function ($message) use ($ccmcli, $output, $mcodven , $request, $recep) {
                 $message->to($request->user()->email, trim($ccmcli->MNOMBRE))->subject('Pedido en proceso - ' . $mcodven);
                 $message->from($recep, 'Pedidos Willy Busch');
                 $message->attachData($output, 'pedido.pdf');
@@ -528,9 +523,9 @@ class CabpeController extends Controller {
             });
         }
 
-        foreach ($cabpes as $cabpe) {
-            $cabpe->estado = $estado;
-            $cabpe->save();
+        foreach ($cabpes as $c) {
+            $c->estado = $estado;
+            $c->save();
         }
 
         return response()->json([], 200);
