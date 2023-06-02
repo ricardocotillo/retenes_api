@@ -14,7 +14,7 @@ class AddItemStateToDetpe extends Migration
     public function up()
     {
         Schema::table('detpe', function (Blueprint $table) {
-            $table->string('item_state', 10)->default('espera'); // espera, pendiente, atendido, pendiente
+            $table->string('item_state', 10)->default('espera'); // espera, pendiente, atendido, atendido_parcial, pendiente
             $table->date('fecha_despacho')->nullable();
         });
     }
