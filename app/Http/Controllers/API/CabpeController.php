@@ -424,7 +424,7 @@ class CabpeController extends Controller {
 
         $articulos = array();
 
-        foreach ($cabpes as $key => $cabpe) {
+        foreach ($cabpes as $cabpe) {
             $ar = $cabpe->detpe->sortBy('MCODART')->sortByDesc('famdfa.MDESCRIP')->toArray();
             $emp = array_values(array_filter($ar, function($d) { return in_array($d['MCODDFA'], ['Sin descuento', 'Bono']); }));
             $des = array_values(array_filter($ar, function($d) { return !in_array($d['MCODDFA'], ['Sin descuento', 'Bono']); }));
