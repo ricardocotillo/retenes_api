@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddItemStateToDetpe extends Migration
+class AddPartialToDetpe extends Migration
 {
     /**
      * Run the migrations.
@@ -14,8 +14,7 @@ class AddItemStateToDetpe extends Migration
     public function up()
     {
         Schema::table('detpe', function (Blueprint $table) {
-            $table->string('item_state', 10)->default('espera'); // espera, pendiente, atendido, parcial, pendiente
-            $table->date('fecha_despacho')->nullable();
+            $table->integer('partial')->nullable();
         });
     }
 

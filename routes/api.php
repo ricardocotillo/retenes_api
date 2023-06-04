@@ -54,8 +54,9 @@ Route::group(['middleware' => ['auth:api', 'cors']], function () {
     Route::post('register', [UserController::class, 'register']);
     Route::get('descuento_general/{mcodven}/', [ArticuloFamdfaController::class, 'descuento_general']);
     Route::patch('detpe/{detpe_id}/', [DetpeController::class, 'update']);
-    Route::patch('detpe/{detpe_id}/update_item_state', [DetpeController::class, 'update_item_state']);
-    Route::patch('detpe/{detpe_id}/update_fecha_despacho', [DetpeController::class, 'update_fecha_despacho']);
+    Route::patch('detpe/{detpe_id}/update_item_state/', [DetpeController::class, 'update_item_state']);
+    Route::patch('detpe/{detpe_id}/update_fecha_despacho/', [DetpeController::class, 'update_fecha_despacho']);
+    Route::patch('detpe/{detpe_id}/update_partial/', [DetpeController::class, 'update_partial']);
     Route::post('detpe/{mnserie}/{mnroped}/', [DetpeController::class, 'store']);
     Route::delete('detpe/{detpe_id}/', [DetpeController::class, 'destroy']);
     Route::get('detped/{mnserie}/{mnroped}', [DetpeController::class, 'show']);
