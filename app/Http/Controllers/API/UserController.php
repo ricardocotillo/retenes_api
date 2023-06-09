@@ -27,16 +27,18 @@ class UserController extends Controller
         $success = [
           'access_token'  => $user->createToken('MyApp')->accessToken,
           'role'          => $user->role,
+          'assign_client' => $user->assign_client,
           'user'          => $ven,
         ];
       } else {
         $success = [
           'access_token'  => $user->createToken('MyApp')->accessToken,
           'role'          => $user->role,
+          'assign_client' => $user->assign_client,
           'user'          => Ccmven::where('id', 2)->first(),
         ];
       }
-      return response()->json($success, $this->successStatus);
+      return response()->json($success);
     } else {
       return response()->json(['error' => 'Unauthorised'], 401);
     }

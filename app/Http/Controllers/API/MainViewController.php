@@ -51,6 +51,7 @@ class MainViewController extends Controller
             'MCORREO',
             'MCODZON',
             'MLIM_CR',
+            'user_id',
         )->get();
         $formasDePago = Ccmcpa::select('MCONDPAGO', 'MDESCRIP', 'MABREVI', 'MINDCRED', 'MDIAS', 'MTIPCRE')->get();
         $vendedores = Ccmven::where('MNOMBRE', '=', urldecode($nombre))->get();
