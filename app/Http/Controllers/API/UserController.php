@@ -25,6 +25,7 @@ class UserController extends Controller
       $success = [];
       if ($ven) {
         $success = [
+          'id'            => $user->id,
           'access_token'  => $user->createToken('MyApp')->accessToken,
           'role'          => $user->role,
           'assign_client' => $user->assign_client,
@@ -32,6 +33,7 @@ class UserController extends Controller
         ];
       } else {
         $success = [
+          'id'            => $user->id,
           'access_token'  => $user->createToken('MyApp')->accessToken,
           'role'          => $user->role,
           'assign_client' => $user->assign_client,
