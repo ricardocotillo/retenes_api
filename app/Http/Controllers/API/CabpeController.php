@@ -634,10 +634,12 @@ class CabpeController extends Controller {
             'detpe',
             'detpe.famdfas',
         ])->find($id);
+
         foreach ($c->detpe as $d) {
             $d->famdfas()->wherePivot('type', 'general')->detach();
             $d->famdfas()->attach($famdfa->id, ['type' => 'general']);
         }
+
         $c = Cabpe::with([
             'ccmcpa',
             'ccmcli',
