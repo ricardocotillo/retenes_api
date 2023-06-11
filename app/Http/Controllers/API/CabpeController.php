@@ -626,11 +626,10 @@ class CabpeController extends Controller {
         return response()->json($c, 200);
     }
 
-    public function update_famdfa(Request $request, $id) {
+    public function update_famdfa(Request $request, int $id) {
         $j = $request->all();
         $data = $j['famdfa'];
         $famdfa = Famdfa::where('MCODDFA', $data['MCODDFA'])->first();
-        $type = $j['type'];
         $c = Cabpe::with([
             'detpe',
             'detpe.famdfas',
