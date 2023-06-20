@@ -90,27 +90,33 @@ class Detpe extends Model
 		'descrip',
 	];
 
-	public function cabpe() {
+	public function cabpe()
+	{
 		return $this->belongsTo(Cabpe::class);
 	}
 
-	public function famdfa() {
+	public function famdfa()
+	{
 		return $this->belongsTo(Famdfa::class, 'MCODDFA', 'MCODDFA');
 	}
 
-	public function articulo() {
+	public function articulo()
+	{
 		return $this->belongsTo(Articulo::class, 'MCODART', 'MCODART');
 	}
 
-	public function famdfas() {
-		return $this->belongsToMany(Famdfa::class, 'detpe_famdfa')->withPivot('type');
+	public function famdfas()
+	{
+		return $this->belongsToMany(Famdfa::class, 'detpe_famdfa')->withPivot(['type', 'detpe_id', 'famdfa_id', 'id']);
 	}
 
-	public function scopeNotBono($query) {
+	public function scopeNotBono($query)
+	{
 		return $query->where('MCODDFA', '!=', 'Bono');
 	}
 
-	public function getPrecioAttribute() {
+	public function getPrecioAttribute()
+	{
 		return $this->MCODDFA != 'Bono' ? $this->MCANTIDAD * $this->MPRECIO : 0;
 	}
 
@@ -118,7 +124,8 @@ class Detpe extends Model
 	// 	return $this->MCANTIDAD * $this->MPRECIO * ($this->famdfa->MPOR_DFA / 100);
 	// }
 
-	public function getPrecioNetoAttribute() {
+	public function getPrecioNetoAttribute()
+	{
 		$famdfas = $this->famdfas;
 		$price = $this->precio;
 		foreach ($famdfas as $f) {
@@ -127,13 +134,14 @@ class Detpe extends Model
 		return $price;
 	}
 
-	public function getDescripAttribute() {
+	public function getDescripAttribute()
+	{
 		$display = '';
-		$famdfas = $this->famdfas()->get()->sortByDesc(function($f, $k) {
+		$famdfas = $this->famdfas()->get()->sortByDesc(function ($f, $k) {
 			return $f['pivot']['type'];
 		});
 		$mdescrip = $famdfas->pluck('MDESCRIP');
-		$mdescrip = $mdescrip->map(function($m, $k) {
+		$mdescrip = $mdescrip->map(function ($m, $k) {
 			return str_replace('%', '', $m);
 		});
 		$mdescrip = $mdescrip->implode('+') . '%';
