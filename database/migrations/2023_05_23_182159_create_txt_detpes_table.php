@@ -15,8 +15,10 @@ class CreateTxtDetpesTable extends Migration
     {
         Schema::create('txt_detpes', function (Blueprint $table) {
             $table->id();
-            $table->string('column');
+            $table->string('type'); # C o D
+            $table->string('table');
             $table->string('field');
+            $table->integer('order');
         });
     }
 
