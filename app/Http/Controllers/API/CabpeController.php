@@ -385,33 +385,28 @@ class CabpeController extends Controller
     $cabpe->fill($new_cabpe);
     $cabpe->save();
   }
-
   /**
-   * @param Detpe[] $detpes
+   * @param Cabpe[] $cabpes
    */
-  private function generate_txt(array $cabpes)
-  {
-    $txt_detpe = TxtDetpe::all();
-    if (!$txt_detpe->count()) {
-      return false;
-    }
-
-    $cols = $txt_detpe->implode('column', '|');
-    $fields = $txt_detpe->pluck('field');
-    $rows = [];
-    foreach ($cabpes as $c) {
-      foreach ($c as $d) {
-        $row = [];
-        foreach ($fields as $f) {
-          if (isset($d[$f])) array_push($row, $d[$f]);
-          else array_push($row, '');
+  private function generate_txt($cabpes) {
+        $txt_detpe = TxtDetpe::all();
+        if (!$txt_detpe->count()) {
+            return false;
         }
-        $row = implode('|', $row);
-        array_push($rows, $row);
-      }
-    }
-    $rows = implode("\n", $rows);
-    return $cols . "\n" . $rows;
+
+        $c_row = $txt_detpe->filter(function($t) {
+            return $t->type == 'C';
+        });
+
+        $d_row = $txt_detpe->filter(function($t) {
+            return $t->type == 'D';
+        });
+
+        foreach ($cabpes as $cabpe) {
+            foreach ($c_row as $f) {
+                
+            }
+        }
   }
 
   /**
