@@ -147,6 +147,7 @@ class CabpeController extends Controller
         'MOBSERV' => $observaciones,
         'estado' => $estado,
         'MCODTRSP' => $mcodtrsp,
+        'MCORREO'  => $ccmcli['MCORREO'],
       );
       $cab = Cabpe::create($cabecera);
       $cab->save();
@@ -401,12 +402,41 @@ class CabpeController extends Controller
         $d_row = $txt_detpe->filter(function($t) {
             return $t->type == 'D';
         });
+        
+        $txt = [];
 
         foreach ($cabpes as $cabpe) {
+            $head = ['C'];
             foreach ($c_row as $f) {
-                
+                if (isset($cabpe->{$f['field']})) {
+                  array_push($head, $cabpe->{$f['field']});
+                } else {
+                  array_push($head, '');
+                }
             }
+            $head = implode('|', $head);
+
+            $body = [];
+
+            foreach ($cabpe->detpe as $detpe) {
+              $row = ['D'];
+              foreach ($d_row as $f) {
+                if (isset($detpe->{$f['field']})) {
+                  array_push($row, $detpe->{$f['field']});
+                } else {
+                  array_push($row, '');
+                }
+              }
+              $row = implode('|', $row);
+              array_push($body, $row);
+            }
+            $body = implode("\n", $body);
+            
+            array_push($txt, $head . "\n" . $body);
         }
+
+        $txt = implode("\n", $txt);
+        return $txt;
   }
 
   /**
@@ -493,7 +523,7 @@ class CabpeController extends Controller
     $document = PDF::loadView('attach.pedido', $info);
     $output = $document->output();
 
-    $txt_output = $this->generate_txt($articulos);
+    $txt_output = $this->generate_txt($cabpes);
     $ped_almacen = NULL;
     if (config('app.flavor') == 'filtros') {
       PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true, 'debugPng' => true, 'defaultFont' => 'sans-serif']);
