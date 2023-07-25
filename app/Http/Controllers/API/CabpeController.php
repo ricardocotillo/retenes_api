@@ -384,30 +384,45 @@ class CabpeController extends Controller {
     }
 
     /**
-     * @param Detpe[] $detpes
+     * @param Cabpe[] $cabpes
      */
-    private function generate_txt(array $cabpes) {
+    private function generate_txt($cabpes) {
         $txt_detpe = TxtDetpe::all();
         if (!$txt_detpe->count()) {
             return false;
         }
-        
-        $cols = $txt_detpe->implode('column', '|');
-        $fields = $txt_detpe->pluck('field');
-        $rows = [];
-        foreach ($cabpes as $c) {
-            foreach ($c as $d) {
-                $row = [];
-                foreach ($fields as $f) {
-                    if (isset($d[$f])) array_push($row, $d[$f]);
-                    else array_push($row, '');
-                }
-                $row = implode('|', $row);
-                array_push($rows, $row);
+
+        $c_row = $txt_detpe->filter(function($t) {
+            return $t->type == 'C';
+        });
+
+        $d_row = $txt_detpe->filter(function($t) {
+            return $t->type == 'D';
+        });
+
+        foreach ($cabpes as $cabpe) {
+            foreach ($c_row as $f) {
+                
             }
         }
-        $rows = implode("\n", $rows);
-        return $cols . "\n" . $rows;
+        
+        
+        // $cols = $txt_detpe->implode('column', '|');
+        // $fields = $txt_detpe->pluck('field');
+        // $rows = [];
+        // foreach ($cabpes as $c) {
+        //     foreach ($c as $d) {
+        //         $row = [];
+        //         foreach ($fields as $f) {
+        //             if (isset($d[$f])) array_push($row, $d[$f]);
+        //             else array_push($row, '');
+        //         }
+        //         $row = implode('|', $row);
+        //         array_push($rows, $row);
+        //     }
+        // }
+        // $rows = implode("\n", $rows);
+        // return $cols . "\n" . $rows;
     }
 
     /**
@@ -481,7 +496,7 @@ class CabpeController extends Controller {
         $document = PDF::loadView('attach.pedido', $info);
         $output = $document->output();
 
-        $txt_output = $this->generate_txt($articulos);
+        $txt_output = $this->generate_txt($cabpes);
         $ped_almacen = NULL;
         if (config('app.flavor') == 'filtros') {
             PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true, 'debugPng' => true, 'defaultFont' => 'sans-serif']);
