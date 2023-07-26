@@ -14,7 +14,7 @@ class AddTypeToArticuloFamdfa extends Migration
     public function up()
     {
         Schema::table('articulo_famdfa', function (Blueprint $table) {
-            $table->string('tipo', 16)->nullable();
+            $table->string('tipo', 16)->nullable(); #retenes, repuestos o all
         });
     }
 
