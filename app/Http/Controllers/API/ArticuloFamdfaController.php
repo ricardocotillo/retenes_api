@@ -46,7 +46,7 @@ class ArticuloFamdfaController extends Controller
         $artdfas = null;
 
         if ($mcodven == 'all') {
-            $type == $mcodven;
+            $type = $mcodven;
             $artdfas = ArticuloFamdfa::where('tipo', $type)->get();
         } else {
             $type = $mcodven[strlen($mcodven) - 1];
