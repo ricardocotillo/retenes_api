@@ -39,24 +39,28 @@ class ArticuloFamdfaController extends Controller
     }
     
     public function descuento_general(Request $request, string $mcodven) {
-        $type = $mcodven[strlen($mcodven) - 1];
-        $type = is_numeric($type) || $type == 'l' ? null : $type;
         $impneto = $request->input('impneto');
         $mcodcadi = $request->input('mcodcadi');
         $mcondpago = $request->input('mcondpago');
         $mcodcli = $request->input('mcodcli');
+        $artdfas = null;
 
-        $artdfas = ArticuloFamdfa::where(function($q) use ($mcodcadi) {
-            $q->where('MCODCADI', $mcodcadi)->orWhere('MCODCADI', NULL);
-        })
-        ->where('MCONDPAGO', $mcondpago)
-        ->where('impneto_min', '<=', $impneto);
-
-        if ($type != null) $artdfas = $artdfas->where('tipo', $type);
-        
-        $artdfas = $artdfas->where(function($q) use ($mcodcli) {
-            $q->where('MCODCLI', $mcodcli)->orWhere('MCODCLI', NULL);
-        })->get();
+        if ($mcodven == 'all') {
+            $type == $mcodven;
+            $artdfas = ArticuloFamdfa::where('tipo', $type)->get();
+        } else {
+            $type = $mcodven[strlen($mcodven) - 1];
+            $type = is_numeric($type) || $type == 'l' ? 'all' : $type;
+            $artdfas = ArticuloFamdfa::where(function($q) use ($mcodcadi) {
+                $q->where('MCODCADI', $mcodcadi)->orWhere('MCODCADI', NULL);
+            })
+            ->where('MCONDPAGO', $mcondpago)
+            ->where('impneto_min', '<=', $impneto)
+            ->where('tipo', $type)
+            ->where(function($q) use ($mcodcli) {
+                $q->where('MCODCLI', $mcodcli)->orWhere('MCODCLI', NULL);
+            })->get();
+        }
 
         foreach ($artdfas as $ndfa) {
             $dfa = Famdfa::where('MCODDFA', $ndfa['mcoddfa'])->first();
