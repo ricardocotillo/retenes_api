@@ -50,7 +50,7 @@ class ArticuloFamdfaController extends Controller
             $artdfas = ArticuloFamdfa::where('tipo', $type)->get();
         } else {
             $type = $mcodven[strlen($mcodven) - 1];
-            $type = is_numeric($type) || $type == 'l' ? 'all' : $type;
+            $type = is_numeric($type) ? null : $type;
             $artdfas = ArticuloFamdfa::where(function($q) use ($mcodcadi) {
                 $q->where('MCODCADI', $mcodcadi)->orWhere('MCODCADI', NULL);
             })
