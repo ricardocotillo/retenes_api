@@ -397,11 +397,11 @@ class CabpeController extends Controller
 
         $c_row = $txt_detpe->filter(function($t) {
             return $t->type == 'C';
-        });
+        })->sortBy('order');
 
         $d_row = $txt_detpe->filter(function($t) {
             return $t->type == 'D';
-        });
+        })->sortBy('order');
         
         $txt = [];
 
