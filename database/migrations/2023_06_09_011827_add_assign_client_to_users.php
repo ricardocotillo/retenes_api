@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddTypeToArticuloFamdfa extends Migration
+class AddAssignClientToUsers extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddTypeToArticuloFamdfa extends Migration
      */
     public function up()
     {
-        Schema::table('articulo_famdfa', function (Blueprint $table) {
-            $table->string('tipo', 16)->nullable(); #retenes, repuestos o all
+        Schema::table('users', function (Blueprint $table) {
+            $table->boolean('assign_client')->default(false);
         });
     }
 
@@ -25,7 +25,7 @@ class AddTypeToArticuloFamdfa extends Migration
      */
     public function down()
     {
-        Schema::table('articulo_famdfa', function (Blueprint $table) {
+        Schema::table('users', function (Blueprint $table) {
             //
         });
     }

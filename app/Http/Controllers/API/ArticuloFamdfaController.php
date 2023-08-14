@@ -38,14 +38,20 @@ class ArticuloFamdfaController extends Controller
         return response()->json($artdfas, 200);
     }
     
-    public function descuento_general(Request $req, string $mcodven) {
-        $type = $mcodven[strlen($mcodven) - 1];
-        $type = is_numeric($type) ? null : $type;
-        $impneto = $req->input('impneto');
-        $mcodcadi = $req->input('mcodcadi');
-        $mcondpago = $req->input('mcondpago');
-        $mcodcli = $req->input('mcodcli');
-        $artdfas = ArticuloFamdfa::where(function($q) use ($mcodcadi) {
+    public function descuento_general(Request $request, string $mcodven) {
+        $impneto = $request->input('impneto');
+        $mcodcadi = $request->input('mcodcadi');
+        $mcondpago = $request->input('mcondpago');
+        $mcodcli = $request->input('mcodcli');
+        $artdfas = null;
+
+        if ($mcodven == 'all') {
+            $type = $mcodven;
+            $artdfas = ArticuloFamdfa::where('tipo', $type)->get();
+        } else {
+            $type = $mcodven[strlen($mcodven) - 1];
+            $type = is_numeric($type) ? null : $type;
+            $artdfas = ArticuloFamdfa::where(function($q) use ($mcodcadi) {
                 $q->where('MCODCADI', $mcodcadi)->orWhere('MCODCADI', NULL);
             })
             ->where('MCONDPAGO', $mcondpago)
@@ -54,6 +60,8 @@ class ArticuloFamdfaController extends Controller
             ->where(function($q) use ($mcodcli) {
                 $q->where('MCODCLI', $mcodcli)->orWhere('MCODCLI', NULL);
             })->get();
+        }
+
         foreach ($artdfas as $ndfa) {
             $dfa = Famdfa::where('MCODDFA', $ndfa['mcoddfa'])->first();
             $ndfa['descuento'] = $dfa;

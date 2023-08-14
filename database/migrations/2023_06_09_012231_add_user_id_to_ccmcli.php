@@ -3,8 +3,9 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use App\Models\User;
 
-class AddTypeToArticuloFamdfa extends Migration
+class AddUserIdToCcmcli extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +14,8 @@ class AddTypeToArticuloFamdfa extends Migration
      */
     public function up()
     {
-        Schema::table('articulo_famdfa', function (Blueprint $table) {
-            $table->string('tipo', 16)->nullable(); #retenes, repuestos o all
+        Schema::table('ccmcli', function (Blueprint $table) {
+            $table->foreignIdFor(User::class)->nullable();
         });
     }
 
@@ -25,7 +26,7 @@ class AddTypeToArticuloFamdfa extends Migration
      */
     public function down()
     {
-        Schema::table('articulo_famdfa', function (Blueprint $table) {
+        Schema::table('ccmcli', function (Blueprint $table) {
             //
         });
     }

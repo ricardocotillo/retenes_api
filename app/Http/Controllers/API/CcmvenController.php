@@ -29,7 +29,7 @@ class CcmvenController extends Controller
     {
         $data = $request->all();
         $ccmven = Ccmven::create($data);
-        return response()->json($ccmven, $this->succesStatus);
+        return response()->json($ccmven);
     }
 
     /**
@@ -41,7 +41,7 @@ class CcmvenController extends Controller
     public function show($nombre)
     {
         $codigos = Ccmven::where('MNOMBRE', '=', urldecode($nombre))->get();
-        return response()->json($codigos, $this->successStatus);
+        return response()->json($codigos);
     }
 
     /**
