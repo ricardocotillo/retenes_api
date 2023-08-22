@@ -82,6 +82,7 @@ class Detpe extends Model
 		'MPORDCT4',
 		'MPORDCT5',
 		'estado',
+		'item_state',
 	];
 
 	protected $appends = [

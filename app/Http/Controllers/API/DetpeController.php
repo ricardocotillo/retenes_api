@@ -75,6 +75,7 @@ class DetpeController extends Controller
             'MPENFAC' => $pedido['cantidad'],
             'MCODDFA' => $pedido['mcoddfa'],
             'estado' => 1,
+            'item_state' => 'espera',
         );
 
         $detpe = new Detpe($detped_data);
@@ -82,8 +83,7 @@ class DetpeController extends Controller
         $cabpe = Cabpe::where('MNROPED', $mnroped)->where('MNSERIE', $mnserie)->where('MCODVEN', $pedido['mcodven'])->first();
 
         $cabpe->detpe()->save($detpe);
-
-        if ($pedido['mcoddfa']) {
+        if ($pedido['mcoddfa'] && !in_array(trim($pedido['mcoddfa']), ['Sin descuento', 'Bono'])) {
             $famdfa = Famdfa::where('MCODDFA', $pedido['mcoddfa'])->first();
             $detpe->famdfas()->attach($famdfa->id, ['type' => 'item']);
         }
@@ -115,7 +115,7 @@ class DetpeController extends Controller
 
         $cabpe->fill($new_cabpe);
         $cabpe->save();
-
+        info($detpe);
         return response()->json($detpe, 200);
     }
 
