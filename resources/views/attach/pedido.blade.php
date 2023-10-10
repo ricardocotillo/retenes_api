@@ -325,7 +325,7 @@
     </td>
 	</tr>
 	<tr>
-		<td style="border-top: 2px solid #000000" colspan=2 height="17" align="center" valign=bottom><b>Ventas I.W:B.</b></td>
+		<td style="border-top: 2px solid #000000" colspan=2 height="17" align="center" valign=bottom><b> {{ $flavor == 'filtros' ? 'I.' : '' }}W.B.</b></td>
 		<td align="left" valign=bottom><br></td>
 		<td align="left" valign=bottom><br></td>
 		<td align="left" valign=bottom><br></td>
