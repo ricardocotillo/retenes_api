@@ -409,7 +409,7 @@ class CabpeController extends Controller
             $head = ['C'];
             foreach ($c_row as $f) {
                 if (isset($cabpe->{$f['field']})) {
-                  array_push($head, $cabpe->{$f['field']});
+                  array_push($head, trim((string)$cabpe->{$f['field']}));
                 } else {
                   array_push($head, '');
                 }
@@ -422,7 +422,7 @@ class CabpeController extends Controller
               $row = ['D'];
               foreach ($d_row as $f) {
                 if (isset($detpe->{$f['field']})) {
-                  array_push($row, $detpe->{$f['field']});
+                  array_push($row, trim((string)$detpe->{$f['field']}));
                 } else {
                   array_push($row, '');
                 }
