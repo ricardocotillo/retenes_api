@@ -51,16 +51,16 @@ class ArticuloFamdfaController extends Controller
         } else {
             $type = $mcodven[strlen($mcodven) - 1];
             $type = is_numeric($type) ? null : $type;
-            $artdfas = ArticuloFamdfa::where(function($q) use ($mcodcadi) {
-                $q->where('MCODCADI', $mcodcadi)->orWhere('MCODCADI', NULL);
-            })
-            ->where('MCONDPAGO', $mcondpago)
-            ->where('impneto_min', '<=', $impneto)
-            ->where('tipo', $type)
-            ->where(function($q) use ($mcodcli) {
-                $q->where('MCODCLI', $mcodcli)->orWhere('MCODCLI', NULL);
-            })->get();
         }
+        $artdfas = ArticuloFamdfa::where(function($q) use ($mcodcadi) {
+            $q->where('MCODCADI', $mcodcadi)->orWhere('MCODCADI', NULL);
+        })
+        ->where('MCONDPAGO', $mcondpago)
+        ->where('impneto_min', '<=', $impneto)
+        ->where('tipo', $type)
+        ->where(function($q) use ($mcodcli) {
+            $q->where('MCODCLI', $mcodcli)->orWhere('MCODCLI', NULL);
+        })->get();
 
         foreach ($artdfas as $ndfa) {
             $dfa = Famdfa::where('MCODDFA', $ndfa['mcoddfa'])->first();
