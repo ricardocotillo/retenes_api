@@ -3,9 +3,9 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\LogPedido;
 
-class Detpe extends Model
-{
+class Detpe extends Model {
 	protected $table = 'detpe';
 	public $timestamps = false;
 
@@ -91,6 +91,42 @@ class Detpe extends Model
 		'descrip',
 	];
 
+	public static function booted() {
+        parent::boot();
+		
+		static::saving(function($item) {
+			$orginal = $item->getRawOriginal();
+			$changed = [];
+			$user = auth()->user();
+			foreach ($orginal as $key => $value) {
+				if ($item->{$key} != $value) {
+					array_push($changed, $key.': '.$value.' a '.$item->{$key});
+				}
+			}
+			if (count($changed) > 0) {
+				$description = implode(', ', $changed);
+				LogPedido::create([
+					'user_id' 		=> $user->id,
+					'mnserie' 		=> $item->MNSERIE,
+					'mnroped'		=> $item->MNROPED,
+					'mitem'			=> $item->MITEM,
+					'description' 	=> $description,
+				]);
+			}
+		});
+
+		static::deleting(function($item) {
+			$user = auth()->user();
+			LogPedido::create([
+				'user_id' 		=> $user->id,
+				'mnserie'		=> $item->MNSERIE,
+				'mnroped'		=> $item->MNROPED,
+				'mitem'			=> $item->MITEM,
+				'description'	=> 'Detpe eliminado'
+			]);
+		});
+    }
+
 	public function cabpe()
 	{
 		return $this->belongsTo(Cabpe::class);
@@ -120,10 +156,6 @@ class Detpe extends Model
 	{
 		return $this->MCODDFA != 'Bono' ? $this->MCANTIDAD * $this->MPRECIO : 0;
 	}
-
-	// public function getDescuentoAttribute() {
-	// 	return $this->MCANTIDAD * $this->MPRECIO * ($this->famdfa->MPOR_DFA / 100);
-	// }
 
 	public function getPrecioNetoAttribute()
 	{

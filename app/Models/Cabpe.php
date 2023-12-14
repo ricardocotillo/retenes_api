@@ -113,6 +113,30 @@ class Cabpe extends Model
 		'precio_neto',
 	];
 
+	public static function booted() {
+        parent::boot();
+		
+		static::saving(function($item) {
+			$orginal = $item->getRawOriginal();
+			$changed = [];
+			$user = auth()->user();
+			foreach ($orginal as $key => $value) {
+				if ($item->{$key} != $value) {
+					array_push($changed, $key.': '.$value.' a '.$item->{$key});
+				}
+			}
+			if (count($changed) > 0) {
+				$description = implode(', ', $changed);
+				LogPedido::create([
+					'user_id' 		=> $user->id,
+					'mnserie' 		=> $item->MNSERIE,
+					'mnroped'		=> $item->MNROPED,
+					'description' 	=> $description,
+				]);
+			}
+		});
+    }
+
 	public function detpe() {
 		return $this->hasMany(Detpe::class);
 	}
