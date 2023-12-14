@@ -18,6 +18,7 @@ use App\Http\Controllers\API\InputController;
 use App\Http\Controllers\API\OptionController;
 use App\Http\Controllers\API\ValueController;
 use App\Http\Controllers\API\InstalmentController;
+use App\Models\Setting;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,6 +33,10 @@ use App\Http\Controllers\API\InstalmentController;
 
 Route::group(['middleware' => ['cors']], function () {
     Route::post('login', [UserController::class, 'login']);
+    Route::get('data-version/', function() {
+        $settings = Setting::first();
+        return $settings->data_updated_at;
+    });
     // Route::post('cabpe/send_email/{mnserie}/{mnroped}/', [CabpeController::class, 'send_email']);
 });
 

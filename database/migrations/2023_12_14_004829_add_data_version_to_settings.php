@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSettingsTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,8 @@ class CreateSettingsTable extends Migration
      */
     public function up()
     {
-        Schema::create('settings', function (Blueprint $table) {
-            $table->id();
-            $table->integer('cabpe_modifications')->nullable();
-            $table->timestamps();
+        Schema::table('settings', function (Blueprint $table) {
+            $table->timestamp('data_updated_at')->default(DB::raw('CURRENT_TIMESTAMP'));
         });
     }
 
@@ -25,7 +23,10 @@ class CreateSettingsTable extends Migration
      *
      * @return void
      */
-    public function down() {
-        Schema::dropIfExists('settings');
+    public function down()
+    {
+        Schema::table('settings', function (Blueprint $table) {
+            //
+        });
     }
-}
+};
