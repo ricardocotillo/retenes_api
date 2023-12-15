@@ -31,7 +31,7 @@ use App\Models\Setting;
 |
 */
 
-Route::middleware(['cors'])->group(function () {
+Route::group(function () {
     Route::post('login', [UserController::class, 'login']);
     Route::get('data-version/', function() {
         $settings = Setting::first();
@@ -40,7 +40,7 @@ Route::middleware(['cors'])->group(function () {
     // Route::post('cabpe/send_email/{mnserie}/{mnroped}/', [CabpeController::class, 'send_email']);
 });
 
-Route::group(['middleware' => ['auth:api', 'cors']], function () {
+Route::group(['middleware' => ['auth:api',]], function () {
     Route::get('articulos', [ArticuloController::class, 'index']);
     Route::get('articulos/{mcodart}/', [ArticuloController::class, 'articulo']);
     Route::get('articulos/{search}', [ArticuloController::class, 'show']);
