@@ -31,8 +31,7 @@ class CcmcliController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
+    public function store(Request $request) {
         $data = $request->all();
         $ccmcli = Ccmcli::where('MCODCLI', '=', $data['MCODCLI'])->first();
         if ($ccmcli) {

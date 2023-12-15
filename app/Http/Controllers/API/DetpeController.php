@@ -212,10 +212,11 @@ class DetpeController extends Controller
         if ($data['state'] != 'atendido') {
             $d->fecha_despacho = null;
         }
+        $d->status_changed = true;
         $d->save();
         return response()->json($d);
     }
-
+    
     public function update_partial(Request $request, $detpe_id) : JsonResponse {
         $d = Detpe::find($detpe_id);
         $partial = $request->input('partial');

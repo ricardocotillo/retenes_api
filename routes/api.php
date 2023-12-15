@@ -62,6 +62,7 @@ Route::group(['middleware' => ['auth:api', 'cors']], function () {
     Route::patch('detpe/{detpe_id}/update_item_state/', [DetpeController::class, 'update_item_state']);
     Route::patch('detpe/{detpe_id}/update_fecha_despacho/', [DetpeController::class, 'update_fecha_despacho']);
     Route::patch('detpe/{detpe_id}/update_partial/', [DetpeController::class, 'update_partial']);
+    Route::patch('detpe/{detpe_id}/update_status_changed', [DetpeController::class, 'update_status_changed']);
     Route::post('detpe/{mnserie}/{mnroped}/', [DetpeController::class, 'store']);
     Route::delete('detpe/{detpe_id}/', [DetpeController::class, 'destroy']);
     Route::get('detped/{mnserie}/{mnroped}', [DetpeController::class, 'show']);
