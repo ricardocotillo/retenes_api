@@ -34,6 +34,10 @@ class CcmcliController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
+        $ccmcli = Ccmcli::where('MCODCLI', '=', $data['MCODCLI'])->first();
+        if ($ccmcli) {
+            return response()->json(['error' => 'Cliente ya existe'], 400);
+        }
         $ccmcli = Ccmcli::create($data);
         return response()->json($ccmcli, $this->successStatus);
     }
