@@ -31,7 +31,7 @@ use App\Models\Setting;
 |
 */
 
-Route::group(['middleware' => ['cors']], function () {
+Route::middleware(['cors'])->group(function () {
     Route::post('login', [UserController::class, 'login']);
     Route::get('data-version/', function() {
         $settings = Setting::first();
