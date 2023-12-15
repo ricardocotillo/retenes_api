@@ -19,6 +19,7 @@ use App\Http\Controllers\API\OptionController;
 use App\Http\Controllers\API\ValueController;
 use App\Http\Controllers\API\InstalmentController;
 use App\Models\Setting;
+use App\Http\Middleware\Cors;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,8 +31,7 @@ use App\Models\Setting;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
-Route::post('login', [UserController::class, 'login']);
+Route::post('login/', [UserController::class, 'login']);
 Route::get('data-version/', function() {
     $settings = Setting::first();
     return $settings->data_updated_at;
@@ -39,7 +39,7 @@ Route::get('data-version/', function() {
 // Route::post('cabpe/send_email/{mnserie}/{mnroped}/', [CabpeController::class, 'send_email']);
 
 
-Route::group(['middleware' => ['auth:api']], function () {
+Route::middleware(['auth:api',])->group(function () {
     Route::get('articulos', [ArticuloController::class, 'index']);
     Route::get('articulos/{mcodart}/', [ArticuloController::class, 'articulo']);
     Route::get('articulos/{search}', [ArticuloController::class, 'show']);
