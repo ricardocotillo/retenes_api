@@ -31,14 +31,13 @@ use App\Models\Setting;
 |
 */
 
-Route::group(function () {
-    Route::post('login', [UserController::class, 'login']);
-    Route::get('data-version/', function() {
-        $settings = Setting::first();
-        return $settings->data_updated_at;
-    });
-    // Route::post('cabpe/send_email/{mnserie}/{mnroped}/', [CabpeController::class, 'send_email']);
+Route::post('login', [UserController::class, 'login']);
+Route::get('data-version/', function() {
+    $settings = Setting::first();
+    return $settings->data_updated_at;
 });
+// Route::post('cabpe/send_email/{mnserie}/{mnroped}/', [CabpeController::class, 'send_email']);
+
 
 Route::group(['middleware' => ['auth:api']], function () {
     Route::get('articulos', [ArticuloController::class, 'index']);
