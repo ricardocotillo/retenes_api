@@ -15,7 +15,7 @@ use App\Models\TxtDetpe;
 use App\Models\CabpeModification;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Mail;
-use Barryvdh\DomPDF\Facade as PDF;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
@@ -386,10 +386,72 @@ class CabpeController extends Controller
     $cabpe->fill($new_cabpe);
     $cabpe->save();
   }
+
+  private function order_cabpes($cabpes) {
+    $articulos = array();
+
+    foreach ($cabpes as $cabpe) {
+      $ar = $cabpe->detpe->sortBy('MCODART')->sortByDesc('famdfa.MDESCRIP')->toArray();
+      $emp = array_values(array_filter($ar, function ($d) {
+        return in_array($d['MCODDFA'], ['Sin descuento', 'Bono']);
+      }));
+      $des = array_values(array_filter($ar, function ($d) {
+        return !in_array($d['MCODDFA'], ['Sin descuento', 'Bono']);
+      }));
+      foreach ($emp as $k => $e) {
+        for ($i = 0; $i < count($des); $i++) {
+          if ($des[$i]['MCODART'] == $e['MCODART']) {
+            array_splice($des, $i + 1, 0, array($e));
+            $emp[$k] = null;
+            break;
+          }
+        }
+      }
+      $emp = array_values(array_filter($emp, function ($d) {
+        return !is_null($d);
+      }));
+      $ar = array_merge($des, $emp);
+      $articulos[$cabpe->MCODVEN] = $ar;
+    }
+    return $articulos;
+  }
+
+  private function sort_cabpes($cabpes) {
+    $articulos = array();
+
+    foreach ($cabpes as $cabpe) {
+      $cab = $cabpe->toArray();
+      $ar = $cabpe->detpe->sortBy('MCODART')->sortByDesc('famdfa.MDESCRIP')->toArray();
+      $emp = array_values(array_filter($ar, function ($d) {
+        return in_array($d['MCODDFA'], ['Sin descuento', 'Bono']);
+      }));
+      $des = array_values(array_filter($ar, function ($d) {
+        return !in_array($d['MCODDFA'], ['Sin descuento', 'Bono']);
+      }));
+      foreach ($emp as $k => $e) {
+        for ($i = 0; $i < count($des); $i++) {
+          if ($des[$i]['MCODART'] == $e['MCODART']) {
+            array_splice($des, $i + 1, 0, array($e));
+            $emp[$k] = null;
+            break;
+          }
+        }
+      }
+      $emp = array_values(array_filter($emp, function ($d) {
+        return !is_null($d);
+      }));
+      $ar = array_merge($des, $emp);
+      $cab['detpes'] = $ar;
+      array_push($articulos, $cab);
+    }
+    return $articulos;
+  }
+
   /**
    * @param Cabpe[] $cabpes
    */
   private function generate_txt($cabpes) {
+        $cabpes = $this->sort_cabpes($cabpes);
         $txt_detpe = TxtDetpe::all();
         if (!$txt_detpe->count()) {
             return false;
@@ -404,12 +466,11 @@ class CabpeController extends Controller
         })->sortBy('order');
         
         $txt = [];
-
         foreach ($cabpes as $cabpe) {
             $head = ['C'];
             foreach ($c_row as $f) {
-                if (isset($cabpe->{$f['field']})) {
-                  array_push($head, trim((string)$cabpe->{$f['field']}));
+                if (isset($cabpe[$f['field']])) {
+                  array_push($head, trim((string)$cabpe[$f['field']]));
                 } else {
                   array_push($head, '');
                 }
@@ -417,12 +478,11 @@ class CabpeController extends Controller
             $head = implode('|', $head);
 
             $body = [];
-
-            foreach ($cabpe->detpe as $detpe) {
+            foreach ($cabpe['detpes'] as $detpe) {
               $row = ['D'];
               foreach ($d_row as $f) {
-                if (isset($detpe->{$f['field']})) {
-                  array_push($row, trim((string)$detpe->{$f['field']}));
+                if (isset($detpe[$f['field']])) {
+                  array_push($row, trim((string)$detpe[$f['field']]));
                 } else {
                   array_push($row, '');
                 }
@@ -452,31 +512,7 @@ class CabpeController extends Controller
     $cabpes = Cabpe::with(['detpe', 'detpe.famdfas', 'ccmtrs', 'ccmcli', 'ccmcpa', 'values', 'instalments'])->where('MNSERIE', $mnserie)->where('MNROPED', $mnroped)->get();
     $data = array('nombre' => $cabpes[0]->ccmcli->MNOMBRE);
 
-    $articulos = array();
-
-    foreach ($cabpes as $cabpe) {
-      $ar = $cabpe->detpe->sortBy('MCODART')->sortByDesc('famdfa.MDESCRIP')->toArray();
-      $emp = array_values(array_filter($ar, function ($d) {
-        return in_array($d['MCODDFA'], ['Sin descuento', 'Bono']);
-      }));
-      $des = array_values(array_filter($ar, function ($d) {
-        return !in_array($d['MCODDFA'], ['Sin descuento', 'Bono']);
-      }));
-      foreach ($emp as $k => $e) {
-        for ($i = 0; $i < count($des); $i++) {
-          if ($des[$i]['MCODART'] == $e['MCODART']) {
-            array_splice($des, $i + 1, 0, array($e));
-            $emp[$k] = null;
-            break;
-          }
-        }
-      }
-      $emp = array_values(array_filter($emp, function ($d) {
-        return !is_null($d);
-      }));
-      $ar = array_merge($des, $emp);
-      $articulos[$cabpe->MCODVEN] = $ar;
-    }
+    $articulos = $this->order_cabpes($cabpes);
 
     $montoTotalFinal = 0;
 

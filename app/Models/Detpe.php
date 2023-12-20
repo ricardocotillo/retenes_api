@@ -175,7 +175,7 @@ class Detpe extends Model {
 		});
 		$mdescrip = $famdfas->pluck('MDESCRIP');
 		$mdescrip = $mdescrip->map(function ($m, $k) {
-			return str_replace('%', '', $m);
+			return str_replace('%', '', trim($m));
 		});
 		$mdescrip = $mdescrip->implode('+') . '%';
 		return $mdescrip;
