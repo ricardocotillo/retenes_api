@@ -45,9 +45,9 @@
 	<tr>
 		<td colspan="2" rowspan=6 height="10" align="center" valign=bottom>
 			@if ($flavor == 'filtros')
-				<img src="http://filtroswillybusch.com.pe/aplicativo/img/wb.jpeg" width="100" height="100" id="logo">
+				<img src="{{ 'data:image/jpeg;base64,'.base64_encode(file_get_contents('http://filtroswillybusch.com.pe/aplicativo/img/wb.jpeg')) }}" width="100" height="100" id="logo">
 			@else
-				<img src="http://filtroswillybusch.com.pe/aplicativo_retenes/img/wb.jpeg" width="100" height="100" id="logo">
+				<img src="{{ 'data:image/jpeg;base64,'.base64_encode(file_get_contents('http://filtroswillybusch.com.pe/aplicativo_retenes/img/wb.jpeg')) }}" width="100" height="100" id="logo">
 			@endif
 		</td>
 		<td colspan="7" align="center" valign=bottom>
