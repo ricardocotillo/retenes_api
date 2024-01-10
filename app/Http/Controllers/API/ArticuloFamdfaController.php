@@ -18,19 +18,37 @@ class ArticuloFamdfaController extends Controller
      */
     public function index(Request $request) {
         $data = $request->all();
-        $artdfas = ArticuloFamdfa::where([
-            ['impneto_min', '=', NULL],
-            ['impneto_max', '=', NULL],
-            ['mcodart', '=', $data['mcodart']]
-        ])->orWhere([
-            ['impneto_min', '=', NULL],
-            ['impneto_max', '=', NULL],
-            ['mcodart', '=', '']
-        ])->orWhere([
-            ['impneto_min', '=', NULL],
-            ['impneto_max', '=', NULL],
-            ['mcodart', '=', NULL]
-        ])->get();
+        $mcodart = $data['mcodart'];
+        $mcodcli = $data['mcodcli'];
+        $artdfas = ArticuloFamdfa::where('MCODCLI', $mcodcli)
+            ->where([
+                ['impneto_min', '=', NULL],
+                ['impneto_max', '=', NULL],
+                ['mcodart', '=', $mcodart]
+            ])->orWhere([
+                ['impneto_min', '=', NULL],
+                ['impneto_max', '=', NULL],
+                ['mcodart', '=', '']
+            ])->orWhere([
+                ['impneto_min', '=', NULL],
+                ['impneto_max', '=', NULL],
+                ['mcodart', '=', NULL]
+            ])->get();
+        if (!$artdfas->count()) {
+            $artdfas = ArticuloFamdfa::where([
+                ['impneto_min', '=', NULL],
+                ['impneto_max', '=', NULL],
+                ['mcodart', '=', $mcodart]
+            ])->orWhere([
+                ['impneto_min', '=', NULL],
+                ['impneto_max', '=', NULL],
+                ['mcodart', '=', '']
+            ])->orWhere([
+                ['impneto_min', '=', NULL],
+                ['impneto_max', '=', NULL],
+                ['mcodart', '=', NULL]
+            ])->get();
+        }
         foreach ($artdfas as $ndfa) {
             $dfa = Famdfa::where('MCODDFA', $ndfa['mcoddfa'])->first();
             $ndfa['descuento'] = $dfa;
