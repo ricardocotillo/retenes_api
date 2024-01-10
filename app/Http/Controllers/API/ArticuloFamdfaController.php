@@ -16,12 +16,12 @@ class ArticuloFamdfaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $req)
-    {   
+    public function index(Request $request) {
+        $data = $request->all();
         $artdfas = ArticuloFamdfa::where([
             ['impneto_min', '=', NULL],
             ['impneto_max', '=', NULL],
-            ['mcodart', '=', $req['mcodart']]
+            ['mcodart', '=', $data['mcodart']]
         ])->orWhere([
             ['impneto_min', '=', NULL],
             ['impneto_max', '=', NULL],
@@ -43,23 +43,32 @@ class ArticuloFamdfaController extends Controller
         $mcodcadi = $request->input('mcodcadi');
         $mcondpago = $request->input('mcondpago');
         $mcodcli = $request->input('mcodcli');
-        $artdfas = null;
-
+        
         if ($mcodven == 'all') {
             $type = $mcodven;
         } else {
             $type = $mcodven[strlen($mcodven) - 1];
             $type = is_numeric($type) ? null : $type;
         }
-        $artdfas = ArticuloFamdfa::where(function($q) use ($mcodcadi) {
-            $q->where('MCODCADI', $mcodcadi)->orWhere('MCODCADI', NULL);
-        })
-        ->where('MCONDPAGO', $mcondpago)
-        ->where('impneto_min', '<=', $impneto)
-        ->where('tipo', $type)
-        ->where(function($q) use ($mcodcli) {
-            $q->where('MCODCLI', $mcodcli)->orWhere('MCODCLI', NULL);
-        })->get();
+        $artdfas = ArticuloFamdfa::where('MCODCLI', $mcodcli)
+            ->where(function($q) use ($mcodcadi) {
+                $q->where('MCODCADI', $mcodcadi)->orWhere('MCODCADI', NULL);
+            })
+            ->where('MCONDPAGO', $mcondpago)
+            ->where('impneto_min', '<=', $impneto)
+            ->where('tipo', $type)
+            ->get();
+        
+        if (!$artdfas->count()) {
+            $artdfas = ArticuloFamdfa::where(function($q) use ($mcodcadi) {
+                $q->where('MCODCADI', $mcodcadi)->orWhere('MCODCADI', NULL);
+            })
+            ->where('MCONDPAGO', $mcondpago)
+            ->where('impneto_min', '<=', $impneto)
+            ->where('tipo', $type)
+            ->where('MCODCLI', NULL)->get();
+        }
+        
 
         foreach ($artdfas as $ndfa) {
             $dfa = Famdfa::where('MCODDFA', $ndfa['mcoddfa'])->first();
