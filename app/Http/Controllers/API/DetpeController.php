@@ -209,9 +209,8 @@ class DetpeController extends Controller
         $d = Detpe::find($detpe_id);
         $data = $request->all();
         $d->item_state = $data['state'];
-        if ($data['state'] != 'atendido') {
-            $d->fecha_despacho = null;
-        }
+        $d->fecha_despacho = $data['date'];
+        $d->partial = $data['partial'];
         $d->status_changed = true;
         $d->save();
         return response()->json($d);

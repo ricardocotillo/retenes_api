@@ -297,9 +297,8 @@ class CabpeController extends Controller
    * @param  \App\Models\Cabpe  $cabpe
    * @return \Illuminate\Http\Response
    */
-  public function update(Request $request, int $cabpe_id)
-  {
-    //
+  public function update(Request $request, int $cabpe_id) {
+
   }
 
   /**
@@ -739,12 +738,17 @@ class CabpeController extends Controller
     return response()->json($c, 200);
   }
 
-  public function update_item_state(Request $request, string $mnserie, string $mnroped): JsonResponse
-  {
+  public function update_item_state(Request $request, string $mnserie, string $mnroped): JsonResponse {
     $state = $request->input('state');
+    $date = $request->input('date');
+    $changed = $request->input('changed');
     $cabpes = Cabpe::where('MNSERIE', $mnserie)->where('MNROPED', $mnroped)->get();
     foreach ($cabpes as $c) {
-      $c->detpe()->update(['item_state' => $state]);
+      $c->detpe()->update([
+        'item_state'      => $state,
+        'fecha_despacho'  => $date,
+        'status_changed'  => $changed,
+      ]);
     }
     return response()->json($cabpes);
   }
