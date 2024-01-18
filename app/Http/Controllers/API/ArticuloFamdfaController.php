@@ -16,25 +16,47 @@ class ArticuloFamdfaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $req)
-    {   
-        $artdfas = ArticuloFamdfa::where([
-            ['impneto_min', '=', NULL],
-            ['impneto_max', '=', NULL],
-            ['mcodart', '=', $req['mcodart']]
-        ])->orWhere([
-            ['impneto_min', '=', NULL],
-            ['impneto_max', '=', NULL],
-            ['mcodart', '=', '']
-        ])->orWhere([
-            ['impneto_min', '=', NULL],
-            ['impneto_max', '=', NULL],
-            ['mcodart', '=', NULL]
-        ])->get();
+    public function index(Request $request) {
+        $data = $request->all();
+        $mcodart = $data['mcodart'];
+        $mcodcli = $data['mcodcli'];
+        $artdfas = ArticuloFamdfa::where('MCODCLI', $mcodcli)
+            ->where('restrict', true)
+            ->where([
+                ['impneto_min', '=', NULL],
+                ['impneto_max', '=', NULL],
+                ['mcodart', '=', $mcodart]
+            ])->orWhere([
+                ['impneto_min', '=', NULL],
+                ['impneto_max', '=', NULL],
+                ['mcodart', '=', '']
+            ])->orWhere([
+                ['impneto_min', '=', NULL],
+                ['impneto_max', '=', NULL],
+                ['mcodart', '=', NULL]
+            ])->get();
+
+        if (!$artdfas->count()) {
+            $artdfas = ArticuloFamdfa::where([
+                ['impneto_min', '=', NULL],
+                ['impneto_max', '=', NULL],
+                ['mcodart', '=', $mcodart]
+            ])->orWhere([
+                ['impneto_min', '=', NULL],
+                ['impneto_max', '=', NULL],
+                ['mcodart', '=', '']
+            ])->orWhere([
+                ['impneto_min', '=', NULL],
+                ['impneto_max', '=', NULL],
+                ['mcodart', '=', NULL]
+            ])->get();
+        }
+
         foreach ($artdfas as $ndfa) {
             $dfa = Famdfa::where('MCODDFA', $ndfa['mcoddfa'])->first();
             $ndfa['descuento'] = $dfa;
         }
+
         return response()->json($artdfas, 200);
     }
     
@@ -43,8 +65,7 @@ class ArticuloFamdfaController extends Controller
         $mcodcadi = $request->input('mcodcadi');
         $mcondpago = $request->input('mcondpago');
         $mcodcli = $request->input('mcodcli');
-        $artdfas = null;
-
+        
         if ($mcodven == 'all') {
             $type = $mcodven;
         } else {
@@ -52,19 +73,33 @@ class ArticuloFamdfaController extends Controller
             $type = is_numeric($type) ? null : $type;
         }
         $artdfas = ArticuloFamdfa::where(function($q) use ($mcodcadi) {
-            $q->where('MCODCADI', $mcodcadi)->orWhere('MCODCADI', NULL);
-        })
-        ->where('MCONDPAGO', $mcondpago)
-        ->where('impneto_min', '<=', $impneto)
-        ->where('tipo', $type)
-        ->where(function($q) use ($mcodcli) {
-            $q->where('MCODCLI', $mcodcli)->orWhere('MCODCLI', NULL);
-        })->get();
+                $q->where('MCODCADI', $mcodcadi)->orWhere('MCODCADI', NULL);
+            })
+            ->where('MCONDPAGO', $mcondpago)
+            ->where('impneto_min', '<=', $impneto)
+            ->where('tipo', $type)
+            ->where('MCODCLI', $mcodcli)
+            ->where('restrict', true)
+            ->get();
+        
+        if (!$artdfas->count()) {
+            $artdfas = ArticuloFamdfa::where(function($q) use ($mcodcadi) {
+                $q->where('MCODCADI', $mcodcadi)->orWhere('MCODCADI', NULL);
+            })
+            ->where('MCONDPAGO', $mcondpago)
+            ->where('impneto_min', '<=', $impneto)
+            ->where('tipo', $type)
+            ->where(function($q) use ($mcodcli) {
+                $q->where('MCODCLI', $mcodcli)->orWhere('MCODCLI', NULL);
+            })->get();
+        }
+        
 
         foreach ($artdfas as $ndfa) {
             $dfa = Famdfa::where('MCODDFA', $ndfa['mcoddfa'])->first();
             $ndfa['descuento'] = $dfa;
         }
+
         return response()->json($artdfas, 200);
     }
 
