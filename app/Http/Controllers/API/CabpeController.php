@@ -325,6 +325,7 @@ class CabpeController extends Controller
         $detpe->MPORDCT1 = 0.0;
         $detpe->MIGV = round($detpe->MVALVEN - ($detpe->MVALVEN / $igv), 2);
         $detpe->MPRECIO = $detpe->articulo->getCorrectPrice($cabpe->ccmcli->MCODCADI);
+        $detpe->famdfas()->detach();
         $detpe->save();
       }
       $this->recalculate($cabpe);
