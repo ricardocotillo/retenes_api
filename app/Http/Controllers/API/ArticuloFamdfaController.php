@@ -35,43 +35,24 @@ class ArticuloFamdfaController extends Controller {
         $mcodart = $data['mcodart'];
         $mcodcli = $data['mcodcli'];
         $has_general_discount = $this->has_restricted_general_discount($mcodcli);
-        $has_item_discount = $this->has_restricted_item_discount($mcodcli);
         $artdfas = null;
         if ($has_general_discount) {
             return response()->json([], 200);
         }
 
-        if ($has_item_discount) {
-            $artdfas = ArticuloFamdfa::where('MCODCLI', $mcodcli)
-            ->where('restrict', true)
-            ->where([
-                ['impneto_min', '=', NULL],
-                ['impneto_max', '=', NULL],
-                ['mcodart', '=', $mcodart]
-            ])->orWhere([
-                ['impneto_min', '=', NULL],
-                ['impneto_max', '=', NULL],
-                ['mcodart', '=', '']
-            ])->orWhere([
-                ['impneto_min', '=', NULL],
-                ['impneto_max', '=', NULL],
-                ['mcodart', '=', NULL]
-            ])->get();
-        } else {
-            $artdfas = ArticuloFamdfa::where([
-                ['impneto_min', '=', NULL],
-                ['impneto_max', '=', NULL],
-                ['mcodart', '=', $mcodart]
-            ])->orWhere([
-                ['impneto_min', '=', NULL],
-                ['impneto_max', '=', NULL],
-                ['mcodart', '=', '']
-            ])->orWhere([
-                ['impneto_min', '=', NULL],
-                ['impneto_max', '=', NULL],
-                ['mcodart', '=', NULL]
-            ])->get();
-        }
+        $artdfas = ArticuloFamdfa::where([
+            ['impneto_min', '=', NULL],
+            ['impneto_max', '=', NULL],
+            ['mcodart', '=', $mcodart]
+        ])->orWhere([
+            ['impneto_min', '=', NULL],
+            ['impneto_max', '=', NULL],
+            ['mcodart', '=', '']
+        ])->orWhere([
+            ['impneto_min', '=', NULL],
+            ['impneto_max', '=', NULL],
+            ['mcodart', '=', NULL]
+        ])->get();
 
         foreach ($artdfas as $ndfa) {
             $dfa = Famdfa::where('MCODDFA', $ndfa['mcoddfa'])->first();
@@ -89,7 +70,6 @@ class ArticuloFamdfaController extends Controller {
         $artdfas = null;
         
         $has_item_discount = $this->has_restricted_item_discount($mcodcli);
-        $has_general_discount = $this->has_restricted_general_discount($mcodcli);
         if ($has_item_discount) {
             return response()->json([], 200);
         }
@@ -100,27 +80,15 @@ class ArticuloFamdfaController extends Controller {
             $type = $mcodven[strlen($mcodven) - 1];
             $type = is_numeric($type) ? null : $type;
         }
-        if ($has_general_discount) {
-            $artdfas = ArticuloFamdfa::where(function($q) use ($mcodcadi) {
-                $q->where('MCODCADI', $mcodcadi)->orWhere('MCODCADI', NULL);
-            })
-            ->where('MCONDPAGO', $mcondpago)
-            ->where('impneto_min', '<=', $impneto)
-            ->where('tipo', $type)
-            ->where('MCODCLI', $mcodcli)
-            ->where('restrict', true)
-            ->get();
-        } else {
-            $artdfas = ArticuloFamdfa::where(function($q) use ($mcodcadi) {
-                $q->where('MCODCADI', $mcodcadi)->orWhere('MCODCADI', NULL);
-            })
-            ->where('MCONDPAGO', $mcondpago)
-            ->where('impneto_min', '<=', $impneto)
-            ->where('tipo', $type)
-            ->where(function($q) use ($mcodcli) {
-                $q->where('MCODCLI', $mcodcli)->orWhere('MCODCLI', NULL);
-            })->get();
-        }
+        $artdfas = ArticuloFamdfa::where(function($q) use ($mcodcadi) {
+            $q->where('MCODCADI', $mcodcadi)->orWhere('MCODCADI', NULL);
+        })
+        ->where('MCONDPAGO', $mcondpago)
+        ->where('impneto_min', '<=', $impneto)
+        ->where('tipo', $type)
+        ->where(function($q) use ($mcodcli) {
+            $q->where('MCODCLI', $mcodcli)->orWhere('MCODCLI', NULL);
+        })->get();
         
         
 
