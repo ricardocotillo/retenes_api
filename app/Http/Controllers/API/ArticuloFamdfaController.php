@@ -21,8 +21,10 @@ class ArticuloFamdfaController extends Controller {
     private function has_restricted_general_discount($mcodcli) {
         return ArticuloFamdfa::where('MCODCLI', $mcodcli)
         ->where('restrict', true)
-        ->where('impneto_min', '!=', null)
-        ->orWhere('impneto_max', '!=', null)
+        ->where(function($query) {
+            $query->where('impneto_min', '!=', null)
+            ->orWhere('impneto_max', '!=', null);
+        })
         ->count();
     }
     /**
