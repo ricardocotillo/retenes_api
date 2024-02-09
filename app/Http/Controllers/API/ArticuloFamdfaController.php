@@ -37,7 +37,7 @@ class ArticuloFamdfaController extends Controller {
         $mcodart = $data['mcodart'];
         $mcodcli = $data['mcodcli'];
         $has_general_discount = $this->has_restricted_general_discount($mcodcli);
-        $discount_by_mcodcli = $this->has_restricted_item_discount();
+        $discount_by_mcodcli = $this->has_restricted_item_discount($mcodcli);
         $artdfas = null;
         if ($has_general_discount) {
             return response()->json([], 200);
