@@ -9,32 +9,65 @@ use App\Models\Ccmzon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class ArticuloFamdfaController extends Controller
-{
+class ArticuloFamdfaController extends Controller {
+    private function has_restricted_item_discount($mcodcli) {
+        return ArticuloFamdfa::where('MCODCLI', $mcodcli)
+        ->where('restrict', true)
+        ->where([
+            ['impneto_min', '=', null],
+            ['impneto_max', '=', null],
+        ])->count();
+    }
+    private function has_restricted_general_discount($mcodcli) {
+        return ArticuloFamdfa::where('MCODCLI', $mcodcli)
+        ->where('restrict', true)
+        ->where(function($query) {
+            $query->where('impneto_min', '!=', null)
+            ->orWhere('impneto_max', '!=', null);
+        })
+        ->count();
+    }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $req)
-    {   
-        $artdfas = ArticuloFamdfa::where([
-            ['impneto_min', '=', NULL],
-            ['impneto_max', '=', NULL],
-            ['mcodart', '=', $req['mcodart']]
-        ])->orWhere([
-            ['impneto_min', '=', NULL],
-            ['impneto_max', '=', NULL],
-            ['mcodart', '=', '']
-        ])->orWhere([
-            ['impneto_min', '=', NULL],
-            ['impneto_max', '=', NULL],
-            ['mcodart', '=', NULL]
-        ])->get();
+    public function index(Request $request) {
+        $data = $request->all();
+        $mcodart = $data['mcodart'];
+        $mcodcli = $data['mcodcli'];
+        // $has_general_discount = $this->has_restricted_general_discount($mcodcli);
+        $discount_by_mcodcli = $this->has_restricted_item_discount($mcodcli);
+        $artdfas = null;
+        // if ($has_general_discount) {
+        //     return response()->json([], 200);
+        // }
+        if ($discount_by_mcodcli) {
+            $artdfas = ArticuloFamdfa::where('impneto_min', null)
+            ->where('impneto_max', null)
+            ->where(function($query) use ($mcodart) {
+                $query->where('mcodart', $mcodart)
+                ->orWhere('mcodart', '')
+                ->orWhere('mcodart', null);
+            })
+            ->where('restrict', true)
+            ->get();
+        } else {
+            $artdfas = ArticuloFamdfa::where('impneto_min', null)
+            ->where('impneto_max', null)
+            ->where(function($query) use ($mcodart) {
+                $query->where('mcodart', $mcodart)
+                ->orWhere('mcodart', '')
+                ->orWhere('mcodart', null);
+            })
+            ->get();
+        }
+
         foreach ($artdfas as $ndfa) {
             $dfa = Famdfa::where('MCODDFA', $ndfa['mcoddfa'])->first();
             $ndfa['descuento'] = $dfa;
         }
+
         return response()->json($artdfas, 200);
     }
     
@@ -44,6 +77,11 @@ class ArticuloFamdfaController extends Controller
         $mcondpago = $request->input('mcondpago');
         $mcodcli = $request->input('mcodcli');
         $artdfas = null;
+        
+        // $has_item_discount = $this->has_restricted_item_discount($mcodcli);
+        // if ($has_item_discount) {
+        //     return response()->json([], 200);
+        // }
 
         if ($mcodven == 'all') {
             $type = $mcodven;
@@ -51,20 +89,36 @@ class ArticuloFamdfaController extends Controller
             $type = $mcodven[strlen($mcodven) - 1];
             $type = is_numeric($type) ? null : $type;
         }
-        $artdfas = ArticuloFamdfa::where(function($q) use ($mcodcadi) {
-            $q->where('MCODCADI', $mcodcadi)->orWhere('MCODCADI', NULL);
-        })
-        ->where('MCONDPAGO', $mcondpago)
-        ->where('impneto_min', '<=', $impneto)
-        ->where('tipo', $type)
-        ->where(function($q) use ($mcodcli) {
-            $q->where('MCODCLI', $mcodcli)->orWhere('MCODCLI', NULL);
-        })->get();
+
+        $discount_by_mcodcli = $this->has_restricted_general_discount($mcodcli);
+
+        if ($discount_by_mcodcli) {
+            $artdfas = ArticuloFamdfa::where(function($q) use ($mcodcadi) {
+                $q->where('MCODCADI', $mcodcadi)->orWhere('MCODCADI', NULL);
+            })
+            ->where('MCONDPAGO', $mcondpago)
+            ->where('impneto_min', '<=', $impneto)
+            ->where('tipo', $type)
+            ->where('MCODCLI', $mcodcli)
+            ->where('restrict', true)
+            ->get();
+        } else {
+            $artdfas = ArticuloFamdfa::where(function($q) use ($mcodcadi) {
+                $q->where('MCODCADI', $mcodcadi)->orWhere('MCODCADI', NULL);
+            })
+            ->where('MCONDPAGO', $mcondpago)
+            ->where('impneto_min', '<=', $impneto)
+            ->where('tipo', $type)
+            ->where(function($q) use ($mcodcli) {
+                $q->where('MCODCLI', $mcodcli)->orWhere('MCODCLI', NULL);
+            })->get();
+        }
 
         foreach ($artdfas as $ndfa) {
             $dfa = Famdfa::where('MCODDFA', $ndfa['mcoddfa'])->first();
             $ndfa['descuento'] = $dfa;
         }
+
         return response()->json($artdfas, 200);
     }
 
