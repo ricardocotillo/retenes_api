@@ -36,12 +36,12 @@ class ArticuloFamdfaController extends Controller {
         $data = $request->all();
         $mcodart = $data['mcodart'];
         $mcodcli = $data['mcodcli'];
-        $has_general_discount = $this->has_restricted_general_discount($mcodcli);
+        // $has_general_discount = $this->has_restricted_general_discount($mcodcli);
         $discount_by_mcodcli = $this->has_restricted_item_discount($mcodcli);
         $artdfas = null;
-        if ($has_general_discount) {
-            return response()->json([], 200);
-        }
+        // if ($has_general_discount) {
+        //     return response()->json([], 200);
+        // }
         if ($discount_by_mcodcli) {
             $artdfas = ArticuloFamdfa::where('impneto_min', null)
             ->where('impneto_max', null)
@@ -78,10 +78,10 @@ class ArticuloFamdfaController extends Controller {
         $mcodcli = $request->input('mcodcli');
         $artdfas = null;
         
-        $has_item_discount = $this->has_restricted_item_discount($mcodcli);
-        if ($has_item_discount) {
-            return response()->json([], 200);
-        }
+        // $has_item_discount = $this->has_restricted_item_discount($mcodcli);
+        // if ($has_item_discount) {
+        //     return response()->json([], 200);
+        // }
 
         if ($mcodven == 'all') {
             $type = $mcodven;
