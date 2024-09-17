@@ -15,7 +15,7 @@ return [
     |
     */
 
-    'paths' => ['api/*', 'sanctum/csrf-cookie', '*'],
+    'paths' => ['api/*', '*'],
     'allowed_methods' => ['*'],
     'allowed_origins' => ['https://willybusch.com.pe', 'https://filtroswillybusch.com.pe', '*'],
     'allowed_origins_patterns' => [],
