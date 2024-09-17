@@ -20,3 +20,6 @@ Route::get('/optimize', function () {
     \Artisan::call('optimize');
     return response()->json(['optimize' => 'done'], 200);
 });
+Route::options('{any}', function () {
+    return response()->json();
+})->where('any', '.*');
