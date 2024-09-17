@@ -15,13 +15,12 @@ return [
     |
     */
 
-    'paths' => ['api/*', '*'],
+    'paths' => ['api/*', 'sanctum/csrf-cookie', '*'],
     'allowed_methods' => ['*'],
     'allowed_origins' => ['https://willybusch.com.pe', 'https://filtroswillybusch.com.pe', '*'],
     'allowed_origins_patterns' => [],
     'allowed_headers' => ['*'],
     'exposed_headers' => [],
-    'max_age' => 0,
+    'max_age' => 1728000,
     'supports_credentials' => false,
-
 ];
