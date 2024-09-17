@@ -39,7 +39,7 @@
 </head>
 
 <body>
-  {{-- <img src="http://filtroswillybusch.com.pe/aplicativo_retenes/img/wb.jpeg" width="121" height="97" id="logo"> --}}
+  {{-- <img src="http://willybusch.com.pe/logos/retenes_logo.png" width="121" height="97" id="logo"> --}}
   {{-- <img src="http://localhost:8080/img/wb.png" width="121" height="97" id="logo"> --}}
 <table cellspacing="0" border="0">
 	<tr>
@@ -47,7 +47,7 @@
 			@if ($flavor == 'filtros')
 				<img src="{{ 'data:image/jpeg;base64,'.base64_encode(file_get_contents('http://filtroswillybusch.com.pe/aplicativo/img/wb.jpeg')) }}" width="100" height="100" id="logo">
 			@else
-				<img src="{{ 'data:image/jpeg;base64,'.base64_encode(file_get_contents('http://filtroswillybusch.com.pe/aplicativo_retenes/img/wb.jpeg')) }}" width="100" height="100" id="logo">
+				<img src="{{ 'data:image/jpeg;base64,'.base64_encode(file_get_contents('http://willybusch.com.pe/logos/retenes_logo.png')) }}" width="100" height="100" id="logo">
 			@endif
 		</td>
 		<td colspan="7" align="center" valign=bottom>
