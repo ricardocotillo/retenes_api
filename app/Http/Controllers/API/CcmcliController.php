@@ -17,7 +17,7 @@ class CcmcliController extends Controller
      */
     public function index()
     {
-        $clientes = Ccmcli::all();
+        $clientes = Ccmcli::cursorPaginate(15);
         foreach ($clientes as $cliente) {
             $ccmzon = Ccmzon::where('MCODZON', $cliente['MCODZON'])->first();
             $cliente['MCODRVE'] = $ccmzon['MCODRVE'];
