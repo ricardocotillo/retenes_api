@@ -17,7 +17,7 @@ class ArticuloController extends Controller
      */
     public function index()
     {
-        $articulos = Articulo::all();
+        $articulos = Articulo::cursorPaginate(15);
         return response()->json($articulos, $this->successStatus);
     }
 

@@ -19,49 +19,49 @@ class MainViewController extends Controller
      */
     public function index($nombre)
     {
-        $productos = Articulo::select(
-            'id',
-            'MCODART',
-            'MDESCRIP',
-            'MUNIDAD',
-            'MPROCEDE',
-            'MPVTAS05',
-            'MPVTAS06',
-            'MPVTAS07',
-            'MPVTAS08',
-            'MPVTAS09',
-            'MPVTAS10',
-            'ind_vend',
-            'mcantmin',
-            'MDIM_INT1',
-            'MDIM_EXT1',
-            'MDIM_ALT1',
-        )->get();
-        $clientes = Ccmcli::select(
-            'MCODCLI',
-            'MCODCADI',
-            'MCODSCADI',
-            'MCODVEN',
-            'MDIRDESP',
-            'MDIRECC',
-            'MLOCALID',
-            'MNOMBRE',
-            'MTELEF1',
-            'MUBIGEO',
-            'MCORREO',
-            'MCODZON',
-            'MLIM_CR',
-            'user_id',
-        )->get();
+        // $productos = Articulo::select(
+        //     'id',
+        //     'MCODART',
+        //     'MDESCRIP',
+        //     'MUNIDAD',
+        //     'MPROCEDE',
+        //     'MPVTAS05',
+        //     'MPVTAS06',
+        //     'MPVTAS07',
+        //     'MPVTAS08',
+        //     'MPVTAS09',
+        //     'MPVTAS10',
+        //     'ind_vend',
+        //     'mcantmin',
+        //     'MDIM_INT1',
+        //     'MDIM_EXT1',
+        //     'MDIM_ALT1',
+        // )->get();
+        // $clientes = Ccmcli::select(
+        //     'MCODCLI',
+        //     'MCODCADI',
+        //     'MCODSCADI',
+        //     'MCODVEN',
+        //     'MDIRDESP',
+        //     'MDIRECC',
+        //     'MLOCALID',
+        //     'MNOMBRE',
+        //     'MTELEF1',
+        //     'MUBIGEO',
+        //     'MCORREO',
+        //     'MCODZON',
+        //     'MLIM_CR',
+        //     'user_id',
+        // )->get();
 
         $formasDePago = Ccmcpa::select('MCONDPAGO', 'MDESCRIP', 'MABREVI', 'MINDCRED', 'MDIAS', 'MTIPCRE')->get();
         $vendedores = Ccmven::where('MNOMBRE', '=', urldecode($nombre))->get();
         
         
-        foreach ($clientes as $cliente) {
-            $ccmzon = Ccmzon::where('MCODZON', $cliente['MCODZON'])->first();
-            $cliente['MCODRVE'] = isset($ccmzon['MCODRVE']) ? $ccmzon['MCODRVE'] : null;
-        }
+        // foreach ($clientes as $cliente) {
+        //     $ccmzon = Ccmzon::where('MCODZON', $cliente['MCODZON'])->first();
+        //     $cliente['MCODRVE'] = isset($ccmzon['MCODRVE']) ? $ccmzon['MCODRVE'] : null;
+        // }
         
         $codigos = [];
 
@@ -70,8 +70,8 @@ class MainViewController extends Controller
         }
 
         $data = [
-            'productos' => $productos,
-            'clientes' => $clientes,
+            // 'productos' => $productos,
+            // 'clientes' => $clientes,
             'formasDePago' => $formasDePago,
             'codigos' => $codigos,
         ];
