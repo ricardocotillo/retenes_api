@@ -20,7 +20,7 @@ class CcmcliController extends Controller
         $clientes = Ccmcli::cursorPaginate(15);
         foreach ($clientes as $cliente) {
             $ccmzon = Ccmzon::where('MCODZON', $cliente['MCODZON'])->first();
-            $cliente['MCODRVE'] = $ccmzon['MCODRVE'];
+            $cliente['MCODRVE'] = isset($ccmzon['MCODRVE']) ? $ccmzon['MCODRVE'] : null;
         }
         return response()->json($clientes, $this->successStatus);
     }
