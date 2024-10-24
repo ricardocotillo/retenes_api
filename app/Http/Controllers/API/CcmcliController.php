@@ -15,9 +15,18 @@ class CcmcliController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        $clientes = Ccmcli::cursorPaginate(15);
+    public function index(Request $request) {
+        $q = $request->input('q', '');
+        $clientes = null;
+        if ($q) {
+            $clientes = Ccmcli::where([
+                ['MCODCLI', 'LIKE', '%'.$q.'%'],
+                ['MNOMBRE', 'LIKE', '%'.$q.'%'],
+            ]);
+        } else {
+            $clientes = Ccmcli::all();
+        }
+        $clientes = $clientes->cursorPaginate(15);
         foreach ($clientes as $cliente) {
             $ccmzon = Ccmzon::where('MCODZON', $cliente['MCODZON'])->first();
             $cliente['MCODRVE'] = isset($ccmzon['MCODRVE']) ? $ccmzon['MCODRVE'] : null;
