@@ -15,9 +15,22 @@ class ArticuloController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        $articulos = Articulo::cursorPaginate(15);
+    public function index(Request $request) {
+        $q = $request->input('q', '');
+        $dint = $request->input('dint', null);
+        $dext = $request->input('dext', null);
+        $alt = $request->input('alt', null);
+        $articulos = Articulo::where('MCODART', 'ilike', '%'.$q.'%');
+        if ($dint) {
+            $articulos = $articulos->where('MDIM_INT1', '>=', $dint);
+        }
+        if ($dext) {
+            $articulos = $articulos->where('MDIM_EXT1', '>=', $dext);
+        }
+        if ($alt) {
+            $articulos = $articulos->where('MDIM_ALT1', '>=', $alt);
+        }
+        $articulos = $articulos->cursorPaginate(15);
         return response()->json($articulos, $this->successStatus);
     }
 
