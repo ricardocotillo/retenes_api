@@ -83,6 +83,7 @@ class Detpe extends Model {
 		'MPORDCT5',
 		'estado',
 		'item_state',
+		'status_changed',
 	];
 
 	protected $appends = [

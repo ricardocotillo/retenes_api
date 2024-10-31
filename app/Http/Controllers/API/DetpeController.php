@@ -28,8 +28,7 @@ class DetpeController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, string $mnserie, string $mnroped)
-    {
+    public function store(Request $request, string $mnserie, string $mnroped) {
         $igv = 1.18;
 
         $pedido = $request->all();
@@ -76,6 +75,7 @@ class DetpeController extends Controller
             'MCODDFA' => $pedido['mcoddfa'],
             'estado' => 1,
             'item_state' => 'espera',
+            'status_changed' => false,
         );
 
         $detpe = new Detpe($detped_data);
@@ -115,7 +115,6 @@ class DetpeController extends Controller
 
         $cabpe->fill($new_cabpe);
         $cabpe->save();
-        info($detpe);
         return response()->json($detpe, 200);
     }
 
@@ -138,8 +137,7 @@ class DetpeController extends Controller
      * @param  \App\Models\Detpe  $detpe
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, int $detpe_id)
-    {
+    public function update(Request $request, int $detpe_id) {
         $igv = 1.18;
 
         $new_detpe = $request->all();
