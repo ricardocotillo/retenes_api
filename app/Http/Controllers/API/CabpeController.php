@@ -506,8 +506,7 @@ class CabpeController extends Controller
    * @param  \App\Models\Cabpe  $cabpe
    * @return \Illuminate\Http\Response
    */
-  public function send_email(Request $request, string $mnserie, string $mnroped)
-  {
+  public function send_email(Request $request, string $mnserie, string $mnroped) {
     $estado = $request->input('estado');
     $cabpes = Cabpe::with(['detpe', 'detpe.famdfas', 'ccmtrs', 'ccmcli', 'ccmcpa', 'values', 'instalments'])->where('MNSERIE', $mnserie)->where('MNROPED', $mnroped)->get();
     $data = array('nombre' => $cabpes[0]->ccmcli->MNOMBRE);
@@ -553,7 +552,7 @@ class CabpeController extends Controller
     $mcodven = $cabpes[0]->MCODVEN;
     $ccmcli = $cabpes[0]->ccmcli;
 
-    $recep = config('app.flavor') == 'filtros' ? 'recep_pedidos@filtroswillybusch.com.pe' : 'pedidos01_wb@filtroswillybusch.com.pe';
+    $recep = config('app.flavor') == 'filtros' ? 'recep_pedidos@filtroswillybusch.com.pe' : 'pedidos01_wb@willybusch.com.pe';
 
     PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true, 'debugPng' => true, 'defaultFont' => 'sans-serif']);
     $document = PDF::loadView('attach.pedido', $info);
