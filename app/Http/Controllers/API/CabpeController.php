@@ -553,7 +553,7 @@ class CabpeController extends Controller
     $mcodven = $cabpes[0]->MCODVEN;
     $ccmcli = $cabpes[0]->ccmcli;
 
-    $recep = config('app.flavor') == 'filtros' ? 'recep_pedidos@filtroswillybusch.com.pe' : 'pedidos01_wb@filtroswillybusch.com.pe';
+    $recep = config('app.flavor') == 'filtros' ? 'recep_pedidos@filtroswillybusch.com.pe' : 'pedidos01_wb@willybusch.com.pe';
 
     PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true, 'debugPng' => true, 'defaultFont' => 'sans-serif']);
     $document = PDF::loadView('attach.pedido', $info);
