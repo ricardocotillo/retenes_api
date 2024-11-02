@@ -319,7 +319,11 @@
 			@else
 				$  
 			@endif
-			{{ number_format($total, 2, '.', '') }}
+			@if ($total_atendido + $total_pendiente + $total_anulado == 0)
+				{{ number_format($total, 2, '.', '') }}
+			@else
+				{{ number_format($total_atendido, 2, '.', '') }}
+			@endif
 		</font>
       </b>
     </td>

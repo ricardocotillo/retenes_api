@@ -520,33 +520,34 @@ class CabpeController extends Controller
     }
     $mnroped = $cabpes[0]->MNSERIE . '-' . $cabpes[0]->MNROPED;
     $info = [
-      'fecha'         => date('d/m/Y'),
-      'periodo'       => date('Y/m'),
-      'mnroped'       => $mnroped,
-      'ruc'           => $cabpes[0]->MCODCLI,
-      'cliente'       => $cabpes[0]->ccmcli->MNOMBRE,
-      'canal'         => $cabpes[0]->ccmcli->MCODCADI,
-      'direccion'     => $cabpes[0]->ccmcli->MDIRECC,
-      'localidad'     => $cabpes[0]->ccmcli->MLOCALID,
-      'email'         => $cabpes[0]->ccmcli->MCORREO,
-      'condicion'     => $cabpes[0]->ccmcpa->MABREVI,
-      'articulos'     => $articulos,
-      'total'         => $montoTotalFinal,
-      'observaciones' => $cabpes[0]->MOBSERV,
-      'transporte'    => $cabpes[0]->ccmtrs->MCODTRSP,
-      'nametrans'     => $cabpes[0]->ccmtrs->MNOMBRE,
-      'values'        => $cabpes[0]->values,
-      'instalments'   => $cabpes[0]->instalments()->get()->split(4)->all(),
-      'total_atendido' => $cabpes->map(function ($c) {
-        return $c->totalByState('atendido');
+      'fecha'           => date('d/m/Y'),
+      'periodo'         => date('Y/m'),
+      'mnroped'         => $mnroped,
+      'ruc'             => $cabpes[0]->MCODCLI,
+      'cliente'         => $cabpes[0]->ccmcli->MNOMBRE,
+      'canal'           => $cabpes[0]->ccmcli->MCODCADI,
+      'direccion'       => $cabpes[0]->ccmcli->MDIRECC,
+      'localidad'       => $cabpes[0]->ccmcli->MLOCALID,
+      'email'           => $cabpes[0]->ccmcli->MCORREO,
+      'condicion'       => $cabpes[0]->ccmcpa->MABREVI,
+      'articulos'       => $articulos,
+      'total'           => $montoTotalFinal,
+      'observaciones'   => $cabpes[0]->MOBSERV,
+      'transporte'      => $cabpes[0]->ccmtrs->MCODTRSP,
+      'nametrans'       => $cabpes[0]->ccmtrs->MNOMBRE,
+      'values'          => $cabpes[0]->values,
+      'instalments'     => $cabpes[0]->instalments()->get()->split(4)->all(),
+      'total_atendido'  => $cabpes->map(function ($c) {
+        info($c->totalByState('parcial'));
+        return $c->totalByState('atendido') + $c->totalByState('parcial');
       })->sum(),
       'total_pendiente' => $cabpes->map(function ($c) {
         return $c->totalByState('pendiente');
       })->sum(),
-      'total_anulado' => $cabpes->map(function ($c) {
+      'total_anulado'   => $cabpes->map(function ($c) {
         return $c->totalByState('anulado');
       })->sum(),
-      'flavor'        => config('app.flavor'),
+      'flavor'          => config('app.flavor'),
     ];
 
     $mcodven = $cabpes[0]->MCODVEN;

@@ -209,6 +209,15 @@ class Cabpe extends Model
     }
 
 	public function totalByState(string $state) {
+		if ($state == 'parcial') {
+			$detpes = $this->detpe()->where('item_state', $state)->get();
+			$sum = 0;
+			foreach ($detpes as $detpe) {
+				$unit_price = $detpe->precio_neto / $detpe->MCANTIDAD;
+				$sum = $sum + ($detpe->partial * $unit_price);
+			}
+			return $sum;
+		}
 		return $this->detpe()->where('item_state', $state)->get()->pluck('precio_neto')->sum();
 	}
 
