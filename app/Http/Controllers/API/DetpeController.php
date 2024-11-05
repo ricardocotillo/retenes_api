@@ -160,6 +160,13 @@ class DetpeController extends Controller
         $new_detpe['estado'] = 1;
 
         $detpe->fill($new_detpe);
+        if (isset($new_detpe['famdfas'])) {
+            $detpe->famdfas()->detach();
+            foreach ($new_detpe['famdfas'] as $f) {
+                $type = $f['pivot'] != null ? $f['pivot']['type'] : $f['tipo'];
+                $detpe->famdfas()->attach($f['id'], ['type' => $type]);
+            }
+        }
         $detpe->save();
 
         $cabpe = $detpe->cabpe;
