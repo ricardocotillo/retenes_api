@@ -538,7 +538,6 @@ class CabpeController extends Controller
       'values'          => $cabpes[0]->values,
       'instalments'     => $cabpes[0]->instalments()->get()->split(4)->all(),
       'total_atendido'  => $cabpes->map(function ($c) {
-        info($c->totalByState('parcial'));
         return $c->totalByState('atendido') + $c->totalByState('parcial');
       })->sum(),
       'total_pendiente' => $cabpes->map(function ($c) {

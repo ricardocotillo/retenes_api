@@ -19,7 +19,6 @@ class CcmcliController extends Controller
     {
         $q = $request->input('q', '');
         $clientes = null;
-        info($q);
         if ($q) {
             $clientes = Ccmcli::where('MCODCLI', 'ilike', '%'.$q.'%')->orWhere('MNOMBRE', 'ilike', '%'.$q.'%')->cursorPaginate(15);
         } else {
