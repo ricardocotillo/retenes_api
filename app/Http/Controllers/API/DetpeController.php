@@ -80,7 +80,7 @@ class DetpeController extends Controller
 
         $detpe = new Detpe($detped_data);
 
-        $cabpe = Cabpe::where('MNROPED', $mnroped)->where('MNSERIE', $mnserie)->where('MCODVEN', $pedido['mcodven'])->first();
+        $cabpe = Cabpe::where('MNROPED', trim($mnroped))->where('MNSERIE', trim($mnserie))->where('MCODVEN', trim($pedido['mcodven']))->first();
         info($mnroped);
         info($mnserie);
         info($pedido['mcodven']);
