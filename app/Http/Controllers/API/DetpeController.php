@@ -81,9 +81,9 @@ class DetpeController extends Controller
         $detpe = new Detpe($detped_data);
 
         $cabpe = Cabpe::where('MNROPED', trim($mnroped))->where('MNSERIE', trim($mnserie))->where('MCODVEN', trim($pedido['mcodven']))->first();
-        info($mnroped);
-        info($mnserie);
-        info($pedido['mcodven']);
+        info(trim($mnroped));
+        info(trim($mnserie));
+        info(trim($pedido['mcodven']));
         $cabpe->detpe()->save($detpe);
         if ($pedido['mcoddfa'] && !in_array(trim($pedido['mcoddfa']), ['Sin descuento', 'Bono'])) {
             $famdfa = Famdfa::where('MCODDFA', $pedido['mcoddfa'])->first();
