@@ -85,7 +85,7 @@ class DetpeController extends Controller
         info(trim($mnserie));
         info(trim($pedido['mcodven']));
         $cabpe->detpe()->save($detpe);
-        if ($pedido['mcoddfa'] && !in_array(trim($pedido['mcoddfa']), ['Sin descuento', 'Bono'])) {
+        if ($pedido['mcoddfa'] && !in_array(trim($pedido['mcoddfa']), ['Sin descuento', 'Bono', 'Precio especial'])) {
             $famdfa = Famdfa::where('MCODDFA', $pedido['mcoddfa'])->first();
             $detpe->famdfas()->attach($famdfa->id, ['type' => 'item']);
         }
