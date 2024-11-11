@@ -80,7 +80,64 @@ class DetpeController extends Controller
 
         $detpe = new Detpe($detped_data);
 
-        $cabpe = Cabpe::where('MNROPED', trim($mnroped))->where('MNSERIE', trim($mnserie))->first();
+        $cabpe = Cabpe::where('MNROPED', $mnroped)->where('MNSERIE', $mnserie)->where('MCODVEN', $pedido['mcodven'])->first();
+
+        if (!$cabpe) {
+            $prev_cabpe = Cabpe::where('MNROPED', $mnroped)->where('MNSERIE', $mnserie)->first();
+
+            $cabpe = Cabpe::create(array(
+                'MTIPODOC' => 'C',
+                'MNSERIE' => $mnserie,
+                'MNROPED' => $mnroped,
+                'MCODTPED' => '01',
+                'MFECEMI' => date('Y-m-d'),
+                'MPERIODO' => date('Ym'),
+                'MCODCLI' => $pedido['mcodcli'],
+                'MCODCADI' => $prev_cabpe->MCODCADI,
+                'MCODCPA' => $prev_cabpe->MCODCPA,
+                'MCODVEN' => $pedido['mcodven'],
+                'MCODZON' => $prev_cabpe->MCODZON,
+                'MCODMON' => '001',
+                'MDOLINT' => 'S',
+                'MFECENT' => date('Y-m-d'),
+                'MLUGENT' => $prev_cabpe->MLUGENT,
+                'MLOCALID' => $ccmcli['MLOCALID'],
+                'MVALVEN' => 0,
+                'MDCTO' => 0,
+                'MIGV' => 0,
+                'MTOPVENTA' => 0,
+                'MNETO' => 0,
+                'MSALDO' => 0,
+                'MPORIGV' => 18.00,
+                'MINDORIG' => 1,
+                'MIND_N_I' => 1,
+                'MINDAPROB' => 'S',
+                'MINDIMP' => 'N',
+                'MINC_IGV' => 'S',
+                'MANO_E' => date('Y'),
+                'MMES_E' => date('m'),
+                'MDIA_E' => date('d'),
+                'MTEND' => 0,
+                'MNORDCLI' => $prev_cabpe->MNORCLI,
+                'MAMD' => date('Ymd'),
+                'MINDFACT' => 'N',
+                'MCODLPRE' => '03',
+                'MNOMCLI' => $prev_cabpe->MNOMCLI,
+                'MLUGFAC' => $prev_cabpe->MLUGFAC,
+                'MCODSITD' => '04',
+                'MFECUACT' => date('Y-m-d'),
+                'MCODUSER' => '600000000000001',
+                'MHORAUACT' => date('h:i:s'),
+                'MPESOKG' => 0.0,
+                'MATEND' => 0,
+                'estado' => $prev_cabpe->estado,
+                'MOBSERV' => $prev_cabpe->MOBSERV,
+                'MCODTRSP' => $prev_cabpe->MCODTRSP,
+                'MCORREO'  => $prev_cabpe->MCORREO,
+              ));
+            $cabpe->save();
+        }
+        
         $cabpe->detpe()->save($detpe);
         if ($pedido['mcoddfa'] && !in_array(trim($pedido['mcoddfa']), ['Sin descuento', 'Bono', 'Precio especial'])) {
             $famdfa = Famdfa::where('MCODDFA', $pedido['mcoddfa'])->first();

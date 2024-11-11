@@ -143,7 +143,7 @@ class CabpeController extends Controller
         'MHORAUACT' => date('h:i:s'),
         'MPESOKG' => 0.0,
         'MATEND' => 0,
-        'estado' => $cabe['descuentoExtra'] ? 'pendiente' : 'procesado',
+        // 'estado' => $cabe['descuentoExtra'] ? 'pendiente' : 'procesado', Puede ser que ya sea irrelevante
         'MOBSERV' => $observaciones,
         'estado' => $estado,
         'MCODTRSP' => $mcodtrsp,
