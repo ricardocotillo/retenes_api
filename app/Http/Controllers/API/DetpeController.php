@@ -115,7 +115,6 @@ class DetpeController extends Controller
 
         $cabpe->fill($new_cabpe);
         $cabpe->save();
-        info($detpe);
         return response()->json($detpe, 200);
     }
 
