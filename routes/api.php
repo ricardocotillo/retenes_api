@@ -48,8 +48,9 @@ Route::middleware(['auth:api',])->group(function () {
     Route::post('dfa', [ArticuloFamdfaController::class, 'index']);
     Route::get('mcodven/{nombre}', [CcmvenController::class, 'show']);
     Route::post('ccmven/', [CcmvenController::class, 'store']);
-    Route::post('cabped', [CabpeController::class, 'store']);
-    Route::get('historial/', [CabpeController::class, 'show']);
+    Route::post('cabped/', [CabpeController::class, 'store']);
+    Route::get('cabpe/{id}/', [CabpeController::class, 'show']);
+    Route::get('historial/', [CabpeController::class, 'historial']);
     Route::get('ccmtrs', [CcmtrsController::class, 'index']);
     Route::get('ccmcpa/{tipo}', [CcmcpaController::class, 'show']);
     Route::post('cambiar', [CcmcpaController::class, 'update']);

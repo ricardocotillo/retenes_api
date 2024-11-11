@@ -41,8 +41,7 @@ class CabpeController extends Controller
    * @param  \Illuminate\Http\Request  $request
    * @return \Illuminate\Http\Response
    */
-  public function store(Request $request)
-  {
+  public function store(Request $request) {
     $cabeceras = $request->input('cabeceras');
     $estado = $request->input('estado');
     $mcodtrsp = $request->input('transporte');
@@ -213,14 +212,12 @@ class CabpeController extends Controller
     return response()->json([], 200);
   }
 
-  /**
-   * Display the specified resource.
-   *
-   * @param  \App\Models\Cabpe  $cabpe
-   * @return \Illuminate\Http\Response
-   */
-  public function show(Request $request)
-  {
+  public function show(Request $request, int $id) {
+    $cabpe = Cabpe::with(['detpe', 'detpe.famdfas', 'ccmcpa', 'ccmcli'])->find($id);
+    return response()->json($cabpe, 200);
+  }
+
+  public function historial(Request $request) {
     $q = $request->input('q');
     $user = Auth::user();
     $cabpes = Cabpe::select([
