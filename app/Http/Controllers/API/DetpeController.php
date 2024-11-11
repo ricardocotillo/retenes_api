@@ -101,7 +101,7 @@ class DetpeController extends Controller
                 'MDOLINT' => 'S',
                 'MFECENT' => date('Y-m-d'),
                 'MLUGENT' => $prev_cabpe->MLUGENT,
-                'MLOCALID' => $ccmcli['MLOCALID'],
+                'MLOCALID' => $prev_cabpe->MLOCALID,
                 'MVALVEN' => 0,
                 'MDCTO' => 0,
                 'MIGV' => 0,
