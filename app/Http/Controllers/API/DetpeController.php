@@ -92,7 +92,7 @@ class DetpeController extends Controller
                 'MCODTPED' => '01',
                 'MFECEMI' => date('Y-m-d'),
                 'MPERIODO' => date('Ym'),
-                'MCODCLI' => $pedido['mcodcli'],
+                'MCODCLI' => $prev_cabpe->MCODCLI,
                 'MCODCADI' => $prev_cabpe->MCODCADI,
                 'MCODCPA' => $prev_cabpe->MCODCPA,
                 'MCODVEN' => $pedido['mcodven'],
