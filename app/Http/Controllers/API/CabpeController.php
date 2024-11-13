@@ -690,7 +690,7 @@ class CabpeController extends Controller
       'detpe.famdfas',
     ])->find($id);
 
-    foreach ($c->detpe as $d) {
+    foreach ($c->detpe()->where('MCODDFA', '!=', 'Precio especial')->where('MCODDFA', '!=', 'Bono')->get() as $d) {
       $d->famdfas()->newPivotStatement()->where('type', $type)->delete();
     }
 
