@@ -41,8 +41,7 @@ class CabpeController extends Controller
    * @param  \Illuminate\Http\Request  $request
    * @return \Illuminate\Http\Response
    */
-  public function store(Request $request)
-  {
+  public function store(Request $request) {
     $cabeceras = $request->input('cabeceras');
     $estado = $request->input('estado');
     $mcodtrsp = $request->input('transporte');
@@ -143,7 +142,7 @@ class CabpeController extends Controller
         'MHORAUACT' => date('h:i:s'),
         'MPESOKG' => 0.0,
         'MATEND' => 0,
-        'estado' => $cabe['descuentoExtra'] ? 'pendiente' : 'procesado',
+        // 'estado' => $cabe['descuentoExtra'] ? 'pendiente' : 'procesado', Puede ser que ya sea irrelevante
         'MOBSERV' => $observaciones,
         'estado' => $estado,
         'MCODTRSP' => $mcodtrsp,
@@ -213,14 +212,12 @@ class CabpeController extends Controller
     return response()->json([], 200);
   }
 
-  /**
-   * Display the specified resource.
-   *
-   * @param  \App\Models\Cabpe  $cabpe
-   * @return \Illuminate\Http\Response
-   */
-  public function show(Request $request)
-  {
+  public function show(Request $request, int $id) {
+    $cabpe = Cabpe::with(['detpe', 'detpe.famdfas', 'ccmcpa', 'ccmcli'])->find($id);
+    return response()->json($cabpe, 200);
+  }
+
+  public function historial(Request $request) {
     $q = $request->input('q');
     $user = Auth::user();
     $cabpes = Cabpe::select([
@@ -506,8 +503,7 @@ class CabpeController extends Controller
    * @param  \App\Models\Cabpe  $cabpe
    * @return \Illuminate\Http\Response
    */
-  public function send_email(Request $request, string $mnserie, string $mnroped)
-  {
+  public function send_email(Request $request, string $mnserie, string $mnroped) {
     $estado = $request->input('estado');
     $cabpes = Cabpe::with(['detpe', 'detpe.famdfas', 'ccmtrs', 'ccmcli', 'ccmcpa', 'values', 'instalments'])->where('MNSERIE', $mnserie)->where('MNROPED', $mnroped)->get();
     $data = array('nombre' => $cabpes[0]->ccmcli->MNOMBRE);
@@ -521,33 +517,33 @@ class CabpeController extends Controller
     }
     $mnroped = $cabpes[0]->MNSERIE . '-' . $cabpes[0]->MNROPED;
     $info = [
-      'fecha'         => date('d/m/Y'),
-      'periodo'       => date('Y/m'),
-      'mnroped'       => $mnroped,
-      'ruc'           => $cabpes[0]->MCODCLI,
-      'cliente'       => $cabpes[0]->ccmcli->MNOMBRE,
-      'canal'         => $cabpes[0]->ccmcli->MCODCADI,
-      'direccion'     => $cabpes[0]->ccmcli->MDIRECC,
-      'localidad'     => $cabpes[0]->ccmcli->MLOCALID,
-      'email'         => $cabpes[0]->ccmcli->MCORREO,
-      'condicion'     => $cabpes[0]->ccmcpa->MABREVI,
-      'articulos'     => $articulos,
-      'total'         => $montoTotalFinal,
-      'observaciones' => $cabpes[0]->MOBSERV,
-      'transporte'    => $cabpes[0]->ccmtrs->MCODTRSP,
-      'nametrans'     => $cabpes[0]->ccmtrs->MNOMBRE,
-      'values'        => $cabpes[0]->values,
-      'instalments'   => $cabpes[0]->instalments()->get()->split(4)->all(),
-      'total_atendido' => $cabpes->map(function ($c) {
-        return $c->totalByState('atendido');
+      'fecha'           => date('d/m/Y'),
+      'periodo'         => date('Y/m'),
+      'mnroped'         => $mnroped,
+      'ruc'             => $cabpes[0]->MCODCLI,
+      'cliente'         => $cabpes[0]->ccmcli->MNOMBRE,
+      'canal'           => $cabpes[0]->ccmcli->MCODCADI,
+      'direccion'       => $cabpes[0]->ccmcli->MDIRECC,
+      'localidad'       => $cabpes[0]->ccmcli->MLOCALID,
+      'email'           => $cabpes[0]->ccmcli->MCORREO,
+      'condicion'       => $cabpes[0]->ccmcpa->MABREVI,
+      'articulos'       => $articulos,
+      'total'           => $montoTotalFinal,
+      'observaciones'   => $cabpes[0]->MOBSERV,
+      'transporte'      => $cabpes[0]->ccmtrs->MCODTRSP,
+      'nametrans'       => $cabpes[0]->ccmtrs->MNOMBRE,
+      'values'          => $cabpes[0]->values,
+      'instalments'     => $cabpes[0]->instalments()->get()->split(4)->all(),
+      'total_atendido'  => $cabpes->map(function ($c) {
+        return $c->totalByState('atendido') + $c->totalByState('parcial');
       })->sum(),
       'total_pendiente' => $cabpes->map(function ($c) {
         return $c->totalByState('pendiente');
       })->sum(),
-      'total_anulado' => $cabpes->map(function ($c) {
+      'total_anulado'   => $cabpes->map(function ($c) {
         return $c->totalByState('anulado');
       })->sum(),
-      'flavor'        => config('app.flavor'),
+      'flavor'          => config('app.flavor'),
     ];
 
     $mcodven = $cabpes[0]->MCODVEN;
@@ -694,7 +690,7 @@ class CabpeController extends Controller
       'detpe.famdfas',
     ])->find($id);
 
-    foreach ($c->detpe as $d) {
+    foreach ($c->detpe()->where('MCODDFA', '!=', 'Precio especial')->where('MCODDFA', '!=', 'Bono')->get() as $d) {
       $d->famdfas()->newPivotStatement()->where('type', $type)->delete();
     }
 
@@ -720,7 +716,7 @@ class CabpeController extends Controller
       'detpe.famdfas',
     ])->find($id);
 
-    foreach ($c->detpe as $d) {
+    foreach ($c->detpe()->where('MCODDFA', '!=', 'Precio especial')->where('MCODDFA', '!=', 'Bono')->get() as $d) {
       $d->famdfas()->wherePivot('type', 'general')->detach();
       $d->famdfas()->attach($famdfa->id, ['type' => 'general']);
     }

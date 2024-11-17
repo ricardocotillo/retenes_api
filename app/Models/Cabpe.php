@@ -209,6 +209,24 @@ class Cabpe extends Model
     }
 
 	public function totalByState(string $state) {
+		if ($state == 'parcial') {
+			$detpes = $this->detpe()->where('item_state', $state)->get();
+			$sum = 0;
+			foreach ($detpes as $detpe) {
+				$partial = ($detpe->partial * $detpe->precio_neto) / $detpe->MCANTIDAD;
+				$sum = $sum + $partial;
+			}
+			return $sum;
+		}
+		if ($state == 'anulado') {
+			$detpes = $this->detpe()->where('item_state', 'parcial')->get();
+			$sum = 0;
+			foreach ($detpes as $detpe) {
+				$not_attended_partial = (($detpe->MCANTIDAD - $detpe->partial) * $detpe->precio_neto) / $detpe->MCANTIDAD;
+				$sum = $sum + $not_attended_partial;
+			}
+			return $this->detpe()->where('item_state', $state)->get()->pluck('precio_neto')->sum() + $sum;
+		}
 		return $this->detpe()->where('item_state', $state)->get()->pluck('precio_neto')->sum();
 	}
 
