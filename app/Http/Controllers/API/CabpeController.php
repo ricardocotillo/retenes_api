@@ -2,6 +2,15 @@
 
 namespace App\Http\Controllers\API;
 
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\JsonResponse;
+use App\Http\Controllers\Controller;
 use App\Models\Cabpe;
 use App\Models\Detpe;
 use App\Models\Ccmsedo;
@@ -13,14 +22,6 @@ use App\Models\Value;
 use App\Models\Instalment;
 use App\Models\TxtDetpe;
 use App\Models\CabpeModification;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Mail;
-use Barryvdh\DomPDF\Facade\Pdf;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\Controller;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Http\JsonResponse;
 
 class CabpeController extends Controller
 {
@@ -33,6 +34,15 @@ class CabpeController extends Controller
   {
     $data = Cabpe::all();
     return response()->json($data, 200);
+  }
+
+  private function nroped($numero) {
+    $n = (int) $numero + 1;
+    $n = (string) $n;
+    while (strlen($n) < 6) {
+      $n = '0' . $n;
+    }
+    return $n;
   }
 
   /**
@@ -51,163 +61,155 @@ class CabpeController extends Controller
     $articulos = array();
     $montoTotalFinal = 0;
     $ccmsedo = Ccmsedo::orderBy('id', 'desc')->first();
-    function nroped($numero)
-    {
-      $n = (int) $numero + 1;
-      $n = (string) $n;
-      while (strlen($n) < 6) {
-        $n = '0' . $n;
+    
+    DB::transaction(function () {
+      $cabpe = Cabpe::orderBy('id', 'desc')->lockForUpdate()->first();
+      $mnroped = isset($cabpe['MNROPED']) ? $this->nroped($cabpe['MNROPED']) : '000001';
+  
+      foreach ($values as $value) {
+        $value['mnserie'] = $ccmsedo->MNSERIE;
+        $value['mnroped'] = $mnroped;
+        Value::create($value);
       }
-      return $n;
-    }
-
-    $cabpe = Cabpe::orderBy('id', 'desc')->first();
-    $mnroped = isset($cabpe['MNROPED']) ? nroped($cabpe['MNROPED']) : '000001';
-
-    foreach ($values as $value) {
-      $value['mnserie'] = $ccmsedo->MNSERIE;
-      $value['mnroped'] = $mnroped;
-      Value::create($value);
-    }
-
-    foreach ($instalments as $instalment) {
-      $instalment['mnserie'] = $ccmsedo->MNSERIE;
-      $instalment['mnroped'] = $mnroped;
-      Instalment::create($instalment);
-    }
-
-    foreach ($cabeceras as $key => $cabe) {
-      if (count($cabe['pedidos']) <= 0) continue;
-      $articulos[$key] = array();
-      $ccmcli = Ccmcli::where('MCODCLI', '=', $cabe['MCODCLI'])->first();
-      $mtopventa = 0.0;
-      $mdcto = 0.0;
-      foreach ($cabe['pedidos'] as $pedido) {
-        if ($pedido['mcoddfa'] == 'Bono') {
-          continue;
-        } else {
-          $mtopventa = $mtopventa + ($pedido['cantidad'] * round($pedido['precio'] * 1.18, 2));
-        }
-        if ($pedido['mcoddfa'] != 'Sin descuento' && $pedido['mcoddfa'] != 'Bono') {
-          $mdcto = $mdcto + ($pedido['cantidad'] * round($pedido['precio'] * 1.18, 2) * ($pedido['mpordfa'] / 100));
-        }
+  
+      foreach ($instalments as $instalment) {
+        $instalment['mnserie'] = $ccmsedo->MNSERIE;
+        $instalment['mnroped'] = $mnroped;
+        Instalment::create($instalment);
       }
-      $mneto = $mtopventa - $mdcto;
-      $migv = $mneto - ($mneto / 1.18);
-      $mvalven = $mtopventa - $migv;
-      $montoTotalFinal = $mneto;
-      $codven = $cabe['MCODVEN'];
-      $cabecera = array(
-        'MTIPODOC' => $ccmsedo['MTIPODOC'],
-        'MNSERIE' => $ccmsedo['MNSERIE'],
-        'MNROPED' => $mnroped,
-        'MCODTPED' => '01',
-        'MFECEMI' => date('Y-m-d'),
-        'MPERIODO' => date('Ym'),
-        'MCODCLI' => $cabe['MCODCLI'],
-        'MCODCADI' => $ccmcli['MCODCADI'],
-        'MCODCPA' => $request->input('MCONDPAGO'),
-        'MCODVEN' => $cabe['MCODVEN'],
-        'MCODZON' => $ccmcli['MCODZON'],
-        'MCODMON' => '001',
-        'MDOLINT' => 'S',
-        'MFECENT' => date('Y-m-d'),
-        'MLUGENT' => $ccmcli['MDIRDESP'],
-        'MLOCALID' => $ccmcli['MLOCALID'],
-        'MVALVEN' => round($mvalven, 2),
-        'MDCTO' => round($mdcto, 2),
-        'MIGV' => round($migv, 2),
-        'MTOPVENTA' => round($mtopventa, 2),
-        'MNETO' => round($mneto, 2),
-        'MSALDO' => round($mneto, 2),
-        'MPORIGV' => 18.00,
-        'MINDORIG' => 1,
-        'MIND_N_I' => 1,
-        'MINDAPROB' => 'S',
-        'MINDIMP' => 'N',
-        'MINC_IGV' => 'S',
-        'MANO_E' => date('Y'),
-        'MMES_E' => date('m'),
-        'MDIA_E' => date('d'),
-        'MTEND' => 0,
-        'MNORDCLI' => $ccmcli['MUBIGEO'],
-        'MAMD' => date('Ymd'),
-        'MINDFACT' => 'N',
-        'MCODLPRE' => '03',
-        'MNOMCLI' => $ccmcli['MNOMBRE'],
-        'MLUGFAC' => $ccmcli['MDIRECC'],
-        'MCODSITD' => '04',
-        'MFECUACT' => date('Y-m-d'),
-        'MCODUSER' => '600000000000001',
-        'MHORAUACT' => date('h:i:s'),
-        'MPESOKG' => 0.0,
-        'MATEND' => 0,
-        // 'estado' => $cabe['descuentoExtra'] ? 'pendiente' : 'procesado', Puede ser que ya sea irrelevante
-        'MOBSERV' => $observaciones,
-        'estado' => $estado,
-        'MCODTRSP' => $mcodtrsp,
-        'MCORREO'  => $ccmcli['MCORREO'],
-      );
-      $cab = Cabpe::create($cabecera);
-      $cab->save();
-      $mitem = 1;
-      foreach ($cabe['pedidos'] as $value) {
-        $art = Articulo::where('MCODART', '=', $value['mcodart'])->first();
-        $mprecio = round($value['precio'] * 1.18, 2);
-        $mpordct1 = isset($value['mpordfa']) ? $value['mpordfa'] : 0.000;
-        $mvalven = round($mprecio * $value['cantidad'], 2);
-        $mdcto = round($mvalven * ($mpordct1 / 100), 2);
-        $migv = round(($mvalven - $mdcto) - (($mvalven - $mdcto) / 1.18), 2);
-
-        $mdetped = array(
-          'MTIPODOC' => 'C',
+      foreach ($cabeceras as $key => $cabe) {
+        if (count($cabe['pedidos']) <= 0) continue;
+        $articulos[$key] = array();
+        $ccmcli = Ccmcli::where('MCODCLI', '=', $cabe['MCODCLI'])->first();
+        $mtopventa = 0.0;
+        $mdcto = 0.0;
+        foreach ($cabe['pedidos'] as $pedido) {
+          if ($pedido['mcoddfa'] == 'Bono') {
+            continue;
+          } else {
+            $mtopventa = $mtopventa + ($pedido['cantidad'] * round($pedido['precio'] * 1.18, 2));
+          }
+          if ($pedido['mcoddfa'] != 'Sin descuento' && $pedido['mcoddfa'] != 'Bono') {
+            $mdcto = $mdcto + ($pedido['cantidad'] * round($pedido['precio'] * 1.18, 2) * ($pedido['mpordfa'] / 100));
+          }
+        }
+        $mneto = $mtopventa - $mdcto;
+        $migv = $mneto - ($mneto / 1.18);
+        $mvalven = $mtopventa - $migv;
+        $montoTotalFinal = $mneto;
+        $codven = $cabe['MCODVEN'];
+        $cabecera = array(
+          'MTIPODOC' => $ccmsedo['MTIPODOC'],
           'MNSERIE' => $ccmsedo['MNSERIE'],
           'MNROPED' => $mnroped,
-          'MITEM' => (string) $mitem,
-          'MCODART' => $value['mcodart'],
-          'MCANTIDAD' => (float) $value['cantidad'],
-          'MCANTPEN' => (float) $value['cantidad'],
-          'MUNIDAD' => $art['MUNIDAD'],
-          'MCODUMED' => 22,
-          'MFACTOR' => $art['MUNDENV1'],
-          'MDESCRI01' => $art['MDESCRIP'],
-          'MPORDCT1' => $mpordct1,
-          'MPORDCT2' => 0.0,
-          'MDCTOPRD' => $mdcto,
-          'MDCTO' => $mdcto,
-          'MPRECIO' => $mprecio,
-          'MVALVEN' => $mvalven,
-          'MIGV' => $migv,
-          'MCOSULCO' => 0.00,
+          'MCODTPED' => '01',
+          'MFECEMI' => date('Y-m-d'),
+          'MPERIODO' => date('Ym'),
+          'MCODCLI' => $cabe['MCODCLI'],
+          'MCODCADI' => $ccmcli['MCODCADI'],
+          'MCODCPA' => $request->input('MCONDPAGO'),
+          'MCODVEN' => $cabe['MCODVEN'],
+          'MCODZON' => $ccmcli['MCODZON'],
+          'MCODMON' => '001',
+          'MDOLINT' => 'S',
+          'MFECENT' => date('Y-m-d'),
+          'MLUGENT' => $ccmcli['MDIRDESP'],
+          'MLOCALID' => $ccmcli['MLOCALID'],
+          'MVALVEN' => round($mvalven, 2),
+          'MDCTO' => round($mdcto, 2),
+          'MIGV' => round($migv, 2),
+          'MTOPVENTA' => round($mtopventa, 2),
+          'MNETO' => round($mneto, 2),
+          'MSALDO' => round($mneto, 2),
+          'MPORIGV' => 18.00,
           'MINDORIG' => 1,
+          'MIND_N_I' => 1,
+          'MINDAPROB' => 'S',
+          'MINDIMP' => 'N',
+          'MINC_IGV' => 'S',
+          'MANO_E' => date('Y'),
+          'MMES_E' => date('m'),
+          'MDIA_E' => date('d'),
+          'MTEND' => 0,
+          'MNORDCLI' => $ccmcli['MUBIGEO'],
           'MAMD' => date('Ymd'),
-          'MAFE_IGV' => 'S',
-          'MINDOBSQ' => $value['mcoddfa'] == 'Bono' ? 'D' : 'N',
-          'MCODUSER' => '600000000000001',
+          'MINDFACT' => 'N',
+          'MCODLPRE' => '03',
+          'MNOMCLI' => $ccmcli['MNOMBRE'],
+          'MLUGFAC' => $ccmcli['MDIRECC'],
+          'MCODSITD' => '04',
           'MFECUACT' => date('Y-m-d'),
-          'MHORUACT' => date('h:i:s'),
-          'MPENFAC' => (float) $value['cantidad'],
-          'MCODDFA' => $value['mcoddfa'],
+          'MCODUSER' => '600000000000001',
+          'MHORAUACT' => date('h:i:s'),
+          'MPESOKG' => 0.0,
+          'MATEND' => 0,
+          // 'estado' => $cabe['descuentoExtra'] ? 'pendiente' : 'procesado', Puede ser que ya sea irrelevante
+          'MOBSERV' => $observaciones,
+          'estado' => $estado,
+          'MCODTRSP' => $mcodtrsp,
+          'MCORREO'  => $ccmcli['MCORREO'],
         );
-
-        $det = Detpe::create($mdetped);
-        $det->save();
-
-        if ($value['famdfa']) {
-          $famdfa1 = Famdfa::where('MCODDFA', '=', $value['famdfa']['MCODDFA'])->first();
-          $det->famdfas()->attach($famdfa1->id, ['type' => 'item']);
+        $cab = Cabpe::create($cabecera);
+        $cab->save();
+        $mitem = 1;
+        foreach ($cabe['pedidos'] as $value) {
+          $art = Articulo::where('MCODART', '=', $value['mcodart'])->first();
+          $mprecio = round($value['precio'] * 1.18, 2);
+          $mpordct1 = isset($value['mpordfa']) ? $value['mpordfa'] : 0.000;
+          $mvalven = round($mprecio * $value['cantidad'], 2);
+          $mdcto = round($mvalven * ($mpordct1 / 100), 2);
+          $migv = round(($mvalven - $mdcto) - (($mvalven - $mdcto) / 1.18), 2);
+  
+          $mdetped = array(
+            'MTIPODOC' => 'C',
+            'MNSERIE' => $ccmsedo['MNSERIE'],
+            'MNROPED' => $mnroped,
+            'MITEM' => (string) $mitem,
+            'MCODART' => $value['mcodart'],
+            'MCANTIDAD' => (float) $value['cantidad'],
+            'MCANTPEN' => (float) $value['cantidad'],
+            'MUNIDAD' => $art['MUNIDAD'],
+            'MCODUMED' => 22,
+            'MFACTOR' => $art['MUNDENV1'],
+            'MDESCRI01' => $art['MDESCRIP'],
+            'MPORDCT1' => $mpordct1,
+            'MPORDCT2' => 0.0,
+            'MDCTOPRD' => $mdcto,
+            'MDCTO' => $mdcto,
+            'MPRECIO' => $mprecio,
+            'MVALVEN' => $mvalven,
+            'MIGV' => $migv,
+            'MCOSULCO' => 0.00,
+            'MINDORIG' => 1,
+            'MAMD' => date('Ymd'),
+            'MAFE_IGV' => 'S',
+            'MINDOBSQ' => $value['mcoddfa'] == 'Bono' ? 'D' : 'N',
+            'MCODUSER' => '600000000000001',
+            'MFECUACT' => date('Y-m-d'),
+            'MHORUACT' => date('h:i:s'),
+            'MPENFAC' => (float) $value['cantidad'],
+            'MCODDFA' => $value['mcoddfa'],
+          );
+  
+          $det = Detpe::create($mdetped);
+          $det->save();
+  
+          if ($value['famdfa']) {
+            $famdfa1 = Famdfa::where('MCODDFA', '=', $value['famdfa']['MCODDFA'])->first();
+            $det->famdfas()->attach($famdfa1->id, ['type' => 'item']);
+          }
+  
+          if ($value['famdfa2']) {
+            $famdfa2 = Famdfa::where('MCODDFA', '=', $value['famdfa2']['MCODDFA'])->first();
+            $det->famdfas()->attach($famdfa2->id, ['type' => 'general']);
+          }
+  
+          $cab->detpe()->save($det);
+          $mitem = $mitem + 1;
+          array_push($articulos[$key], $det);
         }
-
-        if ($value['famdfa2']) {
-          $famdfa2 = Famdfa::where('MCODDFA', '=', $value['famdfa2']['MCODDFA'])->first();
-          $det->famdfas()->attach($famdfa2->id, ['type' => 'general']);
-        }
-
-        $cab->detpe()->save($det);
-        $mitem = $mitem + 1;
-        array_push($articulos[$key], $det);
       }
-    }
+    });
     return $this->send_email($request, $ccmsedo->MNSERIE, $mnroped);
     return response()->json([], 200);
   }
