@@ -63,7 +63,7 @@ class CabpeController extends Controller
     $ccmsedo = Ccmsedo::orderBy('id', 'desc')->first();
     $mnroped = null;
     
-    DB::transaction(function () use ($request, $cabeceras, $mnroped, $estado, $mcodtrsp, $observaciones, $values, $instalments, $articulos, $montoTotalFinal, $ccmsedo) {
+    DB::transaction(function () use ($request, $cabeceras, &$mnroped, $estado, $mcodtrsp, $observaciones, $values, $instalments, $articulos, $montoTotalFinal, $ccmsedo) {
       $cabpe = Cabpe::orderBy('id', 'desc')->lockForUpdate()->first();
       $mnroped = isset($cabpe['MNROPED']) ? $this->nroped($cabpe['MNROPED']) : '000001';
   
