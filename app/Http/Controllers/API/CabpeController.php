@@ -61,8 +61,9 @@ class CabpeController extends Controller
     $articulos = array();
     $montoTotalFinal = 0;
     $ccmsedo = Ccmsedo::orderBy('id', 'desc')->first();
+    $mnroped = null;
     
-    DB::transaction(function () {
+    DB::transaction(function () use ($cabeceras, $mnroped, $estado, $mcodtrsp, $observaciones, $values, $instalments, $articulos, $montoTotalFinal, $ccmsedo) {
       $cabpe = Cabpe::orderBy('id', 'desc')->lockForUpdate()->first();
       $mnroped = isset($cabpe['MNROPED']) ? $this->nroped($cabpe['MNROPED']) : '000001';
   
@@ -211,7 +212,6 @@ class CabpeController extends Controller
       }
     });
     return $this->send_email($request, $ccmsedo->MNSERIE, $mnroped);
-    return response()->json([], 200);
   }
 
   public function show(Request $request, int $id) {
