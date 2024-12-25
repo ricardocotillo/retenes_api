@@ -66,19 +66,21 @@ class CabpeController extends Controller
     
     DB::transaction(function () use ($request, $cabeceras, &$mnroped, $estado, $mcodtrsp, $observaciones, $values, $instalments, $articulos, $montoTotalFinal, $ccmsedo) {
       // $cabpe = Cabpe::orderBy('id', 'desc')->lockForUpdate()->first();
+      $user = Auth::user();
       $pedido = Pedido::create([
         'mnserie' => $ccmsedo['MNSERIE'],
+        'user_id' => $user->id,
       ]);
-      $mnroped = isset($cabpe['MNROPED']) ? $this->nroped($cabpe['MNROPED']) : '000001';
+      $mnroped = str_pad((string) $pedido->id, 6, STR_PAD_LEFT);
   
       foreach ($values as $value) {
-        $value['mnserie'] = $ccmsedo->MNSERIE;
+        $value['mnserie'] = $pedido->mnserie;
         $value['mnroped'] = $mnroped;
         Value::create($value);
       }
   
       foreach ($instalments as $instalment) {
-        $instalment['mnserie'] = $ccmsedo->MNSERIE;
+        $instalment['mnserie'] = $pedido->mnserie;
         $instalment['mnroped'] = $mnroped;
         Instalment::create($instalment);
       }
@@ -105,7 +107,7 @@ class CabpeController extends Controller
         $codven = $cabe['MCODVEN'];
         $cabecera = array(
           'MTIPODOC' => $ccmsedo['MTIPODOC'],
-          'MNSERIE' => $ccmsedo['MNSERIE'],
+          'MNSERIE' => $pedido->mnserie,
           'MNROPED' => $mnroped,
           'MCODTPED' => '01',
           'MFECEMI' => date('Y-m-d'),
@@ -167,7 +169,7 @@ class CabpeController extends Controller
   
           $mdetped = array(
             'MTIPODOC' => 'C',
-            'MNSERIE' => $ccmsedo['MNSERIE'],
+            'MNSERIE' => $pedido->mnserie,
             'MNROPED' => $mnroped,
             'MITEM' => (string) $mitem,
             'MCODART' => $value['mcodart'],
@@ -215,7 +217,7 @@ class CabpeController extends Controller
         }
       }
     });
-    return $this->send_email($request, $ccmsedo->MNSERIE, $mnroped);
+    return $this->send_email($request, $pedido->mnserie, $mnroped);
   }
 
   public function show(Request $request, int $id) {
