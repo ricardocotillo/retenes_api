@@ -22,6 +22,7 @@ use App\Models\Value;
 use App\Models\Instalment;
 use App\Models\TxtDetpe;
 use App\Models\CabpeModification;
+use App\Models\Pedido;
 
 class CabpeController extends Controller
 {
@@ -64,7 +65,10 @@ class CabpeController extends Controller
     $mnroped = null;
     
     DB::transaction(function () use ($request, $cabeceras, &$mnroped, $estado, $mcodtrsp, $observaciones, $values, $instalments, $articulos, $montoTotalFinal, $ccmsedo) {
-      $cabpe = Cabpe::orderBy('id', 'desc')->lockForUpdate()->first();
+      // $cabpe = Cabpe::orderBy('id', 'desc')->lockForUpdate()->first();
+      $pedido = Pedido::create([
+        'mnserie' => $ccmsedo['MNSERIE'],
+      ]);
       $mnroped = isset($cabpe['MNROPED']) ? $this->nroped($cabpe['MNROPED']) : '000001';
   
       foreach ($values as $value) {

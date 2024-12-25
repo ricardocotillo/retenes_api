@@ -101,6 +101,7 @@ class Cabpe extends Model
 		'MLIMAPROV',
 		'estado',
 		'MCODTRSP',
+		'pedido_id',
 	];
 
 	protected $appends = [
