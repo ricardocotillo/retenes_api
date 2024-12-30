@@ -53,6 +53,7 @@ class CabpeController extends Controller
    * @return \Illuminate\Http\Response
    */
   public function store(Request $request) {
+    $user = Auth::user();
     $cabeceras = $request->input('cabeceras');
     $estado = $request->input('estado');
     $mcodtrsp = $request->input('transporte');
@@ -63,14 +64,12 @@ class CabpeController extends Controller
     $montoTotalFinal = 0;
     $ccmsedo = Ccmsedo::orderBy('id', 'desc')->first();
     $mnroped = null;
+    $pedido = Pedido::create([
+      'mnserie' => $ccmsedo['MNSERIE'],
+      'user_id' => $user->id,
+    ]);
     
-    DB::transaction(function () use ($request, $cabeceras, &$mnroped, $estado, $mcodtrsp, $observaciones, $values, $instalments, $articulos, $montoTotalFinal, $ccmsedo) {
-      // $cabpe = Cabpe::orderBy('id', 'desc')->lockForUpdate()->first();
-      $user = Auth::user();
-      $pedido = Pedido::create([
-        'mnserie' => $ccmsedo['MNSERIE'],
-        'user_id' => $user->id,
-      ]);
+    DB::transaction(function () use ($request, $cabeceras, &$mnroped, $estado, $mcodtrsp, $observaciones, $values, $instalments, $articulos, $montoTotalFinal, $ccmsedo, $pedido) {
       $mnroped = str_pad((string) $pedido->id, 6, STR_PAD_LEFT);
   
       foreach ($values as $value) {
@@ -90,14 +89,14 @@ class CabpeController extends Controller
         $ccmcli = Ccmcli::where('MCODCLI', '=', $cabe['MCODCLI'])->first();
         $mtopventa = 0.0;
         $mdcto = 0.0;
-        foreach ($cabe['pedidos'] as $pedido) {
-          if ($pedido['mcoddfa'] == 'Bono') {
+        foreach ($cabe['pedidos'] as $ca) {
+          if ($ca['mcoddfa'] == 'Bono') {
             continue;
           } else {
-            $mtopventa = $mtopventa + ($pedido['cantidad'] * round($pedido['precio'] * 1.18, 2));
+            $mtopventa = $mtopventa + ($ca['cantidad'] * round($ca['precio'] * 1.18, 2));
           }
-          if ($pedido['mcoddfa'] != 'Sin descuento' && $pedido['mcoddfa'] != 'Bono') {
-            $mdcto = $mdcto + ($pedido['cantidad'] * round($pedido['precio'] * 1.18, 2) * ($pedido['mpordfa'] / 100));
+          if ($ca['mcoddfa'] != 'Sin descuento' && $ca['mcoddfa'] != 'Bono') {
+            $mdcto = $mdcto + ($ca['cantidad'] * round($ca['precio'] * 1.18, 2) * ($ca['mpordfa'] / 100));
           }
         }
         $mneto = $mtopventa - $mdcto;
@@ -105,6 +104,7 @@ class CabpeController extends Controller
         $mvalven = $mtopventa - $migv;
         $montoTotalFinal = $mneto;
         $codven = $cabe['MCODVEN'];
+        info($pedido);
         $cabecera = array(
           'MTIPODOC' => $ccmsedo['MTIPODOC'],
           'MNSERIE' => $pedido->mnserie,
