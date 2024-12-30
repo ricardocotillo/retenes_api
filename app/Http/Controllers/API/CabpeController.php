@@ -70,7 +70,7 @@ class CabpeController extends Controller
     ]);
     
     DB::transaction(function () use ($request, $cabeceras, &$mnroped, $estado, $mcodtrsp, $observaciones, $values, $instalments, $articulos, $montoTotalFinal, $ccmsedo, $pedido) {
-      $mnroped = str_pad((string) $pedido->id, 6, STR_PAD_LEFT);
+      $mnroped = str_pad((string) $pedido->id, 6, '0', STR_PAD_LEFT);
   
       foreach ($values as $value) {
         $value['mnserie'] = $pedido->mnserie;
