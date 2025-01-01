@@ -16,7 +16,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('pedidos', function (Blueprint $table) {
-            $table->id()->from(20864);
+            $table->id()->from(22746);
             $table->string('mnserie', 10);
             $table->foreignIdFor(User::class);
             $table->timestamps();
