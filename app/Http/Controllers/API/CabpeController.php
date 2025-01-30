@@ -208,7 +208,7 @@ class CabpeController extends Controller
   
           if ($value['famdfa2']) {
             $famdfa2 = Famdfa::where('MCODDFA', '=', $value['famdfa2']['MCODDFA'])->first();
-            $det->famdfas()->attach($famdfa2->id, ['type' => 'general']);
+            $det->famdfas()->attach($famdfa2->id, ['type' => $value['famdfa2']['tipo']]);
           }
   
           $cab->detpe()->save($det);
