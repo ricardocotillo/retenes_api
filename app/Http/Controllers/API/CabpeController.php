@@ -689,8 +689,7 @@ class CabpeController extends Controller
     return response()->json($detpes, 200);
   }
 
-  public function remove_famdfa(Request $request, int $id)
-  {
+  public function remove_famdfa(Request $request, int $id) {
     $j = $request->all();
     $type = $j['type'];
     $c = Cabpe::with([
@@ -714,9 +713,9 @@ class CabpeController extends Controller
     return response()->json($c, 200);
   }
 
-  public function update_famdfa(Request $request, int $id)
-  {
+  public function update_famdfa(Request $request, int $id) {
     $j = $request->all();
+    $type = $j['type'];
     $data = $j['famdfa'];
     $famdfa = Famdfa::where('MCODDFA', $data['MCODDFA'])->first();
     $c = Cabpe::with([
@@ -725,8 +724,8 @@ class CabpeController extends Controller
     ])->find($id);
 
     foreach ($c->detpe()->where('MCODDFA', '!=', 'Precio especial')->where('MCODDFA', '!=', 'Bono')->get() as $d) {
-      $d->famdfas()->wherePivot('type', 'general')->detach();
-      $d->famdfas()->attach($famdfa->id, ['type' => 'general']);
+      $d->famdfas()->wherePivot('type', $type)->detach();
+      $d->famdfas()->attach($famdfa->id, ['type' => $type]);
     }
 
     $c = Cabpe::with([
