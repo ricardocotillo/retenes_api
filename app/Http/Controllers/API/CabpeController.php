@@ -715,6 +715,7 @@ class CabpeController extends Controller
 
   public function update_famdfa(Request $request, int $id) {
     $j = $request->all();
+    $general_types = ['general', 'retenes', 'repuestos'];
     $type = $j['type'];
     $data = $j['famdfa'];
     $famdfa = Famdfa::where('MCODDFA', $data['MCODDFA'])->first();
@@ -724,7 +725,11 @@ class CabpeController extends Controller
     ])->find($id);
 
     foreach ($c->detpe()->where('MCODDFA', '!=', 'Precio especial')->where('MCODDFA', '!=', 'Bono')->get() as $d) {
-      $d->famdfas()->wherePivot('type', $type)->detach();
+      if (in_array($type, $general_types)) {
+        $d->famdfas()->wherePivotIn('type', $general_types)->detach();
+      } else {
+        $d->famdfas()->wherePivot('type', $type)->detach();
+      }
       $d->famdfas()->attach($famdfa->id, ['type' => $type]);
     }
 
