@@ -691,6 +691,7 @@ class CabpeController extends Controller
 
   public function remove_famdfa(Request $request, int $id) {
     $j = $request->all();
+    $general_types = ['general', 'retenes', 'repuestos'];
     $type = $j['type'];
     $c = Cabpe::with([
       'detpe',
@@ -698,7 +699,10 @@ class CabpeController extends Controller
     ])->find($id);
 
     foreach ($c->detpe()->where('MCODDFA', '!=', 'Precio especial')->where('MCODDFA', '!=', 'Bono')->get() as $d) {
-      $d->famdfas()->newPivotStatement()->where('type', $type)->delete();
+      if (in_array($type, $general_types)) {
+        $d->famdfas()->wherePivotIn('type', $general_types)->detach();
+      }
+      $d->famdfas()->wherePivot('type', $type)->detach();
     }
 
     $c = Cabpe::with([
