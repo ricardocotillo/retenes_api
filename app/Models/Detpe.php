@@ -148,16 +148,13 @@ class Detpe extends Model {
 	{
 		return $this->belongsToMany(Famdfa::class, 'detpe_famdfa')
 			->withPivot(['type', 'detpe_id', 'famdfa_id', 'id'])
-			->addSelect([
-				'order' => DB::raw("
-					CASE
-						WHEN detpe_famdfa.type = 'item' THEN 1
-						WHEN detpe_famdfa.type = 'general' THEN 2
-						WHEN detpe_famdfa.type = 'repuestos' THEN 2
-						WHEN detpe_famdfa.type = 'retenes' THEN 2
-				")
-			])
-			->orderByRaw('order ASC');
+			->orderByRaw("
+				CASE
+					WHEN detpe_famdfa.type = 'item' THEN 1
+					WHEN detpe_famdfa.type IN ('general', 'repuestos', 'retenes') THEN 2
+					ELSE 3
+				END
+			");
 	}
 
 	public function scopeNotBono($query)
