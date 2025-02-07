@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\LogPedido;
 
@@ -145,7 +146,18 @@ class Detpe extends Model {
 
 	public function famdfas()
 	{
-		return $this->belongsToMany(Famdfa::class, 'detpe_famdfa')->withPivot(['type', 'detpe_id', 'famdfa_id', 'id']);
+		return $this->belongsToMany(Famdfa::class, 'detpe_famdfa')
+			->withPivot(['type', 'detpe_id', 'famdfa_id', 'id'])
+			->addSelect([
+				'order' => DB::raw("
+					CASE
+						WHEN detpe_famdfa.type = 'item' THEN 1
+						WHEN detpe_famdfa.type = 'general' THEN 2
+						WHEN detpe_famdfa.type = 'repuestos' THEN 2
+						WHEN detpe_famdfa.type = 'retenes' THEN 2
+				")
+			])
+			->orderByRaw('order ASC');
 	}
 
 	public function scopeNotBono($query)
