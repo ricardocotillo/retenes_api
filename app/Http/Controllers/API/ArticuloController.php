@@ -30,7 +30,15 @@ class ArticuloController extends Controller
         if ($alt) {
             $articulos = $articulos->where('MDIM_ALT1', '>=', $alt);
         }
-        $articulos = $articulos->orderBy('MCODART')->cursorPaginate(15);
+        if ($dint || $dext || $alt) {
+            $articulos = $articulos
+                ->orderBy('MDIM_INT1')
+                ->orderBy('MDIM_EXT1')
+                ->orderBy('MDIM_ALT1');
+        } else {
+            $articulos = $articulos->orderBy('MCODART');
+        }
+        $articulos = $articulos->cursorPaginate(15);
         return response()->json($articulos, $this->successStatus);
     }
 
