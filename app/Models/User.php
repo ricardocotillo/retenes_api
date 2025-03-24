@@ -42,4 +42,9 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function clientes() {
+        return $this->hasMany(Ccmcli::class, 'user_id')
+            ->orWhereNull('user_id');
+    }
 }

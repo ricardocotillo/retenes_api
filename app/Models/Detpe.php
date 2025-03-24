@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\LogPedido;
 
@@ -145,7 +146,15 @@ class Detpe extends Model {
 
 	public function famdfas()
 	{
-		return $this->belongsToMany(Famdfa::class, 'detpe_famdfa')->withPivot(['type', 'detpe_id', 'famdfa_id', 'id']);
+		return $this->belongsToMany(Famdfa::class, 'detpe_famdfa')
+			->withPivot(['type', 'detpe_id', 'famdfa_id', 'id'])
+			->orderByRaw("
+				CASE
+					WHEN detpe_famdfa.type = 'item' THEN 1
+					WHEN detpe_famdfa.type IN ('general', 'repuestos', 'retenes') THEN 2
+					ELSE 3
+				END
+			");
 	}
 
 	public function scopeNotBono($query)
@@ -171,9 +180,7 @@ class Detpe extends Model {
 	public function getDescripAttribute()
 	{
 		$display = '';
-		$famdfas = $this->famdfas()->get()->sortByDesc(function ($f, $k) {
-			return $f['pivot']['type'];
-		});
+		$famdfas = $this->famdfas()->get();
 		$mdescrip = $famdfas->pluck('MDESCRIP');
 		$mdescrip = $mdescrip->map(function ($m, $k) {
 			return str_replace('%', '', trim($m));

@@ -6,6 +6,7 @@ use App\Models\Ccmcli;
 use App\Models\Ccmzon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class CcmcliController extends Controller
 {
@@ -15,14 +16,14 @@ class CcmcliController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
-    {
+    public function index(Request $request) {
+        $user = Auth::user();
         $q = $request->input('q', '');
-        $clientes = null;
+        $clientes = [];
         if ($q) {
-            $clientes = Ccmcli::where('MCODCLI', 'ilike', '%'.$q.'%')->orWhere('MNOMBRE', 'ilike', '%'.$q.'%')->cursorPaginate(15);
+            $clientes = $user->clientes()->where('MCODCLI', 'ilike', '%'.$q.'%')->orWhere('MNOMBRE', 'ilike', '%'.$q.'%')->cursorPaginate(15);
         } else {
-            $clientes = Ccmcli::cursorPaginate(15);
+            $clientes = $user->clientes()->cursorPaginate(15);
         }
         foreach ($clientes as $cliente) {
             $ccmzon = Ccmzon::where('MCODZON', $cliente['MCODZON'])->first();
@@ -53,8 +54,7 @@ class CcmcliController extends Controller
      * @param  \App\Models\Ccmcli  $ccmcli
      * @return \Illuminate\Http\Response
      */
-    public function show(Ccmcli $ccmcli)
-    {
+    public function show(Ccmcli $ccmcli) {
         //
     }
 
@@ -65,8 +65,7 @@ class CcmcliController extends Controller
      * @param  \App\Models\Ccmcli  $ccmcli
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Ccmcli $ccmcli)
-    {
+    public function update(Request $request, Ccmcli $ccmcli) {
         //
     }
 
@@ -76,8 +75,7 @@ class CcmcliController extends Controller
      * @param  \App\Models\Ccmcli  $ccmcli
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Ccmcli $ccmcli)
-    {
+    public function destroy(Ccmcli $ccmcli) {
         //
     }
 }

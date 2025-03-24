@@ -208,7 +208,7 @@ class CabpeController extends Controller
   
           if ($value['famdfa2']) {
             $famdfa2 = Famdfa::where('MCODDFA', '=', $value['famdfa2']['MCODDFA'])->first();
-            $det->famdfas()->attach($famdfa2->id, ['type' => 'general']);
+            $det->famdfas()->attach($famdfa2->id, ['type' => $value['famdfa2']['tipo']]);
           }
   
           $cab->detpe()->save($det);
@@ -689,9 +689,9 @@ class CabpeController extends Controller
     return response()->json($detpes, 200);
   }
 
-  public function remove_famdfa(Request $request, int $id)
-  {
+  public function remove_famdfa(Request $request, int $id) {
     $j = $request->all();
+    $general_types = ['general', 'retenes', 'repuestos'];
     $type = $j['type'];
     $c = Cabpe::with([
       'detpe',
@@ -699,7 +699,10 @@ class CabpeController extends Controller
     ])->find($id);
 
     foreach ($c->detpe()->where('MCODDFA', '!=', 'Precio especial')->where('MCODDFA', '!=', 'Bono')->get() as $d) {
-      $d->famdfas()->newPivotStatement()->where('type', $type)->delete();
+      if (in_array($type, $general_types)) {
+        $d->famdfas()->wherePivotIn('type', $general_types)->detach();
+      }
+      $d->famdfas()->wherePivot('type', $type)->detach();
     }
 
     $c = Cabpe::with([
@@ -714,9 +717,10 @@ class CabpeController extends Controller
     return response()->json($c, 200);
   }
 
-  public function update_famdfa(Request $request, int $id)
-  {
+  public function update_famdfa(Request $request, int $id) {
     $j = $request->all();
+    $general_types = ['general', 'retenes', 'repuestos'];
+    $type = $j['type'];
     $data = $j['famdfa'];
     $famdfa = Famdfa::where('MCODDFA', $data['MCODDFA'])->first();
     $c = Cabpe::with([
@@ -725,8 +729,12 @@ class CabpeController extends Controller
     ])->find($id);
 
     foreach ($c->detpe()->where('MCODDFA', '!=', 'Precio especial')->where('MCODDFA', '!=', 'Bono')->get() as $d) {
-      $d->famdfas()->wherePivot('type', 'general')->detach();
-      $d->famdfas()->attach($famdfa->id, ['type' => 'general']);
+      if (in_array($type, $general_types)) {
+        $d->famdfas()->wherePivotIn('type', $general_types)->detach();
+      } else {
+        $d->famdfas()->wherePivot('type', $type)->detach();
+      }
+      $d->famdfas()->attach($famdfa->id, ['type' => $type]);
     }
 
     $c = Cabpe::with([
