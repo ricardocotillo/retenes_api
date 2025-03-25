@@ -8,8 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
-class CcmcliController extends Controller
-{
+class CcmcliController extends Controller {
     public $successStatus = 200;
     /**
      * Display a listing of the resource.
@@ -24,7 +23,10 @@ class CcmcliController extends Controller
             $clientes = Ccmcli::whereNull('user_id');
         }
         if ($q) {
-            $clientes = $clientes->where('MCODCLI', 'ilike', '%'.$q.'%')->orWhere('MNOMBRE', 'ilike', '%'.$q.'%')->cursorPaginate(15);
+            $clientes = $clientes->where(function($query) use ($q) {
+                $query->where('MCODCLI', 'ilike', '%'.$q.'%')
+                      ->orWhere('MNOMBRE', 'ilike', '%'.$q.'%');
+            })->cursorPaginate(15);
         } else {
             $clientes = $clientes->cursorPaginate(15);
         }
