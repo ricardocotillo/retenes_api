@@ -19,11 +19,14 @@ class CcmcliController extends Controller
     public function index(Request $request) {
         $user = Auth::user();
         $q = $request->input('q', '');
-        $clientes = [];
+        $clientes = $user->clientes();
+        if ($clientes->count() <= 0) {
+            $clientes = Ccmcli::whereNull('user_id');
+        }
         if ($q) {
-            $clientes = $user->clientes()->where('MCODCLI', 'ilike', '%'.$q.'%')->orWhere('MNOMBRE', 'ilike', '%'.$q.'%')->cursorPaginate(15);
+            $clientes = $clientes->where('MCODCLI', 'ilike', '%'.$q.'%')->orWhere('MNOMBRE', 'ilike', '%'.$q.'%')->cursorPaginate(15);
         } else {
-            $clientes = $user->clientes()->cursorPaginate(15);
+            $clientes = $clientes->cursorPaginate(15);
         }
         foreach ($clientes as $cliente) {
             $ccmzon = Ccmzon::where('MCODZON', $cliente['MCODZON'])->first();

@@ -44,7 +44,6 @@ class User extends Authenticatable
     ];
 
     public function clientes() {
-        return $this->hasMany(Ccmcli::class, 'user_id')
-            ->orWhereNull('user_id');
+        return $this->hasMany(Ccmcli::class, 'user_id');
     }
 }
