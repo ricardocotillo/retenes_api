@@ -84,4 +84,5 @@ Route::middleware(['auth:api',])->group(function () {
     Route::post('instalments/bulk_store/', [InstalmentController::class, 'bulk_store']);
     Route::delete('instalments/bulk_delete/{mnserie}/{mnroped}/', [InstalmentController::class, 'bulk_delete']);
     Route::get('cabpe/download_txt/{mnserie}/{mnroped}/', [CabpeController::class, 'download_txt']);
+    Route::get('cabpe/download_pdf/{mnserie}/{mnroped}/', [CabpeController::class, 'download_pdf']);
 });
