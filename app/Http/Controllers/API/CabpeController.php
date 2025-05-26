@@ -534,6 +534,15 @@ class CabpeController extends Controller
       ->header('Content-Disposition', 'attachment; filename="pedidos.txt"');
   }
 
+  // download pdf
+  public function download_pdf(Request $request, string $mnserie, string $mnroped) {
+    $cabpes = Cabpe::with(['detpe', 'detpe.famdfas', 'ccmtrs', 'ccmcli', 'ccmcpa', 'values', 'instalments'])->where('MNSERIE', $mnserie)->where('MNROPED', $mnroped)->get();
+    $pdf = PDF::loadView('attach.pedido', $this->generate_pdf($cabpes));
+    return response($pdf->output(), 200)
+      ->header('Content-Type', 'application/pdf')
+      ->header('Content-Disposition', 'attachment; filename="pedido.pdf"');
+  }
+
   /**
    * Enviar correo.
    *
