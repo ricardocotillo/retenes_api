@@ -61,7 +61,6 @@ class CabpeController extends Controller
     $values = $request->input('values', []);
     $instalments = $request->input('instalments', []);
     $articulos = array();
-    $montoTotalFinal = 0;
     $ccmsedo = Ccmsedo::orderBy('id', 'desc')->first();
     $mnroped = null;
     $pedido = Pedido::create([
@@ -69,7 +68,7 @@ class CabpeController extends Controller
       'user_id' => $user->id,
     ]);
     
-    DB::transaction(function () use ($request, $cabeceras, &$mnroped, $estado, $mcodtrsp, $observaciones, $values, $instalments, $articulos, $montoTotalFinal, $ccmsedo, $pedido) {
+    DB::transaction(function () use ($request, $cabeceras, &$mnroped, $estado, $mcodtrsp, $observaciones, $values, $instalments, $articulos, $ccmsedo, $pedido) {
       $mnroped = str_pad((string) $pedido->id, 6, '0', STR_PAD_LEFT);
   
       foreach ($values as $value) {
@@ -102,9 +101,6 @@ class CabpeController extends Controller
         $mneto = $mtopventa - $mdcto;
         $migv = $mneto - ($mneto / 1.18);
         $mvalven = $mtopventa - $migv;
-        $montoTotalFinal = $mneto;
-        $codven = $cabe['MCODVEN'];
-        info($pedido);
         $cabecera = array(
           'MTIPODOC' => $ccmsedo['MTIPODOC'],
           'MNSERIE' => $pedido->mnserie,
@@ -225,51 +221,76 @@ class CabpeController extends Controller
     return response()->json($cabpe, 200);
   }
 
-  public function historial(Request $request) {
-    $q = $request->input('q');
-    $user = Auth::user();
-    $cabpes = Cabpe::select([
-      'id',
-      'MNSERIE',
-      'MNROPED',
-      'MFECEMI',
-      'MCODCPA',
-      'MCODVEN',
-      'MCODCLI',
-      'MTOPVENTA',
-      'MNOMCLI',
-      'MCODCADI',
-      'MCODTRSP',
-      'MOBSERV',
-      'estado',
-    ])
-      ->with([
-        'detpe.famdfas',
-        'ccmcpa',
-        'ccmcli',
-        'ccmtrs',
-        'instalments',
-        'values',
-      ]);
-    if ($user->role != 'admin') {
-      $codes = $request->input('codes');
-      $codes = explode(',', $codes);
-      $cabpes = $cabpes->whereIn('MCODVEN', $codes);
+  public function historial(Request $request): \Illuminate\Http\JsonResponse
+    {
+        $q = $request->input('q');
+        $user = Auth::user();
+
+        // It's good practice to type hint the model if possible, e.g., $user = Auth::user(); where $user is an instance of User model
+        // For Cabpe model, ensure it's imported: use App\Models\Cabpe;
+        // For Builder, ensure it's imported: use Illuminate\Database\Eloquent\Builder;
+
+        $query = Cabpe::select([
+            'id', 'MNSERIE', 'MNROPED', 'MFECEMI', 'MCODCPA', 'MCODVEN', 'MCODCLI',
+            'MTOPVENTA', 'MNOMCLI', 'MCODCADI', 'MCODTRSP', 'MOBSERV', 'estado',
+        ])
+        ->with([
+            'detpe.famdfas', // Consider if all these eager-loaded relationships are always needed for this list view.
+            'ccmcpa',
+            'ccmcli',
+            'ccmtrs',
+            'instalments',
+            'values',
+        ]);
+
+        if ($user->role !== 'admin') {
+            $codesInput = $request->input('codes');
+            
+            // Ensure $codesInput is a non-empty string before processing
+            if (is_string($codesInput) && trim($codesInput) !== '') {
+                // Split by comma, trim each part, and filter out empty strings
+                $processedCodes = array_filter(array_map('trim', explode(',', $codesInput)));
+                
+                if (!empty($processedCodes)) {
+                    $query->whereIn('MCODVEN', $processedCodes);
+                } else {
+                    // If codesInput was provided but resulted in no valid codes (e.g., ",," or " , "),
+                    // non-admins should see no results.
+                    $query->whereRaw('0 = 1'); // Effectively means "match no records"
+                }
+            } else {
+                // No codes string provided, or it's empty/whitespace only.
+                // If non-admins must always be restricted by codes, they should see nothing.
+                $query->whereRaw('0 = 1');
+                // Alternative: If this is an error condition, you might return a specific error response:
+                // return response()->json(['error' => 'Vendor codes are required for your role.'], 400);
+            }
+        }
+
+        if ($q) { // Check if $q has a value (is not null, empty string, false, etc.)
+            if (is_numeric($q)) {
+                $query->where('MCODCLI', 'LIKE', '%' . $q . '%');
+            } else {
+                $query->whereHas('ccmcli', function (\Illuminate\Database\Eloquent\Builder $subQuery) use ($q) {
+                    $subQuery->where('MNOMBRE', 'LIKE', '%' . $q . '%');
+                });
+            }
+        }
+
+        // Assuming 'id' is the primary key and uniquely identifies a row in 'cabpes'.
+        // If (MNSERIE, MNROPED) can be non-unique for a given 'id', or if 'id' is not the PK,
+        // or if you encounter issues with specific DB configurations (like older MySQL versions
+        // without ONLY_FULL_GROUP_BY properly handled by Eloquent for this case),
+        // the original groupBy('id', 'MNSERIE', 'MNROPED') might be safer or necessary.
+        // However, if 'id' is PK, grouping by 'id' is sufficient as other selected
+        // 'cabpes' columns are functionally dependent on 'id'.
+        $cabpes = $query->orderBy('MNSERIE', 'desc')
+            ->orderBy('MNROPED', 'desc')
+            ->groupBy('id') // Simplified groupBy, ensure 'id' is PK for 'cabpes' table.
+            ->paginate(10);
+
+        return response()->json($cabpes, 200);
     }
-    if ($q && is_numeric($q)) {
-      $cabpes = $cabpes->where('MCODCLI', 'LIKE', '%' . $q . '%');
-    }
-    if ($q && !is_numeric($q)) {
-      $cabpes = $cabpes->whereHas('ccmcli', function (Builder $query) use ($q) {
-        $query->where('MNOMBRE', 'LIKE', '%' . $q . '%');
-      });
-    }
-    $cabpes = $cabpes->orderBy('MNSERIE', 'desc')
-      ->orderBy('MNROPED', 'desc')
-      ->groupBy('id', 'MNSERIE', 'MNROPED')
-      ->paginate(50);
-    return response()->json($cabpes, 200);
-  }
 
   /**
    * Display the specified resource.
