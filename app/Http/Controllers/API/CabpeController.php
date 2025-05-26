@@ -526,8 +526,8 @@ class CabpeController extends Controller
   }
 
   // download txt
-  public function download_txt(Request $request) {
-    $cabpes = Cabpe::with(['detpe', 'detpe.famdfas', 'ccmtrs', 'ccmcli', 'ccmcpa', 'values', 'instalments'])->get();
+  public function download_txt(Request $request, string $mnserie, string $mnroped) {
+    $cabpes = Cabpe::with(['detpe', 'detpe.famdfas', 'ccmtrs', 'ccmcli', 'ccmcpa', 'values', 'instalments'])->where('MNSERIE', $mnserie)->where('MNROPED', $mnroped)->get();
     $txt = $this->generate_txt($cabpes);
     return response($txt, 200)
       ->header('Content-Type', 'text/plain')
