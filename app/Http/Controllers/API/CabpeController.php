@@ -579,8 +579,7 @@ class CabpeController extends Controller
     }
     PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true, 'debugPng' => true, 'defaultFont' => 'sans-serif']);
     $document = PDF::loadView('attach.pedido', $info);
-    $output = $document->output();
-    return $output;
+    return $document->download('pedido.pdf');
   }
 
   private function generate_almacen_pdf($cabpes, ?array $info = null) {
