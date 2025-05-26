@@ -17,7 +17,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 Route::get('/optimize', function () {
-    \Artisan::call('optimize');
+    \Illuminate\Support\Facades\Artisan::call('optimize');
     return response()->json(['optimize' => 'done'], 200);
 });
 Route::options('{any}', function () {
