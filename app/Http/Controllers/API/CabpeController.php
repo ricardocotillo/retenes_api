@@ -525,6 +525,15 @@ class CabpeController extends Controller
         return $txt;
   }
 
+  // download txt
+  public function download_txt(Request $request) {
+    $cabpes = Cabpe::with(['detpe', 'detpe.famdfas', 'ccmtrs', 'ccmcli', 'ccmcpa', 'values', 'instalments'])->get();
+    $txt = $this->generate_txt($cabpes);
+    return response($txt, 200)
+      ->header('Content-Type', 'text/plain')
+      ->header('Content-Disposition', 'attachment; filename="pedidos.txt"');
+  }
+
   /**
    * Enviar correo.
    *
