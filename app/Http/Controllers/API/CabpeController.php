@@ -534,31 +534,9 @@ class CabpeController extends Controller
       ->header('Content-Disposition', 'attachment; filename="pedidos.txt"');
   }
 
-  // download pdf
-  public function download_pdf(Request $request, string $mnserie, string $mnroped) {
-    $cabpes = Cabpe::with(['detpe', 'detpe.famdfas', 'ccmtrs', 'ccmcli', 'ccmcpa', 'values', 'instalments'])->where('MNSERIE', $mnserie)->where('MNROPED', $mnroped)->get();
-    $pdf = PDF::loadView('attach.pedido', $this->generate_pdf($cabpes));
-    return response($pdf->output(), 200)
-      ->header('Content-Type', 'application/pdf')
-      ->header('Content-Disposition', 'attachment; filename="pedido.pdf"');
-  }
-
-  /**
-   * Enviar correo.
-   *
-   * @param  \Illuminate\Http\Request  $request
-   * @param  \App\Models\Cabpe  $cabpe
-   * @return \Illuminate\Http\Response
-   */
-  public function send_email(Request $request, string $mnserie, string $mnroped) {
-    $estado = $request->input('estado');
-    $cabpes = Cabpe::with(['detpe', 'detpe.famdfas', 'ccmtrs', 'ccmcli', 'ccmcpa', 'values', 'instalments'])->where('MNSERIE', $mnserie)->where('MNROPED', $mnroped)->get();
-    $data = array('nombre' => $cabpes[0]->ccmcli->MNOMBRE);
-
+  private function get_pedido_info($cabpes) {
     $articulos = $this->order_cabpes($cabpes);
-
     $montoTotalFinal = 0;
-
     foreach ($cabpes as $cabpe) {
       $montoTotalFinal = $montoTotalFinal + $cabpe->precio_neto;
     }
@@ -592,22 +570,62 @@ class CabpeController extends Controller
       })->sum(),
       'flavor'          => config('app.flavor'),
     ];
+    return $info;
+  }
+
+  private function generate_pdf($cabpes, ?array $info = null) {
+    if (!$info) {
+      $info = $this->get_pedido_info($cabpes);
+    }
+    PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true, 'debugPng' => true, 'defaultFont' => 'sans-serif']);
+    $document = PDF::loadView('attach.pedido', $info);
+    $output = $document->output();
+    return $output;
+  }
+
+  private function generate_almacen_pdf($cabpes, ?array $info = null) {
+    if (!$info) {
+      $info = $this->get_pedido_info($cabpes);
+    }
+    PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true, 'debugPng' => true, 'defaultFont' => 'sans-serif']);
+    $document1 = PDF::loadView('attach.ped_almacen', $info);
+    $ped_almacen = $document1->output();
+    return $ped_almacen;
+  }
+
+  // download pdf
+  public function download_pdf(Request $request, string $mnserie, string $mnroped) {
+    $cabpes = Cabpe::with(['detpe', 'detpe.famdfas', 'ccmtrs', 'ccmcli', 'ccmcpa', 'values', 'instalments'])->where('MNSERIE', $mnserie)->where('MNROPED', $mnroped)->get();
+    $pdf = $this->generate_pdf($cabpes);
+    return response($pdf, 200)
+      ->header('Content-Type', 'application/pdf')
+      ->header('Content-Disposition', 'attachment; filename="pedido.pdf"');
+  }
+
+  /**
+   * Enviar correo.
+   *
+   * @param  \Illuminate\Http\Request  $request
+   * @param  \App\Models\Cabpe  $cabpe
+   * @return \Illuminate\Http\Response
+   */
+  public function send_email(Request $request, string $mnserie, string $mnroped) {
+    $estado = $request->input('estado');
+    $cabpes = Cabpe::with(['detpe', 'detpe.famdfas', 'ccmtrs', 'ccmcli', 'ccmcpa', 'values', 'instalments'])->where('MNSERIE', $mnserie)->where('MNROPED', $mnroped)->get();
+    $data = array('nombre' => $cabpes[0]->ccmcli->MNOMBRE);
+    
 
     $mcodven = $cabpes[0]->MCODVEN;
     $ccmcli = $cabpes[0]->ccmcli;
 
     $recep = config('app.flavor') == 'filtros' ? 'pedidos01_iwb@filtroswillybusch.com.pe' : 'pedidos01_wb@willybusch.com.pe';
-
-    PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true, 'debugPng' => true, 'defaultFont' => 'sans-serif']);
-    $document = PDF::loadView('attach.pedido', $info);
-    $output = $document->output();
+    $info = $this->get_pedido_info($cabpes);
+    $output = $this->generate_pdf($cabpes, $info);
 
     $txt_output = $this->generate_txt($cabpes);
     $ped_almacen = NULL;
     if (config('app.flavor') == 'filtros') {
-      PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true, 'debugPng' => true, 'defaultFont' => 'sans-serif']);
-      $document1 = PDF::loadView('attach.ped_almacen', $info);
-      $ped_almacen = $document1->output();
+      $ped_almacen = $this->generate_almacen_pdf($cabpes, $info);
     }
     $file_name = 'pedido-' . $mnroped . '-' . trim($ccmcli->MCODCLI);
     if (!config('app.debug')) {
