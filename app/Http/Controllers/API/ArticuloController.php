@@ -106,18 +106,44 @@ class ArticuloController extends Controller
      *
      * @param int $id
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
      */
     public function related(int $id)
     {
-        $articulo = Articulo::find($id);
+        // Buscar el artículo o lanzar una excepción si no existe
+        $articulo = Articulo::findOrFail($id);
+        
+        // Obtener los campos configurados como productos alternos
+        // Nota: El modelo se llama CampoProductoAlterno pero la tabla es campo_producto_alterno
         $camposProductosAlternos = CampoProductoAlterno::all();
-        $articulosRelacionados = [];
-        $query = Articulo::query();
-        foreach ($camposProductosAlternos as $campoProductoAlterno) {
-            $campo = $campoProductoAlterno->campo;
-            $query = $query->where($campo, $articulo->{$campo});
+        
+        // Si no hay campos configurados, devolver un array vacío
+        if ($camposProductosAlternos->isEmpty()) {
+            return response()->json([], $this->successStatus);
         }
+        
+        // Iniciar la consulta
+        $query = Articulo::query();
+        
+        // Construir la consulta con condiciones OR para cada campo configurado
+        // Esto permite encontrar artículos que coincidan con al menos uno de los campos
+        $query->where(function($q) use ($camposProductosAlternos, $articulo) {
+            foreach ($camposProductosAlternos as $campoProductoAlterno) {
+                $campo = $campoProductoAlterno->campo;
+                
+                // Verificar que el artículo tenga el campo y que no sea nulo
+                if (isset($articulo->{$campo}) && !is_null($articulo->{$campo})) {
+                    $q->orWhere($campo, $articulo->{$campo});
+                }
+            }
+        });
+        
+        // Excluir el artículo actual de los resultados
+        $query->where('id', '!=', $id);
+        
+        // Obtener los artículos relacionados
         $articulosRelacionados = $query->get();
+        
         return response()->json($articulosRelacionados, $this->successStatus);
     }
 }
