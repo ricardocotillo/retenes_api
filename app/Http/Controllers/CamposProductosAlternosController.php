@@ -14,7 +14,8 @@ class CamposProductosAlternosController extends Controller
      */
     public function index()
     {
-        //
+        $data = CamposProductosAlternos::all();
+        return response()->json($data, 200);
     }
 
     /**
