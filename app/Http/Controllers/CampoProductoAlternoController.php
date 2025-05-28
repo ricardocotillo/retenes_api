@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\CamposProductosAlternos;
+use App\Models\CampoProductoAlterno;
 use Illuminate\Http\Request;
 
-class CamposProductosAlternosController extends Controller
+class CampoProductoAlternoController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +14,7 @@ class CamposProductosAlternosController extends Controller
      */
     public function index()
     {
-        $data = CamposProductosAlternos::all();
+        $data = CampoProductoAlterno::all();
         return response()->json($data, 200);
     }
 
@@ -32,10 +32,10 @@ class CamposProductosAlternosController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\CamposProductosAlternos  $camposProductosAlternos
+     * @param  \App\Models\CampoProductoAlterno  $campoProductoAlterno
      * @return \Illuminate\Http\Response
      */
-    public function show(CamposProductosAlternos $camposProductosAlternos)
+    public function show(CampoProductoAlterno $campoProductoAlterno)
     {
         //
     }
@@ -44,10 +44,10 @@ class CamposProductosAlternosController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\CamposProductosAlternos  $camposProductosAlternos
+     * @param  \App\Models\CampoProductoAlterno  $campoProductoAlterno
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, CamposProductosAlternos $camposProductosAlternos)
+    public function update(Request $request, CampoProductoAlterno $campoProductoAlterno)
     {
         //
     }
@@ -55,10 +55,10 @@ class CamposProductosAlternosController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\CamposProductosAlternos  $camposProductosAlternos
+     * @param  \App\Models\CampoProductoAlterno  $campoProductoAlterno
      * @return \Illuminate\Http\Response
      */
-    public function destroy(CamposProductosAlternos $camposProductosAlternos)
+    public function destroy(CampoProductoAlterno $campoProductoAlterno)
     {
         //
     }

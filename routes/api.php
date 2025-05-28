@@ -16,7 +16,7 @@ use App\Http\Controllers\API\InputController;
 use App\Http\Controllers\API\OptionController;
 use App\Http\Controllers\API\ValueController;
 use App\Http\Controllers\API\InstalmentController;
-use App\Http\Controllers\CamposProductosAlternosController;
+use App\Http\Controllers\CampoProductoAlternoController;
 use App\Models\Setting;
 
 /*
@@ -83,5 +83,5 @@ Route::middleware(['auth:api',])->group(function () {
     Route::delete('instalments/bulk_delete/{mnserie}/{mnroped}/', [InstalmentController::class, 'bulk_delete']);
     Route::get('cabpe/download_txt/{mnserie}/{mnroped}/', [CabpeController::class, 'download_txt']);
     Route::get('cabpe/download_pdf/{mnserie}/{mnroped}/', [CabpeController::class, 'download_pdf']);
-    Route::get('campos_productos_alternos/', [CamposProductosAlternosController::class, 'index']);
+    Route::get('campo_producto_alterno/', [CampoProductoAlternoController::class, 'index']);
 });
