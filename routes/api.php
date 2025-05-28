@@ -82,5 +82,5 @@ Route::middleware(['auth:api',])->group(function () {
     Route::post('instalments/bulk_store/', [InstalmentController::class, 'bulk_store']);
     Route::delete('instalments/bulk_delete/{mnserie}/{mnroped}/', [InstalmentController::class, 'bulk_delete']);
     Route::get('campos_productos_alternos/', [CampoProductoAlternoController::class, 'index']);
-    Route::get('related/{id}/', [ArticuloController::class, 'related']);
+    Route::get('articulos/related/{id}/', [ArticuloController::class, 'related']);
 });
