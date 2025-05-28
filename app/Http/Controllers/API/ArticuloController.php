@@ -100,6 +100,13 @@ class ArticuloController extends Controller
         //
     }
 
+    /**
+     * Busca articulos relacionados con el articulo con el id $id segun los campos
+     * de productos alternos configurados en la tabla campos_productos_alternos.
+     *
+     * @param int $id
+     * @return \Illuminate\Http\Response
+     */
     public function related(int $id)
     {
         $articulo = Articulo::find($id);
