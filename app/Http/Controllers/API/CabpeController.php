@@ -62,7 +62,7 @@ class CabpeController extends Controller
     $instalments = $request->input('instalments', []);
     $articulos = array();
     $ccmsedo = Ccmsedo::orderBy('id', 'desc')->first();
-    $mnroped = null;
+    $mnroped = '';
     $pedido = Pedido::create([
       'mnserie' => $ccmsedo['MNSERIE'],
       'user_id' => $user->id,
