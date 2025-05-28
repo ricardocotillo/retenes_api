@@ -14,7 +14,8 @@ class CampoProductoAlternoController extends Controller
      */
     public function index()
     {
-        //
+        $campos = CampoProductoAlterno::all();
+        return response()->json($campos);
     }
 
     /**
