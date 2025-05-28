@@ -84,4 +84,5 @@ Route::middleware(['auth:api',])->group(function () {
     Route::get('cabpe/download_txt/{mnserie}/{mnroped}/', [CabpeController::class, 'download_txt']);
     Route::get('cabpe/download_pdf/{mnserie}/{mnroped}/', [CabpeController::class, 'download_pdf']);
     Route::get('campo_producto_alterno/', [CampoProductoAlternoController::class, 'index']);
+    Route::get('related/{id}/', [ArticuloController::class, 'related']);
 });
