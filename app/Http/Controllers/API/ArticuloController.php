@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Models\Articulo;
-use App\Models\CamposProductosAlternos;
+use App\Models\CampoProductoAlterno;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -110,7 +110,7 @@ class ArticuloController extends Controller
     public function related(int $id)
     {
         $articulo = Articulo::find($id);
-        $camposProductosAlternos = CamposProductosAlternos::all();
+        $camposProductosAlternos = CampoProductoAlterno::all();
         $articulosRelacionados = [];
         $query = Articulo::query();
         foreach ($camposProductosAlternos as $campoProductoAlterno) {
