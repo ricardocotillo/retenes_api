@@ -1,7 +1,5 @@
 <?php
 
-use Illuminate\Support\Facades\DB;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\API\ArticuloController;
@@ -18,8 +16,8 @@ use App\Http\Controllers\API\InputController;
 use App\Http\Controllers\API\OptionController;
 use App\Http\Controllers\API\ValueController;
 use App\Http\Controllers\API\InstalmentController;
+use App\Http\Controllers\CamposProductosAlternosController;
 use App\Models\Setting;
-use App\Http\Middleware\Cors;
 
 /*
 |--------------------------------------------------------------------------
@@ -85,4 +83,5 @@ Route::middleware(['auth:api',])->group(function () {
     Route::delete('instalments/bulk_delete/{mnserie}/{mnroped}/', [InstalmentController::class, 'bulk_delete']);
     Route::get('cabpe/download_txt/{mnserie}/{mnroped}/', [CabpeController::class, 'download_txt']);
     Route::get('cabpe/download_pdf/{mnserie}/{mnroped}/', [CabpeController::class, 'download_pdf']);
+    Route::get('campos_productos_alternos/', [CamposProductosAlternosController::class, 'index']);
 });
