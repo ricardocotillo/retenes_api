@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Models\Articulo;
-use App\Models\Detpe;
+use App\Models\CamposProductosAlternos;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -98,5 +98,19 @@ class ArticuloController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function related(int $id)
+    {
+        $articulo = Articulo::find($id);
+        $camposProductosAlternos = CamposProductosAlternos::all();
+        $articulosRelacionados = [];
+        $query = Articulo::query();
+        foreach ($camposProductosAlternos as $campoProductoAlterno) {
+            $campo = $campoProductoAlterno->campo;
+            $query = $query->where($campo, $articulo->{$campo});
+        }
+        $articulosRelacionados = $query->get();
+        return response()->json($articulosRelacionados, $this->successStatus);
     }
 }
