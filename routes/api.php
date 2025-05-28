@@ -81,8 +81,6 @@ Route::middleware(['auth:api',])->group(function () {
     Route::delete('values/bulk_delete/{mnserie}/{mnroped}/', [ValueController::class, 'bulk_delete']);
     Route::post('instalments/bulk_store/', [InstalmentController::class, 'bulk_store']);
     Route::delete('instalments/bulk_delete/{mnserie}/{mnroped}/', [InstalmentController::class, 'bulk_delete']);
-    Route::get('cabpe/download_txt/{mnserie}/{mnroped}/', [CabpeController::class, 'download_txt']);
-    Route::get('cabpe/download_pdf/{mnserie}/{mnroped}/', [CabpeController::class, 'download_pdf']);
-    Route::get('campo_producto_alterno/', [CampoProductoAlternoController::class, 'index']);
+    Route::get('campos_productos_alternos/', [CampoProductoAlternoController::class, 'index']);
     Route::get('related/{id}/', [ArticuloController::class, 'related']);
 });

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\CabpeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,3 +24,6 @@ Route::get('/optimize', function () {
 Route::options('{any}', function () {
     return response()->json();
 })->where('any', '.*');
+
+Route::get('cabpe/download_txt/{mnserie}/{mnroped}/', [CabpeController::class, 'download_txt']);
+Route::get('cabpe/download_pdf/{mnserie}/{mnroped}/', [CabpeController::class, 'download_pdf']);
