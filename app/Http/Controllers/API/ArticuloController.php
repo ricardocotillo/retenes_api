@@ -139,23 +139,10 @@ class ArticuloController extends Controller
         $query->where(function($q) use ($camposProductosAlternos, $articulo) {
             foreach ($camposProductosAlternos as $campoProductoAlterno) {
                 $campo = $campoProductoAlterno->campo;
-                $value = $articulo->{$campo}; // Access property only once
                 
-                // Verificar que el artículo tenga el campo, que no sea nulo,
-                // y que su valor no sea numéricamente 0 o 0.00.
-                if (isset($value) && !is_null($value)) {
-                    $isConsideredZero = false;
-                    if (is_numeric($value)) {
-                        // If it's numeric, check if it's equivalent to zero
-                        if (floatval($value) == 0) {
-                            $isConsideredZero = true;
-                        }
-                    }
-                    // Only add the orWhere clause if the value is not null AND it's not considered zero.
-                    // Non-numeric strings (like 'ABC') will have $isConsideredZero = false.
-                    if (!$isConsideredZero) {
-                        $q->orWhere($campo, $value);
-                    }
+                // Verificar que el artículo tenga el campo y que no sea nulo
+                if (isset($articulo->{$campo}) && !is_null($articulo->{$campo})) {
+                    $q->orWhere($campo, $articulo->{$campo});
                 }
             }
         });
@@ -164,7 +151,7 @@ class ArticuloController extends Controller
         $query->where('id', '!=', $id);
         
         // Get the related articles paginated, selecting only specified fields
-        $articulosRelacionados = $query->select($selectFields)->paginate(20);
+        $articulosRelacionados = $query->select($selectFields)->paginate(10);
         
         return response()->json($articulosRelacionados, $this->successStatus);
     }
