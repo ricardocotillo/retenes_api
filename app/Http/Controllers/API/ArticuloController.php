@@ -151,7 +151,7 @@ class ArticuloController extends Controller
         $query = $query->where('id', '!=', $id);
         
         // Get the related articles paginated, selecting only specified fields
-        $articulosRelacionados = $query->select($selectFields)->paginate(10);
+        $articulosRelacionados = $query->select($selectFields)->paginate(20);
         
         return response()->json($articulosRelacionados, $this->successStatus);
     }
