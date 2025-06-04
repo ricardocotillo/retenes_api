@@ -121,6 +121,15 @@ class ArticuloController extends Controller
         if ($camposProductosAlternos->isEmpty()) {
             return response()->json([], $this->successStatus);
         }
+
+        // Prepare the list of fields to select
+        // We always want 'id', plus the fields configured in CampoProductoAlterno
+        $selectFields = ['id'];
+        foreach ($camposProductosAlternos as $campoProductoAlterno) {
+            $selectFields[] = $campoProductoAlterno->campo;
+        }
+        // Ensure unique field names, especially if 'id' could be one of the 'campo' values
+        $selectFields = array_unique($selectFields);
         
         // Iniciar la consulta
         $query = Articulo::query();
@@ -130,10 +139,23 @@ class ArticuloController extends Controller
         $query->where(function($q) use ($camposProductosAlternos, $articulo) {
             foreach ($camposProductosAlternos as $campoProductoAlterno) {
                 $campo = $campoProductoAlterno->campo;
+                $value = $articulo->{$campo}; // Access property only once
                 
-                // Verificar que el artículo tenga el campo y que no sea nulo
-                if (isset($articulo->{$campo}) && !is_null($articulo->{$campo})) {
-                    $q->orWhere($campo, $articulo->{$campo});
+                // Verificar que el artículo tenga el campo, que no sea nulo,
+                // y que su valor no sea numéricamente 0 o 0.00.
+                if (isset($value) && !is_null($value)) {
+                    $isConsideredZero = false;
+                    if (is_numeric($value)) {
+                        // If it's numeric, check if it's equivalent to zero
+                        if (floatval($value) == 0) {
+                            $isConsideredZero = true;
+                        }
+                    }
+                    // Only add the orWhere clause if the value is not null AND it's not considered zero.
+                    // Non-numeric strings (like 'ABC') will have $isConsideredZero = false.
+                    if (!$isConsideredZero) {
+                        $q->orWhere($campo, $value);
+                    }
                 }
             }
         });
@@ -141,8 +163,8 @@ class ArticuloController extends Controller
         // Excluir el artículo actual de los resultados
         $query->where('id', '!=', $id);
         
-        // Get the related articles paginated
-        $articulosRelacionados = $query->paginate(10);
+        // Get the related articles paginated, selecting only specified fields
+        $articulosRelacionados = $query->select($selectFields)->paginate(20);
         
         return response()->json($articulosRelacionados, $this->successStatus);
     }
