@@ -141,9 +141,7 @@ class ArticuloController extends Controller
                 $campo = $campoProductoAlterno->campo;
                 
                 // Verificar que el artículo tenga el campo y que no sea nulo
-                if (isset($articulo->{$campo}) && !is_null($articulo->{$campo})) {
-                    $q->orWhere($campo, $articulo->{$campo});
-                }
+                $q->orWhere($campo, $articulo->{$campo});
             }
         });
         
