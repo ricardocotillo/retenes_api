@@ -141,8 +141,8 @@ class ArticuloController extends Controller
         // Excluir el artículo actual de los resultados
         $query->where('id', '!=', $id);
         
-        // Obtener los artículos relacionados
-        $articulosRelacionados = $query->get();
+        // Get the related articles paginated
+        $articulosRelacionados = $query->paginate(10);
         
         return response()->json($articulosRelacionados, $this->successStatus);
     }
