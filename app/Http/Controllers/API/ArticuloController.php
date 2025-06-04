@@ -148,7 +148,7 @@ class ArticuloController extends Controller
         });
         
         // Excluir el artículo actual de los resultados
-        $query->where('id', '!=', $id);
+        $query = $query->where('id', '!=', $id);
         
         // Get the related articles paginated, selecting only specified fields
         $articulosRelacionados = $query->select($selectFields)->paginate(10);
