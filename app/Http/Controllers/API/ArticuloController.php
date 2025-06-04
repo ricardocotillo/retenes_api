@@ -136,7 +136,7 @@ class ArticuloController extends Controller
         
         // Construir la consulta con condiciones OR para cada campo configurado
         // Esto permite encontrar artículos que coincidan con al menos uno de los campos
-        $query->where(function($q) use ($camposProductosAlternos, $articulo) {
+        $query = $query->where(function($q) use ($camposProductosAlternos, $articulo) {
             foreach ($camposProductosAlternos as $campoProductoAlterno) {
                 $campo = $campoProductoAlterno->campo;
                 
