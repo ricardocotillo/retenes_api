@@ -17,6 +17,8 @@ return new class extends Migration
             $table->id();
             $table->string('nombre');
             $table->string('campo');
+            $table->integer('order')->default(1);
+            $table->boolean('activo')->default(true);
             $table->timestamps();
         });
     }
