@@ -132,29 +132,29 @@ class ArticuloController extends Controller
         
         // Iniciar la consulta
         $query = Articulo::query();
-        $hasConditions = false; // Flag to track if any valid OR conditions are added
+        // Excluir el artículo actual de los resultados
+        $query->where('id', '!=', $id);
+        $hasConditions = false; // Flag to track if any valid conditions are added
         
-        // Construir la consulta con condiciones OR para cada campo configurado
-        $query->where(function($q) use ($camposProductosAlternos, $articulo, &$hasConditions) {
-            foreach ($camposProductosAlternos as $campoProductoAlterno) {
-                $campo = $campoProductoAlterno->campo;
-                $valorCampo = $articulo->{$campo} ?? null; // Get the value safely
+        // Construir la consulta con condiciones AND para cada campo configurado
+        foreach ($camposProductosAlternos as $campoProductoAlterno) {
+            $campo = $campoProductoAlterno->campo;
+            $valorCampo = $articulo->{$campo} ?? null; // Get the value safely
 
-                // Check if the value is present and not null
-                if (isset($articulo->{$campo}) && !is_null($valorCampo)) {
-                    $useThisValue = true;
-                    // Further check: if the value is numeric, ensure it's not zero
-                    if (is_numeric($valorCampo) && (float)$valorCampo == 0) {
-                        $useThisValue = false;
-                    }
+            // Check if the value is present and not null
+            if (isset($articulo->{$campo}) && !is_null($valorCampo)) {
+                $useThisValue = true;
+                // Further check: if the value is numeric, ensure it's not zero
+                if (is_numeric($valorCampo) && (float)$valorCampo == 0) {
+                    $useThisValue = false;
+                }
 
-                    if ($useThisValue) {
-                        $q->orWhere($campo, '=', $valorCampo);
-                        $hasConditions = true;
-                    }
+                if ($useThisValue) {
+                    $query->where($campo, '=', $valorCampo);
+                    $hasConditions = true;
                 }
             }
-        });
+        }
         
         // If no valid conditions were added (e.g., all fields in $articulo were null or numeric zero),
         // ensure the query returns no results.
