@@ -113,8 +113,8 @@ class ArticuloController extends Controller
         // Buscar el artículo o lanzar una excepción si no existe
         $articulo = Articulo::findOrFail($id);
         
-        // Obtener los campos configurados como productos alternos
-        $camposProductosAlternos = CampoProductoAlterno::all();
+        // Obtener los campos configurados como productos alternos ordenados por order
+        $camposProductosAlternos = CampoProductoAlterno::orderBy('order')->get();
         
         // Si no hay campos configurados, devolver un array vacío
         if ($camposProductosAlternos->isEmpty()) {
