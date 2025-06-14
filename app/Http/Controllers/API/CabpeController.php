@@ -573,29 +573,28 @@ class CabpeController extends Controller
     return $info;
   }
 
-  private function generate_pdf($cabpes, ?array $info = null) {
+  private function generate_pdf($cabpes, ?array $info = null, $download = false) {
     if (!$info) {
       $info = $this->get_pedido_info($cabpes);
     }
     PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true, 'debugPng' => true, 'defaultFont' => 'sans-serif']);
     $document = PDF::loadView('attach.pedido', $info);
-    return $document->download('pedido.pdf');
+    return $download ? $document->download('pedido.pdf') : $document->output();
   }
 
-  private function generate_almacen_pdf($cabpes, ?array $info = null) {
+  private function generate_almacen_pdf($cabpes, ?array $info = null, $download = false) {
     if (!$info) {
       $info = $this->get_pedido_info($cabpes);
     }
     PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true, 'debugPng' => true, 'defaultFont' => 'sans-serif']);
     $document1 = PDF::loadView('attach.ped_almacen', $info);
-    $ped_almacen = $document1->output();
-    return $ped_almacen;
+    return $download ? $document1->download('ped_almacen.pdf') : $document1->output();
   }
 
   // download pdf
   public function download_pdf(Request $request, string $mnserie, string $mnroped) {
     $cabpes = Cabpe::with(['detpe', 'detpe.famdfas', 'ccmtrs', 'ccmcli', 'ccmcpa', 'values', 'instalments'])->where('MNSERIE', $mnserie)->where('MNROPED', $mnroped)->get();
-    $pdf = $this->generate_pdf($cabpes);
+    $pdf = $this->generate_pdf($cabpes, null, true);
     return response($pdf, 200)
       ->header('Content-Type', 'application/pdf')
       ->header('Content-Disposition', 'attachment; filename="pedido.pdf"');
@@ -619,12 +618,12 @@ class CabpeController extends Controller
 
     $recep = config('app.flavor') == 'filtros' ? 'pedidos01_iwb@filtroswillybusch.com.pe' : 'pedidos01_wb@willybusch.com.pe';
     $info = $this->get_pedido_info($cabpes);
-    $output = $this->generate_pdf($cabpes, $info);
+    $output = $this->generate_pdf($cabpes, $info, false);
 
     $txt_output = $this->generate_txt($cabpes);
     $ped_almacen = NULL;
     if (config('app.flavor') == 'filtros') {
-      $ped_almacen = $this->generate_almacen_pdf($cabpes, $info);
+      $ped_almacen = $this->generate_almacen_pdf($cabpes, $info, false);
     }
     $file_name = 'pedido-' . $mnroped . '-' . trim($ccmcli->MCODCLI);
     if (!config('app.debug')) {
