@@ -127,7 +127,7 @@ class ArticuloController extends Controller
             'id', 'MCODART', 'MSTOCK', 'MDISENO',
             'MUNIDAD', 'MDESCRIP', 'MPVTAS05', 'MPVTAS06',
             'MPVTAS07', 'MPVTAS08', 'MPVTAS09', 'MPVTAS10',
-            'MCATMIN', 'ind_vend', 'MSTOCK', 'MPROCEDE',
+            'mcantmin', 'ind_vend', 'MSTOCK', 'MPROCEDE',
         ];
         foreach ($camposProductosAlternos as $campoProductoAlterno) {
             $selectFields[] = $campoProductoAlterno->campo;
