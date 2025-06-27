@@ -123,7 +123,12 @@ class ArticuloController extends Controller
 
         // Prepare the list of fields to select
         // We always want 'id', 'MCODART', plus the fields configured in CampoProductoAlterno
-        $selectFields = ['id', 'MCODART', 'MSTOCK', 'MDISENO'];
+        $selectFields = [
+            'id', 'MCODART', 'MSTOCK', 'MDISENO',
+            'MUNIDAD', 'MDESCRIP', 'MPVTAS05', 'MPVTAS06',
+            'MPVTAS07', 'MPVTAS08', 'MPVTAS09', 'MPVTAS10',
+            'MCATMIN', 'ind_vend', 'MSTOCK', 'MPROCEDE',
+        ];
         foreach ($camposProductosAlternos as $campoProductoAlterno) {
             $selectFields[] = $campoProductoAlterno->campo;
         }
