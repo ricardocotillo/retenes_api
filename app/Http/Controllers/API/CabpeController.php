@@ -4,11 +4,9 @@ namespace App\Http\Controllers\API;
 
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Models\Cabpe;
@@ -269,10 +267,10 @@ class CabpeController extends Controller
 
         if ($q) { // Check if $q has a value (is not null, empty string, false, etc.)
             if (is_numeric($q)) {
-                $query->where('MCODCLI', 'LIKE', '%' . $q . '%');
+                $query->where('MCODCLI', 'ilike', '%'.$q.'%');
             } else {
                 $query->whereHas('ccmcli', function (\Illuminate\Database\Eloquent\Builder $subQuery) use ($q) {
-                    $subQuery->where('MNOMBRE', 'LIKE', '%' . $q . '%');
+                    $subQuery->where('MNOMBRE', 'ilike', '%'.$q.'%');
                 });
             }
         }
