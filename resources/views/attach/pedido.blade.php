@@ -77,7 +77,11 @@
 		<td style="border-top: 2px solid #000000; border-bottom: 2px solid #000000; border-left: 2px solid #000000; border-right: 2px solid #000000" colspan="2" align="right" valign="bottom"><b>{{$fecha}}</b></td>
 	</tr>
 	<tr>
-		<td height="10" colspan=7 align="left" valign=bottom>E-mail: retenes@willybusch.com.pe</td>
+		@if ($flavor == 'filtros')
+			<td height="10" colspan=7 align="left" valign=bottom>E-mail: filtros@filtroswillybusch.com.pe</td>
+		@else
+			<td height="10" colspan=7 align="left" valign=bottom>E-mail: retenes@willybusch.com.pe</td>
+		@endif
 		<td align="left" valign=bottom><br></td>
 		<td align="left" valign=bottom><br></td>
 		<td align="left" valign=bottom><br></td>
