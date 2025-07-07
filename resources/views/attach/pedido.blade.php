@@ -88,8 +88,8 @@
 		<td align="left" valign=bottom><br></td>
 		<td align="left" valign=bottom bgcolor="#FFFFFF"><font color="#FFFFFF"><br></font></td>
 	</tr>
-</table>{{-- JEANS 11-12-2020 --}}
-<table cellspacing="0" border="0">  {{-- JEANS 11-12-2020 --}}
+</table>
+<table cellspacing="0" border="0">
 	<tr>
 		<td height="10" align="center" valign=bottom><br></td>
 		<td align="center" valign=bottom><br></td>
