@@ -57,7 +57,11 @@
     </td>
     <td style="border-top: 2px solid #000000; border-left: 2px solid #000000; border-right: 2px solid #000000" colspan="5" align="center" valign=bottom>
       <b>
-        <font size=4>20100674301</font>
+		@if ($flavor == 'filtros')
+			<font size=4>20100675537</font>
+		@else
+			<font size=4>20100674301</font>
+		@endif
       </b>
     </td>
 	</tr>
