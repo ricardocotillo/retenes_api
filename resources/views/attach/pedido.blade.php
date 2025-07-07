@@ -68,7 +68,7 @@
 		<td style="border-top: 2px solid #000000; border-bottom: 2px solid #000000; border-left: 2px solid #000000; border-right: 2px solid #000000" colspan="2" align="right" valign="bottom"><b>{{$mnroped}}</b></td>
 	</tr>
 	<tr>
-		<td height="10" colspan="7" align="left" valign="bottom"><font color="#3B3838">CALLE SANTA LUCIA 170 Ate-Lima - Perú</font></td>
+		<td height="10" colspan="7" align="left" valign="bottom"><font color="#3B3838">CALLE SANTA LUCIA 170 Ate - Lima - Perú</font></td>
 		<td style="border-top: 2px solid #000000; border-bottom: 2px solid #000000; border-left: 2px solid #000000; border-right: 2px solid #000000" colspan="3" align="center" valign="bottom"><b>Fecha Pedido     :</b></td>
 		<td style="border-top: 2px solid #000000; border-bottom: 2px solid #000000; border-left: 2px solid #000000; border-right: 2px solid #000000" colspan="2" align="right" valign="bottom"><b>{{$fecha}}</b></td>
 	</tr>
