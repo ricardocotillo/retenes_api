@@ -76,6 +76,7 @@ class ArticuloFamdfaController extends Controller {
         $mcodcadi = $request->input('mcodcadi');
         $mcondpago = $request->input('mcondpago');
         $mcodcli = $request->input('mcodcli');
+        $mincred = $request->input('mincred');
         $artdfas = null;
         
         // $has_item_discount = $this->has_restricted_item_discount($mcodcli);
@@ -100,6 +101,7 @@ class ArticuloFamdfaController extends Controller {
             ->where('impneto_min', '<=', $impneto)
             ->where('tipo', $type)
             ->where('MCODCLI', $mcodcli)
+            ->where('mincred', $mincred)
             ->where('restrict', true)
             ->get();
         } else {
@@ -111,7 +113,9 @@ class ArticuloFamdfaController extends Controller {
             ->where('tipo', $type)
             ->where(function($q) use ($mcodcli) {
                 $q->where('MCODCLI', $mcodcli)->orWhere('MCODCLI', NULL);
-            })->get();
+            })
+            ->where('mincred', $mincred)
+            ->get();
         }
 
         foreach ($artdfas as $ndfa) {
