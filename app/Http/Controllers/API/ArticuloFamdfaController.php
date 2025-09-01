@@ -36,12 +36,9 @@ class ArticuloFamdfaController extends Controller {
         $data = $request->all();
         $mcodart = $data['mcodart'];
         $mcodcli = $data['mcodcli'];
-        // $has_general_discount = $this->has_restricted_general_discount($mcodcli);
+        $mcla_prod = $data['mcla_prod'];
         $discount_by_mcodcli = $this->has_restricted_item_discount($mcodcli);
         $artdfas = null;
-        // if ($has_general_discount) {
-        //     return response()->json([], 200);
-        // }
         if ($discount_by_mcodcli) {
             $artdfas = ArticuloFamdfa::where('impneto_min', null)
             ->where('impneto_max', null)
@@ -50,6 +47,7 @@ class ArticuloFamdfaController extends Controller {
                 ->orWhere('mcodart', '')
                 ->orWhere('mcodart', null);
             })
+            ->where('mcla_prod', $mcla_prod)
             ->where('restrict', true)
             ->get();
         } else {
@@ -60,6 +58,7 @@ class ArticuloFamdfaController extends Controller {
                 ->orWhere('mcodart', '')
                 ->orWhere('mcodart', null);
             })
+            ->where('mcla_prod', $mcla_prod)
             ->get();
         }
 
