@@ -63,12 +63,8 @@ class ArticuloFamdfaController extends Controller {
         $mcondpago = $request->input('mcondpago');
         $mcodcli = $request->input('mcodcli');
         $mincred = $request->input('mincred');
+        $mcla_prod = $request->input('mcla_prod');
         $artdfas = null;
-        
-        // $has_item_discount = $this->has_restricted_item_discount($mcodcli);
-        // if ($has_item_discount) {
-        //     return response()->json([], 200);
-        // }
 
         if ($mcodven == 'all') {
             $type = $mcodven;
@@ -79,35 +75,25 @@ class ArticuloFamdfaController extends Controller {
 
         $discount_by_mcodcli = $this->has_restricted_general_discount($mcodcli);
 
+        $query = ArticuloFamdfa::with('famdfa')
+            ->where(function ($q) use ($mcodcadi) {
+                $q->where('MCODCADI', $mcodcadi)->orWhereNull('MCODCADI');
+            })
+            ->where('MCONDPAGO', $mcondpago)
+            ->where('impneto_min', '<=', $impneto)
+            ->where('tipo', $type)
+            ->where('mincred', $mincred)
+            ->where('mcla_prod', $mcla_prod);
+
         if ($discount_by_mcodcli) {
-            $artdfas = ArticuloFamdfa::where(function($q) use ($mcodcadi) {
-                $q->where('MCODCADI', $mcodcadi)->orWhere('MCODCADI', NULL);
-            })
-            ->where('MCONDPAGO', $mcondpago)
-            ->where('impneto_min', '<=', $impneto)
-            ->where('tipo', $type)
-            ->where('MCODCLI', $mcodcli)
-            ->where('mincred', $mincred)
-            ->where('restrict', true)
-            ->get();
+            $query->where('MCODCLI', $mcodcli)->where('restrict', true);
         } else {
-            $artdfas = ArticuloFamdfa::where(function($q) use ($mcodcadi) {
-                $q->where('MCODCADI', $mcodcadi)->orWhere('MCODCADI', NULL);
-            })
-            ->where('MCONDPAGO', $mcondpago)
-            ->where('impneto_min', '<=', $impneto)
-            ->where('tipo', $type)
-            ->where(function($q) use ($mcodcli) {
-                $q->where('MCODCLI', $mcodcli)->orWhere('MCODCLI', NULL);
-            })
-            ->where('mincred', $mincred)
-            ->get();
+            $query->where(function ($q) use ($mcodcli) {
+                $q->where('MCODCLI', $mcodcli)->orWhereNull('MCODCLI');
+            });
         }
 
-        foreach ($artdfas as $ndfa) {
-            $dfa = Famdfa::where('MCODDFA', $ndfa['mcoddfa'])->first();
-            $ndfa['descuento'] = $dfa;
-        }
+        $artdfas = $query->get();
 
         return response()->json($artdfas, 200);
     }
