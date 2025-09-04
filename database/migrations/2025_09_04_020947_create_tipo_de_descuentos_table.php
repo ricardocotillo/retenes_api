@@ -13,8 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('articulo', function (Blueprint $table) {
-            $table->string('MCLA_PROD', 3)->nullable(); # 001, 002, 003
+        Schema::create('tipo_de_descuentos', function (Blueprint $table) {
+            $table->id();
+            $table->string('nombre');
+            $table->string('mcla_prod', 3)->nullable(); # 001, 002, 003
+            $table->timestamps();
         });
     }
 
@@ -25,8 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('articulo', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('tipo_de_descuentos');
     }
 };
