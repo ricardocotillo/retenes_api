@@ -38,34 +38,21 @@ class ArticuloFamdfaController extends Controller {
         $mcodcli = $data['mcodcli'];
         $mcla_prod = $data['mcla_prod'];
         $discount_by_mcodcli = $this->has_restricted_item_discount($mcodcli);
-        $artdfas = null;
+        $query = ArticuloFamdfa::with('famdfa')
+            ->where('impneto_min', null)
+            ->where('impneto_max', null)
+            ->where(function ($query) use ($mcodart) {
+                $query->where('mcodart', $mcodart)
+                    ->orWhere('mcodart', '')
+                    ->orWhereNull('mcodart');
+            })
+            ->where('mcla_prod', $mcla_prod);
+
         if ($discount_by_mcodcli) {
-            $artdfas = ArticuloFamdfa::where('impneto_min', null)
-            ->where('impneto_max', null)
-            ->where(function($query) use ($mcodart) {
-                $query->where('mcodart', $mcodart)
-                ->orWhere('mcodart', '')
-                ->orWhere('mcodart', null);
-            })
-            ->where('mcla_prod', $mcla_prod)
-            ->where('restrict', true)
-            ->get();
-        } else {
-            $artdfas = ArticuloFamdfa::where('impneto_min', null)
-            ->where('impneto_max', null)
-            ->where(function($query) use ($mcodart) {
-                $query->where('mcodart', $mcodart)
-                ->orWhere('mcodart', '')
-                ->orWhere('mcodart', null);
-            })
-            ->where('mcla_prod', $mcla_prod)
-            ->get();
+            $query->where('restrict', true);
         }
 
-        foreach ($artdfas as $ndfa) {
-            $dfa = Famdfa::where('MCODDFA', $ndfa['mcoddfa'])->first();
-            $ndfa['descuento'] = $dfa;
-        }
+        $artdfas = $query->get();
 
         return response()->json($artdfas, 200);
     }

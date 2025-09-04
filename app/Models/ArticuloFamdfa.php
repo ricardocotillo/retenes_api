@@ -13,4 +13,9 @@ class ArticuloFamdfa extends Model
 		'mcodart',
 		'mcoddfa'
 	];
+
+	public function famdfa()
+	{
+		return $this->belongsTo(Famdfa::class, 'mcoddfa', 'MCODDFA');
+	}
 }
