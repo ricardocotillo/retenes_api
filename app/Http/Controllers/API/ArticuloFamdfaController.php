@@ -64,7 +64,6 @@ class ArticuloFamdfaController extends Controller {
         $mcodcli = $request->input('mcodcli');
         $mincred = $request->input('mincred');
         $mcla_prod = $request->input('mcla_prod');
-        $artdfas = null;
 
         if ($mcodven == 'all') {
             $type = $mcodven;
