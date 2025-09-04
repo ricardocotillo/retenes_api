@@ -15,7 +15,8 @@ class TipoDeDescuentoController extends Controller
      */
     public function index()
     {
-        //
+        $descuentos = TipoDeDescuento::all();
+        return response()->json($descuentos);
     }
 
     /**
