@@ -62,7 +62,7 @@ class ArticuloFamdfaController extends Controller {
         $mcodcadi = $request->input('mcodcadi');
         $mcondpago = $request->input('mcondpago');
         $mcodcli = $request->input('mcodcli');
-        $mincred = $request->input('mincred');
+        $mindcred = $request->input('mindcred');
         $mcla_prod = $request->input('mcla_prod');
 
         if ($mcodven == 'all') {
@@ -81,7 +81,7 @@ class ArticuloFamdfaController extends Controller {
             ->where('MCONDPAGO', $mcondpago)
             ->where('impneto_min', '<=', $impneto)
             ->where('tipo', $type)
-            ->where('mincred', $mincred)
+            ->where('mindcred', $mindcred)
             ->where('mcla_prod', $mcla_prod);
 
         if ($discount_by_mcodcli) {
