@@ -17,6 +17,7 @@ use App\Http\Controllers\API\OptionController;
 use App\Http\Controllers\API\ValueController;
 use App\Http\Controllers\API\InstalmentController;
 use App\Http\Controllers\CampoProductoAlternoController;
+use App\Http\Controllers\TipoDeDescuentoController;
 use App\Models\Setting;
 
 /*
@@ -83,4 +84,5 @@ Route::middleware(['auth:api',])->group(function () {
     Route::delete('instalments/bulk_delete/{mnserie}/{mnroped}/', [InstalmentController::class, 'bulk_delete']);
     Route::get('campos_productos_alternos/', [CampoProductoAlternoController::class, 'index']);
     Route::get('articulos/related/{id}/', [ArticuloController::class, 'related']);
+    Route::resource('tipo_de_descuentos/', TipoDeDescuentoController::class);
 });
