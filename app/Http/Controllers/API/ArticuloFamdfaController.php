@@ -56,7 +56,7 @@ class ArticuloFamdfaController extends Controller {
 
         return response()->json($artdfas, 200);
     }
-    
+
     public function descuento_general(Request $request, string $mcodven) {
         $impneto = $request->input('impneto');
         $mcodcadi = $request->input('mcodcadi');
