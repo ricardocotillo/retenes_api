@@ -203,7 +203,7 @@ class CabpeController extends Controller
           if ($value['famdfas']) {
             foreach ($value['famdfas'] as $f) {
               $nf = Famdfa::where('MCODDFA', '=', $f['MCODDFA'])->first();
-              $det->famdfas()->attach($nf->id, ['type' => $f['tipo']]);
+              $det->famdfas()->attach($nf->id, ['type' => $f['tipo'], 'mcla_prod' => $f['mcla_prod']]);
             }
           }
   
