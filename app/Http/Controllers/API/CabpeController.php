@@ -200,9 +200,11 @@ class CabpeController extends Controller
             $det->famdfas()->attach($famdfa1->id, ['type' => 'item']);
           }
   
-          if ($value['famdfa2']) {
-            $famdfa2 = Famdfa::where('MCODDFA', '=', $value['famdfa2']['MCODDFA'])->first();
-            $det->famdfas()->attach($famdfa2->id, ['type' => $value['famdfa2']['tipo']]);
+          if ($value['famdfas']) {
+            foreach ($value['famdfas'] as $f) {
+              $nf = Famdfa::where('MCODDFA', '=', $f['MCODDFA'])->first();
+              $det->famdfas()->attach($nf->id, ['type' => $f['tipo']]);
+            }
           }
   
           $cab->detpe()->save($det);
