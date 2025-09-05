@@ -36,7 +36,7 @@ class ArticuloFamdfaController extends Controller {
         $data = $request->all();
         $mcodart = $data['mcodart'];
         $mcodcli = $data['mcodcli'];
-        $mcla_prod = $data['mcla_prod'];
+        // $mcla_prod = $data['mcla_prod'];
         $discount_by_mcodcli = $this->has_restricted_item_discount($mcodcli);
         $query = ArticuloFamdfa::with('famdfa')
             ->where('impneto_min', null)
@@ -45,8 +45,7 @@ class ArticuloFamdfaController extends Controller {
                 $query->where('mcodart', $mcodart)
                     ->orWhere('mcodart', '')
                     ->orWhereNull('mcodart');
-            })
-            ->where('mcla_prod', $mcla_prod);
+            });
 
         if ($discount_by_mcodcli) {
             $query->where('restrict', true);

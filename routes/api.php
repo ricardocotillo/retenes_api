@@ -44,7 +44,7 @@ Route::middleware(['auth:api',])->group(function () {
     Route::get('articulos/{search}', [ArticuloController::class, 'show']);
     Route::resource('ccmcli/', CcmcliController::class);
     Route::get('formas-pago', [CcmcpaController::class, 'index']);
-    Route::post('dfa', [ArticuloFamdfaController::class, 'index']);
+    Route::post('dfa/', [ArticuloFamdfaController::class, 'index']);
     Route::get('mcodven/{nombre}', [CcmvenController::class, 'show']);
     Route::post('ccmven/', [CcmvenController::class, 'store']);
     Route::post('cabped/', [CabpeController::class, 'store']);
