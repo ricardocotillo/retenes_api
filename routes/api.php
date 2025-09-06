@@ -39,7 +39,7 @@ Route::get('data-version/', function() {
 
 
 Route::middleware(['auth:api',])->group(function () {
-    Route::resource('articulos/', ArticuloController::class);
+    Route::resource('articulos', ArticuloController::class);
     Route::get('articulos/{mcodart}/', [ArticuloController::class, 'articulo']);
     Route::resource('ccmcli/', CcmcliController::class);
     Route::get('formas-pago', [CcmcpaController::class, 'index']);
