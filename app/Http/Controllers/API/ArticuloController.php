@@ -59,22 +59,10 @@ class ArticuloController extends Controller
      * @param  string  $search
      * @return \Illuminate\Http\Response
      */
-    public function show(string $search)
-    {
-        $articulos = Articulo::where('MCODART', 'LIKE', $search.'%')->get();
-        return response()->json($articulos, $this->successStatus);
-    }
-
-    /**
-     * Display a listing of the searched resource.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function articulo(int $id)
+    public function show(int $id)
     {
         $articulo = Articulo::find($id);
-        return response()->json($articulo , $this->successStatus);
+        return response()->json($articulo, $this->successStatus);
     }
 
     /**
