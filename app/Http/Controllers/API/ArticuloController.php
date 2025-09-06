@@ -65,6 +65,13 @@ class ArticuloController extends Controller
         return response()->json($articulo, $this->successStatus);
     }
 
+    public function articulo(string $mcodart)
+    {
+        $articulo = Articulo::where('MCODART', $mcodart)->first();
+        return response()->json($articulo, $this->successStatus);
+    }
+    
+
     /**
      * Update the specified resource in storage.
      *
