@@ -77,7 +77,9 @@ class ArticuloFamdfaController extends Controller {
             ->where(function ($q) use ($mcodcadi) {
                 $q->where('MCODCADI', $mcodcadi)->orWhereNull('MCODCADI');
             })
-            ->where('MCONDPAGO', $mcondpago)
+            ->where(function ($q) use ($mcondpago) {
+                $q->where('MCONDPAGO', $mcondpago)->orWhereNull('MCONDPAGO');
+            })
             ->where('impneto_min', '<=', $impneto)
             ->where('tipo', $type)
             ->where('mindcred', $mindcred)
