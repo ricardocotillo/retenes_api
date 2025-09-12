@@ -736,10 +736,11 @@ class CabpeController extends Controller
   {
     $j = $request->all();
     $famdfa = $j['famdfa'];
+    $mcla_prod = $j['mcla_prod'];
     $type = $j['type'];
     $detpes = Detpe::where('MNSERIE', $mnserie)->where('MNROPED', $mnroped)->get();
     foreach ($detpes as $d) {
-      $d->famdfas()->attach($famdfa['id'], ['type' => $type]);
+      $d->famdfas()->attach($famdfa['id'], ['type' => $type, 'mcla_prod' => $mcla_prod]);
     }
     return response()->json($detpes, 200);
   }
@@ -748,6 +749,7 @@ class CabpeController extends Controller
     $j = $request->all();
     $general_types = ['general', 'retenes', 'repuestos'];
     $type = $j['type'];
+    $mcla_prod = $j['mcla_prod'];
     $c = Cabpe::with([
       'detpe',
       'detpe.famdfas',
@@ -755,7 +757,11 @@ class CabpeController extends Controller
 
     foreach ($c->detpe()->where('MCODDFA', '!=', 'Precio especial')->where('MCODDFA', '!=', 'Bono')->get() as $d) {
       if (in_array($type, $general_types)) {
-        $d->famdfas()->wherePivotIn('type', $general_types)->detach();
+        if ($mcla_prod) {
+          $d->famdfas()->wherePivotIn('type', $general_types)->wherePivot('mcla_prod', $mcla_prod)->detach();
+        } else {
+          $d->famdfas()->wherePivotIn('type', $general_types)->detach();
+        }
       }
       $d->famdfas()->wherePivot('type', $type)->detach();
     }
@@ -776,6 +782,7 @@ class CabpeController extends Controller
     $j = $request->all();
     $general_types = ['general', 'retenes', 'repuestos'];
     $type = $j['type'];
+    $mcla_prod = $j['mcla_prod'];
     $data = $j['famdfa'];
     $famdfa = Famdfa::where('MCODDFA', $data['MCODDFA'])->first();
     $c = Cabpe::with([
@@ -785,11 +792,19 @@ class CabpeController extends Controller
 
     foreach ($c->detpe()->where('MCODDFA', '!=', 'Precio especial')->where('MCODDFA', '!=', 'Bono')->get() as $d) {
       if (in_array($type, $general_types)) {
-        $d->famdfas()->wherePivotIn('type', $general_types)->detach();
+        if ($mcla_prod) {
+          $d->famdfas()->wherePivotIn('type', $general_types)->wherePivot('mcla_prod', $mcla_prod)->detach();
+        } else {
+          $d->famdfas()->wherePivotIn('type', $general_types)->detach();
+        }
       } else {
-        $d->famdfas()->wherePivot('type', $type)->detach();
+        if ($mcla_prod) {
+          $d->famdfas()->wherePivot('type', $type)->wherePivot('mcla_prod', $mcla_prod)->detach();
+        } else {
+          $d->famdfas()->wherePivot('type', $type)->detach();
+        }
       }
-      $d->famdfas()->attach($famdfa->id, ['type' => $type]);
+      $d->famdfas()->attach($famdfa->id, ['type' => $type, 'mcla_prod' => $mcla_prod]);
     }
 
     $c = Cabpe::with([
