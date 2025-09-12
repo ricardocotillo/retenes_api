@@ -15,7 +15,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('detpe_famdfa', function (Blueprint $table) {
-            $table->integer('order')->virtualAs(DB::raw("CASE WHEN type = 'item' THEN 1 WHEN type = 'retenes' AND mcla_prod IS NOT NULL THEN 2 WHEN type = 'retenes' AND mcla_prod IS NULL THEN 3 ELSE 4 END"));
+            $table->integer('order')->storedAs(DB::raw("CASE WHEN type = 'item' THEN 1 WHEN type = 'retenes' AND mcla_prod IS NOT NULL THEN 2 WHEN type = 'retenes' AND mcla_prod IS NULL THEN 3 ELSE 4 END"));
         });
     }
 
