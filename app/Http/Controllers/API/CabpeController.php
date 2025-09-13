@@ -562,12 +562,13 @@ class CabpeController extends Controller
   /**
    * Gets the information of the order in a format that can be used by the PDF generator.
    *
-   * @param array $cabpes The order information.
+   * @param \Illuminate\Database\Eloquent\Collection|static[] $cabpes The order information.
    * @return array The order information in a format that can be used by the PDF generator.
    */
   private function get_pedido_info($cabpes) {
     $articulos = $this->order_cabpes($cabpes);
     $montoTotalFinal = 0;
+    /** @var Cabpe $cabpe */
     foreach ($cabpes as $cabpe) {
       $montoTotalFinal = $montoTotalFinal + $cabpe->precio_neto;
     }
@@ -624,7 +625,7 @@ class CabpeController extends Controller
   /**
    * Generates a PDF file with the information of the order, in the format of the almacen.
    *
-   * @param array $cabpes The order information.
+   * @param \Illuminate\Database\Eloquent\Collection|static[] $cabpes The order information.
    * @param array $info The order information in a format that can be used by the PDF generator.
    * @param bool $download If true, the PDF file will be downloaded instead of being returned as a response.
    * @return string The PDF file contents or a download response.
