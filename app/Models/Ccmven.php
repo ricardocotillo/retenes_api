@@ -10,12 +10,10 @@ class Ccmven extends Model
 	public $timestamps = false;
 
 	protected $casts = [
-		'MPORCEN' => 'float'
+		'MPORCEN' => 'float',
+		'MFECUACT' => 'datetime'
 	];
 
-	protected $dates = [
-		'MFECUACT'
-	];
 
 	protected $fillable = [
 		'MCODVEN',

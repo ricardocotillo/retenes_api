@@ -9,9 +9,9 @@ class Ccmtrs extends Model
 	protected $table = 'ccmtrs';
 	public $timestamps = false;
 
-	protected $dates = [
-		'MFCHREGIS',
-		'MFECUACT'
+	protected $casts = [
+		'MFCHREGIS' => 'datetime',
+		'MFECUACT' => 'datetime'
 	];
 
 	protected $fillable = [

@@ -16,18 +16,16 @@ class Ccmcli extends Model
 		'MPORCOMI' => 'float',
 		'MPORPERC' => 'float',
 		'MPORVCAO' => 'float',
-		'MPORVNAOH' => 'float'
+		'MPORVNAOH' => 'float',
+		'MFCHREGIS' => 'datetime',
+		'MFCH_CR' => 'datetime',
+		'MFECUVTA' => 'datetime',
+		'MFECULCRE' => 'datetime',
+		'MFECUACT' => 'datetime',
+		'MFECALTA' => 'datetime',
+		'MFECBAJA' => 'datetime'
 	];
 
-	protected $dates = [
-		'MFCHREGIS',
-		'MFCH_CR',
-		'MFECUVTA',
-		'MFECULCRE',
-		'MFECUACT',
-		'MFECALTA',
-		'MFECBAJA'
-	];
 
 	protected $fillable = [
 		'MCODCLI',

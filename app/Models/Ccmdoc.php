@@ -10,12 +10,10 @@ class Ccmdoc extends Model
 	public $timestamps = false;
 
 	protected $casts = [
-		'MNCOPIAS' => 'float'
+		'MNCOPIAS' => 'float',
+		'MFECUACT' => 'datetime'
 	];
 
-	protected $dates = [
-		'MFECUACT'
-	];
 
 	protected $fillable = [
 		'MTIPODOC',

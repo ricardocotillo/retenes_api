@@ -9,8 +9,8 @@ class Ccmmon extends Model
 	protected $table = 'ccmmon';
 	public $timestamps = false;
 
-	protected $dates = [
-		'MFECUACT'
+	protected $casts = [
+		'MFECUACT' => 'datetime'
 	];
 
 	protected $fillable = [

@@ -18,19 +18,17 @@ class Cabpe extends Model
 		'MSALDO' => 'float',
 		'MPORIGV' => 'float',
 		'MPESOKG' => 'float',
-		'MVV_NAFE' => 'float'
+		'MVV_NAFE' => 'float',
+		'MFECEMI' => 'datetime',
+		'MFECENT' => 'datetime',
+		'MFECVEN' => 'datetime',
+		'MFECCAN' => 'datetime',
+		'MFECATT' => 'datetime',
+		'MFECANU' => 'datetime',
+		'MFECLIB' => 'datetime',
+		'MFECUACT' => 'datetime'
 	];
 
-	protected $dates = [
-		'MFECEMI',
-		'MFECENT',
-		'MFECVEN',
-		'MFECCAN',
-		'MFECATT',
-		'MFECANU',
-		'MFECLIB',
-		'MFECUACT'
-	];
 
 	protected $fillable = [
 		'MTIPODOC',

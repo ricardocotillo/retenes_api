@@ -11,13 +11,11 @@ class Famdfa extends Model
 
 	protected $casts = [
 		'MPOR_DFA' => 'float',
-		'MIMP_DFA' => 'float'
+		'MIMP_DFA' => 'float',
+		'MFECREG' => 'datetime',
+		'MFECUACT' => 'datetime'
 	];
 
-	protected $dates = [
-		'MFECREG',
-		'MFECUACT'
-	];
 
 	protected $fillable = [
 		'MCODDFA',

@@ -28,11 +28,9 @@ class Detpe extends Model {
 		'MPORDCT3' => 'float',
 		'MPORDCT4' => 'float',
 		'MPORDCT5' => 'float',
+		'MFECUACT' => 'datetime',
 	];
 
-	protected $dates = [
-		'MFECUACT'
-	];
 
 	protected $fillable = [
 		'MTIPODOC',

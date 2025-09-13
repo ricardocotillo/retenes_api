@@ -91,19 +91,16 @@ class Articulo extends Model
 		'MBOLFCB' => 'float',
 		'MUNDENV3' => 'float',
 		'MUNDENV4' => 'float',
-	];
-
-	protected $dates = [
-		'MFECULSA',
-		'MFECULIN',
-		'MFECULCO',
-		'MFECUVEN',
-		'MFECREGI',
-		'MFCHVALOF',
-		'MFECUACT',
-		'MF_CORECTI',
-		'MFCH_MEMO',
-		'MFECCADU'
+		'MFECULSA' => 'datetime',
+		'MFECULIN' => 'datetime',
+		'MFECULCO' => 'datetime',
+		'MFECUVEN' => 'datetime',
+		'MFECREGI' => 'datetime',
+		'MFCHVALOF' => 'datetime',
+		'MFECUACT' => 'datetime',
+		'M_CORECTI' => 'datetime',
+		'MFCH_MEMO' => 'datetime',
+		'MFECCADU' => 'datetime',
 	];
 
 	protected $fillable = [

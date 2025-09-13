@@ -11,12 +11,10 @@ class Ccmcpa extends Model
 
 	protected $casts = [
 		'MNCUOTAS' => 'float',
-		'MDIAS' => 'float'
+		'MDIAS' => 'float',
+		'MFECUACT' => 'datetime'
 	];
 
-	protected $dates = [
-		'MFECUACT'
-	];
 
 	protected $fillable = [
 		'MCONDPAGO',
