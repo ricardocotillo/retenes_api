@@ -661,6 +661,7 @@ class CabpeController extends Controller
       });
     }
 
+    /** @var Cabpe $c */
     foreach ($cabpes as $c) {
       $c->estado = $estado;
       $c->save();
@@ -683,6 +684,7 @@ class CabpeController extends Controller
 
     $ccmtrs = Ccmtrs::where('MCODTRSP', $mcodtrsp)->first();
     $cabpes = Cabpe::with('ccmtrs')->where('MNSERIE', $mnserie)->where('MNROPED', $mnroped)->get();
+    /** @var Cabpe $c */
     foreach ($cabpes as $c) {
       $c->ccmtrs();
       $c->ccmtrs()->associate($ccmtrs);
