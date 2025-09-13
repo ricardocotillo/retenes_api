@@ -443,6 +443,14 @@ class CabpeController extends Controller
     return $articulos;
   }
 
+  /**
+   * Sorts the cabpes array by the MCODART and famdfa.MDESCRIP columns.
+   * The function also filters out the 'Sin descuento' and 'Bono' values of the MCODDFA column.
+   * The function returns an array of cabpes with the filtered and sorted information.
+   *
+   * @param Cabpe[] $cabpes The order information.
+   * @return array The sorted and filtered order information.
+   */
   private function sort_cabpes($cabpes) {
     $articulos = array();
 
@@ -475,7 +483,14 @@ class CabpeController extends Controller
   }
 
   /**
-   * @param Cabpe[] $cabpes
+   * Generates a txt file with the information of the order.
+   *
+   * The function receives an array of Cabpe objects and generates a txt file with the information of the order.
+   *
+   * The txt file is generated using the information of the order and is named as "pedidos.txt".
+   *
+   * @param Cabpe[] $cabpes The order information.
+   * @return string The txt file.
    */
   private function generate_txt($cabpes) {
         $cabpes = $this->sort_cabpes($cabpes);
@@ -526,7 +541,16 @@ class CabpeController extends Controller
         return $txt;
   }
 
-  // download txt
+  /**
+   * Download a txt file with the information of the order.
+   *
+   * The txt file is generated using the information of the order and is named as "pedidos.txt".
+   *
+   * @param \Illuminate\Http\Request $request The request.
+   * @param string $mnserie The serie of the order.
+   * @param string $mnroped The number of the order.
+   * @return \Illuminate\Http\Response The txt file.
+   */
   public function download_txt(Request $request, string $mnserie, string $mnroped) {
     $cabpes = Cabpe::with(['detpe', 'detpe.famdfas', 'ccmtrs', 'ccmcli', 'ccmcpa', 'values', 'instalments'])->where('MNSERIE', $mnserie)->where('MNROPED', $mnroped)->get();
     $txt = $this->generate_txt($cabpes);
@@ -535,6 +559,12 @@ class CabpeController extends Controller
       ->header('Content-Disposition', 'attachment; filename="pedidos.txt"');
   }
 
+  /**
+   * Gets the information of the order in a format that can be used by the PDF generator.
+   *
+   * @param array $cabpes The order information.
+   * @return array The order information in a format that can be used by the PDF generator.
+   */
   private function get_pedido_info($cabpes) {
     $articulos = $this->order_cabpes($cabpes);
     $montoTotalFinal = 0;
@@ -574,6 +604,14 @@ class CabpeController extends Controller
     return $info;
   }
 
+  /**
+   * Generates a PDF file with the information of the order, in the format of the almacen.
+   *
+   * @param array $cabpes The order information.
+   * @param array $info The order information in a format that can be used by the PDF generator.
+   * @param bool $download If true, the PDF file will be downloaded instead of being returned as a response.
+   * @return string The PDF file contents or a download response.
+   */
   private function generate_pdf($cabpes, ?array $info = null, $download = false) {
     if (!$info) {
       $info = $this->get_pedido_info($cabpes);
@@ -583,6 +621,14 @@ class CabpeController extends Controller
     return $download ? $document->download('pedido.pdf') : $document->output();
   }
 
+  /**
+   * Generates a PDF file with the information of the order, in the format of the almacen.
+   *
+   * @param array $cabpes The order information.
+   * @param array $info The order information in a format that can be used by the PDF generator.
+   * @param bool $download If true, the PDF file will be downloaded instead of being returned as a response.
+   * @return string The PDF file contents or a download response.
+   */
   private function generate_almacen_pdf($cabpes, ?array $info = null, $download = false) {
     if (!$info) {
       $info = $this->get_pedido_info($cabpes);
@@ -592,7 +638,17 @@ class CabpeController extends Controller
     return $download ? $document1->download('ped_almacen.pdf') : $document1->output();
   }
 
-  // download pdf
+  
+  /**
+   * Download a PDF file with the information of the order.
+   *
+   * The PDF file is generated using the information of the order and is named as "pedido-<MNROPED>-<MCODCLI>.pdf".
+   *
+   * @param \Illuminate\Http\Request $request The request.
+   * @param string $mnserie The series of the order.
+   * @param string $mnroped The number of the order.
+   * @return \Illuminate\Http\Response The PDF file.
+   */
   public function download_pdf(Request $request, string $mnserie, string $mnroped) {
     $cabpes = Cabpe::with(['detpe', 'detpe.famdfas', 'ccmtrs', 'ccmcli', 'ccmcpa', 'values', 'instalments'])->where('MNSERIE', $mnserie)->where('MNROPED', $mnroped)->get();
     $pdf = $this->generate_pdf($cabpes, null, true);
@@ -601,11 +657,19 @@ class CabpeController extends Controller
       ->header('Content-Disposition', 'attachment; filename="pedido.pdf"');
   }
 
+  
   /**
-   * Enviar correo.
+   * Envia a un correo electronico con un archivo PDF adjunto que contiene la informacion del pedido.
+   *
+   * El correo electronico se envia a la direccion registrada en la base de datos del cliente.
+   * Tambien se envia un correo electronico adicional a la direccion del usuario que realiz el pedido si se especifica en el request.
+   *
+   * El archivo PDF adjunto es generado utilizando la informacion del pedido y se nombra como "pedido-<MNROPED>-<MCODCLI>.pdf".
+   * Si la configuracion de la aplicacion es "filtros", se adjunta un segundo archivo PDF llamado "ped_almacen.pdf" que contiene la informacion del pedido para el almacn.
    *
    * @param  \Illuminate\Http\Request  $request
-   * @param  \App\Models\Cabpe  $cabpe
+   * @param  string  $mnserie
+   * @param  string  $mnroped
    * @return \Illuminate\Http\Response
    */
   public function send_email(Request $request, string $mnserie, string $mnroped) {
@@ -670,14 +734,17 @@ class CabpeController extends Controller
     return response()->json([], 200);
   }
 
-  /**
-   * Enviar correo.
-   *
-   * @param  \Illuminate\Http\Request  $request
-   * @param  string  $mnserie
-   * @param  string  $mnroped
-   * @return \Illuminate\Http\Response
-   */
+/**
+ * Actualizar la relacion entre Cabpe y Ccmtrs.
+ *
+ * Se utiliza el codigo de transporte (MCODTRSP) para buscar la relacion en Ccmtrs.
+ * Luego se actualiza la relacion en Cabpe.
+ *
+ * @param  \Illuminate\Http\Request  $request
+ * @param  string  $mnserie
+ * @param  string  $mnroped
+ * @return \Illuminate\Http\Response
+ */
   public function update_ccmtrs(Request $request, string $mnserie, string $mnroped)
   {
     $mcodtrsp = $request->input('mcodtrsp');
@@ -695,11 +762,11 @@ class CabpeController extends Controller
   }
 
   /**
-   * Update MOBSERV.
+   * Actualiza la observaci n de un pedido.
    *
-   * @param  \Illuminate\Http\Request  $request
-   * @param  string  $mnserie
-   * @param  string  $mnroped
+   * Recibe un par metro "mobserv" que es el nuevo valor de la observaci n.
+   * Luego se actualiza la observaci n en la tabla de Cabpe.
+   *
    * @return \Illuminate\Http\Response
    */
   public function update_mobserv(Request $request, string $mnserie, string $mnroped)
@@ -727,6 +794,13 @@ class CabpeController extends Controller
     //
   }
 
+  /**
+   * Increment the modification count for a given cabpe.
+   *
+   * @param int $mnserie The serie of the cabpe.
+   * @param int $mnroped The number of the cabpe.
+   * @return \Illuminate\Http\Response Response with the cabpe data.
+   */
   public function modifications(int $mnserie, int $mnroped)
   {
     $cabpe_mod = CabpeModification::where('MNSERIE', $mnserie)->where('MNROPED', $mnroped)->get();
@@ -735,6 +809,14 @@ class CabpeController extends Controller
     return response()->json($cabpe, 200);
   }
 
+  /**
+   * Adds a famdfa to a detpe.
+   *
+   * @param Request $request The request containing the famdfa data.
+   * @param string $mnserie The serie of the cabpe.
+   * @param string $mnroped The number of the cabpe.
+   * @return \Illuminate\Http\Response Response with the detpe data.
+   */
   public function add_famdfa(Request $request, string $mnserie, string $mnroped)
   {
     $j = $request->all();
@@ -748,8 +830,22 @@ class CabpeController extends Controller
     return response()->json($detpes, 200);
   }
 
+  /**
+   * Removes a famdfa from a detpe.
+   *
+   * This function will remove all famdfas of a given type from a detpe.
+   * The type can be 'general', 'restituciones', 'repuestos' or a specific type.
+   * If the type is 'general', then all famdfas with type 'general', 'restituciones', 'repuestos' will be removed.
+   * If the type is not 'general', then only the famdfas with that type will be removed.
+   * The function also takes a parameter 'mcla_prod' which is the production line of the famdfa.
+   * If the production line is provided, then only the famdfas with that production line will be removed.
+   *
+   * @param Request $request The request containing the type and production line.
+   * @param int $id The id of the detpe.
+   * @return \Illuminate\Http\Response Response with the detpe data.
+   */
   public function remove_famdfa(Request $request, int $id) {
-    $j = $request->all();
+    $j = $request->all(); /** @var array $j */
     $general_types = ['general', 'retenes', 'repuestos'];
     $type = $j['type'];
     $mcla_prod = $j['mcla_prod'];
@@ -778,6 +874,21 @@ class CabpeController extends Controller
     return response()->json($c, 200);
   }
 
+  /**
+   * Updates a famdfa for a detpe.
+   *
+   * This function will update the famdfas of a detpe based on the provided data.
+   * The function takes three parameters: the request data, the id of the detpe, and the type of the famdfa.
+   * The type can be 'general', 'restituciones', 'repuestos' or a specific type.
+   * If the type is 'general', then all famdfas with type 'general', 'restituciones', 'repuestos' will be updated.
+   * If the type is not 'general', then only the famdfas with that type will be updated.
+   * The function also takes a parameter 'mcla_prod' which is the production line of the famdfa.
+   * If the production line is provided, then only the famdfas with that production line will be updated.
+   *
+   * @param Request $request The request containing the type, production line and famdfa data.
+   * @param int $id The id of the detpe.
+   * @return \Illuminate\Http\Response Response with the detpe data.
+   */
   public function update_famdfa(Request $request, int $id) {
     $j = $request->all();
     $general_types = ['general', 'retenes', 'repuestos'];
@@ -821,6 +932,19 @@ class CabpeController extends Controller
     return response()->json($c, 200);
   }
 
+  /**
+   * Update the item state for a given cabpe.
+   *
+   * This function will update the item state for a given cabpe.
+   * It takes three parameters: the serie and number of the cabpe, and the state to be updated to.
+   * The state can be 'En producci n', 'En stock', 'En tr nsito', 'En depsito', 'En paqueter a', 'En depsito a proveedor', 'Devuelto', 'Vendido', 'Perdido', 'Donado', 'Destruido', 'En reparaci n', 'En reemplazo'.
+   * The function also updates the date of the last status change.
+   *
+   * @param Request $request The request containing the state and date.
+   * @param string $mnserie The serie of the cabpe.
+   * @param string $mnroped The number of the cabpe.
+   * @return \Illuminate\Http\JsonResponse Response with the cabpe data.
+   */
   public function update_item_state(Request $request, string $mnserie, string $mnroped): JsonResponse {
     $state = $request->input('state');
     $date = $request->input('date');
@@ -836,6 +960,17 @@ class CabpeController extends Controller
     return response()->json($cabpes);
   }
 
+  /**
+   * Update the fecha_despacho for a given cabpe.
+   *
+   * This function takes three parameters: the serie and number of the cabpe, and the fecha_despacho to be updated to.
+   * The function updates the fecha_despacho in the corresponding detpe table.
+   *
+   * @param Request $request The request containing the fecha_despacho.
+   * @param string $mnserie The serie of the cabpe.
+   * @param string $mnroped The number of the cabpe.
+   * @return \Illuminate\Http\JsonResponse Response with the cabpe data.
+   */
   public function update_fecha_despacho(Request $request, string $mnserie, string $mnroped): JsonResponse
   {
     $fecha = $request->input('fecha');
