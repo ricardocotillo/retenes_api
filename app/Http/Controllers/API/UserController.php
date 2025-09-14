@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Ccmven;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\Validator as Validator;
+use Illuminate\Validation\Validator;
 
 class UserController extends Controller
 {
