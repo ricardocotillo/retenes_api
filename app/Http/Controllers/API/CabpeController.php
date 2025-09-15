@@ -190,7 +190,7 @@ class CabpeController extends Controller
             'MHORUACT' => date('h:i:s'),
             'MPENFAC' => (float) $value['cantidad'],
             'MCODDFA' => $value['mcoddfa'],
-            'mcla_prod' => $value['MCLA_PROD'],
+            'mcla_prod' => $art['MCLA_PROD'],
           );
   
           $det = Detpe::create($mdetped);
