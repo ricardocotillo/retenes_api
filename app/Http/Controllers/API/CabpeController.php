@@ -855,7 +855,7 @@ class CabpeController extends Controller
       'detpe.famdfas',
     ])->find($id);
 
-    foreach ($c->detpe()->where('MCODDFA', '!=', 'Precio especial')->where('MCODDFA', '!=', 'Bono')->where('mcla_prod', $mcla_prod)->get() as $d) {
+    foreach ($c->detpe()->where('MCODDFA', '!=', 'Precio especial')->where('MCODDFA', '!=', 'Bono')->get() as $d) {
       if (in_array($type, $general_types)) {
         $d->famdfas()->wherePivotIn('type', $general_types)->wherePivot('mcla_prod', $mcla_prod)->detach();
       } else {
