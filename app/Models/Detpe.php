@@ -145,7 +145,7 @@ class Detpe extends Model {
 	public function famdfas()
 	{
 		return $this->belongsToMany(Famdfa::class, 'detpe_famdfa')
-			->withPivot(['type', 'detpe_id', 'famdfa_id', 'id', 'order'])
+			->withPivot(['type', 'detpe_id', 'famdfa_id', 'id', 'order', 'mcla_prod'])
 			->orderBy('order');
 	}
 
