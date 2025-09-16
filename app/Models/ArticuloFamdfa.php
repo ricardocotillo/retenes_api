@@ -11,7 +11,9 @@ class ArticuloFamdfa extends Model
 
 	protected $fillable = [
 		'mcodart',
-		'mcoddfa'
+		'mcoddfa',
+		'mcla_prod',
+		'type',
 	];
 
 	public function famdfa()
