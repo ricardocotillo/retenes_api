@@ -825,6 +825,7 @@ class CabpeController extends Controller
     $mcla_prod = $j['mcla_prod'];
     $type = $j['type'];
     $detpes = Detpe::where('MNSERIE', $mnserie)->where('MNROPED', $mnroped)->get();
+    info($mcla_prod);
     foreach ($detpes as $d) {
       $d->famdfas()->attach($famdfa['id'], ['type' => $type, 'mcla_prod' => $mcla_prod]);
     }
