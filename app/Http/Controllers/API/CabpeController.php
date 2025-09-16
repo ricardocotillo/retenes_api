@@ -937,7 +937,6 @@ class CabpeController extends Controller
         $q->orderByDesc('type');
       },
     ])->find($id);
-    info($c);
     return response()->json($c, 200);
   }
 
