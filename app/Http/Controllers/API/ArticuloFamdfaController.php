@@ -88,6 +88,9 @@ class ArticuloFamdfaController extends Controller {
             // mcodzon or null
             ->where(function ($q) use ($mcodzon) {
                 $q->where('MCODZON', $mcodzon)->orWhereNull('MCODZON');
+            })
+            ->where(function ($q) use ($mcodven) {
+                $q->where('MCODVEN', $mcodven)->orWhereNull('MCODVEN');
             });
 
         if ($discount_by_mcodcli) {
