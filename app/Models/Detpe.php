@@ -83,6 +83,7 @@ class Detpe extends Model {
 		'estado',
 		'item_state',
 		'status_changed',
+		'mcla_prod',
 	];
 
 	protected $appends = [
