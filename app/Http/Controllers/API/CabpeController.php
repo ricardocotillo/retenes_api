@@ -954,6 +954,29 @@ class CabpeController extends Controller
     return response()->json($c, 200);
   }
 
+  function remove_all_retenes_discounts(Request $request, $id) {
+    $c = Cabpe::with([
+      'detpe',
+      'detpe.famdfas',
+    ])->find($id);
+    $detpes = $c->detpe()->where('MCODDFA', '!=', 'Precio especial')->where('MCODDFA', '!=', 'Bono')->get();
+    foreach ($detpes as $d) {
+      $d->famdfas()->wherePivot('type', 'retenes')->detach();
+    }
+    $c = Cabpe::with([
+      'ccmcpa',
+      'ccmcli',
+      'ccmtrs',
+      'instalments',
+      'values',
+      'detpe',
+      'detpe.famdfas' => function ($q) {
+        $q->orderByDesc('type');
+      },
+    ])->find($id);
+    return response()->json($c, 200);
+  }
+
   /**
    * Update the item state for a given cabpe.
    *
