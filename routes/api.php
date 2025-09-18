@@ -65,6 +65,7 @@ Route::middleware(['auth:api',])->group(function () {
     Route::get('detped/{mnserie}/{mnroped}', [DetpeController::class, 'show']);
     Route::patch('cabpe/{id}/update_famdfa/', [CabpeController::class, 'update_famdfa']);
     Route::delete('cabpe/{id}/remove_famdfa/', [CabpeController::class, 'remove_famdfa']);
+    Route::post('cabpe/{id}/remove_all_retenes_discounts/', [CabpeController::class, 'remove_all_retenes_discounts']);
     Route::post('cabpe/{mnserie}/{mnroped}/add_famdfa/', [CabpeController::class, 'add_famdfa']);
     Route::patch('cabpe_update_mcodcpa/{mnserie}/{mnroped}/', [CabpeController::class, 'update_mcodcpa']);
     Route::post('cabpe/send_email/{mnserie}/{mnroped}/', [CabpeController::class, 'send_email']);
@@ -75,7 +76,6 @@ Route::middleware(['auth:api',])->group(function () {
     Route::patch('cabpe/update_fecha_despacho/{mnserie}/{mnroped}/', [CabpeController::class, 'update_fecha_despacho']);
     Route::get('cabpe/show_by_range/{mcodcli}/{range}/', [CabpeController::class, 'show_by_range']);
     Route::patch('cabpe/{mnserie}/{mnroped}/modifications/', [CabpeController::class, 'modifications']);
-    Route::post('cabpe/{id}/remove_all_retenes_discounts/', [CabpeController::class, 'remove_all_retenes_discounts']);
     Route::resource('inputs', InputController::class);
     Route::resource('options', OptionController::class);
     Route::post('values/bulk_store/', [ValueController::class, 'bulk_store']);
