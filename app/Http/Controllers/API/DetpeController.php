@@ -76,6 +76,7 @@ class DetpeController extends Controller
             'estado' => 1,
             'item_state' => 'espera',
             'status_changed' => false,
+            'mcla_prod' => $articulo->MCLA_PROD,
         );
 
         $detpe = new Detpe($detped_data);
