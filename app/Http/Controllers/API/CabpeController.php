@@ -617,7 +617,7 @@ class CabpeController extends Controller
     if (!$info) {
       $info = $this->get_pedido_info($cabpes);
     }
-    PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true, 'debugPng' => true, 'defaultFont' => 'sans-serif']);
+    PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true, 'debugPng' => true, 'defaultFont' => 'sans-serif', 'unicode' => true]);
     $document = PDF::loadView('attach.pedido', $info);
     return $download ? $document->download('pedido.pdf') : $document->output();
   }

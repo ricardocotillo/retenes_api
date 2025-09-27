@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
 <html>
-<head><meta http-equiv="Content-Type" content="text/html; charset=gb18030">
+<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	
 	
 	<title></title>
@@ -174,8 +174,8 @@
 		<td colspan="10" align="left" valign=middle><b><font color="#2E75B6">{{$condicion}}</font></b></td>
 	</tr>
 	<tr>
-		<td colspan="2" height="10" align="left" valign=middle><b><font color="#000000">Condiciones de venta</font></b></td>
-		<td colspan="1" height="10" align="left" valign=middle><b>:</b></td>
+		<td colspan="2" height="10" align="left" valign=top><b><font color="#000000">Condiciones de venta</font></b></td>
+		<td colspan="1" height="10" align="left" valign=top><b>:</b></td>
 		<td colspan="10" align="left" valign=middle>
 			@if ($flavor == 'filtros')
 				<b><font color="#2E75B6">Los precios están expresado en soles S/</font></b><br>
