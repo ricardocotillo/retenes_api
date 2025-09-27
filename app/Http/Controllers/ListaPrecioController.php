@@ -1,0 +1,50 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Http\Requests\StoreListaPrecioRequest;
+use App\Http\Requests\UpdateListaPrecioRequest;
+use App\Models\ListaPrecio;
+
+class ListaPrecioController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
+    {
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(StoreListaPrecioRequest $request)
+    {
+        //
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(ListaPrecio $listaPrecio)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(UpdateListaPrecioRequest $request, ListaPrecio $listaPrecio)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(ListaPrecio $listaPrecio)
+    {
+        //
+    }
+}
