@@ -127,7 +127,8 @@ class Cabpe extends Model
 			if (count($changed) > 0) {
 				$description = implode(', ', $changed);
 				LogPedido::create([
-					'user_id' 		=> $user->id,
+					// 'user_id' 		=> $user->id,
+					'user_id' 		=> 1,
 					'mnserie' 		=> $item->MNSERIE,
 					'mnroped'		=> $item->MNROPED,
 					'description' 	=> $description,
