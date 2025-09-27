@@ -36,7 +36,7 @@ Route::get('data-version/', function() {
     $settings = Setting::first();
     return $settings->data_updated_at;
 });
-Route::post('cabpe/send_email/{mnserie}/{mnroped}/', [CabpeController::class, 'send_email']);
+// Route::post('cabpe/send_email/{mnserie}/{mnroped}/', [CabpeController::class, 'send_email']);
 
 
 Route::middleware(['auth:api',])->group(function () {
@@ -69,7 +69,7 @@ Route::middleware(['auth:api',])->group(function () {
     Route::post('cabpe/{id}/remove_all_retenes_discounts/', [CabpeController::class, 'remove_all_retenes_discounts']);
     Route::post('cabpe/{mnserie}/{mnroped}/add_famdfa/', [CabpeController::class, 'add_famdfa']);
     Route::patch('cabpe_update_mcodcpa/{mnserie}/{mnroped}/', [CabpeController::class, 'update_mcodcpa']);
-    // Route::post('cabpe/send_email/{mnserie}/{mnroped}/', [CabpeController::class, 'send_email']);
+    Route::post('cabpe/send_email/{mnserie}/{mnroped}/', [CabpeController::class, 'send_email']);
     Route::patch('cabpe/update_descuento_general/{id}/', [CabpeController::class, 'update_descuento_general']);
     Route::patch('cabpe/update_ccmtrs/{mnserie}/{mnroped}/', [CabpeController::class, 'update_ccmtrs']);
     Route::patch('cabpe/update_mobserv/{mnserie}/{mnroped}/', [CabpeController::class, 'update_mobserv']);
