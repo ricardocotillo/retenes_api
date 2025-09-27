@@ -13,6 +13,15 @@ return new class extends Migration
     {
         Schema::create('lista_precios', function (Blueprint $table) {
             $table->id();
+            $table->string('mcodcadi', 3);
+            $table->string('mindcred', 2);
+            $table->string('mcondpago', 2);
+            $table->decimal('impneto_min', 14, 4);
+            $table->decimal('impneto_max', 14, 4);
+            $table->string('mcodcli', 16);
+            $table->string('mcodzon', 5);
+            $table->string('mnom_camlis', 20);
+            $table->string('des_lista', 20);
             $table->timestamps();
         });
     }
