@@ -40,6 +40,7 @@ Route::get('data-version/', function() {
 
 
 Route::middleware(['auth:api',])->group(function () {
+    Route::resource('lista-precios', ListaPrecioController::class);
     Route::resource('articulos', ArticuloController::class);
     Route::get('articulo_by_mcodart/{mcodart}/', [ArticuloController::class, 'articulo']);
     Route::resource('ccmcli/', CcmcliController::class);
