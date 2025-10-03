@@ -1,9 +1,9 @@
 services:
-    php:
+    laravel:
         build:
             context: .
             dockerfile: Dockerfile
-        container_name: php
+        container_name: laravel
         volumes:
             - .:/app
         networks:
