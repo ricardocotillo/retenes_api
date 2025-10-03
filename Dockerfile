@@ -9,7 +9,8 @@ RUN apt-get update && apt-get install -y \
     libxml2-dev \
     libzip-dev \
     unzip \
-    libpq-dev
+    libpq-dev \
+    libicu-dev
 
 # Install PHP extensions
 RUN docker-php-ext-install pdo_pgsql mbstring exif pcntl bcmath gd zip intl
@@ -21,7 +22,7 @@ RUN pecl install redis && docker-php-ext-enable redis
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # Set working directory
-WORKDIR /var/www
+WORKDIR /app
 
 # Copy composer files to leverage Docker cache
 COPY composer.json composer.lock ./
@@ -41,4 +42,4 @@ RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
 RUN echo 'memory_limit = 256M' >> $PHP_INI_DIR/conf.d/docker-php-memory-limit.ini
 
 # Set permissions for Laravel
-RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
+RUN chown -R vscode:vscode /app/storage /app/bootstrap/cache

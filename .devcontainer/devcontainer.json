@@ -3,7 +3,7 @@
     "dockerComposeFile": [
         "../docker-compose.yml"
     ],
-    "service": "php",
+    "service": "laravel",
     "workspaceFolder": "/var/www",
     "customizations": {
         "vscode": {
@@ -20,5 +20,10 @@
             }
         }
     },
-    "remoteUser": "www-data"
+    "forwardPorts": [
+        8000,
+        5432
+    ],
+    "postCreateCommand": "composer install",
+    "remoteUser": "vscode"
 }
