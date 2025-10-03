@@ -1,0 +1,24 @@
+{
+    "name": "TomaPedidos API",
+    "dockerComposeFile": [
+        "../docker-compose.yml"
+    ],
+    "service": "php",
+    "workspaceFolder": "/var/www",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "bmewburn.vscode-intelephense-client",
+                "onecentlin.laravel-blade",
+                "EditorConfig.EditorConfig",
+                "esbenp.prettier-vscode",
+                "redhat.vscode-yaml",
+                "xdebug.php-debug"
+            ],
+            "settings": {
+                "php.validate.executablePath": "/usr/local/bin/php"
+            }
+        }
+    },
+    "remoteUser": "www-data"
+}
