@@ -10,7 +10,8 @@ RUN apt-get update && apt-get install -y \
     libzip-dev \
     unzip \
     libpq-dev \
-    libicu-dev
+    libicu-dev \
+    procps
 
 # Install PHP extensions
 RUN docker-php-ext-install pdo_pgsql mbstring exif pcntl bcmath gd zip intl
@@ -40,6 +41,10 @@ RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
 
 # Configure PHP memory limit
 RUN echo 'memory_limit = 256M' >> $PHP_INI_DIR/conf.d/docker-php-memory-limit.ini
+
+# Set permissions for Laravel
+# Create vscode user to match dev container user
+RUN useradd -ms /bin/bash vscode
 
 # Set permissions for Laravel
 RUN chown -R vscode:vscode /app/storage /app/bootstrap/cache
