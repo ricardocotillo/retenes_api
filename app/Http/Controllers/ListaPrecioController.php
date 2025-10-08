@@ -17,16 +17,15 @@ class ListaPrecioController extends Controller
         $mcodcli = $request['mcodcli'];
         $mindcred = $request['mindcred'];
         $mcondpago = $request['mcondpago'];
-        $impneto_min = $request['impneto_min'];
-        $impneto_max = $request['impneto_max'];
+        $impneto = $request['impneto'];
         $mcodcli = $request['mcodcli'];
         $mcodzon = $request['mcodzon'];
 
         $listas = ListaPrecio::where('mcodcli', $mcodcli)
             ->where('mindcred', $mindcred)
             ->where('mcondpago', $mcondpago)
-            ->where('impneto_min', $impneto_min)
-            ->where('impneto_max', $impneto_max)
+            ->where('impneto_min', '<=', $impneto)
+            ->where('impneto_max', '>=', $impneto)
             ->where('mcodcli', $mcodcli)
             ->where('mcodzon', $mcodzon)
             ->get();
