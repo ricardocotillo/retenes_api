@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\ListaPrecioController;
 use App\Http\Controllers\API\ArticuloController;
 use App\Http\Controllers\API\CcmcliController;
 use App\Http\Controllers\API\CcmcpaController;
