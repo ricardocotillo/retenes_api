@@ -21,7 +21,6 @@ class ListaPrecioController extends Controller
         $impneto_max = $request['impneto_max'];
         $mcodcli = $request['mcodcli'];
         $mcodzon = $request['mcodzon'];
-        $mnom_camlis = $request['mnom_camlis'];
         $des_lista = $request['des_lista'];
 
         $listas = ListaPrecio::where('mcodcli', $mcodcli)
@@ -31,7 +30,6 @@ class ListaPrecioController extends Controller
             ->where('impneto_max', $impneto_max)
             ->where('mcodcli', $mcodcli)
             ->where('mcodzon', $mcodzon)
-            ->where('mnom_camlis', $mnom_camlis)
             ->where('des_lista', $des_lista)
             ->get();
 
