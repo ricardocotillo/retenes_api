@@ -87,5 +87,6 @@ Route::middleware(['auth:api',])->group(function () {
     Route::delete('instalments/bulk_delete/{mnserie}/{mnroped}/', [InstalmentController::class, 'bulk_delete']);
     Route::get('campos_productos_alternos/', [CampoProductoAlternoController::class, 'index']);
     Route::get('articulos/related/{id}/', [ArticuloController::class, 'related']);
+    Route::post('articulos/by_ids/', [ArticuloController::class, 'by_ids']);
     Route::resource('tipo_de_descuentos/', TipoDeDescuentoController::class);
 });
