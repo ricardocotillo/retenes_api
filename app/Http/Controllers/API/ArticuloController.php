@@ -169,10 +169,10 @@ class ArticuloController extends Controller
         return response()->json($articulosRelacionados, $this->successStatus);
     }
 
-    public function by_ids(Request $request) {
-        $ids = $request->input('ids', '');
-        $ids = explode(',', $ids);
-        $articulos = Articulo::whereIn('id', $ids)->get();
+    public function by_mcodarts(Request $request) {
+        $mcodarts = $request->input('mcodarts', '');
+        $mcodarts = explode(',', $mcodarts);
+        $articulos = Articulo::whereIn('MCODART', $mcodarts)->get();
         return response()->json($articulos, $this->successStatus);
     }
 }
