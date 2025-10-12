@@ -24,6 +24,8 @@ use App\Models\Pedido;
 
 class CabpeController extends Controller
 {
+  public $successStatus = 200;
+
   /**
    * Display a listing of the resource.
    *
