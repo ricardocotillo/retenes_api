@@ -1025,4 +1025,22 @@ class CabpeController extends Controller
     }
     return response()->json($cabpes);
   }
+
+  public function update_price_and_recalculate(Request $request, string $mnserie, string $mnroped): JsonResponse {
+    $price_field= $request->input('price_field');
+    $cabpes = Cabpe::where('MNSERIE', $mnserie)->where('MNROPED', $mnroped)->get();
+    foreach ($cabpes as $c) {
+      $detpes = $c->detpe();
+      foreach ($detpes as $detpe) {
+        $articulo = $detpe->articulo();
+        $new_price = $articulo->{$price_field};
+        $detpe->MPRECIO = $new_price;
+        $detpe->save();
+      }
+      // refresh the cabpe
+      $c->refresh();
+      $this->recalculate($c);
+    }
+    return response()->json($cabpes, $this->successStatus);
+  }
 }
