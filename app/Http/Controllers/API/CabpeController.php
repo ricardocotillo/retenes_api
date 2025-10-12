@@ -1031,9 +1031,9 @@ class CabpeController extends Controller
   public function update_lista_de_precio(Request $request, string $mnserie, string $mnroped): JsonResponse {
     $price_field= $request->input('price_field');
     $cabpes = Cabpe::where('MNSERIE', $mnserie)->where('MNROPED', $mnroped)->get();
-    info($cabpes);
     foreach ($cabpes as $c) {
       $detpes = $c->detpe();
+      info($detpes);
       foreach ($detpes as $detpe) {
         $articulo = $detpe->articulo();
         $new_price = $articulo->{$price_field};
