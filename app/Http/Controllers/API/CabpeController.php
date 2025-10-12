@@ -1036,6 +1036,7 @@ class CabpeController extends Controller
       foreach ($detpes as $detpe) {
         $articulo = $detpe->articulo();
         $new_price = $articulo->{$price_field};
+        info($new_price);
         $detpe->MPRECIO = $new_price;
         $detpe->save();
       }
