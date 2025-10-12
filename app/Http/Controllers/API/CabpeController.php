@@ -1029,21 +1029,25 @@ class CabpeController extends Controller
   }
 
   public function update_lista_de_precio(Request $request, string $mnserie, string $mnroped): JsonResponse {
-    $price_field= $request->input('price_field');
-    $cabpes = Cabpe::where('MNSERIE', $mnserie)->where('MNROPED', $mnroped)->get();
+    $price_field = $request->input('price_field');
+    $cabpes = Cabpe::where('MNSERIE', $mnserie)
+      ->where('MNROPED', $mnroped)
+      ->with(['detpe.articulo'])
+      ->get();
     foreach ($cabpes as $c) {
-      $detpes = $c->detpe();
-      info($detpes);
+      $detpes = $c->detpe;
       foreach ($detpes as $detpe) {
-        $articulo = $detpe->articulo();
-        $new_price = $articulo->{$price_field};
-        $detpe->MPRECIO = $new_price;
+        $articulo = $detpe->articulo;
+        if (!$articulo || !isset($articulo->{$price_field})) {
+          continue;
+        }
+        $detpe->MPRECIO = $articulo->{$price_field};
         $detpe->save();
       }
       // refresh the cabpe
       $c->refresh();
       $this->recalculate($c);
     }
-    return response()->json($cabpes, $this->successStatus);
+    return response()->json($cabpes, 200);
   }
 }
