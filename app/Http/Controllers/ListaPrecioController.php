@@ -21,13 +21,25 @@ class ListaPrecioController extends Controller
         $mcodcli = $request['mcodcli'];
         $mcodzon = $request['mcodzon'];
 
-        $listas = ListaPrecio::where('mcodcli', $mcodcli)
-            ->where('mindcred', $mindcred)
-            ->where('mcondpago', $mcondpago)
-            ->where('impneto_min', '<=', $impneto)
-            ->where('impneto_max', '>=', $impneto)
-            ->where('mcodcli', $mcodcli)
-            ->where('mcodzon', $mcodzon)
+        $listas = ListaPrecio::query()
+            ->where(function ($query) use ($mcodcli) {
+                $query->where('mcodcli', $mcodcli)->orWhereNull('mcodcli');
+            })
+            ->where(function ($query) use ($mindcred) {
+                $query->where('mindcred', $mindcred)->orWhereNull('mindcred');
+            })
+            ->where(function ($query) use ($mcondpago) {
+                $query->where('mcondpago', $mcondpago)->orWhereNull('mcondpago');
+            })
+            ->where(function ($query) use ($impneto) {
+                $query->where('impneto_min', '<=', $impneto)->orWhereNull('impneto_min');
+            })
+            ->where(function ($query) use ($impneto) {
+                $query->where('impneto_max', '>=', $impneto)->orWhereNull('impneto_max');
+            })
+            ->where(function ($query) use ($mcodzon) {
+                $query->where('mcodzon', $mcodzon)->orWhereNull('mcodzon');
+            })
             ->get();
 
         return response()->json($listas);
