@@ -77,6 +77,7 @@ Route::middleware(['auth:api',])->group(function () {
     Route::patch('cabpe/update_mobserv/{mnserie}/{mnroped}/', [CabpeController::class, 'update_mobserv']);
     Route::patch('cabpe/update_item_state/{mnserie}/{mnroped}/', [CabpeController::class, 'update_item_state']);
     Route::patch('cabpe/update_fecha_despacho/{mnserie}/{mnroped}/', [CabpeController::class, 'update_fecha_despacho']);
+    Route::post('cabpe/update_lista_de_precio/{mnserie}/{mnroped}/', [CabpeController::class, 'update_lista_de_precio']);
     Route::get('cabpe/show_by_range/{mcodcli}/{range}/', [CabpeController::class, 'show_by_range']);
     Route::patch('cabpe/{mnserie}/{mnroped}/modifications/', [CabpeController::class, 'modifications']);
     Route::resource('inputs', InputController::class);
