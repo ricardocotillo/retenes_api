@@ -15,11 +15,11 @@ return new class extends Migration
             $table->id();
             $table->string('mcodcadi', 3);
             $table->string('mindcred', 2);
-            $table->string('mcondpago', 2);
+            $table->string('mcondpago', 2)->nullable();
             $table->decimal('impneto_min', 14, 4);
             $table->decimal('impneto_max', 14, 4);
-            $table->string('mcodcli', 16);
-            $table->string('mcodzon', 5);
+            $table->string('mcodcli', 16)->nullable();
+            $table->string('mcodzon', 5)->nullable();
             $table->string('mnom_camlis', 20);
             $table->string('des_lista', 20);
             $table->timestamps();
