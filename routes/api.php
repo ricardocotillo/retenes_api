@@ -57,7 +57,7 @@ Route::middleware(['auth:api',])->group(function () {
     Route::post('cambiar', [CcmcpaController::class, 'update']);
     Route::get('mainView/{nombre}', [MainViewController::class,'index']);
     Route::post('register', [UserController::class, 'register']);
-    Route::get('descuento_general/{mcodven}/', [ArticuloFamdfaController::class, 'descuento_general']);
+    Route::get('descuento_general/{code}/', [ArticuloFamdfaController::class, 'descuento_general']);
     Route::patch('detpe/{detpe_id}/', [DetpeController::class, 'update']);
     Route::patch('detpe/{detpe_id}/update_item_state/', [DetpeController::class, 'update_item_state']);
     Route::patch('detpe/{detpe_id}/update_fecha_despacho/', [DetpeController::class, 'update_fecha_despacho']);
