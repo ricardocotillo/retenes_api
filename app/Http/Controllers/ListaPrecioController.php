@@ -20,6 +20,7 @@ class ListaPrecioController extends Controller
         $impneto = $request['impneto'];
         $mcodcli = $request['mcodcli'];
         $mcodzon = $request['mcodzon'];
+        $mcodcadi = $request['mcodcadi'];
 
         $listas = ListaPrecio::query()
             ->where(function ($query) use ($mcodcli) {
@@ -39,6 +40,9 @@ class ListaPrecioController extends Controller
             })
             ->where(function ($query) use ($mcodzon) {
                 $query->where('mcodzon', $mcodzon)->orWhereNull('mcodzon');
+            })
+            ->where(function ($query) use ($mcodcadi) {
+                $query->where('mcodcadi', $mcodcadi)->orWhereNull('mcodcadi');
             })
             ->get();
 
