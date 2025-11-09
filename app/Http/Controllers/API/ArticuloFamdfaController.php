@@ -56,7 +56,7 @@ class ArticuloFamdfaController extends Controller {
         return response()->json($artdfas, 200);
     }
 
-    public function descuento_general(Request $request, string $mcodven) {
+    public function descuento_general(Request $request, string $code) {
         $impneto = $request->input('impneto');
         $mcodcadi = $request->input('mcodcadi');
         $mcondpago = $request->input('mcondpago');
@@ -64,11 +64,12 @@ class ArticuloFamdfaController extends Controller {
         $mindcred = $request->input('mindcred');
         $mcla_prod = $request->input('mcla_prod');
         $mcodzon = $request->input('mcodzon');
+        $mcodven = $request->input('mcodven');
 
-        if ($mcodven == 'all') {
-            $type = $mcodven;
+        if ($code == 'all') {
+            $type = $code;
         } else {
-            $type = $mcodven[strlen($mcodven) - 1];
+            $type = $code[strlen($code) - 1];
             $type = is_numeric($type) ? null : $type;
         }
 
