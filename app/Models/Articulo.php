@@ -101,6 +101,7 @@ class Articulo extends Model
 		'M_CORECTI' => 'datetime',
 		'MFCH_MEMO' => 'datetime',
 		'MFECCADU' => 'datetime',
+		'MCANTMIN' => 'integer',
 	];
 
 	protected $fillable = [
