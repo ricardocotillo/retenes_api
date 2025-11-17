@@ -31,9 +31,7 @@
       width: 19cm;
       border-spacing: 85px 3px;
     }
-    #logo {
-      position: absolute;
-    }
+		/* #logo positioning removed to avoid Dompdf absolute layout issues */
 	</style>
 	
 </head>
