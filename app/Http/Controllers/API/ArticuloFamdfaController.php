@@ -9,30 +9,36 @@ use App\Models\Ccmzon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class ArticuloFamdfaController extends Controller {
-    private function has_restricted_item_discount($mcodcli) {
+class ArticuloFamdfaController extends Controller
+{
+    private function has_restricted_item_discount($mcodcli)
+    {
         return ArticuloFamdfa::where('MCODCLI', $mcodcli)
-        ->where('restrict', true)
-        ->where([
-            ['impneto_min', '=', null],
-            ['impneto_max', '=', null],
-        ])->count();
+            ->where('restrict', true)
+            ->where([
+                ['impneto_min', '=', null],
+                ['impneto_max', '=', null],
+            ])->count();
     }
-    private function has_restricted_general_discount($mcodcli) {
+
+    private function has_restricted_general_discount($mcodcli)
+    {
         return ArticuloFamdfa::where('MCODCLI', $mcodcli)
-        ->where('restrict', true)
-        ->where(function($query) {
-            $query->where('impneto_min', '!=', null)
-            ->orWhere('impneto_max', '!=', null);
-        })
-        ->count();
+            ->where('restrict', true)
+            ->where(function ($query) {
+                $query->where('impneto_min', '!=', null)
+                    ->orWhere('impneto_max', '!=', null);
+            })
+            ->count();
     }
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request) {
+    public function index(Request $request)
+    {
         $data = $request->all();
         $mcodart = $data['mcodart'];
         $mcodcli = $data['mcodcli'];
@@ -56,7 +62,8 @@ class ArticuloFamdfaController extends Controller {
         return response()->json($artdfas, 200);
     }
 
-    public function descuento_general(Request $request, string $code) {
+    public function descuento_general(Request $request, string $code)
+    {
         $impneto = $request->input('impneto');
         $mcodcadi = $request->input('mcodcadi');
         $mcondpago = $request->input('mcondpago');
