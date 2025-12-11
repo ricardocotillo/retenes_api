@@ -161,7 +161,7 @@
 		<td colspan="1" height="10" align="left" valign=middle><b>:</b></td>
 		<td colspan="10" align="left" valign=middle><b><font color="#2E75B6">{{$condicion}}</font></b></td>
 	</tr>
-	<tr>
+	<!-- <tr>
 		<td colspan="2" height="10" align="left" valign=top><b><font color="#000000">Condiciones de venta</font></b></td>
 		<td colspan="1" height="10" align="left" valign=top><b>:</b></td>
 		<td colspan="10" align="left" valign=middle>
@@ -173,7 +173,7 @@
 			<b><font color="#2E75B6">Validez de la Cotización: 07 días.</font></b><br>
 			<b><font color="#2E75B6">Los precios incluyen IGV.</font></b>
 		</td>
-	</tr>
+	</tr> -->
 	@foreach ($values as $value)
 		<tr>
 			<td colspan="2" height="10" align="left" valign=middle><b><font color="#000000">{{ $value->label }}</font></b></td>
