@@ -1,39 +1,29 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-
 <html>
-<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	
-	
-	<title></title>
-	<meta name="generator" content="LibreOffice 6.0.7.3 (Linux)"/>
-	<meta name="author" content="Dioncer Acharte Pino"/>
-	<meta name="created" content="2019-06-13T17:51:20"/>
-	<meta name="changed" content="2019-07-18T09:44:51.312098258"/>
-	<meta name="AppVersion" content="16.0300"/>
-	<meta name="DocSecurity" content="0"/>
-	<meta name="HyperlinksChanged" content="false"/>
-	<meta name="LinksUpToDate" content="false"/>
-	<meta name="ScaleCrop" content="false"/>
-	<meta name="ShareDoc" content="false"/>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 	<style type="text/css">
 		body,div,table,thead,tbody,tfoot,tr,th,td,p { font-size:x-small; }
-		a.comment-indicator:hover + comment { background:#ffd; position:absolute; display:block; border:1px solid black; padding:0.5em;  } 
-		a.comment-indicator { background:red; display:inline-block; border:1px solid black; width:0.5em; height:0.5em;  } 
-		comment { display:none;  } 
+		a.comment-indicator:hover + comment { background:#ffd; position:absolute; display:block; border:1px solid black; padding:0.5em;  }
+		a.comment-indicator { background:red; display:inline-block; border:1px solid black; width:0.5em; height:0.5em;  }
+		comment { display:none;  }
 		@page {
 			size: 21cm 29.7cm;
-			margin: 0;
+			margin: 1cm;
 		}
-    body {
-      padding: .5in;
-    }
-    table {
-      width: 19cm;
-      border-spacing: 85px 3px;
-    }
-		/* #logo positioning removed to avoid Dompdf absolute layout issues */
+        body {
+            padding: 0;
+            margin: 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 10px;
+        }
+        td {
+            padding: 3px 5px;
+        }
 	</style>
-	
+
 </head>
 
 <body>
@@ -171,7 +161,7 @@
 		<td colspan="1" height="10" align="left" valign=middle><b>:</b></td>
 		<td colspan="10" align="left" valign=middle><b><font color="#2E75B6">{{$condicion}}</font></b></td>
 	</tr>
-	<tr>
+	<!-- <tr>
 		<td colspan="2" height="10" align="left" valign=top><b><font color="#000000">Condiciones de venta</font></b></td>
 		<td colspan="1" height="10" align="left" valign=top><b>:</b></td>
 		<td colspan="10" align="left" valign=middle>
@@ -183,7 +173,7 @@
 			<b><font color="#2E75B6">Validez de la Cotización: 07 días.</font></b><br>
 			<b><font color="#2E75B6">Los precios incluyen IGV.</font></b>
 		</td>
-	</tr>
+	</tr> -->
 	@foreach ($values as $value)
 		<tr>
 			<td colspan="2" height="10" align="left" valign=middle><b><font color="#000000">{{ $value->label }}</font></b></td>
@@ -259,9 +249,9 @@
     				<b>
     					<font size=3>
 							@if ($flavor == 'filtros')
-								S/  
+								S/
 							@else
-								$  
+								$
 							@endif
 							{{ number_format( array_reduce( $value, function($carry, $p) { return $carry + $p['precio_neto']; }), 2, '.', '' ) }}
 						</font>
@@ -338,9 +328,9 @@
       <b>
         <font size=3>
 			@if ($flavor == 'filtros')
-				S/  
+				S/
 			@else
-				$  
+				$
 			@endif
 			@if ($total_atendido + $total_pendiente + $total_anulado == 0)
 				{{ number_format($total, 2, '.', '') }}

@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\ListaPrecioController;
 use App\Http\Controllers\API\ArticuloController;
 use App\Http\Controllers\API\CcmcliController;
 use App\Http\Controllers\API\CcmcpaController;
@@ -40,6 +41,7 @@ Route::get('data-version/', function() {
 
 
 Route::middleware(['auth:api',])->group(function () {
+    Route::resource('lista-precios', ListaPrecioController::class);
     Route::resource('articulos', ArticuloController::class);
     Route::get('articulo_by_mcodart/{mcodart}/', [ArticuloController::class, 'articulo']);
     Route::resource('ccmcli/', CcmcliController::class);
@@ -55,7 +57,7 @@ Route::middleware(['auth:api',])->group(function () {
     Route::post('cambiar', [CcmcpaController::class, 'update']);
     Route::get('mainView/{nombre}', [MainViewController::class,'index']);
     Route::post('register', [UserController::class, 'register']);
-    Route::get('descuento_general/{mcodven}/', [ArticuloFamdfaController::class, 'descuento_general']);
+    Route::get('descuento_general/{code}/', [ArticuloFamdfaController::class, 'descuento_general']);
     Route::patch('detpe/{detpe_id}/', [DetpeController::class, 'update']);
     Route::patch('detpe/{detpe_id}/update_item_state/', [DetpeController::class, 'update_item_state']);
     Route::patch('detpe/{detpe_id}/update_fecha_despacho/', [DetpeController::class, 'update_fecha_despacho']);
@@ -76,6 +78,7 @@ Route::middleware(['auth:api',])->group(function () {
     Route::patch('cabpe/update_item_state/{mnserie}/{mnroped}/', [CabpeController::class, 'update_item_state']);
     Route::patch('cabpe/update_fecha_despacho/{mnserie}/{mnroped}/', [CabpeController::class, 'update_fecha_despacho']);
     Route::get('cabpe/show_by_range/{mcodcli}/{range}/', [CabpeController::class, 'show_by_range']);
+    Route::post('cabpe/update_lista_de_precio/{mnserie}/{mnroped}/', [CabpeController::class, 'update_lista_de_precio']);
     Route::patch('cabpe/{mnserie}/{mnroped}/modifications/', [CabpeController::class, 'modifications']);
     Route::resource('inputs', InputController::class);
     Route::resource('options', OptionController::class);
@@ -85,5 +88,6 @@ Route::middleware(['auth:api',])->group(function () {
     Route::delete('instalments/bulk_delete/{mnserie}/{mnroped}/', [InstalmentController::class, 'bulk_delete']);
     Route::get('campos_productos_alternos/', [CampoProductoAlternoController::class, 'index']);
     Route::get('articulos/related/{id}/', [ArticuloController::class, 'related']);
+    Route::post('articulos/by_mcodarts/', [ArticuloController::class, 'by_mcodarts']);
     Route::resource('tipo_de_descuentos/', TipoDeDescuentoController::class);
 });

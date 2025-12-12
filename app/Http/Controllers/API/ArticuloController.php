@@ -103,8 +103,7 @@ class ArticuloController extends Controller
      * @return \Illuminate\Http\Response
      * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
      */
-    public function related(int $id)
-    {
+    public function related(int $id) {
         // Buscar el artículo o lanzar una excepción si no existe
         $articulo = Articulo::findOrFail($id);
         
@@ -168,5 +167,12 @@ class ArticuloController extends Controller
         $articulosRelacionados = $query->select($selectFields)->cursorPaginate(20);
         
         return response()->json($articulosRelacionados, $this->successStatus);
+    }
+
+    public function by_mcodarts(Request $request) {
+        $mcodarts = $request->input('mcodarts', '');
+        $mcodarts = explode(',', $mcodarts);
+        $articulos = Articulo::whereIn('MCODART', $mcodarts)->get();
+        return response()->json($articulos, $this->successStatus);
     }
 }

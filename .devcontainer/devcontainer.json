@@ -1,0 +1,29 @@
+{
+    "name": "TomaPedidos API",
+    "dockerComposeFile": [
+        "../docker-compose.yml"
+    ],
+    "service": "laravel",
+    "workspaceFolder": "/app",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "bmewburn.vscode-intelephense-client",
+                "onecentlin.laravel-blade",
+                "EditorConfig.EditorConfig",
+                "esbenp.prettier-vscode",
+                "redhat.vscode-yaml",
+                "xdebug.php-debug"
+            ],
+            "settings": {
+                "php.validate.executablePath": "/usr/local/bin/php"
+            }
+        }
+    },
+    "forwardPorts": [
+        8000,
+        5432
+    ],
+    "postCreateCommand": "composer install",
+    "remoteUser": "vscode"
+}
