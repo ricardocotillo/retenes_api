@@ -933,7 +933,7 @@ class CabpeController extends Controller
     public function update_famdfa(Request $request, int $id)
     {
         $j = $request->all();
-        $general_types = ['general', 'retenes', 'repuestos'];
+        $general_types = ['general', 'retenes', 'repuestos', 'all'];
         $type = $j['type'];
         $mcla_prod = $j['mcla_prod'];
         $data = $j['famdfa'];
