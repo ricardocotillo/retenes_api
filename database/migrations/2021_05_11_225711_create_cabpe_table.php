@@ -81,7 +81,7 @@ class CreateCabpeTable extends Migration
             $table->string('MCODSCADI', 5)->nullable();
             $table->string('MCTOUTIL', 9)->nullable();
             $table->string('MLIMAPROV', 2)->nullable();
-            $table->string('estado', 10)->nullable();
+            $table->string('estado', 10)->nullable(); // pendiente, procesado, faturado
         });
     }
 

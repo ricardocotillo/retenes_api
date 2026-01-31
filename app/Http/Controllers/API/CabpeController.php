@@ -1078,4 +1078,13 @@ class CabpeController extends Controller
         }
         return response()->json($cabpes, 200);
     }
+
+    public function close(Request $request, string $mnserie, string $mnroped): JsonResponse
+    {
+        $cabpes = Cabpe::where('MNSERIE', $mnserie)->where('MNROPED', $mnroped)->get();
+        foreach ($cabpes as $c) {
+            $c->update(['estado' => 'faturado']);
+        }
+        return response()->json($cabpes);
+    }
 }
