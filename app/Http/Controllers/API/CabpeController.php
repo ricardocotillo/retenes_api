@@ -1083,7 +1083,7 @@ class CabpeController extends Controller
     {
         $cabpes = Cabpe::where('MNSERIE', $mnserie)->where('MNROPED', $mnroped)->get();
         foreach ($cabpes as $c) {
-            $c->update(['estado' => 'faturado']);
+            $c->update(['estado' => 'facturado']);
         }
         return response()->json($cabpes);
     }
