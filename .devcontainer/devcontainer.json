@@ -24,6 +24,5 @@
         8000,
         5432
     ],
-    "postCreateCommand": "composer install",
     "remoteUser": "vscode"
 }
