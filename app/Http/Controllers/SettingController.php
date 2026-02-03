@@ -12,7 +12,8 @@ class SettingController extends Controller
      */
     public function index()
     {
-        //
+        $setting = Setting::first();
+        return response()->json($setting);
     }
 
     /**

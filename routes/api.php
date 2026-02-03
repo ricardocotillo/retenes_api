@@ -19,6 +19,7 @@ use App\Http\Controllers\API\ValueController;
 use App\Http\Controllers\API\InstalmentController;
 use App\Http\Controllers\CampoProductoAlternoController;
 use App\Http\Controllers\TipoDeDescuentoController;
+use App\Http\Controllers\SettingController;
 use App\Models\Setting;
 
 /*
@@ -91,4 +92,5 @@ Route::middleware(['auth:api',])->group(function () {
     Route::get('articulos/related/{id}/', [ArticuloController::class, 'related']);
     Route::post('articulos/by_mcodarts/', [ArticuloController::class, 'by_mcodarts']);
     Route::resource('tipo_de_descuentos/', TipoDeDescuentoController::class);
+    Route::get('settings/', [SettingController::class, 'index']);
 });
