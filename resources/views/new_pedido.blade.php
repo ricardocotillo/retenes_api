@@ -8,6 +8,17 @@
   </head>
   <body style="font-family: 'Open Sans', sans-serif; margin: 0; padding: 0;">
     <div style="width: 190mm; max-width: 190mm; margin: 0 auto; box-sizing: border-box;">
+      <table>
+        <tbody>
+          <tr>
+            <td style="text-align: center; color: #fefdfe; font-size: 16.3px; background-color: #0766ab; padding: 10px;">R250-035238</td>
+            <td rowspan="2"></td>
+          </tr>
+          <tr>
+            <td style="text-align: center; color: #fefdfe; font-size: 29px; background-color: #0766ab; padding: 10px">COTIZACIÓN</td>
+          </tr>
+        </tbody>
+      </table>
       <h1 style="color: #000000; font-size: 10px; margin-bottom: 0;">COD. VENDEDOR: 0001</h1>
       <table style="border-collapse: collapse; width: 100%; table-layout: fixed;">
         <colgroup>
