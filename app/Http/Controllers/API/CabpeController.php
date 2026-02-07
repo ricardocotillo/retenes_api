@@ -351,6 +351,7 @@ class CabpeController extends Controller
      */
     public function update_mcodcpa(Request $request, string $mnserie, string $mnroped)
     {
+        $settings = Setting::first();
         $igv = 1.18;
         $mcodcpa = $request->input('mcodcpa');
         $cabpes = Cabpe::where('MNSERIE', $mnserie)->where('MNROPED', $mnroped)->with(['ccmcpa', 'detpe', 'detpe.articulo', 'ccmcli'])->get();
