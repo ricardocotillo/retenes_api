@@ -367,7 +367,20 @@ class CabpeController extends Controller
                 $detpe->MPORDCT1 = 0.0;
                 $detpe->MIGV = round($detpe->MVALVEN - ($detpe->MVALVEN / $igv), 2);
                 $detpe->MPRECIO = $detpe->articulo->getCorrectPrice($cabpe->ccmcli->MCODCADI);
-                $detpe->famdfas()->detach();
+                switch ($settings->indmoddest) {
+                    case 1:
+                        // if 1, delete all famdfas
+                        $detpe->famdfas()->detach();
+                        break;
+                    case 2:
+                        // if 2, filter by type = 'item'
+                        $detpe->famdfas()->where('type', 'item')->detach();
+                        break;
+                    default:
+                        // if 3, filter by type = 'general' or type = 'all'
+                        $detpe->famdfas()->where('type', 'general')->orWhere('type', 'all')->detach();
+                        break;
+                }
                 $detpe->save();
             }
             $this->recalculate($cabpe);
