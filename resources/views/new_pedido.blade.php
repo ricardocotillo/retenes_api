@@ -8,7 +8,7 @@
 </head>
 <body style="font-family: 'Open Sans', sans-serif;">
   <h1 style="color: #000000; font-size: 10px; margin-bottom: 0;">COD. VENDEDOR: 0001</h1>
-  <table style="border-collapse: collapse; border: 1px solid #e8e8e8;">
+  <table style="border-collapse: collapse;">
     <thead style="color: #ffffff; background-color: #0766ab; font-weight: 600; font-size: 8px;">
       <tr>
         <th style="padding: 10px; border: 1px solid #e8e8e8;">CÓDIGO</th>
@@ -22,6 +22,7 @@
       </tr>
     </thead>
     <tbody style="font-size: 8px;">
+      <!-- start loop -->
       <tr>
         <td style="padding: 10px; border: 1px solid #e8e8e8; text-align: center;">066620KN</td>
         <td style="padding: 10px; border: 1px solid #e8e8e8; text-align: center;">20</td>
@@ -32,6 +33,14 @@
         <td style="padding: 10px; border: 1px solid #e8e8e8; text-align: center;">15+20+4%</td>
         <td style="padding: 10px; border: 1px solid #e8e8e8; text-align: center;">62.00</td>
       </tr>
+      <!-- end loop -->
+      <!-- sub total -->
+      <tr>
+        <td colspan="5"></td>
+        <td colspan="2" style="padding: 10px; border: 1px solid #e8e8e8; text-align: center; background-color: #0766ab; font-weight: bold; color: #ffffff; border-right: none; font-size: 8.5px;">SUBTOTAL</td>
+        <td colspan="1" style="padding: 10px; border: 1px solid #e8e8e8; text-align: center; background-color: #0766ab; font-weight: bold; color: #ffffff; border-left: none; font-size: 8.5px;">$ 62.00</td>
+      </tr>
+      <!-- end sub total -->
     </tbody>
   </table>
 </body>
