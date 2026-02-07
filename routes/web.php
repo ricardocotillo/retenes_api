@@ -27,3 +27,6 @@ Route::options('{any}', function () {
 
 Route::get('cabpe/download_txt/{mnserie}/{mnroped}/', [CabpeController::class, 'download_txt']);
 Route::get('cabpe/download_pdf/{mnserie}/{mnroped}/', [CabpeController::class, 'download_pdf']);
+Route::get('new_pedido', function () {
+    return view('new_pedido');
+});
