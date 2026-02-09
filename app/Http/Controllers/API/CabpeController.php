@@ -21,6 +21,7 @@ use App\Models\Instalment;
 use App\Models\TxtDetpe;
 use App\Models\CabpeModification;
 use App\Models\Pedido;
+use App\Models\Setting;
 
 class CabpeController extends Controller
 {

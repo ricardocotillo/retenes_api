@@ -14,7 +14,11 @@
             <div style="text-align: center; color: #fefdfe; font-size: 29px; background-color: #0766ab; padding: 10px">COTIZACIÓN</div>
         </div>
         <div style="width: 50%;">
-
+            @if ($flavor == 'filtros')
+				<img src="{{ 'data:image/jpeg;base64,'.base64_encode(file_get_contents('http://filtroswillybusch.com.pe/logo/filtros_logo.png')) }}" width="100" height="100" id="logo">
+			@else
+				<img src="{{ 'data:image/jpeg;base64,'.base64_encode(file_get_contents('http://willybusch.com.pe/logos/retenes_logo.png')) }}" width="100" height="100" id="logo">
+			@endif
         </div>
       </div>
       <h1 style="color: #000000; font-size: 10px; margin-bottom: 0;">COD. VENDEDOR: 0001</h1>
