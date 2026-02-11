@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 use App\Models\LogPedido;
 
 class Detpe extends Model {
@@ -94,11 +94,13 @@ class Detpe extends Model {
 
 	public static function booted() {
         parent::boot();
-		
 		static::saving(function($item) {
 			$orginal = $item->getRawOriginal();
 			$changed = [];
-			$user = auth()->user();
+			$user = Auth::user();
+			if (!$user) {
+				return;
+			}
 			foreach ($orginal as $key => $value) {
 				if ($item->{$key} != $value) {
 					array_push($changed, $key.': '.$value.' a '.$item->{$key});
@@ -117,7 +119,10 @@ class Detpe extends Model {
 		});
 
 		static::deleting(function($item) {
-			$user = auth()->user();
+			$user = Auth::user();
+			if (!$user) {
+				return;
+			}
 			LogPedido::create([
 				'user_id' 		=> $user->id,
 				'mnserie'		=> $item->MNSERIE,
