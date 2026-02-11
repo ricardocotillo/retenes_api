@@ -58,7 +58,7 @@
                     </tr>
                     <tr>
                         <td style="font-size: 9px; color: #0766ab">TELEFONO:</td>
-                        <td style="font-size: 9px;"></td>
+                        <td style="font-size: 9px;">{{ $telefono_1 }}</td>
                     </tr>
                 </tbody>
             </table>

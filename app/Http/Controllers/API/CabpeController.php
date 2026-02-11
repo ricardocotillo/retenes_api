@@ -618,6 +618,8 @@ class CabpeController extends Controller
             'localidad'       => $cabpes[0]->ccmcli->MLOCALID,
             'email'           => $cabpes[0]->ccmcli->MCORREO,
             'condicion'       => $cabpes[0]->ccmcpa->MABREVI,
+            'telefono_1'      => $cabpes[0]->ccmcli->MTELEF1,
+            'telefono_2'      => $cabpes[0]->ccmcli->MTELEF2,
             'articulos'       => $articulos,
             'total'           => $montoTotalFinal,
             'observaciones'   => $cabpes[0]->MOBSERV,
