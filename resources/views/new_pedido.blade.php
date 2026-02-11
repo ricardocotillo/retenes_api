@@ -129,6 +129,41 @@
                     <!-- end sub total -->
                 </tbody>
             </table>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div style="width: 40%;">
+                    <div style="padding-bottom: 4px; border-bottom: 1px solid #0766ab; margin-top: 16px; display: flex; justify-content: space-between; align-items: center;">
+                        <h1 style="margin: 0; font-size: 10px; color: #0766ab; font-weight: bold;">CONDICIONES DE VENTA</h1>
+                    </div>
+                    <ul style="font-size: 8.5px; padding-left: 12px;">
+                        <li><span style="color: #0766ab;">Moneda:</span> USD (Dólares estadounidenses)</li>
+                        <li><span style="color: #0766ab;">Precios:</span> Los precios indicados incluyen IGV</li>
+                        <li><span style="color: #0766ab;">Entrega:</span> Según fecha coordinada</li>
+                        <li><span style="color: #0766ab;">Tiempo de validez:</span> 15 días después de la fecha de emisión o fin de campaña</li>
+                    </ul>
+                </div>
+                <div style="width: 40%; display: flex; justify-content: flex-end;">
+                    <table style="width: 100%; border-collapse: collapse; border: 1px solid #e8e8e8;">
+                        <tbody>
+                            <tr>
+                                <td style="font-size: 9px; font-weight: bold; text-align: left; padding: 4px; border: 1px solid #e8e8e8;">TOTAL ATENDIDOS:</td>
+                                <td style="font-size: 9px; padding: 4px; text-align: right; border: 1px solid #e8e8e8;">$ 62.00</td>
+                            </tr>
+                            <tr>
+                                <td style="font-size: 9px; font-weight: bold; text-align: left; padding: 4px; border: 1px solid #e8e8e8;">TOTAL PENDIENTES:</td>
+                                <td style="font-size: 9px; padding: 4px; text-align: right; border: 1px solid #e8e8e8;">$ 62.00</td>
+                            </tr>
+                            <tr>
+                                <td style="font-size: 9px; font-weight: bold; text-align: left; padding: 4px; border: 1px solid #e8e8e8;">TOTAL ANULADO:</td>
+                                <td style="font-size: 9px; padding: 4px; text-align: right; border: 1px solid #e8e8e8;">$ 62.00</td>
+                            </tr>
+                            <tr style="background-color: #0766ab;">
+                                <td style="font-size: 9px; font-weight: bold; text-align: left; color: #ffffff; padding: 4px; border: 1px solid #e8e8e8;">TOTAL A PAGAR:</td>
+                                <td style="font-size: 9px; color: #ffffff; padding: 4px; text-align: right; border: 1px solid #e8e8e8;">$ 62.00</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </body>
 </html>
