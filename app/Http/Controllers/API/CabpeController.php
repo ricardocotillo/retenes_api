@@ -656,7 +656,7 @@ class CabpeController extends Controller
             $info = $this->get_pedido_info($cabpes);
         }
         PDF::setOptions(['debugPng' => true, 'unicode' => true]);
-        $document = PDF::loadView('attach.pedido', $info);
+        $document = PDF::loadView('attach.new_pedido', $info);
         return $download ? $document->download('pedido.pdf') : $document->output();
     }
 
