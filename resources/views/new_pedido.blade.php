@@ -28,6 +28,61 @@
                     </div>
                 </div>
             </div>
+            <div style="padding-bottom: 4px; border-bottom: 1px solid #0766ab; margin-top: 16px; display: flex; justify-content: space-between; align-items: center;">
+                <h1 style="margin: 0; font-size: 11px; color: #0766ab; font-weight: bold;">DATOS DEL CLIENTE</h1>
+                <p style="margin: 0; font-size: 7px;">FECHA DE PEDIDO: 09/01/2025</p>
+            </div>
+            <table>
+                <tbody>
+                    <tr>
+                        <td style="font-size: 9px; color: #0766ab">RUC:</td>
+                        <td style="font-size: 9px;">20525713599</td>
+                    </tr>
+                    <tr>
+                        <td style="font-size: 9px; color: #0766ab">CLIENTE:</td>
+                        <td style="font-size: 9px;">WILLY BUSCH</td>
+                    </tr>
+                    <tr>
+                        <td style="font-size: 9px; color: #0766ab">DIRECCIÓN:</td>
+                        <td style="font-size: 9px;">CAL UNION 377 AH JUAN VELASCO ALVARADO - SULLANA-PIURA</td>
+                    </tr>
+                    <tr>
+                        <td style="font-size: 9px; color: #0766ab">CORREO:</td>
+                        <td style="font-size: 9px;">mayco_cs1@hotmail.com</td>
+                    </tr>
+                    <tr>
+                        <td style="font-size: 9px; color: #0766ab">CORREO 2:</td>
+                        <td style="font-size: 9px;">mayco_cs1@hotmail.com</td>
+                    </tr>
+                    <tr>
+                        <td style="font-size: 9px; color: #0766ab">TELEFONO:</td>
+                        <td style="font-size: 9px;">955266565</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div style="padding-bottom: 4px; border-bottom: 1px solid #0766ab; margin-top: 4px; display: flex; justify-content: space-between; align-items: center;">
+                <h1 style="margin: 0; font-size: 11px; color: #0766ab; font-weight: bold;">DATOS ADICIONALES</h1>
+            </div>
+            <table>
+                <tbody>
+                    <tr>
+                        <td style="font-size: 9px; color: #0766ab">COND. PAGO:</td>
+                        <td style="font-size: 9px;">LET. 60 DÍAS</td>
+                    </tr>
+                    <tr>
+                        <td style="font-size: 9px; color: #0766ab">TRANSPORTE:</td>
+                        <td style="font-size: 9px;">20498189637 - AREQUIPA EXPRESO MARVISUR EIRL</td>
+                    </tr>
+                    <tr>
+                        <td style="font-size: 9px; color: #0766ab">OBSERVACIÓN:</td>
+                        <td style="font-size: 9px;">Cliente ya tiene letras Aceptadas</td>
+                    </tr>
+                    <tr>
+                        <td style="font-size: 9px; color: #0766ab">FECHA DESP.:</td>
+                        <td style="font-size: 9px;">09/01/2025</td>
+                    </tr>
+                </tbody>
+            </table>
             <h1 style="color: #000000; font-size: 10px; margin-bottom: 0;">COD. VENDEDOR: 0001</h1>
             <table style="border-collapse: collapse; width: 100%; table-layout: fixed;">
                 <colgroup>
