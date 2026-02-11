@@ -1,16 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
+<html>
     <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+        <meta charset="UTF-8">>
     </head>
     <body style="font-family: 'Open Sans', sans-serif; margin: 0; padding: 0;">
         <div style="width: 190mm; max-width: 190mm; margin: 0 auto; box-sizing: border-box;">
             <div style="display: flex; gap: 24px; align-items: flex-end;">
                 <div style="width: 60%;">
-                    <div style="text-align: center; color: #fefdfe; font-size: 16.3px; background-color: #0766ab; padding: 10px; border-bottom: 1px solid #ffffff; padding-top: 16px;">R250-035238</div>
+                    <div style="text-align: center; color: #fefdfe; font-size: 16.3px; background-color: #0766ab; padding: 10px; border-bottom: 1px solid #ffffff; padding-top: 16px;">{{ $mnroped }}</div>
                     <div style="text-align: center; color: #fefdfe; font-size: 29px; background-color: #0766ab; padding: 10px; padding-bottom: 16px;">COTIZACIÓN</div>
                 </div>
                 <div style="width: 40%; display: flex; justify-content: space-between; align-items: center;">
@@ -21,16 +17,22 @@
                     @endif
                     <div>
                         <h1 style="margin: 0; font-size: 16.8px;">WILLY BUSCH</h1>
-                        <h2 style="margin: 0; font-size: 12.9px;">20100674301</h2>
-                        <p style="margin: 0; font-size: 8.3px;">CALLE SANTA LUCIA 170 Ate - Lima - Perú</p>
-                        <p style="margin: 0; font-size: 8.3px;">retenes@willybusch.com.pe</p>
-                        <p style="margin: 0; font-size: 8.3px;">www.willybusch.com.pe</p>
+                        <h2 style="margin: 0; font-size: 12.9px;">
+                            @if ($flavor == 'filtros')
+                                20100675537
+                            @else
+                                20100674301
+                            @endif
+                        </h2>
+                        <p style="margin: 0; font-size: 8.3px;">@if ($flavor == 'filtros') Av. Santa Maria 135 Urb. Industrial - Ate - Lima- Perú @else CALLE SANTA LUCIA 170 Ate - Lima - Perú @endif</p>
+                        <p style="margin: 0; font-size: 8.3px;">@if ($flavor == 'filtros') filtros@filtroswillybusch.com.pe @else retenes@willybusch.com.pe @endif</p>
+                        <p style="margin: 0; font-size: 8.3px;">@if ($flavor == 'filtros') www.filtroswillybusch.com.pe @else www.willybusch.com.pe @endif</p>
                     </div>
                 </div>
             </div>
             <div style="padding-bottom: 4px; border-bottom: 1px solid #0766ab; margin-top: 16px; display: flex; justify-content: space-between; align-items: center;">
                 <h1 style="margin: 0; font-size: 11px; color: #0766ab; font-weight: bold;">DATOS DEL CLIENTE</h1>
-                <p style="margin: 0; font-size: 7px;">FECHA DE PEDIDO: 09/01/2025</p>
+                <p style="margin: 0; font-size: 7px;">FECHA DE PEDIDO: {{ $fecha }}</p>
             </div>
             <table>
                 <tbody>
