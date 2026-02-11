@@ -165,19 +165,26 @@
                         <tbody>
                             <tr>
                                 <td style="font-size: 9px; font-weight: bold; text-align: left; padding: 4px; border: 1px solid #e8e8e8;">TOTAL ATENDIDOS:</td>
-                                <td style="font-size: 9px; padding: 4px; text-align: right; border: 1px solid #e8e8e8;">$ 62.00</td>
+                                <td style="font-size: 9px; padding: 4px; text-align: right; border: 1px solid #e8e8e8;">@if ($flavor == 'filtros') S/ @else $ @endif {{ number_format($total_atendido, 2, '.', '') }}</td>
                             </tr>
                             <tr>
                                 <td style="font-size: 9px; font-weight: bold; text-align: left; padding: 4px; border: 1px solid #e8e8e8;">TOTAL PENDIENTES:</td>
-                                <td style="font-size: 9px; padding: 4px; text-align: right; border: 1px solid #e8e8e8;">$ 62.00</td>
+                                <td style="font-size: 9px; padding: 4px; text-align: right; border: 1px solid #e8e8e8;">@if ($flavor == 'filtros') S/ @else $ @endif {{ number_format($total_pendiente, 2, '.', '') }}</td>
                             </tr>
                             <tr>
                                 <td style="font-size: 9px; font-weight: bold; text-align: left; padding: 4px; border: 1px solid #e8e8e8;">TOTAL ANULADO:</td>
-                                <td style="font-size: 9px; padding: 4px; text-align: right; border: 1px solid #e8e8e8;">$ 62.00</td>
+                                <td style="font-size: 9px; padding: 4px; text-align: right; border: 1px solid #e8e8e8;">@if ($flavor == 'filtros') S/ @else $ @endif {{ number_format($total_anulado, 2, '.', '') }}</td>
                             </tr>
                             <tr style="background-color: #0766ab;">
                                 <td style="font-size: 9px; font-weight: bold; text-align: left; color: #ffffff; padding: 4px; border: 1px solid #e8e8e8;">TOTAL A PAGAR:</td>
-                                <td style="font-size: 9px; color: #ffffff; padding: 4px; text-align: right; border: 1px solid #e8e8e8;">$ 62.00</td>
+                                <td style="font-size: 9px; color: #ffffff; padding: 4px; text-align: right; border: 1px solid #e8e8e8;">
+                                    @if ($flavor == 'filtros') S/ @else $ @endif
+                                    @if ($total_atendido + $total_pendiente + $total_anulado == 0)
+                                        {{ number_format($total, 2, '.', '') }}
+                                    @else
+                                        {{ number_format($total_atendido, 2, '.', '') }}
+                                    @endif
+                                </td>
                             </tr>
                         </tbody>
                     </table>
