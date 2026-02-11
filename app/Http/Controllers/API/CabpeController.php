@@ -443,8 +443,7 @@ class CabpeController extends Controller
         $cabpe->save();
     }
 
-    private function order_cabpes($cabpes)
-    {
+    private function order_cabpes($cabpes) {
         $articulos = array();
 
         foreach ($cabpes as $cabpe) {
@@ -715,7 +714,7 @@ class CabpeController extends Controller
     public function send_email(Request $request, string $mnserie, string $mnroped)
     {
         $estado = $request->input('estado');
-        $cabpes = Cabpe::with(['detpe', 'detpe.famdfas', 'ccmtrs', 'ccmcli', 'ccmcpa', 'values', 'instalments'])->where('MNSERIE', $mnserie)->where('MNROPED', $mnroped)->get();
+        $cabpes = Cabpe::with(['detpe', 'detpe.articulo', 'detpe.famdfas', 'ccmtrs', 'ccmcli', 'ccmcpa', 'values', 'instalments'])->where('MNSERIE', $mnserie)->where('MNROPED', $mnroped)->get();
         $data = array('nombre' => $cabpes[0]->ccmcli->MNOMBRE);
 
 
