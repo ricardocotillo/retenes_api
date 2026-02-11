@@ -129,7 +129,7 @@
                                     <td style="padding: 10px; border: 1px solid #e8e8e8; text-align: center; word-break: break-word; overflow-wrap: break-word;">{{ $v['MCODART'] }}</td>
                                     <td style="padding: 10px; border: 1px solid #e8e8e8; text-align: center; word-break: break-word; overflow-wrap: break-word;">{{ $v['MCANTIDAD'] }}</td>
                                     <td style="padding: 10px; border: 1px solid #e8e8e8; text-align: left; word-break: break-word; overflow-wrap: break-word;">{{ $v['MDESCRI01'] }}</td>
-                                    <td style="padding: 10px; border: 1px solid #e8e8e8; text-align: center; word-break: break-word; overflow-wrap: break-word;">10.50-20.30-3.50</td>
+                                    <td style="padding: 10px; border: 1px solid #e8e8e8; text-align: center; word-break: break-word; overflow-wrap: break-word;">{{ $v['articulo']['MDIM_INT1'] }}-{{ $v['articulo']['MDIM_EXT1'] }}-{{ $v['articulo']['MDIM_ALT1'] }}</td>
                                     <td style="padding: 10px; border: 1px solid #e8e8e8; text-align: center; word-break: break-word; overflow-wrap: break-word;">{{ $v['item_state'] }}</td>
                                     <td style="padding: 10px; border: 1px solid #e8e8e8; text-align: center; word-break: break-word; overflow-wrap: break-word;">0.00</td>
                                     <td style="padding: 10px; border: 1px solid #e8e8e8; text-align: center; word-break: break-word; overflow-wrap: break-word;"></td>
@@ -154,7 +154,7 @@
                         <h1 style="margin: 0; font-size: 10px; color: #0766ab; font-weight: bold;">CONDICIONES DE VENTA</h1>
                     </div>
                     <ul style="font-size: 8.5px; padding-left: 12px;">
-                        <li><span style="color: #0766ab;">Moneda:</span> USD (Dólares estadounidenses)</li>
+                        <li><span style="color: #0766ab;">Moneda:</span>@if ($flavor == 'filtros') PEN @else USD (Dólares estadounidenses) @endif</li>
                         <li><span style="color: #0766ab;">Precios:</span> Los precios indicados incluyen IGV</li>
                         <li><span style="color: #0766ab;">Entrega:</span> Según fecha coordinada</li>
                         <li><span style="color: #0766ab;">Tiempo de validez:</span> 15 días después de la fecha de emisión o fin de campaña</li>
