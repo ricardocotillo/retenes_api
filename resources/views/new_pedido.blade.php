@@ -38,27 +38,27 @@
                 <tbody>
                     <tr>
                         <td style="font-size: 9px; color: #0766ab">RUC:</td>
-                        <td style="font-size: 9px;">20525713599</td>
+                        <td style="font-size: 9px;">{{ $ruc }}</td>
                     </tr>
                     <tr>
                         <td style="font-size: 9px; color: #0766ab">CLIENTE:</td>
-                        <td style="font-size: 9px;">WILLY BUSCH</td>
+                        <td style="font-size: 9px;">{{ $cliente }}</td>
                     </tr>
                     <tr>
                         <td style="font-size: 9px; color: #0766ab">DIRECCIÓN:</td>
-                        <td style="font-size: 9px;">CAL UNION 377 AH JUAN VELASCO ALVARADO - SULLANA-PIURA</td>
+                        <td style="font-size: 9px;">{{ $direccion }} - {{ $localidad }}</td>
                     </tr>
                     <tr>
                         <td style="font-size: 9px; color: #0766ab">CORREO:</td>
-                        <td style="font-size: 9px;">mayco_cs1@hotmail.com</td>
+                        <td style="font-size: 9px;">{{ $email }}</td>
                     </tr>
                     <tr>
                         <td style="font-size: 9px; color: #0766ab">CORREO 2:</td>
-                        <td style="font-size: 9px;">mayco_cs1@hotmail.com</td>
+                        <td style="font-size: 9px;">{{ $email }}</td>
                     </tr>
                     <tr>
                         <td style="font-size: 9px; color: #0766ab">TELEFONO:</td>
-                        <td style="font-size: 9px;">955266565</td>
+                        <td style="font-size: 9px;"></td>
                     </tr>
                 </tbody>
             </table>
