@@ -190,37 +190,22 @@
                     </table>
                 </div>
             </div>
-            @if (count($instalments) > 0)
+            @if ($total_instalments > 0)
                 <div>
                     <div style="width: 50%; padding-bottom: 4px; border-bottom: 1px solid #0766ab; margin-top: 16px; display: flex; justify-content: space-between; align-items: center;">
-                        <h1 style="margin: 0; font-size: 10px; color: #0766ab; font-weight: bold;">VENCIMIENTO: {{ count($instalments) }} CUOTA(S)</h1>
+                        <h1 style="margin: 0; font-size: 10px; color: #0766ab; font-weight: bold;">VENCIMIENTO: {{ $total_instalments }} CUOTA(S)</h1>
                     </div>
                 </div>
                 <table style="width: 100%; border-collapse: collapse;">
                     <tbody>
                         <tr style="font-size: 8px;">
-                            <td style="padding: 4px; text-align: center;">2026-01-09: $ 1187.2000</td>
-                            <td style="padding: 4px; text-align: center;">2026-01-09: $ 1187.2000</td>
-                            <td style="padding: 4px; text-align: center;">2026-01-09: $ 1187.2000</td>
-                            <td style="padding: 4px; text-align: center;">2026-01-09: $ 1187.2000</td>
-                        </tr>
-                        <tr style="font-size: 8px;">
-                            <td style="padding: 4px; text-align: center;">2026-01-09: $ 1187.2000</td>
-                            <td style="padding: 4px; text-align: center;">2026-01-09: $ 1187.2000</td>
-                            <td style="padding: 4px; text-align: center;">2026-01-09: $ 1187.2000</td>
-                            <td style="padding: 4px; text-align: center;">2026-01-09: $ 1187.2000</td>
-                        </tr>
-                        <tr style="font-size: 8px;">
-                            <td style="padding: 4px; text-align: center;">2026-01-09: $ 1187.2000</td>
-                            <td style="padding: 4px; text-align: center;">2026-01-09: $ 1187.2000</td>
-                            <td style="padding: 4px; text-align: center;">2026-01-09: $ 1187.2000</td>
-                            <td style="padding: 4px; text-align: center;">2026-01-09: $ 1187.2000</td>
-                        </tr>
-                        <tr style="font-size: 8px;">
-                            <td style="padding: 4px; text-align: center;">2026-01-09: $ 1187.2000</td>
-                            <td style="padding: 4px; text-align: center;">2026-01-09: $ 1187.2000</td>
-                            <td style="padding: 4px; text-align: center;">2026-01-09: $ 1187.2000</td>
-                            <td style="padding: 4px; text-align: center;">2026-01-09: $ 1187.2000</td>
+                            @foreach ($instalments as $inst)
+                                <td style="padding: 4px; text-align: center;">
+                                    @foreach ($inst as $i)
+                                        <p>{{ $i->date }}: @if ($flavor == 'filtros') S/ @else $ @endif {{ $i->amount }}</p>
+                                    @endforeach
+                                </td>
+                            @endforeach
                         </tr>
                     </tbody>
                 </table>

@@ -607,6 +607,7 @@ class CabpeController extends Controller
             $montoTotalFinal = $montoTotalFinal + $cabpe->precio_neto;
         }
         $mnroped = $cabpes[0]->MNSERIE . '-' . $cabpes[0]->MNROPED;
+        $instalments = $cabpes[0]->instalments()->get();
         $info = [
             'fecha'           => date('d/m/Y'),
             'periodo'         => date('Y/m'),
@@ -624,7 +625,8 @@ class CabpeController extends Controller
             'transporte'      => $cabpes[0]->ccmtrs->MCODTRSP,
             'nametrans'       => $cabpes[0]->ccmtrs->MNOMBRE,
             'values'          => $cabpes[0]->values,
-            'instalments'     => $cabpes[0]->instalments()->get()->split(4)->all(),
+            'instalments'     => $instalments->split(4)->all(),
+            'total_instalments' => $instalments->count(),
             'total_atendido'  => $cabpes->map(function ($c) {
                 return $c->totalByState('atendido') + $c->totalByState('parcial');
             })->sum(),
