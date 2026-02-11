@@ -69,19 +69,19 @@
                 <tbody>
                     <tr>
                         <td style="font-size: 9px; color: #0766ab">COND. PAGO:</td>
-                        <td style="font-size: 9px;">LET. 60 DÍAS</td>
+                        <td style="font-size: 9px;">{{ $condicion }}</td>
                     </tr>
                     <tr>
                         <td style="font-size: 9px; color: #0766ab">TRANSPORTE:</td>
-                        <td style="font-size: 9px;">20498189637 - AREQUIPA EXPRESO MARVISUR EIRL</td>
+                        <td style="font-size: 9px;">{{ $transporte }} - {{ $nametrans }}</td>
                     </tr>
                     <tr>
                         <td style="font-size: 9px; color: #0766ab">OBSERVACIÓN:</td>
-                        <td style="font-size: 9px;">Cliente ya tiene letras Aceptadas</td>
+                        <td style="font-size: 9px;">{{ $observaciones }}</td>
                     </tr>
                     <tr>
                         <td style="font-size: 9px; color: #0766ab">FECHA DESP.:</td>
-                        <td style="font-size: 9px;">09/01/2025</td>
+                        <td style="font-size: 9px;"></td>
                     </tr>
                 </tbody>
             </table>
