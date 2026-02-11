@@ -16,7 +16,7 @@
                         <img style="height: 90px; width: 90px;" src="{{ 'data:image/jpeg;base64,'.base64_encode(file_get_contents('http://willybusch.com.pe/logos/retenes_logo.png')) }}" width="100" height="100" id="logo">
                     @endif
                     <div>
-                        <h1 style="margin: 0; font-size: 16.8px;">WILLY BUSCH</h1>
+                        <h1 style="margin: 0; font-size: 16.8px;">@if ($flavor == 'filtros') INDUSTRIAS @endif WILLY BUSCH</h1>
                         <h2 style="margin: 0; font-size: 12.9px;">
                             @if ($flavor == 'filtros')
                                 20100675537
