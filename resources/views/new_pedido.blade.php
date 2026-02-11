@@ -85,52 +85,70 @@
                     </tr>
                 </tbody>
             </table>
-            <h1 style="color: #000000; font-size: 10px; margin-bottom: 0;">COD. VENDEDOR: 0001</h1>
-            <table style="border-collapse: collapse; width: 100%; table-layout: fixed;">
-                <colgroup>
-                    <col style="width: 9%;">
-                    <col style="width: 9%;">
-                    <col style="width: 31%;">
-                    <col style="width: 16%;">
-                    <col style="width: 8%;">
-                    <col style="width: 10%;">
-                    <col style="width: 10%;">
-                    <col style="width: 7%;">
-                </colgroup>
-                <thead style="color: #ffffff; background-color: #0766ab; font-weight: 600; font-size: 8px;">
-                    <tr>
-                        <th style="padding: 10px; border: 1px solid #e8e8e8; word-break: break-word; overflow-wrap: break-word;">CÓDIGO</th>
-                        <th style="padding: 10px; border: 1px solid #e8e8e8; word-break: break-word; overflow-wrap: break-word;">CANTIDAD</th>
-                        <th style="padding: 10px; border: 1px solid #e8e8e8; word-break: break-word; overflow-wrap: break-word;">DESCRIPCIÓN</th>
-                        <th style="padding: 10px; border: 1px solid #e8e8e8; word-break: break-word; overflow-wrap: break-word;">MEDIDAS INT-EXT-ALT</th>
-                        <th style="padding: 10px; border: 1px solid #e8e8e8; word-break: break-word; overflow-wrap: break-word;">ESTADO</th>
-                        <th style="padding: 10px; border: 1px solid #e8e8e8; word-break: break-word; overflow-wrap: break-word;">PRECIO UNITARIO</th>
-                        <th style="padding: 10px; border: 1px solid #e8e8e8; word-break: break-word; overflow-wrap: break-word;">DESCUENTO</th>
-                        <th style="padding: 10px; border: 1px solid #e8e8e8; word-break: break-word; overflow-wrap: break-word;">TOTAL</th>
-                    </tr>
-                </thead>
-                <tbody style="font-size: 8px;">
-                    <!-- start loop -->
-                    <tr>
-                        <td style="padding: 10px; border: 1px solid #e8e8e8; text-align: center; word-break: break-word; overflow-wrap: break-word;">066620KN</td>
-                        <td style="padding: 10px; border: 1px solid #e8e8e8; text-align: center; word-break: break-word; overflow-wrap: break-word;">20</td>
-                        <td style="padding: 10px; border: 1px solid #e8e8e8; text-align: left; word-break: break-word; overflow-wrap: break-word;">RETEN WB KIT TAPA BUJIA TOYOTA 5A/4A/5S/4S(4 PZAS)</td>
-                        <td style="padding: 10px; border: 1px solid #e8e8e8; text-align: center; word-break: break-word; overflow-wrap: break-word;">10.50-20.30-3.50</td>
-                        <td style="padding: 10px; border: 1px solid #e8e8e8; text-align: center; word-break: break-word; overflow-wrap: break-word;">Espera</td>
-                        <td style="padding: 10px; border: 1px solid #e8e8e8; text-align: center; word-break: break-word; overflow-wrap: break-word;">3.10</td>
-                        <td style="padding: 10px; border: 1px solid #e8e8e8; text-align: center; word-break: break-word; overflow-wrap: break-word;">15+20+4%</td>
-                        <td style="padding: 10px; border: 1px solid #e8e8e8; text-align: center; word-break: break-word; overflow-wrap: break-word;">62.00</td>
-                    </tr>
-                    <!-- end loop -->
-                    <!-- sub total -->
-                    <tr>
-                        <td colspan="5"></td>
-                        <td colspan="2" style="padding: 10px; border: 1px solid #e8e8e8; text-align: center; background-color: #0766ab; font-weight: bold; color: #ffffff; border-right: none; font-size: 8.5px;">SUBTOTAL</td>
-                        <td colspan="1" style="padding: 10px; border: 1px solid #e8e8e8; text-align: center; background-color: #0766ab; font-weight: bold; color: #ffffff; border-left: none; font-size: 8.5px;">$ 62.00</td>
-                    </tr>
-                    <!-- end sub total -->
-                </tbody>
-            </table>
+            @foreach ($articulos as $key => $value)
+                <h1 style="color: #000000; font-size: 10px; margin-bottom: 0;">COD. VENDEDOR: {{ $key }}</h1>
+                <table style="border-collapse: collapse; width: 100%; table-layout: fixed;">
+                    <colgroup>
+                        <col style="width: 9%;">
+                        <col style="width: 9%;">
+                        <col style="width: 31%;">
+                        <col style="width: 16%;">
+                        <col style="width: 8%;">
+                        <col style="width: 10%;">
+                        <col style="width: 10%;">
+                        <col style="width: 7%;">
+                    </colgroup>
+                    <thead style="color: #ffffff; background-color: #0766ab; font-weight: 600; font-size: 8px;">
+                        <tr>
+                            <th style="padding: 10px; border: 1px solid #e8e8e8; word-break: break-word; overflow-wrap: break-word;">CÓDIGO</th>
+                            <th style="padding: 10px; border: 1px solid #e8e8e8; word-break: break-word; overflow-wrap: break-word;">CANTIDAD</th>
+                            <th style="padding: 10px; border: 1px solid #e8e8e8; word-break: break-word; overflow-wrap: break-word;">DESCRIPCIÓN</th>
+                            <th style="padding: 10px; border: 1px solid #e8e8e8; word-break: break-word; overflow-wrap: break-word;">MEDIDAS INT-EXT-ALT</th>
+                            <th style="padding: 10px; border: 1px solid #e8e8e8; word-break: break-word; overflow-wrap: break-word;">ESTADO</th>
+                            <th style="padding: 10px; border: 1px solid #e8e8e8; word-break: break-word; overflow-wrap: break-word;">PRECIO UNITARIO</th>
+                            <th style="padding: 10px; border: 1px solid #e8e8e8; word-break: break-word; overflow-wrap: break-word;">DESCUENTO</th>
+                            <th style="padding: 10px; border: 1px solid #e8e8e8; word-break: break-word; overflow-wrap: break-word;">TOTAL</th>
+                        </tr>
+                    </thead>
+                    <tbody style="font-size: 8px;">
+                        <!-- start loop -->
+                        @foreach ($value as $v)
+                            @if ($v['MCODDFA'] != 'Bono')
+                                <tr>
+                                    <td style="padding: 10px; border: 1px solid #e8e8e8; text-align: center; word-break: break-word; overflow-wrap: break-word;">{{ $v['MCODART'] }}</td>
+                                    <td style="padding: 10px; border: 1px solid #e8e8e8; text-align: center; word-break: break-word; overflow-wrap: break-word;">{{ $v['MCANTIDAD'] }}</td>
+                                    <td style="padding: 10px; border: 1px solid #e8e8e8; text-align: left; word-break: break-word; overflow-wrap: break-word;">{{ $v['MDESCRI01'] }}</td>
+                                    <td style="padding: 10px; border: 1px solid #e8e8e8; text-align: center; word-break: break-word; overflow-wrap: break-word;">10.50-20.30-3.50</td>
+                                    <td style="padding: 10px; border: 1px solid #e8e8e8; text-align: center; word-break: break-word; overflow-wrap: break-word;">{{ $v['item_state'] }}</td>
+                                    <td style="padding: 10px; border: 1px solid #e8e8e8; text-align: center; word-break: break-word; overflow-wrap: break-word;">{{ number_format($v['MPRECIO'], 2, '.', '') }}</td>
+                                    <td style="padding: 10px; border: 1px solid #e8e8e8; text-align: center; word-break: break-word; overflow-wrap: break-word;">{{ $v['descrip'] }}</td>
+                                    <td style="padding: 10px; border: 1px solid #e8e8e8; text-align: center; word-break: break-word; overflow-wrap: break-word;">{{ number_format($v['precio_neto'], 2, '.', '') }}</td>
+                                </tr>
+                            @else
+                                <tr>
+                                    <td style="padding: 10px; border: 1px solid #e8e8e8; text-align: center; word-break: break-word; overflow-wrap: break-word;">{{ $v['MCODART'] }}</td>
+                                    <td style="padding: 10px; border: 1px solid #e8e8e8; text-align: center; word-break: break-word; overflow-wrap: break-word;">{{ $v['MCANTIDAD'] }}</td>
+                                    <td style="padding: 10px; border: 1px solid #e8e8e8; text-align: left; word-break: break-word; overflow-wrap: break-word;">{{ $v['MDESCRI01'] }}</td>
+                                    <td style="padding: 10px; border: 1px solid #e8e8e8; text-align: center; word-break: break-word; overflow-wrap: break-word;">10.50-20.30-3.50</td>
+                                    <td style="padding: 10px; border: 1px solid #e8e8e8; text-align: center; word-break: break-word; overflow-wrap: break-word;">{{ $v['item_state'] }}</td>
+                                    <td style="padding: 10px; border: 1px solid #e8e8e8; text-align: center; word-break: break-word; overflow-wrap: break-word;">0.00</td>
+                                    <td style="padding: 10px; border: 1px solid #e8e8e8; text-align: center; word-break: break-word; overflow-wrap: break-word;"></td>
+                                    <td style="padding: 10px; border: 1px solid #e8e8e8; text-align: center; word-break: break-word; overflow-wrap: break-word;">0.00</td>
+                                </tr>
+
+                            @endif
+                        @endforeach
+                        <!-- end loop -->
+                        <!-- sub total -->
+                        <tr>
+                            <td colspan="5"></td>
+                            <td colspan="2" style="padding: 10px; border: 1px solid #e8e8e8; text-align: center; background-color: #0766ab; font-weight: bold; color: #ffffff; border-right: none; font-size: 8.5px;">SUBTOTAL</td>
+                            <td colspan="1" style="padding: 10px; border: 1px solid #e8e8e8; text-align: center; background-color: #0766ab; font-weight: bold; color: #ffffff; border-left: none; font-size: 8.5px;">$ 62.00</td>
+                        </tr>
+                        <!-- end sub total -->
+                    </tbody>
+                </table>
+            @endforeach
             <div style="display: flex; justify-content: space-between; align-items: center;">
                 <div style="width: 40%;">
                     <div style="padding-bottom: 4px; border-bottom: 1px solid #0766ab; margin-top: 16px; display: flex; justify-content: space-between; align-items: center;">
