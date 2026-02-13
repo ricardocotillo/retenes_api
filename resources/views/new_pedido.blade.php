@@ -7,7 +7,7 @@
             <div style="display: flex; gap: 24px; align-items: flex-end;">
                 <div style="width: 60%;">
                     <div style="text-align: center; color: #fefdfe; font-size: 16.3px; background-color: #0766ab; padding: 10px; border-bottom: 1px solid #ffffff; padding-top: 16px;">{{ $mnroped }}</div>
-                    <div style="text-align: center; color: #fefdfe; font-size: 29px; background-color: #0766ab; padding: 10px; padding-bottom: 16px;">COTIZACIÓN</div>
+                    <div style="text-align: center; color: #fefdfe; font-size: 29px; background-color: #0766ab; padding: 10px; padding-bottom: 16px;">@if ($email_type == 'note') NOTA DE PEDIDO @else COTIZACIÓN @endif</div>
                 </div>
                 <div style="width: 40%; display: flex; justify-content: space-between; align-items: center;">
                     @if ($flavor == 'filtros')

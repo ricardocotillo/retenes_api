@@ -716,6 +716,7 @@ class CabpeController extends Controller
     public function send_email(Request $request, string $mnserie, string $mnroped)
     {
         $estado = $request->input('estado');
+        $email_type = $request->input('email_type');
         $cabpes = Cabpe::with(['detpe', 'detpe.articulo', 'detpe.famdfas', 'ccmtrs', 'ccmcli', 'ccmcpa', 'values', 'instalments'])->where('MNSERIE', $mnserie)->where('MNROPED', $mnroped)->get();
         $data = array('nombre' => $cabpes[0]->ccmcli->MNOMBRE);
 
@@ -725,6 +726,7 @@ class CabpeController extends Controller
 
         $recep = config('app.flavor') == 'filtros' ? 'pedidos01_iwb@filtroswillybusch.com.pe' : 'pedidos01_wb@willybusch.com.pe';
         $info = $this->get_pedido_info($cabpes);
+        $info['email_type'] = $email_type;
         $output = $this->generate_pdf($cabpes, $info, false);
 
         $txt_output = $this->generate_txt($cabpes);
