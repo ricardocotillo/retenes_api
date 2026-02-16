@@ -288,10 +288,10 @@
 		<td align="left" valign=bottom><br></td>
     <td colspan=3 align="center" valign=bottom></td>
     <td align="left" valign=bottom><br></td>
-    <td style="border-top: 2px solid #000000; border-bottom: 2px solid #000000; border-left: 2px solid #000000; border-right: 2px solid #000000" colspan="3" align="center" valign=bottom sdnum="1033;0;@">
+    <td class="bt2" colspan="3" align="center" valign=bottom>
       <b>TOTAL ATENDIDO</b>
     </td>
-    <td style="border-top: 2px solid #000000; border-bottom: 2px solid #000000; border-left: 2px solid #000000; border-right: 2px solid #000000" colspan="3" align="right" valign=bottom>
+    <td class="bt2" colspan="3" align="right" valign=bottom>
       <b>{{ number_format($total_atendido, 2, '.', '') }}</b>
     </td>
   </tr>
@@ -301,10 +301,10 @@
 		<td align="left" valign=bottom><br></td>
     <td colspan=3 align="center" valign=bottom></td>
     <td align="left" valign=bottom><br></td>
-    <td style="border-top: 2px solid #000000; border-bottom: 2px solid #000000; border-left: 2px solid #000000; border-right: 2px solid #000000" colspan="3" align="center" valign=bottom sdnum="1033;0;@">
+    <td class="bt2" colspan="3" align="center" valign=bottom>
       <b>TOTAL PENDIENTE</b>
     </td>
-    <td style="border-top: 2px solid #000000; border-bottom: 2px solid #000000; border-left: 2px solid #000000; border-right: 2px solid #000000" colspan="3" align="right" valign=bottom>
+    <td class="bt2" colspan="3" align="right" valign=bottom>
       <b>{{ number_format($total_pendiente, 2, '.', '') }}</b>
     </td>
   </tr>
@@ -314,10 +314,10 @@
 		<td align="left" valign=bottom><br></td>
     <td colspan=3 align="center" valign=bottom></td>
     <td align="left" valign=bottom><br></td>
-    <td style="border-top: 2px solid #000000; border-bottom: 2px solid #000000; border-left: 2px solid #000000; border-right: 2px solid #000000" colspan="3" align="center" valign=bottom sdnum="1033;0;@">
+    <td class="bt2" colspan="3" align="center" valign=bottom>
       <b>TOTAL ANULADO</b>
     </td>
-    <td style="border-top: 2px solid #000000; border-bottom: 2px solid #000000; border-left: 2px solid #000000; border-right: 2px solid #000000" colspan="3" align="right" valign=bottom>
+    <td class="bt2" colspan="3" align="right" valign=bottom>
       <b>{{ number_format($total_anulado, 2, '.', '') }}</b>
     </td>
   </tr>
@@ -327,10 +327,10 @@
 		<td align="left" valign=bottom><br></td>
     <td colspan=3 align="center" valign=bottom></td>
     <td align="left" valign=bottom><br></td>
-    <td style="border-top: 2px solid #000000; border-bottom: 2px solid #000000; border-left: 2px solid #000000; border-right: 2px solid #000000" colspan="3" align="center" valign=bottom sdnum="1033;0;@">
+    <td class="bt2" colspan="3" align="center" valign=bottom>
       <b>TOTAL A PAGAR</b>
     </td>
-    <td style="border-top: 2px solid #000000; border-bottom: 2px solid #000000; border-left: 2px solid #000000; border-right: 2px solid #000000" colspan="3" align="right" valign=bottom>
+    <td class="bt2" colspan="3" align="right" valign=bottom>
       <b>
         <font size=3>
 			@if ($flavor == 'filtros')

@@ -654,7 +654,7 @@ class CabpeController extends Controller
         if (!$info) {
             $info = $this->get_pedido_info($cabpes);
         }
-        PDF::setOptions(['debugPng' => true, 'unicode' => true]);
+        PDF::setOptions(['unicode' => true]);
         $document = PDF::loadView('attach.pedido', $info);
         return $download ? $document->download('pedido.pdf') : $document->output();
     }
@@ -672,7 +672,7 @@ class CabpeController extends Controller
         if (!$info) {
             $info = $this->get_pedido_info($cabpes);
         }
-        PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true, 'debugPng' => true, 'defaultFont' => 'sans-serif']);
+        PDF::setOptions(['isHtml5ParserEnabled' => true, 'defaultFont' => 'sans-serif']);
         $document1 = PDF::loadView('attach.ped_almacen', $info);
         return $download ? $document1->download('ped_almacen.pdf') : $document1->output();
     }
