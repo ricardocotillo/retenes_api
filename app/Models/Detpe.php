@@ -177,8 +177,7 @@ class Detpe extends Model {
 
 	public function getDescripAttribute()
 	{
-		$display = '';
-		$famdfas = $this->famdfas()->get();
+		$famdfas = $this->famdfas;
 		$mdescrip = $famdfas->pluck('MDESCRIP');
 		$mdescrip = $mdescrip->map(function ($m, $k) {
 			return str_replace('%', '', trim($m));

@@ -11,9 +11,9 @@
                 </div>
                 <div style="width: 40%; display: flex; justify-content: space-between; align-items: center;">
                     @if ($flavor == 'filtros')
-                        <img style="height: 90px; width: 90px;" src="{{ 'data:image/jpeg;base64,'.base64_encode(file_get_contents('http://filtroswillybusch.com.pe/logo/filtros_logo.png')) }}" width="100" height="100" id="logo">
+                        <img style="height: 90px; width: 90px;" src="{{ 'data:image/png;base64,'.base64_encode(file_get_contents(public_path('images/filtros_logo.png'))) }}" width="100" height="100" id="logo">
                     @else
-                        <img style="height: 90px; width: 90px;" src="{{ 'data:image/jpeg;base64,'.base64_encode(file_get_contents('http://willybusch.com.pe/logos/retenes_logo.png')) }}" width="100" height="100" id="logo">
+                        <img style="height: 90px; width: 90px;" src="{{ 'data:image/png;base64,'.base64_encode(file_get_contents(public_path('images/retenes_logo.png'))) }}" width="100" height="100" id="logo">
                     @endif
                     <div>
                         <h1 style="margin: 0; font-size: 16.8px;">@if ($flavor == 'filtros') INDUSTRIAS @endif WILLY BUSCH</h1>

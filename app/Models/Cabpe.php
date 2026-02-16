@@ -231,7 +231,7 @@ class Cabpe extends Model
 	}
 
 	public function getPrecioNetoAttribute() {
-		$price = $this->detpe()->get()->pluck('precio_neto');
+		$price = $this->detpe->pluck('precio_neto');
 		$price = $price->sum();
 		return $price;
 	}

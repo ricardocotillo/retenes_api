@@ -15,9 +15,9 @@
                             <tr>
                                 <td style="vertical-align: middle; width: 90px;">
                                     @if ($flavor == 'filtros')
-                                        <img style="height: 90px; width: 90px;" src="{{ 'data:image/jpeg;base64,'.base64_encode(file_get_contents('http://filtroswillybusch.com.pe/logo/filtros_logo.png')) }}" width="100" height="100" id="logo">
+                                        <img style="height: 90px; width: 90px;" src="{{ 'data:image/png;base64,'.base64_encode(file_get_contents(public_path('images/filtros_logo.png'))) }}" width="100" height="100" id="logo">
                                     @else
-                                        <img style="height: 90px; width: 90px;" src="{{ 'data:image/jpeg;base64,'.base64_encode(file_get_contents('http://willybusch.com.pe/logos/retenes_logo.png')) }}" width="100" height="100" id="logo">
+                                        <img style="height: 90px; width: 90px;" src="{{ 'data:image/png;base64,'.base64_encode(file_get_contents(public_path('images/retenes_logo.png'))) }}" width="100" height="100" id="logo">
                                     @endif
                                 </td>
                                 <td style="vertical-align: middle; padding-left: 8px;">
