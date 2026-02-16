@@ -1,39 +1,53 @@
 <html>
     <head>
-        <meta charset="UTF-8">>
+        <meta charset="UTF-8">
     </head>
     <body style="font-family: 'Open Sans', sans-serif; margin: 0; padding: 0;">
         <div style="width: 190mm; max-width: 190mm; margin: 0 auto; box-sizing: border-box;">
-            <div style="display: flex; gap: 24px; align-items: flex-end;">
-                <div style="width: 60%;">
-                    <div style="text-align: center; color: #fefdfe; font-size: 16.3px; background-color: #0766ab; padding: 10px; border-bottom: 1px solid #ffffff; padding-top: 16px;">{{ $mnroped }}</div>
-                    <div style="text-align: center; color: #fefdfe; font-size: 29px; background-color: #0766ab; padding: 10px; padding-bottom: 16px;">COTIZACIÓN</div>
-                </div>
-                <div style="width: 40%; display: flex; justify-content: space-between; align-items: center;">
-                    @if ($flavor == 'filtros')
-                        <img style="height: 90px; width: 90px;" src="{{ 'data:image/jpeg;base64,'.base64_encode(file_get_contents('http://filtroswillybusch.com.pe/logo/filtros_logo.png')) }}" width="100" height="100" id="logo">
-                    @else
-                        <img style="height: 90px; width: 90px;" src="{{ 'data:image/jpeg;base64,'.base64_encode(file_get_contents('http://willybusch.com.pe/logos/retenes_logo.png')) }}" width="100" height="100" id="logo">
-                    @endif
-                    <div>
-                        <h1 style="margin: 0; font-size: 16.8px;">@if ($flavor == 'filtros') INDUSTRIAS @endif WILLY BUSCH</h1>
-                        <h2 style="margin: 0; font-size: 12.9px;">
-                            @if ($flavor == 'filtros')
-                                20100675537
-                            @else
-                                20100674301
-                            @endif
-                        </h2>
-                        <p style="margin: 0; font-size: 8.3px;">@if ($flavor == 'filtros') Av. Santa Maria 135 Urb. Industrial - Ate - Lima- Perú @else CALLE SANTA LUCIA 170 Ate - Lima - Perú @endif</p>
-                        <p style="margin: 0; font-size: 8.3px;">@if ($flavor == 'filtros') filtros@filtroswillybusch.com.pe @else retenes@willybusch.com.pe @endif</p>
-                        <p style="margin: 0; font-size: 8.3px;">@if ($flavor == 'filtros') www.filtroswillybusch.com.pe @else www.willybusch.com.pe @endif</p>
-                    </div>
-                </div>
-            </div>
-            <div style="padding-bottom: 4px; border-bottom: 1px solid #0766ab; margin-top: 16px; display: flex; justify-content: space-between; align-items: center;">
-                <h1 style="margin: 0; font-size: 11px; color: #0766ab; font-weight: bold;">DATOS DEL CLIENTE</h1>
-                <p style="margin: 0; font-size: 7px;">FECHA DE PEDIDO: {{ $fecha }}</p>
-            </div>
+            <table style="width: 100%; border-collapse: collapse;">
+                <tr>
+                    <td style="width: 58%; vertical-align: bottom; padding-right: 24px;">
+                        <div style="text-align: center; color: #fefdfe; font-size: 16.3px; background-color: #0766ab; padding: 10px; border-bottom: 1px solid #ffffff; padding-top: 16px;">{{ $mnroped }}</div>
+                        <div style="text-align: center; color: #fefdfe; font-size: 29px; background-color: #0766ab; padding: 10px; padding-bottom: 16px;">COTIZACIÓN</div>
+                    </td>
+                    <td style="width: 42%; vertical-align: bottom;">
+                        <table style="width: 100%; border-collapse: collapse;">
+                            <tr>
+                                <td style="vertical-align: middle; width: 90px;">
+                                    @if ($flavor == 'filtros')
+                                        <img style="height: 90px; width: 90px;" src="{{ 'data:image/jpeg;base64,'.base64_encode(file_get_contents('http://filtroswillybusch.com.pe/logo/filtros_logo.png')) }}" width="100" height="100" id="logo">
+                                    @else
+                                        <img style="height: 90px; width: 90px;" src="{{ 'data:image/jpeg;base64,'.base64_encode(file_get_contents('http://willybusch.com.pe/logos/retenes_logo.png')) }}" width="100" height="100" id="logo">
+                                    @endif
+                                </td>
+                                <td style="vertical-align: middle; padding-left: 8px;">
+                                    <h1 style="margin: 0; font-size: 16.8px;">@if ($flavor == 'filtros') INDUSTRIAS @endif WILLY BUSCH</h1>
+                                    <h2 style="margin: 0; font-size: 12.9px;">
+                                        @if ($flavor == 'filtros')
+                                            20100675537
+                                        @else
+                                            20100674301
+                                        @endif
+                                    </h2>
+                                    <p style="margin: 0; font-size: 8.3px;">@if ($flavor == 'filtros') Av. Santa Maria 135 Urb. Industrial - Ate - Lima- Perú @else CALLE SANTA LUCIA 170 Ate - Lima - Perú @endif</p>
+                                    <p style="margin: 0; font-size: 8.3px;">@if ($flavor == 'filtros') filtros@filtroswillybusch.com.pe @else retenes@willybusch.com.pe @endif</p>
+                                    <p style="margin: 0; font-size: 8.3px;">@if ($flavor == 'filtros') www.filtroswillybusch.com.pe @else www.willybusch.com.pe @endif</p>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+            <table style="width: 100%; border-collapse: collapse; border-bottom: 1px solid #0766ab; margin-top: 16px;">
+                <tr>
+                    <td style="padding-bottom: 4px; vertical-align: middle;">
+                        <h1 style="margin: 0; font-size: 11px; color: #0766ab; font-weight: bold;">DATOS DEL CLIENTE</h1>
+                    </td>
+                    <td style="padding-bottom: 4px; vertical-align: middle; text-align: right;">
+                        <p style="margin: 0; font-size: 7px;">FECHA DE PEDIDO: {{ $fecha }}</p>
+                    </td>
+                </tr>
+            </table>
             <table>
                 <tbody>
                     <tr>
@@ -62,7 +76,7 @@
                     </tr>
                 </tbody>
             </table>
-            <div style="padding-bottom: 4px; border-bottom: 1px solid #0766ab; margin-top: 4px; display: flex; justify-content: space-between; align-items: center;">
+            <div style="padding-bottom: 4px; border-bottom: 1px solid #0766ab; margin-top: 4px;">
                 <h1 style="margin: 0; font-size: 11px; color: #0766ab; font-weight: bold;">DATOS ADICIONALES</h1>
             </div>
             <table>
@@ -148,51 +162,53 @@
                     </tbody>
                 </table>
             @endforeach
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-                <div style="width: 40%;">
-                    <div style="padding-bottom: 4px; border-bottom: 1px solid #0766ab; margin-top: 16px; display: flex; justify-content: space-between; align-items: center;">
-                        <h1 style="margin: 0; font-size: 10px; color: #0766ab; font-weight: bold;">CONDICIONES DE VENTA</h1>
-                    </div>
-                    <ul style="font-size: 8.5px; padding-left: 12px;">
-                        <li><span style="color: #0766ab;">Moneda:</span>@if ($flavor == 'filtros') PEN @else USD (Dólares estadounidenses) @endif</li>
-                        <li><span style="color: #0766ab;">Precios:</span> Los precios indicados incluyen IGV</li>
-                        <li><span style="color: #0766ab;">Entrega:</span> Según fecha coordinada</li>
-                        <li><span style="color: #0766ab;">Tiempo de validez:</span> 15 días después de la fecha de emisión o fin de campaña</li>
-                    </ul>
-                </div>
-                <div style="width: 40%; display: flex; justify-content: flex-end;">
-                    <table style="width: 100%; border-collapse: collapse; border: 1px solid #e8e8e8;">
-                        <tbody>
-                            <tr>
-                                <td style="font-size: 9px; font-weight: bold; text-align: left; padding: 4px; border: 1px solid #e8e8e8;">TOTAL ATENDIDOS:</td>
-                                <td style="font-size: 9px; padding: 4px; text-align: right; border: 1px solid #e8e8e8;">@if ($flavor == 'filtros') S/ @else $ @endif {{ number_format($total_atendido, 2, '.', '') }}</td>
-                            </tr>
-                            <tr>
-                                <td style="font-size: 9px; font-weight: bold; text-align: left; padding: 4px; border: 1px solid #e8e8e8;">TOTAL PENDIENTES:</td>
-                                <td style="font-size: 9px; padding: 4px; text-align: right; border: 1px solid #e8e8e8;">@if ($flavor == 'filtros') S/ @else $ @endif {{ number_format($total_pendiente, 2, '.', '') }}</td>
-                            </tr>
-                            <tr>
-                                <td style="font-size: 9px; font-weight: bold; text-align: left; padding: 4px; border: 1px solid #e8e8e8;">TOTAL ANULADO:</td>
-                                <td style="font-size: 9px; padding: 4px; text-align: right; border: 1px solid #e8e8e8;">@if ($flavor == 'filtros') S/ @else $ @endif {{ number_format($total_anulado, 2, '.', '') }}</td>
-                            </tr>
-                            <tr style="background-color: #0766ab;">
-                                <td style="font-size: 9px; font-weight: bold; text-align: left; color: #ffffff; padding: 4px; border: 1px solid #e8e8e8;">TOTAL A PAGAR:</td>
-                                <td style="font-size: 9px; color: #ffffff; padding: 4px; text-align: right; border: 1px solid #e8e8e8;">
-                                    @if ($flavor == 'filtros') S/ @else $ @endif
-                                    @if ($total_atendido + $total_pendiente + $total_anulado == 0)
-                                        {{ number_format($total, 2, '.', '') }}
-                                    @else
-                                        {{ number_format($total_atendido, 2, '.', '') }}
-                                    @endif
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+            <table style="width: 100%; border-collapse: collapse;">
+                <tr>
+                    <td style="width: 50%; vertical-align: top;">
+                        <div style="padding-bottom: 4px; border-bottom: 1px solid #0766ab; margin-top: 16px;">
+                            <h1 style="margin: 0; font-size: 10px; color: #0766ab; font-weight: bold;">CONDICIONES DE VENTA</h1>
+                        </div>
+                        <ul style="font-size: 8.5px; padding-left: 12px;">
+                            <li><span style="color: #0766ab;">Moneda:</span>@if ($flavor == 'filtros') PEN @else USD (Dólares estadounidenses) @endif</li>
+                            <li><span style="color: #0766ab;">Precios:</span> Los precios indicados incluyen IGV</li>
+                            <li><span style="color: #0766ab;">Entrega:</span> Según fecha coordinada</li>
+                            <li><span style="color: #0766ab;">Tiempo de validez:</span> 15 días después de la fecha de emisión o fin de campaña</li>
+                        </ul>
+                    </td>
+                    <td style="width: 50%; vertical-align: top; padding-top: 16px;">
+                        <table style="width: 100%; border-collapse: collapse; border: 1px solid #e8e8e8;">
+                            <tbody>
+                                <tr>
+                                    <td style="font-size: 9px; font-weight: bold; text-align: left; padding: 4px; border: 1px solid #e8e8e8;">TOTAL ATENDIDOS:</td>
+                                    <td style="font-size: 9px; padding: 4px; text-align: right; border: 1px solid #e8e8e8;">@if ($flavor == 'filtros') S/ @else $ @endif {{ number_format($total_atendido, 2, '.', '') }}</td>
+                                </tr>
+                                <tr>
+                                    <td style="font-size: 9px; font-weight: bold; text-align: left; padding: 4px; border: 1px solid #e8e8e8;">TOTAL PENDIENTES:</td>
+                                    <td style="font-size: 9px; padding: 4px; text-align: right; border: 1px solid #e8e8e8;">@if ($flavor == 'filtros') S/ @else $ @endif {{ number_format($total_pendiente, 2, '.', '') }}</td>
+                                </tr>
+                                <tr>
+                                    <td style="font-size: 9px; font-weight: bold; text-align: left; padding: 4px; border: 1px solid #e8e8e8;">TOTAL ANULADO:</td>
+                                    <td style="font-size: 9px; padding: 4px; text-align: right; border: 1px solid #e8e8e8;">@if ($flavor == 'filtros') S/ @else $ @endif {{ number_format($total_anulado, 2, '.', '') }}</td>
+                                </tr>
+                                <tr style="background-color: #0766ab;">
+                                    <td style="font-size: 9px; font-weight: bold; text-align: left; color: #ffffff; padding: 4px; border: 1px solid #e8e8e8;">TOTAL A PAGAR:</td>
+                                    <td style="font-size: 9px; color: #ffffff; padding: 4px; text-align: right; border: 1px solid #e8e8e8;">
+                                        @if ($flavor == 'filtros') S/ @else $ @endif
+                                        @if ($total_atendido + $total_pendiente + $total_anulado == 0)
+                                            {{ number_format($total, 2, '.', '') }}
+                                        @else
+                                            {{ number_format($total_atendido, 2, '.', '') }}
+                                        @endif
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </table>
             @if ($total_instalments > 0)
                 <div>
-                    <div style="width: 50%; padding-bottom: 4px; border-bottom: 1px solid #0766ab; margin-top: 16px; display: flex; justify-content: space-between; align-items: center;">
+                    <div style="width: 50%; padding-bottom: 4px; border-bottom: 1px solid #0766ab; margin-top: 16px;">
                         <h1 style="margin: 0; font-size: 10px; color: #0766ab; font-weight: bold;">VENCIMIENTO: {{ $total_instalments }} CUOTA(S)</h1>
                     </div>
                 </div>
