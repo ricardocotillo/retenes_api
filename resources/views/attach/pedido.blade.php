@@ -22,7 +22,8 @@
         td {
             padding: 3px 5px;
         }
-		.bc { border: 1px solid #000000; word-wrap: break-word; overflow: hidden; }
+		.bc { border: 1px solid #000000; }
+		.desc { word-wrap: break-word; max-width: 120px; }
 		.bb { border: 2px solid #000000; }
 		.bt2 { border-top: 2px solid #000000; border-bottom: 2px solid #000000; border-left: 2px solid #000000; border-right: 2px solid #000000; }
 		.bh { border-top: 2px solid #000000; border-left: 2px solid #000000; border-right: 2px solid #000000; }
@@ -197,17 +198,7 @@
 	</tr>
 </table>{{-- JEANS 11-12-2020 --}}
 <br>{{-- JEANS 11-12-2020 --}}
-<table cellspacing="0" border="0" style="table-layout: fixed;"> {{-- JEANS 11-12-2020 --}}
-	<colgroup>
-		<col style="width: 5%"><col style="width: 5%">
-		<col style="width: 5%"><col style="width: 5%">
-		<col style="width: 12%"><col style="width: 12%">
-		<col style="width: 7%">
-		<col style="width: 8%">
-		<col style="width: 8%">
-		<col style="width: 7%"><col style="width: 5%"><col style="width: 5%">
-		<col style="width: 8%"><col style="width: 8%">
-	</colgroup>
+<table cellspacing="0" border="0"> {{-- JEANS 11-12-2020 --}}
 	@foreach ($articulos as $key => $value)
 		@if (count($value) > 0)
 			<tr>
@@ -228,7 +219,7 @@
 				<tr @if (isset($v['estado']) && $v['estado'] == 1) class="hl" @endif>
 					<td class="bc" colspan="2" align="left" valign=bottom>{{ $v['MCODART'] }}</td>
 					<td class="bc" colspan="2" align="center" valign=bottom><b>{{ $v['MCANTIDAD'] }}</b></td>
-					<td class="bc" colspan="2" align="left" valign=bottom><b>{{ $v['MDESCRI01'] }}</b></td>
+					<td class="bc desc" colspan="2" align="left" valign=bottom><b>{{ $v['MDESCRI01'] }}</b></td>
 					<td class="bc" colspan="1" align="left" valign=bottom><b>{{ $v['item_state'] }}</b></td>
 					<td class="bc" colspan="1" align="left" valign=bottom><b>{{ $v['fecha_despacho'] }}</b></td>
 					<td class="bc" colspan="1" align="right" valign=bottom>
@@ -245,7 +236,7 @@
 				<tr @if (isset($v['estado']) && $v['estado'] == 1) class="hl" @endif>
 					<td class="bc" colspan="2" align="left" valign=bottom>{{$v['MCODART']}}</td>
 					<td class="bc" colspan="2" align="center" valign=bottom><b>{{ $v['MCANTIDAD'] }}</b></td>
-					<td class="bc" colspan="4" align="left" valign=bottom><b>{{$v['MDESCRI01']}}</b></td>
+					<td class="bc desc" colspan="4" align="left" valign=bottom><b>{{$v['MDESCRI01']}}</b></td>
 					<td class="bc" colspan="1" align="right" valign=bottom>0.00</td>
 					<td class="bc" colspan="3" align="left" valign=bottom></td>
 					<td class="bc" colspan="2" align="right" valign=bottom>
