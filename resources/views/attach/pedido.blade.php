@@ -22,7 +22,7 @@
         td {
             padding: 3px 5px;
         }
-		.bc { border: 1px solid #000000; }
+		.bc { border: 1px solid #000000; word-wrap: break-word; overflow: hidden; }
 		.bb { border: 2px solid #000000; }
 		.bt2 { border-top: 2px solid #000000; border-bottom: 2px solid #000000; border-left: 2px solid #000000; border-right: 2px solid #000000; }
 		.bh { border-top: 2px solid #000000; border-left: 2px solid #000000; border-right: 2px solid #000000; }
@@ -197,7 +197,17 @@
 	</tr>
 </table>{{-- JEANS 11-12-2020 --}}
 <br>{{-- JEANS 11-12-2020 --}}
-<table cellspacing="0" border="0"> {{-- JEANS 11-12-2020 --}}
+<table cellspacing="0" border="0" style="table-layout: fixed;"> {{-- JEANS 11-12-2020 --}}
+	<colgroup>
+		<col style="width: 5%"><col style="width: 5%">
+		<col style="width: 5%"><col style="width: 5%">
+		<col style="width: 12%"><col style="width: 12%">
+		<col style="width: 7%">
+		<col style="width: 8%">
+		<col style="width: 8%">
+		<col style="width: 7%"><col style="width: 5%"><col style="width: 5%">
+		<col style="width: 8%"><col style="width: 8%">
+	</colgroup>
 	@foreach ($articulos as $key => $value)
 		@if (count($value) > 0)
 			<tr>
