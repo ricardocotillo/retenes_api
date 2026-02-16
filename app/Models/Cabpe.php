@@ -200,7 +200,10 @@ class Cabpe extends Model
 	}
 
 	public function getModificationsLeftAttribute() {
-		$max_mod = Setting::first()->cabpe_modifications;
+		static $max_mod = null;
+		if ($max_mod === null) {
+			$max_mod = Setting::first()->cabpe_modifications;
+		}
 		$mod = CabpeModification::firstOrCreate(
 			['mnroped' => $this->MNROPED],
 			['mnserie' => $this->MNSERIE],
@@ -210,7 +213,7 @@ class Cabpe extends Model
 
 	public function totalByState(string $state) {
 		if ($state == 'parcial') {
-			$detpes = $this->detpe()->where('item_state', $state)->get();
+			$detpes = $this->detpe->where('item_state', $state);
 			$sum = 0;
 			foreach ($detpes as $detpe) {
 				$partial = ($detpe->partial * $detpe->precio_neto) / $detpe->MCANTIDAD;
@@ -219,15 +222,15 @@ class Cabpe extends Model
 			return $sum;
 		}
 		if ($state == 'anulado') {
-			$detpes = $this->detpe()->where('item_state', 'parcial')->get();
+			$detpes = $this->detpe->where('item_state', 'parcial');
 			$sum = 0;
 			foreach ($detpes as $detpe) {
 				$not_attended_partial = (($detpe->MCANTIDAD - $detpe->partial) * $detpe->precio_neto) / $detpe->MCANTIDAD;
 				$sum = $sum + $not_attended_partial;
 			}
-			return $this->detpe()->where('item_state', $state)->get()->pluck('precio_neto')->sum() + $sum;
+			return $this->detpe->where('item_state', $state)->pluck('precio_neto')->sum() + $sum;
 		}
-		return $this->detpe()->where('item_state', $state)->get()->pluck('precio_neto')->sum();
+		return $this->detpe->where('item_state', $state)->pluck('precio_neto')->sum();
 	}
 
 	public function getPrecioNetoAttribute() {
