@@ -22,6 +22,12 @@
         td {
             padding: 3px 5px;
         }
+		.bc { border: 1px solid #000000; }
+		.bb { border: 2px solid #000000; }
+		.bt2 { border-top: 2px solid #000000; border-bottom: 2px solid #000000; border-left: 2px solid #000000; border-right: 2px solid #000000; }
+		.bh { border-top: 2px solid #000000; border-left: 2px solid #000000; border-right: 2px solid #000000; }
+		.bm { border-top: 2px solid #000000; border-bottom: 1px solid #000000; border-left: 2px solid #000000; border-right: 2px solid #000000; }
+		.hl { background: #FFFF00; }
 	</style>
 
 </head>
@@ -43,7 +49,7 @@
         <font size="4">NOTA DE PEDIDO</font>
       </b>
     </td>
-    <td style="border-top: 2px solid #000000; border-left: 2px solid #000000; border-right: 2px solid #000000" colspan="5" align="center" valign=bottom>
+    <td class="bh" colspan="5" align="center" valign=bottom>
       <b>
 		@if ($flavor == 'filtros')
 			<font size=4>20100675537</font>
@@ -55,8 +61,8 @@
 	</tr>
 	<tr>
 		<td height="10" colspan="7" align="left" valign="bottom"><b>ESTABLECIMIENTO</b></td>
-		<td style="border-top: 2px solid #000000; border-bottom: 1px solid #000000; border-left: 2px solid #000000; border-right: 2px solid #000000" colspan="3" align="center" valign="bottom"><b>Número Pedido :</b></td>
-		<td style="border-top: 2px solid #000000; border-bottom: 2px solid #000000; border-left: 2px solid #000000; border-right: 2px solid #000000" colspan="2" align="right" valign="bottom"><b>{{$mnroped}}</b></td>
+		<td class="bm" colspan="3" align="center" valign="bottom"><b>Número Pedido :</b></td>
+		<td class="bt2" colspan="2" align="right" valign="bottom"><b>{{$mnroped}}</b></td>
 	</tr>
 	<tr>
 		@if ($flavor == 'filtros')
@@ -64,8 +70,8 @@
 		@else
 			<td height="10" colspan="7" align="left" valign="bottom"><font color="#3B3838">CALLE SANTA LUCIA 170 Ate - Lima - Perú</font></td>
 		@endif
-		<td style="border-top: 2px solid #000000; border-bottom: 2px solid #000000; border-left: 2px solid #000000; border-right: 2px solid #000000" colspan="3" align="center" valign="bottom"><b>Fecha Pedido     :</b></td>
-		<td style="border-top: 2px solid #000000; border-bottom: 2px solid #000000; border-left: 2px solid #000000; border-right: 2px solid #000000" colspan="2" align="right" valign="bottom"><b>{{$fecha}}</b></td>
+		<td class="bt2" colspan="3" align="center" valign="bottom"><b>Fecha Pedido     :</b></td>
+		<td class="bt2" colspan="2" align="right" valign="bottom"><b>{{$fecha}}</b></td>
 	</tr>
 	<tr>
 		@if ($flavor == 'filtros')
