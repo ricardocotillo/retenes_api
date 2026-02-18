@@ -690,7 +690,7 @@ class CabpeController extends Controller
      */
     public function download_pdf(Request $request, string $mnserie, string $mnroped)
     {
-        $cabpes = Cabpe::with(['detpe', 'detpe.famdfas', 'ccmtrs', 'ccmcli', 'ccmcpa', 'values', 'instalments'])->where('MNSERIE', $mnserie)->where('MNROPED', $mnroped)->get();
+        $cabpes = Cabpe::with(['detpe', 'detpe.articulo', 'detpe.famdfas', 'ccmtrs', 'ccmcli', 'ccmcpa', 'values', 'instalments'])->where('MNSERIE', $mnserie)->where('MNROPED', $mnroped)->get();
         $pdf = $this->generate_pdf($cabpes, null, true);
         return response($pdf, 200)
             ->header('Content-Type', 'application/pdf')
