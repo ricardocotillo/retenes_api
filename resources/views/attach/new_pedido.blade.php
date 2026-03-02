@@ -193,6 +193,7 @@
                             <th class="pc">MEDIDAS INT-EXT-ALT</th>
                             <th class="pc">ESTADO</th>
                             <th class="pc">PRECIO UNITARIO</th>
+                            <th class="pc">PRECIO U. NETO</th>
                             <th class="pc">DESCUENTO</th>
                             <th class="pc">TOTAL</th>
                         </tr>
@@ -207,6 +208,7 @@
                                     <td class="pc-c">{{ $v['articulo']['MDIM_INT1'] }}-{{ $v['articulo']['MDIM_EXT1'] }}-{{ $v['articulo']['MDIM_ALT1'] }}</td>
                                     <td class="pc-c">{{ $v['item_state'] }}</td>
                                     <td class="pc-c">{{ number_format($v['MPRECIO'], 2, '.', '') }}</td>
+                                    <td class="pc-c">{{ number_format($v['precio_neto'] / 1.18, 2, '.', '') }}</td>
                                     <td class="pc-c">{{ $v['descrip'] }}</td>
                                     <td class="pc-c">{{ number_format($v['precio_neto'], 2, '.', '') }}</td>
                                 </tr>
@@ -217,6 +219,7 @@
                                     <td class="pc-l">{{ $v['MDESCRI01'] }}</td>
                                     <td class="pc-c">{{ $v['articulo']['MDIM_INT1'] }}-{{ $v['articulo']['MDIM_EXT1'] }}-{{ $v['articulo']['MDIM_ALT1'] }}</td>
                                     <td class="pc-c">{{ $v['item_state'] }}</td>
+                                    <td class="pc-c">0.00</td>
                                     <td class="pc-c">0.00</td>
                                     <td class="pc-c"></td>
                                     <td class="pc-c">0.00</td>
