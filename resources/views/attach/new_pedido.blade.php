@@ -51,7 +51,7 @@
             /* ── Vendor heading ── */
             .vendor-h { color: #000000; font-size: 10px; margin-bottom: 0; }
             /* ── Product table ── */
-            .ptable       { table-layout: fixed; }
+            .ptable       { table-layout: fixed; width: 100%; }
             .phead        { color: #ffffff; background-color: #0766ab; font-weight: 600; font-size: 8px; }
             .pbody        { font-size: 8px; }
             .pc           { padding: 10px; border: 1px solid #e8e8e8; word-break: break-word; overflow-wrap: break-word; }
@@ -69,6 +69,10 @@
             .tf     { background-color: #0766ab; }
             /* ── Instalments ── */
             .inst-cell { padding: 4px; text-align: center; font-size: 8px; }
+            :where(th, td):not(.max) {
+                width: 0;
+                white-space: nowrap;
+            }
         </style>
     </head>
     <body>
@@ -175,21 +179,11 @@
             @foreach ($articulos as $key => $value)
                 <h1 class="vendor-h">COD. VENDEDOR: {{ $key }}</h1>
                 <table class="ptable">
-                    <colgroup>
-                        <col style="width: 9%;">
-                        <col style="width: 9%;">
-                        <col style="width: 31%;">
-                        <col style="width: 16%;">
-                        <col style="width: 8%;">
-                        <col style="width: 10%;">
-                        <col style="width: 10%;">
-                        <col style="width: 7%;">
-                    </colgroup>
                     <thead class="phead">
                         <tr>
                             <th class="pc">CÓDIGO</th>
                             <th class="pc">CANTIDAD</th>
-                            <th class="pc">DESCRIPCIÓN</th>
+                            <th class="pc max">DESCRIPCIÓN</th>
                             <th class="pc">MEDIDAS INT-EXT-ALT</th>
                             <th class="pc">ESTADO</th>
                             <th class="pc">PRECIO UNITARIO</th>
@@ -204,7 +198,7 @@
                                 <tr>
                                     <td class="pc-c">{{ $v['MCODART'] }}</td>
                                     <td class="pc-c">{{ $v['MCANTIDAD'] }}</td>
-                                    <td class="pc-l">{{ $v['MDESCRI01'] }}</td>
+                                    <td class="pc-l max">{{ $v['MDESCRI01'] }}</td>
                                     <td class="pc-c">{{ $v['articulo']['MDIM_INT1'] }}-{{ $v['articulo']['MDIM_EXT1'] }}-{{ $v['articulo']['MDIM_ALT1'] }}</td>
                                     <td class="pc-c">{{ $v['item_state'] }}</td>
                                     <td class="pc-c">{{ number_format($v['MPRECIO'], 2, '.', '') }}</td>
@@ -216,7 +210,7 @@
                                 <tr>
                                     <td class="pc-c">{{ $v['MCODART'] }}</td>
                                     <td class="pc-c">{{ $v['MCANTIDAD'] }}</td>
-                                    <td class="pc-l">{{ $v['MDESCRI01'] }}</td>
+                                    <td class="pc-l max">{{ $v['MDESCRI01'] }}</td>
                                     <td class="pc-c">{{ $v['articulo']['MDIM_INT1'] }}-{{ $v['articulo']['MDIM_EXT1'] }}-{{ $v['articulo']['MDIM_ALT1'] }}</td>
                                     <td class="pc-c">{{ $v['item_state'] }}</td>
                                     <td class="pc-c">0.00</td>
