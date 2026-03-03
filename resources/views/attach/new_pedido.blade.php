@@ -48,9 +48,6 @@
             /* ── Data-field rows (cliente / adicionales tables) ── */
             .fl { font-size: 9px; color: #0766ab; }
             .fv { font-size: 9px; }
-            .field-table { table-layout: fixed; }
-            .field-table .fl { width: 85px; text-align: right; padding-right: 6px; }
-            .field-table .fv { width: auto; }
             /* ── Vendor heading ── */
             .vendor-h { color: #000000; font-size: 10px; margin-bottom: 0; }
             /* ── Product table ── */
@@ -130,23 +127,28 @@
             <table class="field-table">
                 <tbody>
                     <tr>
-                        <td class="fl">RUC:</td>
+                        <td class="fl">RUC</td>
+                        <td>:</td>
                         <td class="fv">{{ $ruc }}</td>
                     </tr>
                     <tr>
-                        <td class="fl">CLIENTE:</td>
+                        <td class="fl">CLIENTE</td>
+                        <td>:</td>
                         <td class="fv">{{ $cliente }}</td>
                     </tr>
                     <tr>
-                        <td class="fl">DIRECCIÓN:</td>
+                        <td class="fl">DIRECCIÓN</td>
+                        <td>:</td>
                         <td class="fv">{{ $direccion }} - {{ $localidad }}</td>
                     </tr>
                     <tr>
-                        <td class="fl">CORREO:</td>
+                        <td class="fl">CORREO</td>
+                        <td>:</td>
                         <td class="fv">{{ $email }}</td>
                     </tr>
                     <tr>
-                        <td class="fl">CORREO 2:</td>
+                        <td class="fl">CORREO 2</td>
+                        <td>:</td>
                         <td class="fv">{{ $email }}</td>
                     </tr>
                     <tr>
@@ -163,19 +165,23 @@
             <table class="field-table">
                 <tbody>
                     <tr>
-                        <td class="fl">COND. PAGO:</td>
+                        <td class="fl">COND. PAGO</td>
+                        <td>:</td>
                         <td class="fv">{{ $condicion }}</td>
                     </tr>
                     <tr>
-                        <td class="fl">TRANSPORTE:</td>
+                        <td class="fl">TRANSPORTE</td>
+                        <td>:</td>
                         <td class="fv">{{ $transporte }} - {{ $nametrans }}</td>
                     </tr>
                     <tr>
-                        <td class="fl">OBSERVACIÓN:</td>
+                        <td class="fl">OBSERVACIÓN</td>
+                        <td>:</td>
                         <td class="fv">{{ $observaciones }}</td>
                     </tr>
                     <tr>
-                        <td class="fl">FECHA DESP.:</td>
+                        <td class="fl">FECHA DESP.</td>
+                        <td>:</td>
                         <td class="fv"></td>
                     </tr>
                 </tbody>
