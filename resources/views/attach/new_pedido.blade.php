@@ -160,10 +160,14 @@
             </table>
 
             {{-- ── DATOS ADICIONALES ── --}}
-            <div class="sep-sm">
-                <h1 class="stitle">DATOS ADICIONALES</h1>
-            </div>
             <table>
+                <thead>
+                    <tr style="border-bottom: 1px solid #0766ab;">
+                        <th class="stitle" style="padding-top: 4px; padding-bottom: 4px;">
+                            DATOS ADICIONALES
+                        </th>
+                    </tr>
+                </thead>
                 <tbody>
                     <tr>
                         <td class="fl">COND. PAGO</td>
