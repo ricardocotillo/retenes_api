@@ -58,8 +58,8 @@
             .ptable       { table-layout: auto; width: 100%; }
             .phead        { color: #ffffff; background-color: #0766ab; font-weight: 600; font-size: 8px; }
             .pbody        { font-size: 8px; }
-            .pc           { padding: 10px; border: 1px solid #e8e8e8; word-break: break-word; overflow-wrap: break-word; }
-            .pc-c         { padding: 10px; border: 1px solid #e8e8e8; word-break: break-word; overflow-wrap: break-word; text-align: center; }
+            .pc           { padding: 4px; border: 1px solid #e8e8e8; word-break: break-word; overflow-wrap: break-word; }
+            .pc-c         { padding: 4px; border: 1px solid #e8e8e8; word-break: break-word; overflow-wrap: break-word; text-align: center; }
             .pc-l         { padding: 4px; border: 1px solid #e8e8e8; word-break: break-word; overflow-wrap: break-word; text-align: left; }
             .text-first-upper::first-letter { text-transform: uppercase; }
             .st-label     { font-size: 10px; padding: 4px; border: 1px solid #e8e8e8; border-right: none; text-align: center; background-color: #0766ab; font-weight: bold; color: #ffffff; }
