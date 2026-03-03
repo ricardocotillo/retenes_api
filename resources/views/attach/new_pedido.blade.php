@@ -48,6 +48,10 @@
             /* ── Data-field rows (cliente / adicionales tables) ── */
             .fl { font-size: 9px; color: #0766ab; }
             .fv { font-size: 9px; }
+            .field-table { width: auto; display: inline-table; table-layout: auto; }
+            .field-table td:nth-child(1) { width: 1%; white-space: nowrap; }
+            .field-table td:nth-child(2) { width: 1%; white-space: nowrap; }
+            .field-table td:nth-child(3) { width: auto; }
             /* ── Vendor heading ── */
             .vendor-h { color: #000000; font-size: 10px; margin-bottom: 0; }
             /* ── Product table ── */
@@ -160,7 +164,7 @@
             </table>
 
             {{-- ── DATOS ADICIONALES ── --}}
-            <table>
+            <table class="field-table">
                 <thead>
                     <tr style="border-bottom: 1px solid #0766ab;">
                         <th colspan="3" class="stitle" style="padding-top: 4px; padding-bottom: 4px; text-align: left;">
