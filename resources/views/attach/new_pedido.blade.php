@@ -48,7 +48,7 @@
             /* ── Data-field rows (cliente / adicionales tables) ── */
             .fl { font-size: 9px; color: #0766ab; }
             .fv { font-size: 9px; }
-            .field-table { width: auto; display: inline-table; table-layout: auto; }
+            .field-table { width: 100%; display: table; table-layout: auto; }
             .field-table td:nth-child(1) { width: 70px; white-space: nowrap; }
             .field-table td:nth-child(2) { width: 1%; white-space: nowrap; }
             .field-table td:nth-child(3) { width: auto; }
