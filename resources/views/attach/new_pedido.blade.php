@@ -48,6 +48,9 @@
             /* ── Data-field rows (cliente / adicionales tables) ── */
             .fl { font-size: 9px; color: #0766ab; }
             .fv { font-size: 9px; }
+            .field-table { table-layout: fixed; }
+            .field-table .fl { width: 85px; text-align: right; padding-right: 6px; }
+            .field-table .fv { width: auto; }
             /* ── Vendor heading ── */
             .vendor-h { color: #000000; font-size: 10px; margin-bottom: 0; }
             /* ── Product table ── */
@@ -124,7 +127,7 @@
                     </td>
                 </tr>
             </table>
-            <table>
+            <table class="field-table">
                 <tbody>
                     <tr>
                         <td class="fl">RUC:</td>
@@ -157,7 +160,7 @@
             <div class="sep-sm">
                 <h1 class="stitle">DATOS ADICIONALES</h1>
             </div>
-            <table>
+            <table class="field-table">
                 <tbody>
                     <tr>
                         <td class="fl">COND. PAGO:</td>
