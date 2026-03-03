@@ -245,7 +245,7 @@
                         <tr>
                             <td colspan="6"></td>
                             <td class="st-label" colspan="2">SUBTOTAL</td>
-                            <td class="st-value">@if ($flavor == 'filtros') S/ @else $ @endif {{ number_format( array_reduce( $value, function($carry, $p) { return $carry + $p['precio_neto']; }), 2, '.', '' ) }}</td>
+                            <td class="st-value" style="white-space: nowrap;">@if ($flavor == 'filtros') S/ @else $ @endif {{ number_format( array_reduce( $value, function($carry, $p) { return $carry + $p['precio_neto']; }), 2, '.', '' ) }}</td>
                         </tr>
                     </tbody>
                 </table>
