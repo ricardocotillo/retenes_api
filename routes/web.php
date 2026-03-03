@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Cabpe;
 use App\Http\Controllers\API\CabpeController;
 use Illuminate\Support\Facades\Route;
 
@@ -31,5 +32,5 @@ Route::get('new_pedido', function () {
     $ctx = [
         'flavor' => config('app.flavor')
     ];
-    return view('new_pedido', $ctx);
+    return view('attach.new_pedido', $ctx);
 });
