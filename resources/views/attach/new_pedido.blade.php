@@ -167,7 +167,7 @@
             {{-- ── DATOS ADICIONALES ── --}}
             <table class="field-table">
                 <thead>
-                    <tr style="border-bottom: 1px solid #0766ab;">
+                    <tr>
                         <th colspan="3" class="stitle" style="padding-top: 4px; padding-bottom: 4px; text-align: left;">
                             DATOS ADICIONALES
                         </th>
