@@ -254,7 +254,7 @@
             {{-- ── Conditions + Totals ── --}}
             <table>
                 <tr>
-                    <td style="width: 50%; vertical-align: top;">
+                    <td style="width: 40%; vertical-align: top;">
                         <div class="sep">
                             <h1 class="stitle-sm">CONDICIONES DE VENTA</h1>
                         </div>
@@ -265,7 +265,8 @@
                             <li><span class="accent">Tiempo de validez:</span> 15 días después de la fecha de emisión o fin de campaña</li>
                         </ul>
                     </td>
-                    <td style="width: 50%; vertical-align: top; padding-top: 16px;">
+                    <td style="width: 20%;"></td>
+                    <td style="width: 40%; vertical-align: top; padding-top: 16px;">
                         <table class="ttable">
                             <tbody>
                                 <tr>
