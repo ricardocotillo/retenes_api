@@ -128,31 +128,32 @@
                 <tbody>
                     <tr>
                         <td class="fl">RUC</td>
-                        <td>:</td>
+                        <td class="fl">:</td>
                         <td class="fv">{{ $ruc }}</td>
                     </tr>
                     <tr>
                         <td class="fl">CLIENTE</td>
-                        <td>:</td>
+                        <td class="fl">:</td>
                         <td class="fv">{{ $cliente }}</td>
                     </tr>
                     <tr>
                         <td class="fl">DIRECCIÓN</td>
-                        <td>:</td>
+                        <td class="fl">:</td>
                         <td class="fv">{{ $direccion }} - {{ $localidad }}</td>
                     </tr>
                     <tr>
                         <td class="fl">CORREO</td>
-                        <td>:</td>
+                        <td class="fl">:</td>
                         <td class="fv">{{ $email }}</td>
                     </tr>
                     <tr>
                         <td class="fl">CORREO 2</td>
-                        <td>:</td>
+                        <td class="fl">:</td>
                         <td class="fv">{{ $email }}</td>
                     </tr>
                     <tr>
-                        <td class="fl">TELEFONO:</td>
+                        <td class="fl">TELEFONO</td>
+                        <td class="fl">:</td>
                         <td class="fv">{{ $telefono_1 }}</td>
                     </tr>
                 </tbody>
@@ -166,22 +167,22 @@
                 <tbody>
                     <tr>
                         <td class="fl">COND. PAGO</td>
-                        <td>:</td>
+                        <td class="fl">:</td>
                         <td class="fv">{{ $condicion }}</td>
                     </tr>
                     <tr>
                         <td class="fl">TRANSPORTE</td>
-                        <td>:</td>
+                        <td class="fl">:</td>
                         <td class="fv">{{ $transporte }} - {{ $nametrans }}</td>
                     </tr>
                     <tr>
                         <td class="fl">OBSERVACIÓN</td>
-                        <td>:</td>
+                        <td class="fl">:</td>
                         <td class="fv">{{ $observaciones }}</td>
                     </tr>
                     <tr>
                         <td class="fl">FECHA DESP.</td>
-                        <td>:</td>
+                        <td class="fl">:</td>
                         <td class="fv"></td>
                     </tr>
                 </tbody>
