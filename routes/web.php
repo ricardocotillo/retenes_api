@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\Cabpe;
 use App\Http\Controllers\API\CabpeController;
 use Illuminate\Support\Facades\Route;
 

@@ -163,7 +163,7 @@
             <div class="sep-sm">
                 <h1 class="stitle">DATOS ADICIONALES</h1>
             </div>
-            <table class="field-table">
+            <table>
                 <tbody>
                     <tr>
                         <td class="fl">COND. PAGO</td>
