@@ -61,6 +61,7 @@
             .pc           { padding: 10px; border: 1px solid #e8e8e8; word-break: break-word; overflow-wrap: break-word; }
             .pc-c         { padding: 10px; border: 1px solid #e8e8e8; word-break: break-word; overflow-wrap: break-word; text-align: center; }
             .pc-l         { padding: 10px; border: 1px solid #e8e8e8; word-break: break-word; overflow-wrap: break-word; text-align: left; }
+            .text-first-upper::first-letter { text-transform: uppercase; }
             .st-label     { padding: 10px; border: 1px solid #e8e8e8; border-right: none; text-align: center; background-color: #0766ab; font-weight: bold; color: #ffffff; font-size: 8.5px; }
             .st-value     { padding: 10px; border: 1px solid #e8e8e8; border-left: none;  text-align: center; background-color: #0766ab; font-weight: bold; color: #ffffff; font-size: 8.5px; }
             /* ── Conditions list ── */
@@ -221,7 +222,7 @@
                                     <td class="pc-c">{{ $v['MCANTIDAD'] }}</td>
                                     <td class="pc-l max">{{ $v['MDESCRI01'] }}</td>
                                     <td class="pc-c">{{ $v['articulo']['MDIM_INT1'] }}-{{ $v['articulo']['MDIM_EXT1'] }}-{{ $v['articulo']['MDIM_ALT1'] }}</td>
-                                    <td class="pc-c">{{ $v['item_state'] }}</td>
+                                    <td class="pc-c text-first-upper">{{ $v['item_state'] }}</td>
                                     <td class="pc-c">{{ number_format($v['MPRECIO'], 2, '.', '') }}</td>
                                     <td class="pc-c">{{ number_format($v['precio_neto'] / 1.18, 2, '.', '') }}</td>
                                     <td class="pc-c">{{ $v['descrip'] }}</td>
@@ -233,7 +234,7 @@
                                     <td class="pc-c">{{ $v['MCANTIDAD'] }}</td>
                                     <td class="pc-l max">{{ $v['MDESCRI01'] }}</td>
                                     <td class="pc-c">{{ $v['articulo']['MDIM_INT1'] }}-{{ $v['articulo']['MDIM_EXT1'] }}-{{ $v['articulo']['MDIM_ALT1'] }}</td>
-                                    <td class="pc-c">{{ $v['item_state'] }}</td>
+                                    <td class="pc-c text-first-upper">{{ $v['item_state'] }}</td>
                                     <td class="pc-c">0.00</td>
                                     <td class="pc-c">0.00</td>
                                     <td class="pc-c"></td>
