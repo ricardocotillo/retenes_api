@@ -26,6 +26,12 @@
                 font-weight: normal;
                 font-style: normal;
             }
+            @font-face {
+                font-family: 'Montserrat Arabic';
+                src: url('{{ storage_path("fonts/Montserrat-Arabic Regular 400.otf") }}') format('opentype');
+                font-weight: normal;
+                font-style: normal;
+            }
             @page {
                 size: 21cm 29.7cm;
                 margin: 1cm;
