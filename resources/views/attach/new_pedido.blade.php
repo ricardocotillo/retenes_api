@@ -119,9 +119,9 @@
                             <tr>
                                 <td style="vertical-align: middle; width: 90px;">
                                     @if ($flavor == 'filtros')
-                                        <img src="{{ 'data:image/png;base64,'.base64_encode(file_get_contents(public_path('images/filtros_logo.png'))) }}" width="90" height="90" id="logo">
+                                        <img src="{{ 'data:image/png;base64,'.base64_encode(file_get_contents(public_path('images/filtros_logo.png'))) }}" width="100" height="100" id="logo">
                                     @else
-                                        <img src="{{ 'data:image/png;base64,'.base64_encode(file_get_contents(public_path('images/retenes_logo.png'))) }}" width="90" height="90" id="logo">
+                                        <img src="{{ 'data:image/png;base64,'.base64_encode(file_get_contents(public_path('images/retenes_logo.png'))) }}" width="100" height="100" id="logo">
                                     @endif
                                 </td>
                                 <td style="vertical-align: middle; padding-left: 8px;">
