@@ -63,8 +63,7 @@
             .sep    { padding-bottom: 4px; border-bottom: 1px solid #0766ab; margin-top: 16px; }
             .sep-sm { padding-bottom: 4px; border-bottom: 1px solid #0766ab; margin-top: 4px; }
             /* ── Section titles ── */
-            .stitle    { margin: 0; font-size: 11px;  color: #0766ab; font-weight: bold; }
-            .stitle-sm { margin: 0; font-size: 10px;  color: #0766ab; font-weight: bold; }
+            .stitle    { margin: 0; font-size: 12px;  color: #0766ab; font-weight: bold; font-family: 'Open Sans', sans-serif; }
             .sdate     { margin: 0; font-size: 7px; }
             /* ── Data-field rows (cliente / adicionales tables) ── */
             .fl { font-size: 9px; color: #0766ab; }
@@ -277,7 +276,7 @@
                 <tr>
                     <td style="width: 40%; vertical-align: top;">
                         <div class="sep">
-                            <h1 class="stitle-sm">CONDICIONES DE VENTA</h1>
+                            <h1 class="stitle">CONDICIONES DE VENTA</h1>
                         </div>
                         <ul class="cond-list">
                             <li><span class="accent">Moneda:</span> @if ($flavor == 'filtros') PEN @else USD (Dólares estadounidenses) @endif</li>
@@ -322,7 +321,7 @@
             {{-- ── Instalments ── --}}
             @if ($total_instalments > 0)
                 <div style="width: 50%;" class="sep">
-                    <h1 class="stitle-sm">VENCIMIENTO: {{ $total_instalments }} CUOTA(S)</h1>
+                    <h1 class="stitle">VENCIMIENTO: {{ $total_instalments }} CUOTA(S)</h1>
                 </div>
                 <table>
                     <tbody>
