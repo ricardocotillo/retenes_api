@@ -24,6 +24,7 @@
                 padding: 10px;
                 padding-top: 16px;
                 border-bottom: 1px solid #ffffff;
+                font-weight: 600;
             }
             .order-type {
                 text-align: center;
