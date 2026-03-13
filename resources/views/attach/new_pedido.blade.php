@@ -4,19 +4,19 @@
         <style type="text/css">
             @font-face {
                 font-family: 'Open Sans';
-                src: url('{{ storage_path('fonts/OpenSans-Regular.ttf') }}') format('truetype');
+                src: url('{{ storage_path("fonts/OpenSans-Regular.ttf") }}') format('truetype');
                 font-weight: normal;
                 font-style: normal;
             }
             @font-face {
                 font-family: 'Open Sans';
-                src: url('{{ storage_path('fonts/OpenSans-Bold.ttf') }}') format('truetype');
+                src: url('{{ storage_path("fonts/OpenSans-Bold.ttf") }}') format('truetype');
                 font-weight: bold;
                 font-style: normal;
             }
             @font-face {
                 font-family: 'Cocomat Pro';
-                src: url('{{ storage_path('fonts/CocomatPro-Bold.ttf') }}') format('truetype');
+                src: url('{{ storage_path("fonts/CocomatPro-Bold.ttf") }}') format('truetype');
                 font-weight: bold;
                 font-style: normal;
             }
