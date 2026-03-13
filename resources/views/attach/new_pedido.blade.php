@@ -117,7 +117,7 @@
                     <td style="width: 42%; vertical-align: bottom;">
                         <table>
                             <tr>
-                                <td style="vertical-align: middle; width: 90px;">
+                                <td style="vertical-align: middle; width: 100px;">
                                     @if ($flavor == 'filtros')
                                         <img src="{{ 'data:image/png;base64,'.base64_encode(file_get_contents(public_path('images/filtros_logo.png'))) }}" width="100" height="100" id="logo">
                                     @else
