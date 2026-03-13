@@ -4,7 +4,7 @@
         <style type="text/css">
             @font-face {
                 font-family: 'Open Sans';
-                src: url('{{ storage_path('fonts/OpenSans-VariableFont_wdth,wght.ttf') }}') format('truetype');
+                src: url('{{ storage_path("fonts/OpenSans-VariableFont_wdth,wght.ttf") }}') format('truetype');
                 font-weight: normal;
                 font-style: normal;
             }
