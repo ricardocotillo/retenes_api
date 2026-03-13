@@ -76,7 +76,7 @@
             .sep-sm { padding-bottom: 4px; border-bottom: 1px solid #0766ab; margin-top: 4px; }
             /* ── Section titles ── */
             .stitle    { margin: 0; font-size: 12px;  color: #0766ab; font-weight: bold; font-family: 'Open Sans', sans-serif; }
-            .sdate     { margin: 0; font-size: 7px; }
+            .sdate     { margin: 0; font-size: 7px; font-family: 'Montserrat Arabic', 'sans-serif'; }
             /* ── Data-field rows (cliente / adicionales tables) ── */
             .fl { font-size: 9px; color: #0766ab; }
             .fv { font-size: 9px; }
