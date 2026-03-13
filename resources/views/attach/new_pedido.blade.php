@@ -51,6 +51,8 @@
                 background-color: #0766ab;
                 padding: 10px;
                 padding-bottom: 16px;
+                font-family: 'Cocomat Pro', sans-serif;
+                font-weight: bold;
             }
             /* ── Company info ── */
             #logo          { height: 90px; width: 90px; }
