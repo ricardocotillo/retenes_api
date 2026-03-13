@@ -98,6 +98,7 @@
             .st-value     { font-size: 10px; padding: 4px; border: 1px solid #e8e8e8; border-left: none;  text-align: center; background-color: #0766ab; font-weight: bold; color: #ffffff; }
             /* ── Conditions list ── */
             .cond-list { font-size: 8.5px; padding-left: 12px; font-family: 'Garet Book', 'sans-serif'; }
+            .cond-list li::marker { color: #0766ab; }
             .accent    { color: #0766ab; }
             /* ── Totals table ── */
             .ttable { border: 1px solid #e8e8e8; }
