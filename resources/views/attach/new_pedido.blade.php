@@ -20,6 +20,12 @@
                 font-weight: bold;
                 font-style: normal;
             }
+            @font-face {
+                font-family: 'Garet Book';
+                src: url('{{ storage_path("fonts/Garet-Book.ttf") }}') format('truetype');
+                font-weight: normal;
+                font-style: normal;
+            }
             @page {
                 size: 21cm 29.7cm;
                 margin: 1cm;
