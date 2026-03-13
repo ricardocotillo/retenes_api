@@ -256,7 +256,7 @@
                                     <td class="pc-c">{{ $v['articulo']['MDIM_INT1'] }}-{{ $v['articulo']['MDIM_EXT1'] }}-{{ $v['articulo']['MDIM_ALT1'] }}</td>
                                     <td class="pc-c text-first-upper">{{ $v['item_state'] }}</td>
                                     <td class="pc-c">{{ number_format($v['MPRECIO'], 2, '.', '') }}</td>
-                                    <td class="pc-c">{{ number_format($v['precio_neto'] / $v['MCANTIDAD'], 2, '.', '') }}</td>
+                                    <td class="pc-c">{{ number_format(($v['precio_neto'] / $v['MCANTIDAD']) / 1.18, 2, '.', '') }}</td>
                                     <td class="pc-c">{{ $v['descrip'] }}</td>
                                     <td class="pc-c">{{ number_format($v['precio_neto'], 2, '.', '') }}</td>
                                 </tr>
