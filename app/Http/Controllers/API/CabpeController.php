@@ -605,9 +605,12 @@ class CabpeController extends Controller
             $montoTotalFinal = $montoTotalFinal + $cabpe->precio_neto;
         }
         $mnroped = $cabpes[0]->MNSERIE . '-' . $cabpes[0]->MNROPED;
+        // get the most current fecha_despacho from across all the detpes of all cabpes
+        $fecha_despacho = $cabpes->flatMap->detpe->max('fecha_despacho');
         $instalments = $cabpes[0]->instalments()->get();
         $info = [
             'fecha'           => date('d/m/Y'),
+            'fecha_despacho'  => $fecha_despacho,
             'periodo'         => date('Y/m'),
             'mnroped'         => $mnroped,
             'ruc'             => $cabpes[0]->MCODCLI,

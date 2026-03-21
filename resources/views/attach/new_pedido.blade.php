@@ -225,7 +225,7 @@
                     <tr>
                         <td class="fl">FECHA DESP.</td>
                         <td class="fl">:</td>
-                        <td class="fv"></td>
+                        <td class="fv">{{ $fecha_despacho }}</td>
                     </tr>
                 </tbody>
             </table>
