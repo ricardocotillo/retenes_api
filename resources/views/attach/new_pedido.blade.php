@@ -118,7 +118,7 @@
                 <tr>
                     <td style="width: 58%; vertical-align: bottom; padding-right: 24px;">
                         <div class="order-num">{{ $mnroped }}</div>
-                        <div class="order-type">COTIZACIÓN</div>
+                        <div class="order-type">{{ $email_type == 'quote' ? 'COTIZACIÓN' : 'NOTA DE PEDIDO' }}</div>
                     </td>
                     <td style="width: 42%; vertical-align: bottom;">
                         <table>
