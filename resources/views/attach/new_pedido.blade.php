@@ -90,9 +90,10 @@
             .ptable       { table-layout: auto; width: 100%; }
             .phead        { color: #ffffff; background-color: #0766ab; font-weight: 600; font-size: 8px; }
             .pbody        { font-size: 8px; }
-            .pc           { padding: 4px; border: 1px solid #e8e8e8; word-break: break-word; overflow-wrap: break-word; }
-            .pc-c         { padding: 4px; border: 1px solid #e8e8e8; word-break: break-word; overflow-wrap: break-word; text-align: center; }
-            .pc-l         { padding: 4px; border: 1px solid #e8e8e8; word-break: break-word; overflow-wrap: break-word; text-align: left; }
+            .pc           { padding: 4px; border: 1px solid #e8e8e8; white-space: nowrap; }
+            .pc-c         { padding: 4px; border: 1px solid #e8e8e8; white-space: nowrap; text-align: center; }
+            .pc-l         { padding: 4px; border: 1px solid #e8e8e8; white-space: nowrap; text-align: left; }
+            .max          { width: 100%; white-space: normal; word-break: break-word; overflow-wrap: break-word; }
             .text-first-upper::first-letter { text-transform: uppercase; }
             .st-label     { font-size: 10px; padding: 4px; border: 1px solid #e8e8e8; border-right: none; text-align: center; background-color: #0766ab; font-weight: bold; color: #ffffff; }
             .st-value     { font-size: 10px; padding: 4px; border: 1px solid #e8e8e8; border-left: none;  text-align: center; background-color: #0766ab; font-weight: bold; color: #ffffff; }
@@ -107,16 +108,6 @@
             .tf     { background-color: #0766ab; }
             /* ── Instalments ── */
             .inst-cell { padding: 4px; text-align: center; font-size: 8px; }
-            :where(th, td):not(.max) {
-                width: 0;
-                white-space: nowrap;
-            }
-            :where(th, td) div {
-                white-space: nowrap;
-            }
-            :where(th, td).max {
-                width: 100%;
-            }
         </style>
     </head>
     <body>
@@ -239,7 +230,7 @@
                 <table class="ptable">
                     <thead class="phead">
                         <tr>
-                            <th class="pc max">CÓDIGO</th>
+                            <th class="pc">CÓDIGO</th>
                             <th class="pc">CANTIDAD</th>
                             <th class="pc max">DESCRIPCIÓN</th>
                             <th class="pc">MEDIDAS INT-EXT-ALT</th>
@@ -254,10 +245,10 @@
                         @foreach ($value as $v)
                             @if ($v['MCODDFA'] != 'Bono')
                                 <tr>
-                                    <td class="pc-c max"><div>{{ $v['MCODART'] }}</div></td>
+                                    <td class="pc-c"><div>{{ $v['MCODART'] }}</div></td>
                                     <td class="pc-c">{{ $v['MCANTIDAD'] }}</td>
                                     <td class="pc-l max">{{ $v['MDESCRI01'] }}</td>
-                                    <td class="pc-c">{{ $v['articulo']['MDIM_INT1'] }}-{{ $v['articulo']['MDIM_EXT1'] }}-{{ $v['articulo']['MDIM_ALT1'] }}</td>
+                                    <td class="pc-c">{{ $v['articulo']['MDIM_INT1'] ?? '0' }}-{{ $v['articulo']['MDIM_EXT1'] ?? '0' }}-{{ $v['articulo']['MDIM_ALT1'] ?? '0' }}</td>
                                     <td class="pc-c text-first-upper">{{ $v['item_state'] }}</td>
                                     <td class="pc-c">{{ number_format($v['MPRECIO'], 2, '.', '') }}</td>
                                     <td class="pc-c">{{ number_format(($v['precio_neto'] / $v['MCANTIDAD']) / 1.18, 2, '.', '') }}</td>
@@ -266,10 +257,10 @@
                                 </tr>
                             @else
                                 <tr>
-                                    <td class="pc-c max">{{ $v['MCODART'] }}</td>
+                                    <td class="pc-c">{{ $v['MCODART'] }}</td>
                                     <td class="pc-c">{{ $v['MCANTIDAD'] }}</td>
                                     <td class="pc-l max">{{ $v['MDESCRI01'] }}</td>
-                                    <td class="pc-c">{{ $v['articulo']['MDIM_INT1'] }}-{{ $v['articulo']['MDIM_EXT1'] }}-{{ $v['articulo']['MDIM_ALT1'] }}</td>
+                                    <td class="pc-c">{{ $v['articulo']['MDIM_INT1'] ?? '0' }}-{{ $v['articulo']['MDIM_EXT1'] ?? '0' }}-{{ $v['articulo']['MDIM_ALT1'] ?? '0' }}</td>
                                     <td class="pc-c text-first-upper">{{ $v['item_state'] }}</td>
                                     <td class="pc-c">0.00</td>
                                     <td class="pc-c">0.00</td>
