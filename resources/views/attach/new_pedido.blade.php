@@ -111,6 +111,9 @@
                 width: 0;
                 white-space: nowrap;
             }
+            :where(th, td) div {
+                white-space: nowrap;
+            }
             :where(th, td).max {
                 width: 100%;
             }
@@ -251,7 +254,7 @@
                         @foreach ($value as $v)
                             @if ($v['MCODDFA'] != 'Bono')
                                 <tr>
-                                    <td class="pc-c max">{{ $v['MCODART'] }}</td>
+                                    <td class="pc-c max"><div>{{ $v['MCODART'] }}</div></td>
                                     <td class="pc-c">{{ $v['MCANTIDAD'] }}</td>
                                     <td class="pc-l max">{{ $v['MDESCRI01'] }}</td>
                                     <td class="pc-c">{{ $v['articulo']['MDIM_INT1'] }}-{{ $v['articulo']['MDIM_EXT1'] }}-{{ $v['articulo']['MDIM_ALT1'] }}</td>
