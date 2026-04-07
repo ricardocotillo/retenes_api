@@ -640,6 +640,7 @@ class CabpeController extends Controller
                 return $c->totalByState('anulado');
             })->sum(),
             'flavor'          => config('app.flavor'),
+            'email_type'      => 'quote',
         ];
         return $info;
     }
@@ -693,8 +694,11 @@ class CabpeController extends Controller
      */
     public function download_pdf(Request $request, string $mnserie, string $mnroped)
     {
+        $email_type = $request->input('email_type', 'quote');
         $cabpes = Cabpe::with(['detpe', 'detpe.articulo', 'detpe.famdfas', 'ccmtrs', 'ccmcli', 'ccmcpa', 'values', 'instalments'])->where('MNSERIE', $mnserie)->where('MNROPED', $mnroped)->get();
-        $pdf = $this->generate_pdf($cabpes, null, true);
+        $info = $this->get_pedido_info($cabpes);
+        $info['email_type'] = $email_type;
+        $pdf = $this->generate_pdf($cabpes, $info, true);
         return response($pdf, 200)
             ->header('Content-Type', 'application/pdf')
             ->header('Content-Disposition', 'attachment; filename="pedido.pdf"');
