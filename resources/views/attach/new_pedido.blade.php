@@ -236,7 +236,7 @@
                 <table class="ptable">
                     <thead class="phead">
                         <tr>
-                            <th class="pc">CÓDIGO</th>
+                            <th class="pc max">CÓDIGO</th>
                             <th class="pc">CANTIDAD</th>
                             <th class="pc max">DESCRIPCIÓN</th>
                             <th class="pc">MEDIDAS INT-EXT-ALT</th>
@@ -251,7 +251,7 @@
                         @foreach ($value as $v)
                             @if ($v['MCODDFA'] != 'Bono')
                                 <tr>
-                                    <td class="pc-c">{{ $v['MCODART'] }}</td>
+                                    <td class="pc-c max">{{ $v['MCODART'] }}</td>
                                     <td class="pc-c">{{ $v['MCANTIDAD'] }}</td>
                                     <td class="pc-l max">{{ $v['MDESCRI01'] }}</td>
                                     <td class="pc-c">{{ $v['articulo']['MDIM_INT1'] }}-{{ $v['articulo']['MDIM_EXT1'] }}-{{ $v['articulo']['MDIM_ALT1'] }}</td>
@@ -263,7 +263,7 @@
                                 </tr>
                             @else
                                 <tr>
-                                    <td class="pc-c">{{ $v['MCODART'] }}</td>
+                                    <td class="pc-c max">{{ $v['MCODART'] }}</td>
                                     <td class="pc-c">{{ $v['MCANTIDAD'] }}</td>
                                     <td class="pc-l max">{{ $v['MDESCRI01'] }}</td>
                                     <td class="pc-c">{{ $v['articulo']['MDIM_INT1'] }}-{{ $v['articulo']['MDIM_EXT1'] }}-{{ $v['articulo']['MDIM_ALT1'] }}</td>
