@@ -231,10 +231,10 @@
                     <thead class="phead">
                         <tr>
                             <th class="pc" style="width: 48px;">CÓDIGO</th>
-                            <th class="pc" style="width: 32px;">CANTIDAD</th>
-                            <th class="pc" style="width: 93px;">DESCRIPCIÓN</th>
+                            <th class="pc" style="width: 30px;">CANTIDAD</th>
+                            <th class="pc" style="width: 97px;">DESCRIPCIÓN</th>
                             <th class="pc" style="width: 38px;">INT-EXT-ALT</th>
-                            <th class="pc" style="width: 42px;">ESTADO</th>
+                            <th class="pc" style="width: 40px;">ESTADO</th>
                             <th class="pc" style="width: 34px;">PRECIO U.</th>
                             <th class="pc" style="width: 40px;">PRECIO U. NETO</th>
                             <th class="pc" style="width: 42px;">DESCUENTO</th>
