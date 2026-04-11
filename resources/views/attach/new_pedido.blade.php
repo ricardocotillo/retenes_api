@@ -232,7 +232,7 @@
                         <tr>
                             <th class="pc" style="width: 48px;">CÓDIGO</th>
                             <th class="pc" style="width: 32px;">CANTIDAD</th>
-                            <th class="pc max">DESCRIPCIÓN</th>
+                            <th class="pc" style="width: 91px;">DESCRIPCIÓN</th>
                             <th class="pc" style="width: 38px;">INT-EXT-ALT</th>
                             <th class="pc" style="width: 42px;">ESTADO</th>
                             <th class="pc" style="width: 34px;">PRECIO U.</th>
@@ -247,7 +247,7 @@
                                 <tr>
                                     <td class="pc-c"><div>{{ $v['MCODART'] }}</div></td>
                                     <td class="pc-c">{{ $v['MCANTIDAD'] }}</td>
-                                    <td class="pc-l max">{{ $v['MDESCRI01'] }}</td>
+                                    <td class="pc-l"><p class="max">{{ $v['MDESCRI01'] }}</p></td>
                                     <td class="pc-c">{{ $v['articulo']['MDIM_INT1'] ?? '0' }}-{{ $v['articulo']['MDIM_EXT1'] ?? '0' }}-{{ $v['articulo']['MDIM_ALT1'] ?? '0' }}</td>
                                     <td class="pc-c text-first-upper">{{ $v['item_state'] }}</td>
                                     <td class="pc-c">{{ number_format($v['MPRECIO'], 2, '.', '') }}</td>
@@ -259,7 +259,7 @@
                                 <tr>
                                     <td class="pc-c">{{ $v['MCODART'] }}</td>
                                     <td class="pc-c">{{ $v['MCANTIDAD'] }}</td>
-                                    <td class="pc-l max">{{ $v['MDESCRI01'] }}</td>
+                                    <td class="pc-l"><p class="max">{{ $v['MDESCRI01'] }}</p></td>
                                     <td class="pc-c">{{ $v['articulo']['MDIM_INT1'] ?? '0' }}-{{ $v['articulo']['MDIM_EXT1'] ?? '0' }}-{{ $v['articulo']['MDIM_ALT1'] ?? '0' }}</td>
                                     <td class="pc-c text-first-upper">{{ $v['item_state'] }}</td>
                                     <td class="pc-c">0.00</td>
