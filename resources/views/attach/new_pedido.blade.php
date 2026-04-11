@@ -87,7 +87,7 @@
             /* ── Vendor heading ── */
             .vendor-h { color: #000000; font-size: 10px; margin-bottom: 0; }
             /* ── Product table ── */
-            .ptable       { table-layout: fixed; width: 100%; }
+            .ptable       { table-layout: auto; width: 100%; }
             .phead        { color: #ffffff; background-color: #0766ab; font-weight: 600; font-size: 8px; }
             .pbody        { font-size: 8px; }
             .pc           { padding: 4px; border: 1px solid #e8e8e8; white-space: nowrap; overflow: hidden; }
