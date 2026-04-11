@@ -87,13 +87,13 @@
             /* ── Vendor heading ── */
             .vendor-h { color: #000000; font-size: 10px; margin-bottom: 0; }
             /* ── Product table ── */
-            .ptable       { table-layout: auto; width: 100%; }
+            .ptable       { table-layout: fixed; width: 100%; }
             .phead        { color: #ffffff; background-color: #0766ab; font-weight: 600; font-size: 8px; }
             .pbody        { font-size: 8px; }
-            .pc           { padding: 4px; border: 1px solid #e8e8e8; white-space: nowrap; }
-            .pc-c         { padding: 4px; border: 1px solid #e8e8e8; white-space: nowrap; text-align: center; }
-            .pc-l         { padding: 4px; border: 1px solid #e8e8e8; white-space: nowrap; text-align: left; }
-            .max          { width: 100%; white-space: normal; word-break: break-word; overflow-wrap: break-word; }
+            .pc           { padding: 4px; border: 1px solid #e8e8e8; white-space: nowrap; overflow: hidden; }
+            .pc-c         { padding: 4px; border: 1px solid #e8e8e8; white-space: nowrap; text-align: center; overflow: hidden; }
+            .pc-l         { padding: 4px; border: 1px solid #e8e8e8; white-space: nowrap; text-align: left; overflow: hidden; }
+            .max          { white-space: normal; word-wrap: break-word; }
             .text-first-upper::first-letter { text-transform: uppercase; }
             .st-label     { font-size: 10px; padding: 4px; border: 1px solid #e8e8e8; border-right: none; text-align: center; background-color: #0766ab; font-weight: bold; color: #ffffff; }
             .st-value     { font-size: 10px; padding: 4px; border: 1px solid #e8e8e8; border-left: none;  text-align: center; background-color: #0766ab; font-weight: bold; color: #ffffff; }
@@ -230,15 +230,15 @@
                 <table class="ptable">
                     <thead class="phead">
                         <tr>
-                            <th class="pc">CÓDIGO</th>
-                            <th class="pc">CANTIDAD</th>
+                            <th class="pc" style="width: 55px;">CÓDIGO</th>
+                            <th class="pc" style="width: 45px;">CANTIDAD</th>
                             <th class="pc max">DESCRIPCIÓN</th>
-                            <th class="pc">MEDIDAS INT-EXT-ALT</th>
-                            <th class="pc">ESTADO</th>
-                            <th class="pc">PRECIO UNITARIO</th>
-                            <th class="pc">PRECIO U. NETO</th>
-                            <th class="pc">DESCUENTO</th>
-                            <th class="pc">TOTAL</th>
+                            <th class="pc" style="width: 52px;">INT-EXT-ALT</th>
+                            <th class="pc" style="width: 45px;">ESTADO</th>
+                            <th class="pc" style="width: 48px;">PRECIO U.</th>
+                            <th class="pc" style="width: 58px;">PRECIO U. NETO</th>
+                            <th class="pc" style="width: 52px;">DESCUENTO</th>
+                            <th class="pc" style="width: 48px;">TOTAL</th>
                         </tr>
                     </thead>
                     <tbody class="pbody">
