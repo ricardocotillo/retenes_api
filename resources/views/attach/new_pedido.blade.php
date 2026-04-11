@@ -230,15 +230,15 @@
                 <table class="ptable">
                     <thead class="phead">
                         <tr>
-                            <th class="pc" style="width: 55px;">CÓDIGO</th>
-                            <th class="pc" style="width: 45px;">CANTIDAD</th>
+                            <th class="pc" style="width: 48px;">CÓDIGO</th>
+                            <th class="pc" style="width: 32px;">CANTIDAD</th>
                             <th class="pc max">DESCRIPCIÓN</th>
-                            <th class="pc" style="width: 52px;">INT-EXT-ALT</th>
-                            <th class="pc" style="width: 45px;">ESTADO</th>
-                            <th class="pc" style="width: 48px;">PRECIO U.</th>
-                            <th class="pc" style="width: 58px;">PRECIO U. NETO</th>
-                            <th class="pc" style="width: 52px;">DESCUENTO</th>
-                            <th class="pc" style="width: 48px;">TOTAL</th>
+                            <th class="pc" style="width: 38px;">INT-EXT-ALT</th>
+                            <th class="pc" style="width: 42px;">ESTADO</th>
+                            <th class="pc" style="width: 34px;">PRECIO U.</th>
+                            <th class="pc" style="width: 42px;">PRECIO U. NETO</th>
+                            <th class="pc" style="width: 42px;">DESCUENTO</th>
+                            <th class="pc" style="width: 34px;">TOTAL</th>
                         </tr>
                     </thead>
                     <tbody class="pbody">
