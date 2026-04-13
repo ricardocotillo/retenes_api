@@ -212,6 +212,13 @@
                         <td class="fl">:</td>
                         <td class="fv">{{ $transporte }} - {{ $nametrans }}</td>
                     </tr>
+                    @foreach ($values as $value)
+                        <tr>
+                            <td class="fl">{{ $value->label }}</td>
+                            <td class="fl">:</td>
+                            <td class="fv">{{ $value->value }}</td>
+                        </tr>
+                    @endforeach
                     <tr>
                         <td class="fl">OBSERVACIÓN</td>
                         <td class="fl">:</td>
