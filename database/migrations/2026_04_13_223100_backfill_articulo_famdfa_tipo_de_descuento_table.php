@@ -18,7 +18,7 @@ return new class extends Migration
                 ->select('mcla_prod', DB::raw('count(*) as count'))
                 ->whereNotNull('mcla_prod')
                 ->groupBy('mcla_prod')
-                ->having('count', '>', 1)
+                ->havingRaw('count(*) > 1')
                 ->get();
 
             if ($duplicates->isNotEmpty()) {

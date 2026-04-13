@@ -44,7 +44,7 @@ return new class extends Migration
         $duplicatePairs = DB::table('articulo_famdfa_tipo_de_descuento')
             ->select('articulo_famdfa_id', 'tipo_de_descuento_id', DB::raw('count(*) as count'))
             ->groupBy('articulo_famdfa_id', 'tipo_de_descuento_id')
-            ->having('count', '>', 1)
+            ->havingRaw('count(*) > 1')
             ->count();
 
         if ($duplicatePairs > 0) {
