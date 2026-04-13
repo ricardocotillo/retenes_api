@@ -12,7 +12,6 @@ class ArticuloFamdfa extends Model
 	protected $fillable = [
 		'mcodart',
 		'mcoddfa',
-		'mcla_prod',
 		'type',
 	];
 
@@ -20,4 +19,14 @@ class ArticuloFamdfa extends Model
 	{
 		return $this->belongsTo(Famdfa::class, 'mcoddfa', 'MCODDFA');
 	}
+
+    public function tiposDeDescuento()
+    {
+        return $this->belongsToMany(
+            TipoDeDescuento::class,
+            'articulo_famdfa_tipo_de_descuento',
+            'articulo_famdfa_id',
+            'tipo_de_descuento_id'
+        )->withTimestamps();
+    }
 }

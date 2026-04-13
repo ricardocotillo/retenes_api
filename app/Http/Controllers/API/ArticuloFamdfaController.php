@@ -44,7 +44,7 @@ class ArticuloFamdfaController extends Controller
         $mcodcli = $data['mcodcli'];
         // $mcla_prod = $data['mcla_prod'];
         $discount_by_mcodcli = $this->has_restricted_item_discount($mcodcli);
-        $query = ArticuloFamdfa::with('famdfa')
+        $query = ArticuloFamdfa::with(['famdfa', 'tiposDeDescuento'])
             ->where('impneto_min', null)
             ->where('impneto_max', null)
             ->where(function ($query) use ($mcodart) {
@@ -82,7 +82,7 @@ class ArticuloFamdfaController extends Controller
 
         $discount_by_mcodcli = $this->has_restricted_general_discount($mcodcli);
 
-        $query = ArticuloFamdfa::with('famdfa')
+        $query = ArticuloFamdfa::with(['famdfa', 'tiposDeDescuento'])
             ->where(function ($q) use ($mcodcadi) {
                 $q->where('MCODCADI', $mcodcadi)->orWhereNull('MCODCADI');
             })
@@ -92,7 +92,9 @@ class ArticuloFamdfaController extends Controller
             ->where('impneto_min', '<=', $impneto)
             ->where('tipo', $type)
             ->where('mindcred', $mindcred)
-            ->where('mcla_prod', $mcla_prod)
+            ->whereHas('tiposDeDescuento', function ($q) use ($mcla_prod) {
+                $q->where('mcla_prod', $mcla_prod);
+            })
             // mcodzon or null
             ->where(function ($q) use ($mcodzon) {
                 $q->where('MCODZON', $mcodzon)->orWhereNull('MCODZON');
