@@ -26,7 +26,7 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 WORKDIR /app
 
 # Copy composer files to leverage Docker cache
-COPY composer.json composer.lock ./
+COPY composer.json ./
 RUN composer install --no-interaction --no-plugins --no-scripts --prefer-dist
 
 # Copy the rest of the application files
