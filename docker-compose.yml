@@ -1,45 +1,43 @@
 services:
-    laravel:
-        build:
-            context: .
-            dockerfile: Dockerfile
-        container_name: laravel
-        volumes:
-            - .:/app
-        networks:
-            - app-network
-        depends_on:
-            - pgsql
-            - redis
-        ports:
-            - '8000:8000'
-        command: [ "sleep", "infinity" ]
-    mailhog:
-        image: 'mailhog/mailhog:latest'
-        ports:
-            - '1025:1025'
-            - '8025:8025'
-        networks:
-            - app-network
-    pgsql:
-        image: 'postgres:16'
-        ports:
-            - '5432:5432'
-        environment:
-            POSTGRES_DB: 'postgres'
-            POSTGRES_USER: 'postgres'
-            POSTGRES_PASSWORD: 'secret'
-        volumes:
-            - 'pgsql:/var/lib/postgresql/data'
-        networks:
-            - app-network
-    redis:
-        image: 'redis:alpine'
-        networks:
-            - app-network
+  laravel:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: laravel
+    volumes:
+      - .:/app
+    networks:
+      - app-network
+    depends_on:
+      - pgsql
+      - redis
+    command: ["sleep", "infinity"]
+  mailhog:
+    image: "mailhog/mailhog:latest"
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+    networks:
+      - app-network
+  pgsql:
+    image: "postgres:16"
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: "postgres"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "secret"
+    volumes:
+      - "pgsql:/var/lib/postgresql/data"
+    networks:
+      - app-network
+  redis:
+    image: "redis:alpine"
+    networks:
+      - app-network
 networks:
-    app-network:
-        driver: bridge
+  app-network:
+    driver: bridge
 volumes:
-    pgsql:
-        driver: local
+  pgsql:
+    driver: local
