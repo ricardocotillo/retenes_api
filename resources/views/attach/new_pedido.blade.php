@@ -108,6 +108,7 @@
             .tf     { background-color: #0766ab; }
             /* ── Instalments ── */
             .inst-cell { padding: 4px; text-align: center; font-size: 8px; }
+            .row-highlight { background-color: #FFFF00; }
         </style>
     </head>
     <body>
@@ -244,7 +245,7 @@
                     <tbody class="pbody">
                         @foreach ($value as $v)
                             @if ($v['MCODDFA'] != 'Bono')
-                                <tr>
+                                <tr class="{{ (isset($v['estado']) && $v['estado'] == 1) ? 'row-highlight' : '' }}">
                                     <td class="pc-c"><div>{{ $v['MCODART'] }}</div></td>
                                     <td class="pc-c">{{ $v['MCANTIDAD'] }}</td>
                                     <td class="pc-l"><p class="max">{{ $v['MDESCRI01'] }}</p></td>
@@ -256,7 +257,7 @@
                                     <td class="pc-c">{{ number_format($v['precio_neto'], 2, '.', '') }}</td>
                                 </tr>
                             @else
-                                <tr>
+                                <tr class="{{ (isset($v['estado']) && $v['estado'] == 1) ? 'row-highlight' : '' }}">
                                     <td class="pc-c">{{ $v['MCODART'] }}</td>
                                     <td class="pc-c">{{ $v['MCANTIDAD'] }}</td>
                                     <td class="pc-l"><p class="max">{{ $v['MDESCRI01'] }}</p></td>
