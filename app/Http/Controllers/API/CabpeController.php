@@ -605,9 +605,12 @@ class CabpeController extends Controller
             $montoTotalFinal = $montoTotalFinal + $cabpe->precio_neto;
         }
         $mnroped = $cabpes[0]->MNSERIE . '-' . $cabpes[0]->MNROPED;
+        // get the most current fecha_despacho from across all the detpes of all cabpes
+        $fecha_despacho = $cabpes->flatMap->detpe->max('fecha_despacho');
         $instalments = $cabpes[0]->instalments()->get();
         $info = [
             'fecha'           => date('d/m/Y'),
+            'fecha_despacho'  => $fecha_despacho,
             'periodo'         => date('Y/m'),
             'mnroped'         => $mnroped,
             'ruc'             => $cabpes[0]->MCODCLI,
@@ -637,6 +640,7 @@ class CabpeController extends Controller
                 return $c->totalByState('anulado');
             })->sum(),
             'flavor'          => config('app.flavor'),
+            'email_type'      => 'quote',
         ];
         return $info;
     }
@@ -655,7 +659,7 @@ class CabpeController extends Controller
             $info = $this->get_pedido_info($cabpes);
         }
         PDF::setOptions(['unicode' => true]);
-        $document = PDF::loadView('attach.pedido', $info);
+        $document = PDF::loadView('attach.new_pedido', $info);
         return $download ? $document->download('pedido.pdf') : $document->output();
     }
 
@@ -690,8 +694,11 @@ class CabpeController extends Controller
      */
     public function download_pdf(Request $request, string $mnserie, string $mnroped)
     {
-        $cabpes = Cabpe::with(['detpe', 'detpe.famdfas', 'ccmtrs', 'ccmcli', 'ccmcpa', 'values', 'instalments'])->where('MNSERIE', $mnserie)->where('MNROPED', $mnroped)->get();
-        $pdf = $this->generate_pdf($cabpes, null, true);
+        $email_type = $request->input('email_type', 'quote');
+        $cabpes = Cabpe::with(['detpe', 'detpe.articulo', 'detpe.famdfas', 'ccmtrs', 'ccmcli', 'ccmcpa', 'values', 'instalments'])->where('MNSERIE', $mnserie)->where('MNROPED', $mnroped)->get();
+        $info = $this->get_pedido_info($cabpes);
+        $info['email_type'] = $email_type;
+        $pdf = $this->generate_pdf($cabpes, $info, true);
         return response($pdf, 200)
             ->header('Content-Type', 'application/pdf')
             ->header('Content-Disposition', 'attachment; filename="pedido.pdf"');
@@ -1105,5 +1112,23 @@ class CabpeController extends Controller
             $c->update(['estado' => 'facturado']);
         }
         return response()->json($cabpes);
+    }
+
+    public function new_pedido() {
+        $estado = 'terminado';
+        $email_type = 'quote';
+        $mnserie = '002';
+        $mnroped = '020963';
+        $cabpes = Cabpe::with(['detpe', 'detpe.articulo', 'detpe.famdfas', 'ccmtrs', 'ccmcli', 'ccmcpa', 'values', 'instalments'])->where('MNSERIE', $mnserie)->where('MNROPED', $mnroped)->get();
+        $data = array('nombre' => $cabpes[0]->ccmcli->MNOMBRE);
+
+
+        $mcodven = $cabpes[0]->MCODVEN;
+        $ccmcli = $cabpes[0]->ccmcli;
+
+        $recep = config('app.flavor') == 'filtros' ? 'pedidos01_iwb@filtroswillybusch.com.pe' : 'pedidos01_wb@willybusch.com.pe';
+        $ctx = $this->get_pedido_info($cabpes);
+        $ctx['email_type'] = $email_type;
+        return view('attach.new_pedido', $ctx);
     }
 }

@@ -54,19 +54,49 @@ class CcmcpaController extends Controller
      */
     public function update(Request $request)
     {
+        $data = $request->validate([
+            'mcodcadi' => ['required'],
+            'list' => ['required', 'array'],
+        ]);
+
         $cambios = [];
-        $contDfa = ContadoFamdfa::where('mcodcadi', $request->input('mcodcadi'))->first();
-        $contado = Famdfa::where('MCODDFA', $contDfa['mcoddfa'])->first();
+
+        $contDfa = ContadoFamdfa::where('mcodcadi', $data['mcodcadi'])->first();
+        if (!$contDfa) {
+            return response()->json([
+                'message' => 'No mapping found for mcodcadi',
+                'mcodcadi' => $data['mcodcadi'],
+            ], 404);
+        }
+
+        $contado = Famdfa::where('MCODDFA', $contDfa->mcoddfa)->first();
+        if (!$contado) {
+            return response()->json([
+                'message' => 'No Famdfa record found for contado mapping',
+                'mcoddfa' => $contDfa->mcoddfa,
+            ], 404);
+        }
+
         $cambios['sin'] = $contado;
         $cambios['cambios'] = [];
-        foreach ($request->input('list') as $key => $val) {
+
+        foreach ($data['list'] as $key => $val) {
             if ($val != NULL) {
                 $fam = Famdfa::where('MCODDFA', $val)->first();
-                $cont = Famdfa::where('MDESCRIP', substr($contado['MDESCRIP'], 0, -1).'+'.$fam['MDESCRIP'])->first();
+                if (!$fam || !$contado->MDESCRIP || !$fam->MDESCRIP) {
+                    continue;
+                }
+
+                $cont = Famdfa::where('MDESCRIP', substr($contado->MDESCRIP, 0, -1).'+'.$fam->MDESCRIP)->first();
+                if (!$cont) {
+                    continue;
+                }
+
                 $cont['antiguo'] = $val;
                 array_push($cambios['cambios'], $cont);
             }
         }
+
         return response()->json($cambios, 200);
     }
 

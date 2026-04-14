@@ -1,198 +1,324 @@
 <html>
     <head>
-        <meta charset="UTF-8">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <style type="text/css">
+            @font-face {
+                font-family: 'Open Sans';
+                src: url('{{ storage_path("fonts/OpenSans-Regular.ttf") }}') format('truetype');
+                font-weight: normal;
+                font-style: normal;
+            }
+            @font-face {
+                font-family: 'Open Sans';
+                src: url('{{ storage_path("fonts/OpenSans-Bold.ttf") }}') format('truetype');
+                font-weight: bold;
+                font-style: normal;
+            }
+            @font-face {
+                font-family: 'Cocomat Pro';
+                src: url('{{ storage_path("fonts/CocomatPro-Bold.ttf") }}') format('truetype');
+                font-weight: bold;
+                font-style: normal;
+            }
+            @font-face {
+                font-family: 'Garet Book';
+                src: url('{{ storage_path("fonts/Garet-Book.ttf") }}') format('truetype');
+                font-weight: normal;
+                font-style: normal;
+            }
+            @font-face {
+                font-family: 'Montserrat Arabic';
+                src: url('{{ storage_path("fonts/Montserrat-Arabic Regular 400.otf") }}') format('opentype');
+                font-weight: normal;
+                font-style: normal;
+            }
+            @page {
+                size: 21cm 29.7cm;
+                margin: 1cm;
+            }
+            body {
+                font-family: 'Open Sans', sans-serif;
+                margin: 0;
+                padding: 0;
+            }
+            table {
+                width: 100%;
+                border-collapse: collapse;
+            }
+            /* ── Header banner ── */
+            .order-num {
+                text-align: center;
+                color: #fefdfe;
+                font-size: 16.3px;
+                background-color: #0766ab;
+                padding: 10px;
+                padding-top: 16px;
+                border-bottom: 1px solid #ffffff;
+                font-weight: bold;
+            }
+            .order-type {
+                text-align: center;
+                color: #fefdfe;
+                font-size: 29px;
+                background-color: #0766ab;
+                padding: 10px;
+                padding-bottom: 16px;
+                font-family: 'Cocomat Pro', sans-serif;
+                font-weight: bold;
+            }
+            /* ── Company info ── */
+            #logo          { height: 90px; width: 90px; }
+            .company-name  { margin: 0; font-size: 16.8px; }
+            .company-ruc   { margin: 0; font-size: 12.9px; }
+            .company-info  { margin: 0; font-size: 8.3px; }
+            /* ── Section separators ── */
+            .sep    { padding-bottom: 4px; border-bottom: 1px solid #0766ab; margin-top: 16px; }
+            .sep-sm { padding-bottom: 4px; border-bottom: 1px solid #0766ab; margin-top: 4px; }
+            /* ── Section titles ── */
+            .stitle    { margin: 0; font-size: 12px;  color: #0766ab; font-weight: bold; font-family: 'Open Sans', sans-serif; }
+            .sdate     { margin: 0; font-size: 7px; font-family: 'Montserrat Arabic', 'sans-serif'; }
+            /* ── Data-field rows (cliente / adicionales tables) ── */
+            .fl { font-size: 9px; color: #0766ab; }
+            .fv { font-size: 9px; }
+            .field-table { width: 100%; display: table; table-layout: auto; font-family: 'Open Sans', 'sans-serif'; }
+            .field-table td:nth-child(1) { width: 70px; white-space: nowrap; }
+            .field-table td:nth-child(2) { width: 1%; white-space: nowrap; }
+            .field-table td:nth-child(3) { width: auto; }
+            /* ── Vendor heading ── */
+            .vendor-h { color: #000000; font-size: 10px; margin-bottom: 0; }
+            /* ── Product table ── */
+            .ptable       { table-layout: auto; width: 100%; }
+            .phead        { color: #ffffff; background-color: #0766ab; font-weight: 600; font-size: 8px; }
+            .pbody        { font-size: 8px; }
+            .pc           { padding: 4px; border: 1px solid #e8e8e8; white-space: nowrap; overflow: hidden; }
+            .pc-c         { padding: 4px; border: 1px solid #e8e8e8; white-space: nowrap; text-align: center; overflow: hidden; }
+            .pc-l         { padding: 4px; border: 1px solid #e8e8e8; white-space: nowrap; text-align: left; overflow: hidden; }
+            .max          { white-space: normal; word-wrap: break-word; }
+            .text-first-upper::first-letter { text-transform: uppercase; }
+            .st-label     { font-size: 10px; padding: 4px; border: 1px solid #e8e8e8; border-right: none; text-align: center; background-color: #0766ab; font-weight: bold; color: #ffffff; }
+            .st-value     { font-size: 10px; padding: 4px; border: 1px solid #e8e8e8; border-left: none;  text-align: center; background-color: #0766ab; font-weight: bold; color: #ffffff; }
+            /* ── Conditions list ── */
+            .cond-list { font-size: 8.5px; padding-left: 12px; font-family: 'Garet Book', 'sans-serif'; }
+            .cond-list li::marker { color: #0766ab; }
+            .accent    { color: #0766ab; }
+            /* ── Totals table ── */
+            .ttable { border: 1px solid #e8e8e8; }
+            .tl     { font-size: 9px; font-weight: bold; text-align: left;  padding: 4px; border: 1px solid #e8e8e8; }
+            .tv     { font-size: 9px;                    text-align: right; padding: 4px; border: 1px solid #e8e8e8; }
+            .tf     { background-color: #0766ab; }
+            /* ── Instalments ── */
+            .inst-cell { padding: 4px; text-align: center; font-size: 8px; }
+            .row-highlight { background-color: #FFFF00; }
+        </style>
     </head>
-    <body style="font-family: 'Open Sans', sans-serif; margin: 0; padding: 0;">
-        <div style="width: 190mm; max-width: 190mm; margin: 0 auto; box-sizing: border-box;">
-            <table style="width: 100%; border-collapse: collapse;">
+    <body>
+        <div style="width: 190mm; max-width: 190mm; margin: 0 auto;">
+
+            {{-- ── Header: order number banner + logo / company info ── --}}
+            <table>
                 <tr>
                     <td style="width: 58%; vertical-align: bottom; padding-right: 24px;">
-                        <div style="text-align: center; color: #fefdfe; font-size: 16.3px; background-color: #0766ab; padding: 10px; border-bottom: 1px solid #ffffff; padding-top: 16px;">{{ $mnroped }}</div>
-                        <div style="text-align: center; color: #fefdfe; font-size: 29px; background-color: #0766ab; padding: 10px; padding-bottom: 16px;">COTIZACIÓN</div>
+                        <div class="order-num">{{ $mnroped }}</div>
+                        <div class="order-type">{{ $email_type == 'quote' ? 'COTIZACIÓN' : 'NOTA DE PEDIDO' }}</div>
                     </td>
                     <td style="width: 42%; vertical-align: bottom;">
-                        <table style="width: 100%; border-collapse: collapse;">
+                        <table>
                             <tr>
-                                <td style="vertical-align: middle; width: 90px;">
+                                <td style="vertical-align: middle; width: 100px;">
                                     @if ($flavor == 'filtros')
-                                        <img style="height: 90px; width: 90px;" src="{{ 'data:image/png;base64,'.base64_encode(file_get_contents(public_path('images/filtros_logo.png'))) }}" width="100" height="100" id="logo">
+                                        <img src="{{ 'data:image/png;base64,'.base64_encode(file_get_contents(public_path('images/filtros_logo.png'))) }}" width="100" height="100" id="logo">
                                     @else
-                                        <img style="height: 90px; width: 90px;" src="{{ 'data:image/png;base64,'.base64_encode(file_get_contents(public_path('images/retenes_logo.png'))) }}" width="100" height="100" id="logo">
+                                        <img src="{{ 'data:image/png;base64,'.base64_encode(file_get_contents(public_path('images/retenes_logo.png'))) }}" width="100" height="100" id="logo">
                                     @endif
                                 </td>
                                 <td style="vertical-align: middle; padding-left: 8px;">
-                                    <h1 style="margin: 0; font-size: 16.8px;">@if ($flavor == 'filtros') INDUSTRIAS @endif WILLY BUSCH</h1>
-                                    <h2 style="margin: 0; font-size: 12.9px;">
-                                        @if ($flavor == 'filtros')
-                                            20100675537
-                                        @else
-                                            20100674301
-                                        @endif
+                                    <h1 class="company-name">@if ($flavor == 'filtros') INDUSTRIAS @endif WILLY BUSCH</h1>
+                                    <h2 class="company-ruc">
+                                        @if ($flavor == 'filtros') 20100675537 @else 20100674301 @endif
                                     </h2>
-                                    <p style="margin: 0; font-size: 8.3px;">@if ($flavor == 'filtros') Av. Santa Maria 135 Urb. Industrial - Ate - Lima- Perú @else CALLE SANTA LUCIA 170 Ate - Lima - Perú @endif</p>
-                                    <p style="margin: 0; font-size: 8.3px;">@if ($flavor == 'filtros') filtros@filtroswillybusch.com.pe @else retenes@willybusch.com.pe @endif</p>
-                                    <p style="margin: 0; font-size: 8.3px;">@if ($flavor == 'filtros') www.filtroswillybusch.com.pe @else www.willybusch.com.pe @endif</p>
+                                    <p class="company-info">@if ($flavor == 'filtros') Av. Santa Maria 135 Urb. Industrial - Ate - Lima- Perú @else CALLE SANTA LUCIA 170 Ate - Lima - Perú @endif</p>
+                                    <p class="company-info">@if ($flavor == 'filtros') filtros@filtroswillybusch.com.pe @else retenes@willybusch.com.pe @endif</p>
+                                    <p class="company-info">@if ($flavor == 'filtros') www.filtroswillybusch.com.pe @else www.willybusch.com.pe @endif</p>
                                 </td>
                             </tr>
                         </table>
                     </td>
                 </tr>
             </table>
-            <table style="width: 100%; border-collapse: collapse; border-bottom: 1px solid #0766ab; margin-top: 16px;">
+
+            {{-- ── DATOS DEL CLIENTE ── --}}
+            <table style="border-bottom: 1px solid #0766ab; margin-top: 16px;">
                 <tr>
                     <td style="padding-bottom: 4px; vertical-align: middle;">
-                        <h1 style="margin: 0; font-size: 11px; color: #0766ab; font-weight: bold;">DATOS DEL CLIENTE</h1>
+                        <h1 class="stitle">DATOS DEL CLIENTE</h1>
                     </td>
                     <td style="padding-bottom: 4px; vertical-align: middle; text-align: right;">
-                        <p style="margin: 0; font-size: 7px;">FECHA DE PEDIDO: {{ $fecha }}</p>
+                        <p class="sdate">FECHA DE PEDIDO: {{ $fecha }}</p>
                     </td>
                 </tr>
             </table>
-            <table>
+            <table class="field-table">
                 <tbody>
                     <tr>
-                        <td style="font-size: 9px; color: #0766ab">RUC:</td>
-                        <td style="font-size: 9px;">{{ $ruc }}</td>
+                        <td class="fl">RUC</td>
+                        <td class="fl">:</td>
+                        <td class="fv">{{ $ruc }}</td>
                     </tr>
                     <tr>
-                        <td style="font-size: 9px; color: #0766ab">CLIENTE:</td>
-                        <td style="font-size: 9px;">{{ $cliente }}</td>
+                        <td class="fl">CLIENTE</td>
+                        <td class="fl">:</td>
+                        <td class="fv">{{ $cliente }}</td>
                     </tr>
                     <tr>
-                        <td style="font-size: 9px; color: #0766ab">DIRECCIÓN:</td>
-                        <td style="font-size: 9px;">{{ $direccion }} - {{ $localidad }}</td>
+                        <td class="fl">DIRECCIÓN</td>
+                        <td class="fl">:</td>
+                        <td class="fv">{{ $direccion }} - {{ $localidad }}</td>
                     </tr>
                     <tr>
-                        <td style="font-size: 9px; color: #0766ab">CORREO:</td>
-                        <td style="font-size: 9px;">{{ $email }}</td>
+                        <td class="fl">CORREO</td>
+                        <td class="fl">:</td>
+                        <td class="fv">{{ $email }}</td>
                     </tr>
                     <tr>
-                        <td style="font-size: 9px; color: #0766ab">CORREO 2:</td>
-                        <td style="font-size: 9px;">{{ $email }}</td>
+                        <td class="fl">CORREO 2</td>
+                        <td class="fl">:</td>
+                        <td class="fv">{{ $email }}</td>
                     </tr>
                     <tr>
-                        <td style="font-size: 9px; color: #0766ab">TELEFONO:</td>
-                        <td style="font-size: 9px;">{{ $telefono_1 }}</td>
+                        <td class="fl">TELEFONO</td>
+                        <td class="fl">:</td>
+                        <td class="fv">{{ $telefono_1 }}</td>
                     </tr>
                 </tbody>
             </table>
-            <div style="padding-bottom: 4px; border-bottom: 1px solid #0766ab; margin-top: 4px;">
-                <h1 style="margin: 0; font-size: 11px; color: #0766ab; font-weight: bold;">DATOS ADICIONALES</h1>
-            </div>
-            <table>
+
+            {{-- ── DATOS ADICIONALES ── --}}
+            <table class="field-table">
+                <thead>
+                    <tr>
+                        <th colspan="3" class="stitle" style="padding-top: 4px; padding-bottom: 4px; text-align: left;">
+                            DATOS ADICIONALES
+                        </th>
+                    </tr>
+                </thead>
                 <tbody>
                     <tr>
-                        <td style="font-size: 9px; color: #0766ab">COND. PAGO:</td>
-                        <td style="font-size: 9px;">{{ $condicion }}</td>
+                        <td class="fl">COND. PAGO</td>
+                        <td class="fl">:</td>
+                        <td class="fv">{{ $condicion }}</td>
                     </tr>
                     <tr>
-                        <td style="font-size: 9px; color: #0766ab">TRANSPORTE:</td>
-                        <td style="font-size: 9px;">{{ $transporte }} - {{ $nametrans }}</td>
+                        <td class="fl">TRANSPORTE</td>
+                        <td class="fl">:</td>
+                        <td class="fv">{{ $transporte }} - {{ $nametrans }}</td>
                     </tr>
-                    <tr>
-                        <td style="font-size: 9px; color: #0766ab">OBSERVACIÓN:</td>
-                        <td style="font-size: 9px;">{{ $observaciones }}</td>
-                    </tr>
-                    <tr>
-                        <td style="font-size: 9px; color: #0766ab">FECHA DESP.:</td>
-                        <td style="font-size: 9px;"></td>
-                    </tr>
-                </tbody>
-            </table>
-            @foreach ($articulos as $key => $value)
-                <h1 style="color: #000000; font-size: 10px; margin-bottom: 0;">COD. VENDEDOR: {{ $key }}</h1>
-                <table style="border-collapse: collapse; width: 100%; table-layout: fixed;">
-                    <colgroup>
-                        <col style="width: 9%;">
-                        <col style="width: 9%;">
-                        <col style="width: 31%;">
-                        <col style="width: 16%;">
-                        <col style="width: 8%;">
-                        <col style="width: 10%;">
-                        <col style="width: 10%;">
-                        <col style="width: 7%;">
-                    </colgroup>
-                    <thead style="color: #ffffff; background-color: #0766ab; font-weight: 600; font-size: 8px;">
+                    @foreach ($values as $value)
                         <tr>
-                            <th style="padding: 10px; border: 1px solid #e8e8e8; word-break: break-word; overflow-wrap: break-word;">CÓDIGO</th>
-                            <th style="padding: 10px; border: 1px solid #e8e8e8; word-break: break-word; overflow-wrap: break-word;">CANTIDAD</th>
-                            <th style="padding: 10px; border: 1px solid #e8e8e8; word-break: break-word; overflow-wrap: break-word;">DESCRIPCIÓN</th>
-                            <th style="padding: 10px; border: 1px solid #e8e8e8; word-break: break-word; overflow-wrap: break-word;">MEDIDAS INT-EXT-ALT</th>
-                            <th style="padding: 10px; border: 1px solid #e8e8e8; word-break: break-word; overflow-wrap: break-word;">ESTADO</th>
-                            <th style="padding: 10px; border: 1px solid #e8e8e8; word-break: break-word; overflow-wrap: break-word;">PRECIO UNITARIO</th>
-                            <th style="padding: 10px; border: 1px solid #e8e8e8; word-break: break-word; overflow-wrap: break-word;">DESCUENTO</th>
-                            <th style="padding: 10px; border: 1px solid #e8e8e8; word-break: break-word; overflow-wrap: break-word;">TOTAL</th>
+                            <td class="fl">{{ $value->label }}</td>
+                            <td class="fl">:</td>
+                            <td class="fv">{{ $value->value }}</td>
+                        </tr>
+                    @endforeach
+                    <tr>
+                        <td class="fl">OBSERVACIÓN</td>
+                        <td class="fl">:</td>
+                        <td class="fv">{{ $observaciones }}</td>
+                    </tr>
+                    <tr>
+                        <td class="fl">FECHA DESP.</td>
+                        <td class="fl">:</td>
+                        <td class="fv">{{ $fecha_despacho }}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            {{-- ── Products per vendor ── --}}
+            @foreach ($articulos as $key => $value)
+                <h1 class="vendor-h">COD. VENDEDOR: {{ $key }}</h1>
+                <table class="ptable">
+                    <thead class="phead">
+                        <tr>
+                            <th class="pc" style="width: 48px;">CÓDIGO</th>
+                            <th class="pc" style="width: 30px;">CANTIDAD</th>
+                            <th class="pc" style="width: 99px;">DESCRIPCIÓN</th>
+                            <th class="pc" style="width: 38px;">INT-EXT-ALT</th>
+                            <th class="pc" style="width: 40px;">ESTADO</th>
+                            <th class="pc" style="width: 34px;">PRECIO U.</th>
+                            <th class="pc" style="width: 38px;">PRECIO U. NETO</th>
+                            <th class="pc" style="width: 42px;">DESCUENTO</th>
+                            <th class="pc" style="width: 34px;">TOTAL</th>
                         </tr>
                     </thead>
-                    <tbody style="font-size: 8px;">
-                        <!-- start loop -->
+                    <tbody class="pbody">
                         @foreach ($value as $v)
                             @if ($v['MCODDFA'] != 'Bono')
-                                <tr>
-                                    <td style="padding: 10px; border: 1px solid #e8e8e8; text-align: center; word-break: break-word; overflow-wrap: break-word;">{{ $v['MCODART'] }}</td>
-                                    <td style="padding: 10px; border: 1px solid #e8e8e8; text-align: center; word-break: break-word; overflow-wrap: break-word;">{{ $v['MCANTIDAD'] }}</td>
-                                    <td style="padding: 10px; border: 1px solid #e8e8e8; text-align: left; word-break: break-word; overflow-wrap: break-word;">{{ $v['MDESCRI01'] }}</td>
-                                    <td style="padding: 10px; border: 1px solid #e8e8e8; text-align: center; word-break: break-word; overflow-wrap: break-word;">{{ $v['articulo']['MDIM_INT1'] }}-{{ $v['articulo']['MDIM_EXT1'] }}-{{ $v['articulo']['MDIM_ALT1'] }}</td>
-                                    <td style="padding: 10px; border: 1px solid #e8e8e8; text-align: center; word-break: break-word; overflow-wrap: break-word;">{{ $v['item_state'] }}</td>
-                                    <td style="padding: 10px; border: 1px solid #e8e8e8; text-align: center; word-break: break-word; overflow-wrap: break-word;">{{ number_format($v['MPRECIO'], 2, '.', '') }}</td>
-                                    <td style="padding: 10px; border: 1px solid #e8e8e8; text-align: center; word-break: break-word; overflow-wrap: break-word;">{{ $v['descrip'] }}</td>
-                                    <td style="padding: 10px; border: 1px solid #e8e8e8; text-align: center; word-break: break-word; overflow-wrap: break-word;">{{ number_format($v['precio_neto'], 2, '.', '') }}</td>
+                                <tr class="{{ (isset($v['estado']) && $v['estado'] == 1) ? 'row-highlight' : '' }}">
+                                    <td class="pc-c"><div>{{ $v['MCODART'] }}</div></td>
+                                    <td class="pc-c">{{ $v['MCANTIDAD'] }}</td>
+                                    <td class="pc-l"><p class="max">{{ $v['MDESCRI01'] }}</p></td>
+                                    <td class="pc-c">{{ $v['articulo']['MDIM_INT1'] ?? '0' }}-{{ $v['articulo']['MDIM_EXT1'] ?? '0' }}-{{ $v['articulo']['MDIM_ALT1'] ?? '0' }}</td>
+                                    <td class="pc-c text-first-upper">{{ $v['item_state'] }}</td>
+                                    <td class="pc-c">{{ number_format($v['MPRECIO'], 2, '.', '') }}</td>
+                                    <td class="pc-c">{{ number_format(($v['precio_neto'] / $v['MCANTIDAD']) / 1.18, 2, '.', '') }}</td>
+                                    <td class="pc-c">{{ $v['descrip'] }}</td>
+                                    <td class="pc-c">{{ number_format($v['precio_neto'], 2, '.', '') }}</td>
                                 </tr>
                             @else
-                                <tr>
-                                    <td style="padding: 10px; border: 1px solid #e8e8e8; text-align: center; word-break: break-word; overflow-wrap: break-word;">{{ $v['MCODART'] }}</td>
-                                    <td style="padding: 10px; border: 1px solid #e8e8e8; text-align: center; word-break: break-word; overflow-wrap: break-word;">{{ $v['MCANTIDAD'] }}</td>
-                                    <td style="padding: 10px; border: 1px solid #e8e8e8; text-align: left; word-break: break-word; overflow-wrap: break-word;">{{ $v['MDESCRI01'] }}</td>
-                                    <td style="padding: 10px; border: 1px solid #e8e8e8; text-align: center; word-break: break-word; overflow-wrap: break-word;">{{ $v['articulo']['MDIM_INT1'] }}-{{ $v['articulo']['MDIM_EXT1'] }}-{{ $v['articulo']['MDIM_ALT1'] }}</td>
-                                    <td style="padding: 10px; border: 1px solid #e8e8e8; text-align: center; word-break: break-word; overflow-wrap: break-word;">{{ $v['item_state'] }}</td>
-                                    <td style="padding: 10px; border: 1px solid #e8e8e8; text-align: center; word-break: break-word; overflow-wrap: break-word;">0.00</td>
-                                    <td style="padding: 10px; border: 1px solid #e8e8e8; text-align: center; word-break: break-word; overflow-wrap: break-word;"></td>
-                                    <td style="padding: 10px; border: 1px solid #e8e8e8; text-align: center; word-break: break-word; overflow-wrap: break-word;">0.00</td>
+                                <tr class="{{ (isset($v['estado']) && $v['estado'] == 1) ? 'row-highlight' : '' }}">
+                                    <td class="pc-c">{{ $v['MCODART'] }}</td>
+                                    <td class="pc-c">{{ $v['MCANTIDAD'] }}</td>
+                                    <td class="pc-l"><p class="max">{{ $v['MDESCRI01'] }}</p></td>
+                                    <td class="pc-c">{{ $v['articulo']['MDIM_INT1'] ?? '0' }}-{{ $v['articulo']['MDIM_EXT1'] ?? '0' }}-{{ $v['articulo']['MDIM_ALT1'] ?? '0' }}</td>
+                                    <td class="pc-c text-first-upper">{{ $v['item_state'] }}</td>
+                                    <td class="pc-c">0.00</td>
+                                    <td class="pc-c">0.00</td>
+                                    <td class="pc-c"></td>
+                                    <td class="pc-c">0.00</td>
                                 </tr>
                             @endif
                         @endforeach
-                        <!-- end loop -->
-                        <!-- sub total -->
                         <tr>
-                            <td colspan="5"></td>
-                            <td colspan="2" style="padding: 10px; border: 1px solid #e8e8e8; text-align: center; background-color: #0766ab; font-weight: bold; color: #ffffff; border-right: none; font-size: 8.5px;">SUBTOTAL</td>
-                            <td colspan="1" style="padding: 10px; border: 1px solid #e8e8e8; text-align: center; background-color: #0766ab; font-weight: bold; color: #ffffff; border-left: none; font-size: 8.5px;">@if ($flavor == 'filtros') S/ @else $ @endif {{ number_format( array_reduce( $value, function($carry, $p) { return $carry + $p['precio_neto']; }), 2, '.', '' ) }}</td>
+                            <td colspan="6"></td>
+                            <td class="st-label" colspan="2">SUBTOTAL</td>
+                            <td class="st-value" style="white-space: nowrap;">@if ($flavor == 'filtros') S/ @else $ @endif {{ number_format( array_reduce( $value, function($carry, $p) { return $carry + $p['precio_neto']; }), 2, '.', '' ) }}</td>
                         </tr>
-                        <!-- end sub total -->
                     </tbody>
                 </table>
             @endforeach
-            <table style="width: 100%; border-collapse: collapse;">
+
+            {{-- ── Conditions + Totals ── --}}
+            <table>
                 <tr>
-                    <td style="width: 50%; vertical-align: top;">
-                        <div style="padding-bottom: 4px; border-bottom: 1px solid #0766ab; margin-top: 16px;">
-                            <h1 style="margin: 0; font-size: 10px; color: #0766ab; font-weight: bold;">CONDICIONES DE VENTA</h1>
+                    <td style="width: 40%; vertical-align: top;">
+                        <div class="sep">
+                            <h1 class="stitle">CONDICIONES DE VENTA</h1>
                         </div>
-                        <ul style="font-size: 8.5px; padding-left: 12px;">
-                            <li><span style="color: #0766ab;">Moneda:</span>@if ($flavor == 'filtros') PEN @else USD (Dólares estadounidenses) @endif</li>
-                            <li><span style="color: #0766ab;">Precios:</span> Los precios indicados incluyen IGV</li>
-                            <li><span style="color: #0766ab;">Entrega:</span> Según fecha coordinada</li>
-                            <li><span style="color: #0766ab;">Tiempo de validez:</span> 15 días después de la fecha de emisión o fin de campaña</li>
+                        <ul class="cond-list">
+                            <li><span class="accent">Moneda:</span> @if ($flavor == 'filtros') PEN @else USD (Dólares estadounidenses) @endif</li>
+                            <li><span class="accent">Precios:</span> Los precios indicados incluyen IGV</li>
+                            <li><span class="accent">Entrega:</span> Según fecha coordinada</li>
+                            <li><span class="accent">Tiempo de validez:</span> 15 días después de la fecha de emisión o fin de campaña</li>
                         </ul>
                     </td>
-                    <td style="width: 50%; vertical-align: top; padding-top: 16px;">
-                        <table style="width: 100%; border-collapse: collapse; border: 1px solid #e8e8e8;">
+                    <td style="width: 20%;"></td>
+                    <td style="width: 40%; vertical-align: top; padding-top: 16px;">
+                        <table class="ttable">
                             <tbody>
                                 <tr>
-                                    <td style="font-size: 9px; font-weight: bold; text-align: left; padding: 4px; border: 1px solid #e8e8e8;">TOTAL ATENDIDOS:</td>
-                                    <td style="font-size: 9px; padding: 4px; text-align: right; border: 1px solid #e8e8e8;">@if ($flavor == 'filtros') S/ @else $ @endif {{ number_format($total_atendido, 2, '.', '') }}</td>
+                                    <td class="tl">TOTAL ATENDIDOS:</td>
+                                    <td class="tv">@if ($flavor == 'filtros') S/ @else $ @endif {{ number_format($total_atendido, 2, '.', '') }}</td>
                                 </tr>
                                 <tr>
-                                    <td style="font-size: 9px; font-weight: bold; text-align: left; padding: 4px; border: 1px solid #e8e8e8;">TOTAL PENDIENTES:</td>
-                                    <td style="font-size: 9px; padding: 4px; text-align: right; border: 1px solid #e8e8e8;">@if ($flavor == 'filtros') S/ @else $ @endif {{ number_format($total_pendiente, 2, '.', '') }}</td>
+                                    <td class="tl">TOTAL PENDIENTES:</td>
+                                    <td class="tv">@if ($flavor == 'filtros') S/ @else $ @endif {{ number_format($total_pendiente, 2, '.', '') }}</td>
                                 </tr>
                                 <tr>
-                                    <td style="font-size: 9px; font-weight: bold; text-align: left; padding: 4px; border: 1px solid #e8e8e8;">TOTAL ANULADO:</td>
-                                    <td style="font-size: 9px; padding: 4px; text-align: right; border: 1px solid #e8e8e8;">@if ($flavor == 'filtros') S/ @else $ @endif {{ number_format($total_anulado, 2, '.', '') }}</td>
+                                    <td class="tl">TOTAL ANULADO:</td>
+                                    <td class="tv">@if ($flavor == 'filtros') S/ @else $ @endif {{ number_format($total_anulado, 2, '.', '') }}</td>
                                 </tr>
-                                <tr style="background-color: #0766ab;">
-                                    <td style="font-size: 9px; font-weight: bold; text-align: left; color: #ffffff; padding: 4px; border: 1px solid #e8e8e8;">TOTAL A PAGAR:</td>
-                                    <td style="font-size: 9px; color: #ffffff; padding: 4px; text-align: right; border: 1px solid #e8e8e8;">
+                                <tr class="tf">
+                                    <td class="tl" style="color: #ffffff;">TOTAL A PAGAR:</td>
+                                    <td class="tv" style="color: #ffffff;">
                                         @if ($flavor == 'filtros') S/ @else $ @endif
                                         @if ($total_atendido + $total_pendiente + $total_anulado == 0)
                                             {{ number_format($total, 2, '.', '') }}
@@ -206,17 +332,17 @@
                     </td>
                 </tr>
             </table>
+
+            {{-- ── Instalments ── --}}
             @if ($total_instalments > 0)
-                <div>
-                    <div style="width: 50%; padding-bottom: 4px; border-bottom: 1px solid #0766ab; margin-top: 16px;">
-                        <h1 style="margin: 0; font-size: 10px; color: #0766ab; font-weight: bold;">VENCIMIENTO: {{ $total_instalments }} CUOTA(S)</h1>
-                    </div>
+                <div style="width: 50%;" class="sep">
+                    <h1 class="stitle">VENCIMIENTO: {{ $total_instalments }} CUOTA(S)</h1>
                 </div>
-                <table style="width: 100%; border-collapse: collapse;">
+                <table>
                     <tbody>
-                        <tr style="font-size: 8px;">
+                        <tr>
                             @foreach ($instalments as $inst)
-                                <td style="padding: 4px; text-align: center;">
+                                <td class="inst-cell">
                                     @foreach ($inst as $i)
                                         <p>{{ $i->date }}: @if ($flavor == 'filtros') S/ @else $ @endif {{ $i->amount }}</p>
                                     @endforeach
@@ -226,6 +352,7 @@
                     </tbody>
                 </table>
             @endif
+
         </div>
     </body>
 </html>
