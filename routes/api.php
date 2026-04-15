@@ -32,7 +32,7 @@ use App\Models\Setting;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::post('login/', [UserController::class, 'login']);
+Route::post('login/', [UserController::class, 'login'])->name('login');
 
 Route::get('data-version/', function() {
     $settings = Setting::first();
