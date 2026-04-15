@@ -17,9 +17,11 @@ class UserController extends Controller
    *
    * @return \Illuminate\Http\Response
    */
-  public function login()
+  public function login(Request $request)
   {
-    $user = User::where('email', request('email'))->where('password', request('password'))->first();
+    $email = $request->input('email');
+    $password = $request->input('password');
+    $user = User::where('email', $email)->where('password', $password)->first();
     if ($user) {
       $ven = Ccmven::where('MNOMBRE', $user['name'])->first();
       $success = [];
