@@ -50,7 +50,7 @@
                 text-align: center;
                 color: #fefdfe;
                 font-size: 16.3px;
-                background-color: #0766ab;
+                background-color: {{ $flavor == 'filtros' ? '#df1115' : '#0766ab' }};
                 padding: 10px;
                 padding-top: 16px;
                 border-bottom: 1px solid #ffffff;
@@ -60,7 +60,7 @@
                 text-align: center;
                 color: #fefdfe;
                 font-size: 29px;
-                background-color: #0766ab;
+                background-color: {{ $flavor == 'filtros' ? '#df1115' : '#0766ab' }};
                 padding: 10px;
                 padding-bottom: 16px;
                 font-family: 'Cocomat Pro', sans-serif;
@@ -72,13 +72,13 @@
             .company-ruc   { margin: 0; font-size: 12.9px; }
             .company-info  { margin: 0; font-size: 8.3px; }
             /* ── Section separators ── */
-            .sep    { padding-bottom: 4px; border-bottom: 1px solid #0766ab; margin-top: 16px; }
-            .sep-sm { padding-bottom: 4px; border-bottom: 1px solid #0766ab; margin-top: 4px; }
+            .sep    { padding-bottom: 4px; border-bottom: 1px solid {{ $flavor == 'filtros' ? '#df1115' : '#0766ab' }}; margin-top: 16px; }
+            .sep-sm { padding-bottom: 4px; border-bottom: 1px solid {{ $flavor == 'filtros' ? '#df1115' : '#0766ab' }}; margin-top: 4px; }
             /* ── Section titles ── */
-            .stitle    { margin: 0; font-size: 12px;  color: #0766ab; font-weight: bold; font-family: 'Open Sans', sans-serif; }
+            .stitle    { margin: 0; font-size: 12px;  color: {{ $flavor == 'filtros' ? '#df1115' : '#0766ab' }}; font-weight: bold; font-family: 'Open Sans', sans-serif; }
             .sdate     { margin: 0; font-size: 7px; font-family: 'Montserrat Arabic', 'sans-serif'; }
             /* ── Data-field rows (cliente / adicionales tables) ── */
-            .fl { font-size: 9px; color: #0766ab; }
+            .fl { font-size: 9px; color: {{ $flavor == 'filtros' ? '#df1115' : '#0766ab' }}; }
             .fv { font-size: 9px; }
             .field-table { width: 100%; display: table; table-layout: auto; font-family: 'Open Sans', 'sans-serif'; }
             .field-table td:nth-child(1) { width: 70px; white-space: nowrap; }
@@ -88,24 +88,24 @@
             .vendor-h { color: #000000; font-size: 10px; margin-bottom: 0; }
             /* ── Product table ── */
             .ptable       { table-layout: auto; width: 100%; }
-            .phead        { color: #ffffff; background-color: #0766ab; font-weight: 600; font-size: 8px; }
+            .phead        { color: #ffffff; background-color: {{ $flavor == 'filtros' ? '#df1115' : '#0766ab' }}; font-weight: 600; font-size: 8px; }
             .pbody        { font-size: 8px; }
             .pc           { padding: 4px; border: 1px solid #e8e8e8; white-space: nowrap; overflow: hidden; }
             .pc-c         { padding: 4px; border: 1px solid #e8e8e8; white-space: nowrap; text-align: center; overflow: hidden; }
             .pc-l         { padding: 4px; border: 1px solid #e8e8e8; white-space: nowrap; text-align: left; overflow: hidden; }
             .max          { white-space: normal; word-wrap: break-word; }
             .text-first-upper::first-letter { text-transform: uppercase; }
-            .st-label     { font-size: 10px; padding: 4px; border: 1px solid #e8e8e8; border-right: none; text-align: center; background-color: #0766ab; font-weight: bold; color: #ffffff; }
-            .st-value     { font-size: 10px; padding: 4px; border: 1px solid #e8e8e8; border-left: none;  text-align: center; background-color: #0766ab; font-weight: bold; color: #ffffff; }
+            .st-label     { font-size: 10px; padding: 4px; border: 1px solid #e8e8e8; border-right: none; text-align: center; background-color: {{ $flavor == 'filtros' ? '#df1115' : '#0766ab' }}; font-weight: bold; color: #ffffff; }
+            .st-value     { font-size: 10px; padding: 4px; border: 1px solid #e8e8e8; border-left: none;  text-align: center; background-color: {{ $flavor == 'filtros' ? '#df1115' : '#0766ab' }}; font-weight: bold; color: #ffffff; }
             /* ── Conditions list ── */
             .cond-list { font-size: 8.5px; padding-left: 12px; font-family: 'Garet Book', 'sans-serif'; }
-            .cond-list li::marker { color: #0766ab; }
-            .accent    { color: #0766ab; }
+            .cond-list li::marker { color: {{ $flavor == 'filtros' ? '#df1115' : '#0766ab' }}; }
+            .accent    { color: {{ $flavor == 'filtros' ? '#df1115' : '#0766ab' }}; }
             /* ── Totals table ── */
             .ttable { border: 1px solid #e8e8e8; }
             .tl     { font-size: 9px; font-weight: bold; text-align: left;  padding: 4px; border: 1px solid #e8e8e8; }
             .tv     { font-size: 9px;                    text-align: right; padding: 4px; border: 1px solid #e8e8e8; }
-            .tf     { background-color: #0766ab; }
+            .tf     { background-color: {{ $flavor == 'filtros' ? '#df1115' : '#0766ab' }}; }
             /* ── Instalments ── */
             .inst-cell { padding: 4px; text-align: center; font-size: 8px; }
             .row-highlight { background-color: #FFFF00; }
@@ -147,7 +147,7 @@
             </table>
 
             {{-- ── DATOS DEL CLIENTE ── --}}
-            <table style="border-bottom: 1px solid #0766ab; margin-top: 16px;">
+            <table style="border-bottom: 1px solid {{ $flavor == 'filtros' ? '#df1115' : '#0766ab' }}; margin-top: 16px;">
                 <tr>
                     <td style="padding-bottom: 4px; vertical-align: middle;">
                         <h1 class="stitle">DATOS DEL CLIENTE</h1>
@@ -259,7 +259,7 @@
                                     <td class="pc-c">{{ $v['articulo']['MDIM_INT1'] ?? '0' }}-{{ $v['articulo']['MDIM_EXT1'] ?? '0' }}-{{ $v['articulo']['MDIM_ALT1'] ?? '0' }}</td>
                                     <td class="pc-c text-first-upper">{{ $v['item_state'] }}</td>
                                     <td class="pc-c">{{ number_format($v['MPRECIO'], 2, '.', '') }}</td>
-                                    <td class="pc-c">{{ number_format(($v['precio_neto'] / $v['MCANTIDAD']) / 1.18, 2, '.', '') }}</td>
+                                    <td class="pc-c">{{ number_format($v['precio_neto'] / $v['MCANTIDAD'], 2, '.', '') }}</td>
                                     <td class="pc-c">{{ $v['descrip'] }}</td>
                                     <td class="pc-c">{{ number_format($v['precio_neto'], 2, '.', '') }}</td>
                                 </tr>
