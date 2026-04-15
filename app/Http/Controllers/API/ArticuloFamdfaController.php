@@ -62,13 +62,21 @@ class ArticuloFamdfaController extends Controller
         return response()->json($artdfas, 200);
     }
 
+    /**
+     * Get general discounts based on various criteria.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  string  $code
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function descuento_general(Request $request, string $code) {
         $impneto = $request->input('impneto');
         $mcodcadi = $request->input('mcodcadi');
         $mcondpago = $request->input('mcondpago');
         $mcodcli = $request->input('mcodcli');
         $mindcred = $request->input('mindcred');
-        $mcla_prod = $request->input('mcla_prod');
+        $mcla_prods = $request->input('mcla_prods');
+        $mcla_prods_arr = $mcla_prods ? array_filter(array_map('trim', explode(',', $mcla_prods))) : [];
         $mcodzon = $request->input('mcodzon');
         $mcodven = $request->input('mcodven');
 
@@ -91,9 +99,6 @@ class ArticuloFamdfaController extends Controller
             ->where('impneto_min', '<=', $impneto)
             ->where('tipo', $type)
             ->where('mindcred', $mindcred)
-            ->whereHas('tiposDeDescuento', function ($q) use ($mcla_prod) {
-                $q->where('mcla_prod', $mcla_prod);
-            })
             // mcodzon or null
             ->where(function ($q) use ($mcodzon) {
                 $q->where('MCODZON', $mcodzon)->orWhereNull('MCODZON');
@@ -102,10 +107,16 @@ class ArticuloFamdfaController extends Controller
                 $q->where('MCODVEN', $mcodven)->orWhereNull('MCODVEN');
             });
 
+        foreach ($mcla_prods_arr as $mcla_prod) {
+            $query = $query->whereHas('tiposDeDescuento', function ($q) use ($mcla_prod) {
+                $q->where('mcla_prod', $mcla_prod);
+            });
+        }
+
         if ($discount_by_mcodcli) {
-            $query->where('MCODCLI', $mcodcli)->where('restrict', true);
+            $query = $query->where('MCODCLI', $mcodcli)->where('restrict', true);
         } else {
-            $query->where(function ($q) use ($mcodcli) {
+            $query = $query->where(function ($q) use ($mcodcli) {
                 $q->where('MCODCLI', $mcodcli)->orWhereNull('MCODCLI');
             });
         }
