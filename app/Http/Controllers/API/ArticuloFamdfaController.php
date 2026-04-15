@@ -18,7 +18,7 @@ class ArticuloFamdfaController extends Controller
             ->where([
                 ['impneto_min', '=', null],
                 ['impneto_max', '=', null],
-            ])->count();
+            ])->exists();
     }
 
     private function has_restricted_general_discount($mcodcli)
@@ -29,7 +29,7 @@ class ArticuloFamdfaController extends Controller
                 $query->where('impneto_min', '!=', null)
                     ->orWhere('impneto_max', '!=', null);
             })
-            ->count();
+            ->exists();
     }
 
     /**
@@ -70,7 +70,13 @@ class ArticuloFamdfaController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function descuento_general(Request $request, string $code) {
-        $impneto = $request->input('impneto');
+        $request->validate([
+            'impneto' => 'nullable|numeric',
+            'mcodcli' => 'required|string',
+            'mindcred' => 'nullable|string',
+        ]);
+
+        $impneto = $request->input('impneto', 0);
         $mcodcadi = $request->input('mcodcadi');
         $mcondpago = $request->input('mcondpago');
         $mcodcli = $request->input('mcodcli');
@@ -107,10 +113,10 @@ class ArticuloFamdfaController extends Controller
                 $q->where('MCODVEN', $mcodven)->orWhereNull('MCODVEN');
             });
 
-        foreach ($mcla_prods_arr as $mcla_prod) {
-            $query = $query->whereHas('tiposDeDescuento', function ($q) use ($mcla_prod) {
-                $q->where('mcla_prod', $mcla_prod);
-            });
+        if (!empty($mcla_prods_arr)) {
+            $query = $query->whereHas('tiposDeDescuento', function ($q) use ($mcla_prods_arr) {
+                $q->whereIn('mcla_prod', $mcla_prods_arr);
+            }, '=', count($mcla_prods_arr));
         }
 
         if ($discount_by_mcodcli) {
