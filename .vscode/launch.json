@@ -9,26 +9,14 @@
             "type": "php",
             "request": "launch",
             "runtimeExecutable": "php",
-            "runtimeArgs": [
-                "artisan",
-                "serve",
-                "--port=8000"
-            ],
+            "runtimeArgs": ["artisan", "serve"],
             "cwd": "${workspaceFolder}",
             "port": 9003,
             "serverReadyAction": {
                 "pattern": "Development Server \\(http://[^:]+:(\\d+)\\) started",
                 "uriFormat": "http://localhost:%s",
                 "action": "openExternally"
-            },
-            "env": {
-                "XDEBUG_MODE": "debug,develop",
-                "XDEBUG_CONFIG": "client_port=${port}"
-            },
-            "args": [
-                "-dxdebug.mode=debug",
-                "-dxdebug.start_with_request=yes"
-            ]
+            }
         },
         {
             "name": "Listen for Xdebug",
@@ -43,9 +31,7 @@
             "program": "${file}",
             "cwd": "${fileDirname}",
             "port": 0,
-            "runtimeArgs": [
-                "-dxdebug.start_with_request=yes"
-            ],
+            "runtimeArgs": ["-dxdebug.start_with_request=yes"],
             "env": {
                 "XDEBUG_MODE": "debug,develop",
                 "XDEBUG_CONFIG": "client_port=${port}"
