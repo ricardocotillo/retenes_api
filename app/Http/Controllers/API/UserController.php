@@ -7,15 +7,15 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Ccmven;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\Validator;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
   public $successStatus = 200;
-  /** 
-   * login api 
-   * 
-   * @return \Illuminate\Http\Response 
+  /**
+   * login api
+   *
+   * @return \Illuminate\Http\Response
    */
   public function login()
   {
@@ -45,10 +45,10 @@ class UserController extends Controller
       return response()->json(['error' => 'Unauthorised'], 401);
     }
   }
-  /** 
-   * Register api 
-   * 
-   * @return \Illuminate\Http\Response 
+  /**
+   * Register api
+   *
+   * @return \Illuminate\Http\Response
    */
   public function register(Request $request)
   {
@@ -69,10 +69,10 @@ class UserController extends Controller
     $success['name'] =  $user->name;
     return response()->json(['success' => $success], $this->successStatus);
   }
-  /** 
-   * details api 
-   * 
-   * @return \Illuminate\Http\Response 
+  /**
+   * details api
+   *
+   * @return \Illuminate\Http\Response
    */
   public function details()
   {
