@@ -26,8 +26,8 @@ class AppServiceProvider extends ServiceProvider
     {
         Passport::enablePasswordGrant();
 
-        // Passport 13.x: Maintain compatibility with integer client IDs
-        Passport::$clientUuids = false;
+        // Passport 13.x: Maintain compatibility with UUID client IDs (default in 13.x)
+        Passport::$clientUuids = true;
 
         // Passport 13.x: Validate key permissions on supported OS
         if (! windows_os()) {
