@@ -109,6 +109,9 @@
             /* ── Instalments ── */
             .inst-cell { padding: 4px; text-align: center; font-size: 8px; }
             .row-highlight { background-color: #FFFF00; }
+            .pc-bigger { font-size: 9px; }
+            .st-biggest { font-size: 12px; font-weight: bold; }
+            .tv-biggest { font-size: 11px; font-weight: bold; }
         </style>
     </head>
     <body>
@@ -253,15 +256,15 @@
                         @foreach ($value as $v)
                             @if ($v['MCODDFA'] != 'Bono')
                                 <tr class="{{ (isset($v['estado']) && $v['estado'] == 1) ? 'row-highlight' : '' }}">
-                                    <td class="pc-c"><div>{{ $v['MCODART'] }}</div></td>
-                                    <td class="pc-c">{{ $v['MCANTIDAD'] }}</td>
+                                    <td class="pc-c pc-bigger"><div>{{ $v['MCODART'] }}</div></td>
+                                    <td class="pc-c pc-bigger">{{ $v['MCANTIDAD'] }}</td>
                                     <td class="pc-l"><p class="max">{{ $v['MDESCRI01'] }}</p></td>
                                     <td class="pc-c">{{ $v['articulo']['MDIM_INT1'] ?? '0' }}-{{ $v['articulo']['MDIM_EXT1'] ?? '0' }}-{{ $v['articulo']['MDIM_ALT1'] ?? '0' }}</td>
                                     <td class="pc-c text-first-upper">{{ $v['item_state'] }}</td>
-                                    <td class="pc-c">{{ number_format($v['MPRECIO'], 2, '.', '') }}</td>
-                                    <td class="pc-c">{{ number_format($v['precio_neto'] / $v['MCANTIDAD'], 2, '.', '') }}</td>
+                                    <td class="pc-c pc-bigger">{{ number_format($v['MPRECIO'], 2, '.', '') }}</td>
+                                    <td class="pc-c pc-bigger">{{ number_format($v['precio_neto'] / $v['MCANTIDAD'], 2, '.', '') }}</td>
                                     <td class="pc-c">{{ $v['descrip'] }}</td>
-                                    <td class="pc-c">{{ number_format($v['precio_neto'], 2, '.', '') }}</td>
+                                    <td class="pc-c pc-bigger">{{ number_format($v['precio_neto'], 2, '.', '') }}</td>
                                 </tr>
                             @else
                                 <tr class="{{ (isset($v['estado']) && $v['estado'] == 1) ? 'row-highlight' : '' }}">
@@ -280,7 +283,7 @@
                         <tr>
                             <td colspan="6"></td>
                             <td class="st-label" colspan="2">SUBTOTAL</td>
-                            <td class="st-value" style="white-space: nowrap;">@if ($flavor == 'filtros') S/ @else $ @endif {{ number_format( array_reduce( $value, function($carry, $p) { return $carry + $p['precio_neto']; }), 2, '.', '' ) }}</td>
+                            <td class="st-value st-biggest" style="white-space: nowrap;">@if ($flavor == 'filtros') S/ @else $ @endif {{ number_format( array_reduce( $value, function($carry, $p) { return $carry + $p['precio_neto']; }), 2, '.', '' ) }}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -306,19 +309,19 @@
                             <tbody>
                                 <tr>
                                     <td class="tl">TOTAL ATENDIDOS:</td>
-                                    <td class="tv">@if ($flavor == 'filtros') S/ @else $ @endif {{ number_format($total_atendido, 2, '.', '') }}</td>
+                                    <td class="tv tv-biggest">@if ($flavor == 'filtros') S/ @else $ @endif {{ number_format($total_atendido, 2, '.', '') }}</td>
                                 </tr>
                                 <tr>
                                     <td class="tl">TOTAL PENDIENTES:</td>
-                                    <td class="tv">@if ($flavor == 'filtros') S/ @else $ @endif {{ number_format($total_pendiente, 2, '.', '') }}</td>
+                                    <td class="tv tv-biggest">@if ($flavor == 'filtros') S/ @else $ @endif {{ number_format($total_pendiente, 2, '.', '') }}</td>
                                 </tr>
                                 <tr>
                                     <td class="tl">TOTAL ANULADO:</td>
-                                    <td class="tv">@if ($flavor == 'filtros') S/ @else $ @endif {{ number_format($total_anulado, 2, '.', '') }}</td>
+                                    <td class="tv tv-biggest">@if ($flavor == 'filtros') S/ @else $ @endif {{ number_format($total_anulado, 2, '.', '') }}</td>
                                 </tr>
                                 <tr class="tf">
                                     <td class="tl" style="color: #ffffff;">TOTAL A PAGAR:</td>
-                                    <td class="tv" style="color: #ffffff;">
+                                    <td class="tv tv-biggest" style="color: #ffffff;">
                                         @if ($flavor == 'filtros') S/ @else $ @endif
                                         @if ($total_atendido + $total_pendiente + $total_anulado == 0)
                                             {{ number_format($total, 2, '.', '') }}
