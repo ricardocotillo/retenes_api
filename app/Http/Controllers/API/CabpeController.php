@@ -22,6 +22,7 @@ use App\Models\TxtDetpe;
 use App\Models\CabpeModification;
 use App\Models\Pedido;
 use App\Models\Setting;
+use App\Models\Estado;
 
 class CabpeController extends Controller
 {
@@ -1115,10 +1116,10 @@ class CabpeController extends Controller
     }
 
     public function update_estado(Request $request, string $mnserie, string $mnroped): JsonResponse {
-        $estado = $request->input('estado');
+        $estado_id = $request->input('estado');
         $cabpes = Cabpe::where('MNSERIE', $mnserie)->where('MNROPED', $mnroped)->get();
         foreach ($cabpes as $c) {
-            $c->update(['estado' => $estado]);
+            $c->update(['estado_id' => $estado_id]);
         }
         return response()->json($cabpes);
     }
