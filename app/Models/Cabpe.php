@@ -137,7 +137,7 @@ class Cabpe extends Model
 		});
     }
 
-    public function estado() {
+    public function estado_relation() {
         return $this->belongsTo(Estado::class, 'estado_id', 'id');
     }
 

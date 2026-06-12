@@ -252,8 +252,10 @@ class CabpeController extends Controller
             'MCODTRSP',
             'MOBSERV',
             'estado',
+            'estado_id',
         ])
             ->with([
+                'estado_relation',
                 'detpe.famdfas', // Consider if all these eager-loaded relationships are always needed for this list view.
                 'ccmcpa',
                 'ccmcli',
