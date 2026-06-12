@@ -114,7 +114,7 @@ class Cabpe extends Model
 
 	public static function booted() {
         parent::boot();
-		
+
 		static::saving(function($item) {
 			$orginal = $item->getRawOriginal();
 			$changed = [];
@@ -135,6 +135,10 @@ class Cabpe extends Model
 				]);
 			}
 		});
+    }
+
+    public function estado() {
+        return $this->belongsTo(Estado::class, 'estado_id', 'id');
     }
 
 	public function detpe() {
