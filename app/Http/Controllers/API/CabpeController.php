@@ -1125,7 +1125,6 @@ class CabpeController extends Controller
         foreach ($cabpes as $c) {
             $c->update([
                 'estado_id' => $estado_id,
-                'estado' => $estado ? $estado->name : null,
             ]);
         }
         $cabpes->load('estado_relation');
