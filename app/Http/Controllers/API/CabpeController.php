@@ -1129,7 +1129,7 @@ class CabpeController extends Controller
             ]);
         }
         $cabpes->load('estado_relation');
-        return response()->json($cabpes);
+        return response()->json($cabpes->first());
     }
 
     public function new_pedido() {
