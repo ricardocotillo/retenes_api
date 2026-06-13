@@ -1123,6 +1123,7 @@ class CabpeController extends Controller
         foreach ($cabpes as $c) {
             $c->update(['estado_id' => $estado_id]);
         }
+        $cabpes->load('estado_relation');
         return response()->json($cabpes);
     }
 
