@@ -1123,9 +1123,12 @@ class CabpeController extends Controller
 
         $cabpes = Cabpe::where('MNSERIE', $mnserie)->where('MNROPED', $mnroped)->get();
         foreach ($cabpes as $c) {
-            $c->update([
-                'estado_id' => $estado_id,
-            ]);
+            if ($estado) {
+                $c->estado_relation()->associate($estado);
+            } else {
+                $c->estado_relation()->dissociate();
+            }
+            $c->save();
         }
         $cabpes->load('estado_relation');
         return response()->json($cabpes->first());
