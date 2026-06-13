@@ -1119,9 +1119,14 @@ class CabpeController extends Controller
 
     public function update_estado(Request $request, string $mnserie, string $mnroped): JsonResponse {
         $estado_id = $request->input('estado');
+        $estado = Estado::find($estado_id);
+
         $cabpes = Cabpe::where('MNSERIE', $mnserie)->where('MNROPED', $mnroped)->get();
         foreach ($cabpes as $c) {
-            $c->update(['estado_id' => $estado_id]);
+            $c->update([
+                'estado_id' => $estado_id,
+                'estado' => $estado ? $estado->name : null,
+            ]);
         }
         $cabpes->load('estado_relation');
         return response()->json($cabpes);
